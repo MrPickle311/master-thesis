@@ -6,9 +6,8 @@
 \RequirePackage{amsmath}
 \usepackage{titlesec}
 \usepackage{polski}
-\usepackage{listings,lstautogobble}
 \usepackage{xifthen}
- \usepackage{url}
+\usepackage{url}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{graphics}
@@ -37,20 +36,18 @@
 
 \newcommand\instructor[1]
 {
-    \gdef\@instructor{Kierujący pracą: #1}\\
+    \gdef\@instructor{Kierujący pracą: #1}
 }
+
+\renewcommand{\@date}{\@latex@warning@no@line{No \noexpand\date given}}
 
 \renewcommand{\maketitle}
 {
-
 \begin{titlepage}
-
 \begin{center}
 
 \def\tkzscl{0.2}\definecolor{ZnakColor}{cmyk}{1,0,0,1}
 
-
-% \input{logo_pw.tex}\\\vfill
 \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{images/logo.png}
@@ -58,74 +55,47 @@
 
 \vspace{7mm}
 
-{\fontsize{15}\selectfont Instytut Techniki Lotniczej i Mechaniki Stosowanej}
+{\fontsize{15}{18}\selectfont Instytut Techniki Lotniczej i Mechaniki Stosowanej}
 
 \vspace{10mm}
 
-{\fontsize{22}{50}\fontseries{bx}\selectfont\@class}\\[10pt]
+{\fontsize{22}{26}\fontseries{bx}\selectfont\@class}
 
-{\fontsize{12}\selectfont na kierunku Robotyka i Automatyka}\\
-{\fontsize{12}\selectfont w specjalności Robotyka}
+\vspace{10pt}
 
-\vspace{10mm}
-
-{\fontsize{22}{40}\selectfont\@title}
+{\fontsize{12}{14}\selectfont na kierunku Robotyka i Automatyka}\\
+{\fontsize{12}{14}\selectfont w specjalności Robotyka}
 
 \vspace{10mm}
 
-{\fontsize{21}{40}\selectfont\@author\fontseries{n}\selectfont}
+{\fontsize{22}{26}\selectfont\@title}
 
 \vspace{10mm}
 
-{\fontsize{12}\selectfont promotor}\\
-{\fontsize{12}\selectfont dr Andrzej Chmielniak}
+{\fontsize{21}{25}\selectfont\@author\fontseries{n}\selectfont}
+
+\vspace{10mm}
+
+{\fontsize{12}{14}\selectfont promotor}\\
+{\fontsize{12}{14}\selectfont dr Andrzej Chmielniak}
 
 \vspace{80mm}
 
-{\fontsize{12}\selectfont Warszawa, 2022}\vfill
+{\fontsize{12}{14}\selectfont Warszawa, 2024}
 
 \end{center}
 
-% {\fontsize{18}{20}\selectfont\@instructor\fontseries{n}\selectfont}\\[10pt]
-
 \end{titlepage}
-
 }
 
-%New colors defined below
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-%Code listing style named "mystyle"
-\lstdefinestyle{mystyle}{
-  backgroundcolor=\color{backcolour}, commentstyle=\color{codegreen},
-  keywordstyle=\color{magenta},
-  numberstyle=\tiny\color{codegray},
-  stringstyle=\color{codepurple},
-  basicstyle=\ttfamily\footnotesize,
-  breakatwhitespace=false,         
-  breaklines=true,                 
-  captionpos=b,                    
-  keepspaces=true,                 
-  numbers=left,                    
-  numbersep=5pt,                  
-  showspaces=false,                
-  showstringspaces=false,
-  showtabs=false,                  
-  tabsize=2,
-  autogobble=true
-}
-
-%"mystyle" code listing set
-\lstset{style=mystyle}
-
+% Define the keywords environment for abstracts
+\newenvironment{keywords}
+  {\par\vskip\baselineskip\noindent\textbf{Słowa kluczowe:} }
+  {\par}
 
 \fancyhf{}
 \fancyhead[LE]{\@class}
-% \fancyhead[LO]{\@title}
-\fancyhead[LO]{Oprogramowanie autopilota dla naziemnych robotów}
+\fancyhead[LO]{Analiza danych w czasie rzeczywistym z systemów wieloczujnikowych}
 \fancyhead[R]{\@author}
 \fancyfoot[LO,RE]{\thepage}
 \pagestyle{fancy}
