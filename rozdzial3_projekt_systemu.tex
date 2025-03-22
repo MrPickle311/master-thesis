@@ -1,0 +1,322 @@
+\section{PROJEKT SYSTEMU PRZETWARZANIA DANYCH W CZASIE RZECZYWISTYM}
+\label{sec:projekt_systemu}
+
+W niniejszym rozdziale przedstawiono projekt systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach Big Data. Omówiono wymagania systemu, architekturę, model danych oraz przepływ danych.
+
+\subsection{Wymagania systemu}
+\label{subsec:wymagania}
+
+Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano następujące wymagania dla projektowanego systemu:
+
+\subsubsection{Wymagania funkcjonalne}
+\label{subsubsec:wymagania_funkcjonalne}
+
+\begin{enumerate}
+    \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników, w tym:
+    \begin{itemize}
+        \item Czujników temperatury
+        \item Czujników ciśnienia
+        \item Czujników przepływu
+        \item Analizatorów składu gazu (H2, N2, NH3, O2, CO2)
+        \item Czujników drgań i hałasu
+    \end{itemize}
+    
+    \item \textbf{Przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
+    \begin{itemize}
+        \item Filtrację danych
+        \item Agregację danych w różnych oknach czasowych
+        \item Wykrywanie anomalii
+        \item Przewidywanie awarii
+        \item Korelację danych z wielu czujników
+    \end{itemize}
+    
+    \item \textbf{Wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
+    \begin{itemize}
+        \item Wykresy liniowe i słupkowe
+        \item Mapy ciepła
+        \item Wskaźniki i mierniki
+        \item Alerty i powiadomienia
+    \end{itemize}
+    
+    \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
+    \begin{itemize}
+        \item Rejestrację i logowanie użytkowników
+        \item Różne poziomy uprawnień (admin, operator, gość)
+        \item Kontrolę dostępu do danych
+    \end{itemize}
+    
+    \item \textbf{Raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
+    \begin{itemize}
+        \item Raporty periodyczne (dzienne, tygodniowe, miesięczne)
+        \item Raporty ad-hoc
+        \item Eksport danych do różnych formatów (CSV, PDF, Excel)
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Wymagania niefunkcjonalne}
+\label{subsubsec:wymagania_niefunkcjonalne}
+
+\begin{enumerate}
+    \item \textbf{Wydajność} - system powinien charakteryzować się:
+    \begin{itemize}
+        \item Niskimi opóźnieniami przetwarzania (< 100 ms)
+        \item Wysoką przepustowością (> 10 000 wiadomości/s)
+        \item Efektywnym wykorzystaniem zasobów
+    \end{itemize}
+    
+    \item \textbf{Skalowalność} - system powinien umożliwiać:
+    \begin{itemize}
+        \item Skalowanie horyzontalne (dodawanie nowych węzłów)
+        \item Skalowanie wertykalne (zwiększanie zasobów istniejących węzłów)
+        \item Automatyczne skalowanie w zależności od obciążenia
+    \end{itemize}
+    
+    \item \textbf{Niezawodność} - system powinien charakteryzować się:
+    \begin{itemize}
+        \item Wysoką dostępnością (> 99,9\%)
+        \item Odpornością na awarie pojedynczych komponentów
+        \item Mechanizmami samonaprawy
+    \end{itemize}
+    
+    \item \textbf{Bezpieczeństwo} - system powinien zapewniać:
+    \begin{itemize}
+        \item Szyfrowanie danych w spoczynku i w transporcie
+        \item Uwierzytelnianie i autoryzację użytkowników
+        \item Audytowanie dostępu do danych
+    \end{itemize}
+    
+    \item \textbf{Utrzymywalność} - system powinien charakteryzować się:
+    \begin{itemize}
+        \item Modułową architekturą
+        \item Dobrą dokumentacją
+        \item Łatwością rozszerzania i modyfikacji
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Architektura systemu}
+\label{subsec:architektura}
+
+Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze Kubernetes. Architektura składa się z kilku kluczowych warstw, przedstawionych na Rysunku \ref{fig:architektura_systemu}.
+
+\begin{figure}[h]
+    \centering
+    % Tutaj powinien być diagram architektury systemu
+    \caption{Architektura systemu do analizy danych w czasie rzeczywistym}
+    \label{fig:architektura_systemu}
+\end{figure}
+
+\subsubsection{Warstwa pozyskiwania danych (symulatory czujników)}
+\label{subsubsec:warstwa_pozyskiwania}
+
+Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wstępne przetworzenie. W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda. Symulatory te generują dane symulujące odczyty z różnych typów czujników, umieszczonych w różnych miejscach instalacji do syntezy amoniaku.
+
+Główne komponenty tej warstwy to:
+
+\begin{itemize}
+    \item \textbf{Symulatory czujników temperatury} - generują dane o temperaturze w różnych punktach instalacji
+    \item \textbf{Symulatory czujników ciśnienia} - generują dane o ciśnieniu w różnych punktach instalacji
+    \item \textbf{Symulatory czujników przepływu} - generują dane o przepływie materiałów przez instalację
+    \item \textbf{Symulatory analizatorów składu gazu} - generują dane o składzie mieszanin gazowych
+    \item \textbf{Symulatory czujników drgań i hałasu} - generują dane o drganiach i hałasie generowanym przez urządzenia
+\end{itemize}
+
+Dane generowane przez symulatory są formatowane jako wiadomości JSON i publikowane na tematy SNS, a następnie przenoszone do kolejek SQS, które stanowią interfejs między AWS a klastrem Kubernetes.
+
+\subsubsection{Warstwa komunikacji (Apache Kafka)}
+\label{subsubsec:warstwa_komunikacji}
+
+Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich dostarczanie do warstwy przetwarzania. W projektowanym systemie, warstwa ta opiera się na Apache Kafka, rozproszonej platformie do przetwarzania strumieniowego.
+
+Główne komponenty tej warstwy to:
+
+\begin{itemize}
+    \item \textbf{Broker Kafka} - odpowiada za przechowywanie i dostarczanie wiadomości
+    \item \textbf{Tematy Kafka} - struktury, w których przechowywane są wiadomości, zorganizowane według typu czujnika i lokalizacji
+    \item \textbf{Schemat Avro} - format serializacji danych, zapewniający efektywne kodowanie i dekodowanie wiadomości
+    \item \textbf{SQS-Kafka Forwarder} - mikroserwis, który odbiera wiadomości z kolejek SQS i publikuje je na odpowiednie tematy Kafka
+\end{itemize}
+
+Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście przetwarzania danych w czasie rzeczywistym z wielu czujników.
+
+\subsubsection{Warstwa przetwarzania (Kafka Streams)}
+\label{subsubsec:warstwa_przetwarzania}
+
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na Kafka Streams, bibliotece przetwarzania strumieniowego zintegrowanej z Apache Kafka.
+
+Główne komponenty tej warstwy to:
+
+\begin{itemize}
+    \item \textbf{Kafka Data Processor} - mikroserwis, który przetwarza dane z tematów Kafka, wykorzystując Kafka Streams
+    \item \textbf{Processor API} - interfejs programistyczny Kafka Streams, umożliwiający implementację niestandardowych procesorów
+    \item \textbf{Algorytmy analizy danych} - implementacje algorytmów do analizy danych, takich jak detekcja anomalii czy przewidywanie awarii
+\end{itemize}
+
+Kafka Streams umożliwia przetwarzanie danych w czasie rzeczywistym, z minimalnymi opóźnieniami i gwarancjami przetwarzania "dokładnie raz", co jest kluczowe w kontekście analizy danych z systemów wieloczujnikowych.
+
+\subsubsection{Warstwa składowania danych}
+\label{subsubsec:warstwa_skladowania}
+
+Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie, warstwa ta składa się z dwóch głównych komponentów:
+
+\begin{itemize}
+    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak odczyty czujników, metadane czy informacje o użytkownikach
+    \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów
+\end{itemize}
+
+Dane są zapisywane do baz danych przez mikroserwis Kafka-DB-Forwarder, który konsumuje przetworzone dane z tematów Kafka i przekształca je do odpowiedniego formatu.
+
+\subsubsection{Warstwa usług i API}
+\label{subsubsec:warstwa_uslug}
+
+Warstwa usług i API odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie, warstwa ta składa się z kilku mikroserwisów:
+
+\begin{itemize}
+    \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów
+    \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością
+    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway, który ekspozuje API innych mikroserwisów na zewnątrz klastra
+\end{itemize}
+
+Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
+
+\subsubsection{Warstwa prezentacji}
+\label{subsubsec:warstwa_prezentacji}
+
+Warstwa prezentacji odpowiada za wizualizację danych i interakcję z użytkownikami. W projektowanym systemie, warstwa ta składa się z dashboardu, który wyświetla dane w formie wykresów, tabel i widżetów, umożliwiając monitorowanie procesu syntezy amoniaku w czasie rzeczywistym.
+
+Główne funkcjonalności dashboardu to:
+
+\begin{itemize}
+    \item \textbf{Wykresy liniowe} - wizualizacja zmian parametrów w czasie
+    \item \textbf{Mapy ciepła} - wizualizacja rozkładu temperatury i ciśnienia w instalacji
+    \item \textbf{Wskaźniki i mierniki} - wizualizacja aktualnych wartości parametrów
+    \item \textbf{Alerty} - powiadomienia o anomaliach i potencjalnych awariach
+    \item \textbf{Raporty} - generowanie i przeglądanie raportów
+\end{itemize}
+
+Dashboard jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji danych, takie jak D3.js czy Chart.js.
+
+\subsection{Model danych}
+\label{subsec:model_danych}
+
+Model danych projektowanego systemu składa się z kilku kluczowych encji, przedstawionych na Rysunku \ref{fig:model_danych}.
+
+\begin{figure}[h]
+    \centering
+    % Tutaj powinien być diagram modelu danych
+    \caption{Model danych systemu}
+    \label{fig:model_danych}
+\end{figure}
+
+\subsubsection{Dane z czujników}
+\label{subsubsec:dane_czujnikow}
+
+Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzenie zawiera:
+
+\begin{itemize}
+    \item \textbf{Identyfikator czujnika} - unikalny identyfikator czujnika
+    \item \textbf{Typ czujnika} - rodzaj czujnika (temperatura, ciśnienie, przepływ, skład gazu, drgania)
+    \item \textbf{Lokalizacja} - miejsce, w którym znajduje się czujnik
+    \item \textbf{Znacznik czasu} - czas, w którym dokonano pomiaru
+    \item \textbf{Wartość} - wartość pomiaru
+    \item \textbf{Jednostka} - jednostka, w której wyrażona jest wartość
+    \item \textbf{Jakość} - informacja o jakości pomiaru (np. dobra, zła, niepewna)
+\end{itemize}
+
+Dane te są serializowane przy użyciu Apache Avro, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
+
+\subsubsection{Przetworzone dane}
+\label{subsubsec:przetworzone_dane}
+
+Przetworzone dane są wynikiem analizy danych surowych i obejmują:
+
+\begin{itemize}
+    \item \textbf{Agregacje} - statystyki obliczone na podstawie danych surowych, takie jak średnia, minimum, maksimum, odchylenie standardowe
+    \item \textbf{Anomalie} - wykryte odstępstwa od normalnego zachowania czujników
+    \item \textbf{Predykcje} - przewidywane wartości parametrów lub prawdopodobieństwa awarii
+    \item \textbf{Korelacje} - zidentyfikowane zależności między różnymi parametrami
+\end{itemize}
+
+Dane te są przechowywane w bazie danych PostgreSQL, w tabelach odpowiadających poszczególnym typom danych.
+
+\subsubsection{Użytkownicy i uprawnienia}
+\label{subsubsec:uzytkownicy}
+
+Użytkownicy i uprawnienia są modelowane jako:
+
+\begin{itemize}
+    \item \textbf{Użytkownicy} - informacje o użytkownikach systemu, takie jak nazwa użytkownika, hasło (zahaszowane), email, imię, nazwisko
+    \item \textbf{Role} - poziomy uprawnień, takie jak admin, operator, gość
+    \item \textbf{Uprawnienia} - konkretne akcje, które użytkownik może wykonać, takie jak odczyt danych, tworzenie raportów, zarządzanie użytkownikami
+\end{itemize}
+
+Zarządzanie użytkownikami i uprawnieniami jest realizowane przez Keycloak, system zarządzania tożsamością i dostępem.
+
+\subsection{Przepływ danych w systemie}
+\label{subsec:przeplyw_danych}
+
+Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionych na Rysunku \ref{fig:przeplyw_danych}.
+
+\begin{figure}[h]
+    \centering
+    % Tutaj powinien być diagram przepływu danych
+    \caption{Przepływ danych w systemie}
+    \label{fig:przeplyw_danych}
+\end{figure}
+
+\subsubsection{Generowanie danych}
+\label{subsubsec:generowanie_danych}
+
+Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda, które są wyzwalane periodycznie przez AWS Step Functions. Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika, umieszczonego w określonym miejscu instalacji do syntezy amoniaku.
+
+Dane są generowane w formacie JSON i zawierają informacje takie jak identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i jednostka. Dane te są następnie publikowane na temat SNS (Simple Notification Service), który działa jako punkt dystrybucji dla wielu subskrybentów.
+
+\subsubsection{Przesyłanie danych do klastra}
+\label{subsubsec:przesylanie_danych}
+
+Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS (Simple Queue Service), które są subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
+
+W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie odpytuje kolejki SQS i pobiera nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie tematy Kafka, w zależności od typu czujnika i lokalizacji.
+
+\subsubsection{Przetwarzanie strumieni danych}
+\label{subsubsec:przetwarzanie_strumieni}
+
+Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis Kafka-Data-Processor, który wykorzystuje Kafka Streams do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+
+\begin{itemize}
+    \item \textbf{Filtrację} - usuwanie nieprawidłowych lub niekompletnych danych
+    \item \textbf{Transformację} - przekształcanie danych do odpowiedniego formatu
+    \item \textbf{Agregację} - obliczanie statystyk w różnych oknach czasowych
+    \item \textbf{Analizę} - wykrywanie anomalii, przewidywanie awarii, korelację danych
+\end{itemize}
+
+Wyniki przetwarzania są publikowane na nowe tematy Kafka, które zawierają przetworzone dane.
+
+\subsubsection{Zapisywanie danych do bazy danych}
+\label{subsubsec:zapisywanie_danych}
+
+Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, który zapisuje je do baz danych. Dane strukturalne, takie jak odczyty czujników, agregacje i metadane, są zapisywane do bazy danych PostgreSQL, natomiast dane semi-strukturalne, takie jak logi i zdarzenia, są zapisywane do Elasticsearch.
+
+Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportowanie i wizualizację, a także zapewnia trwałość danych.
+
+\subsubsection{Udostępnianie danych przez API}
+\label{subsubsec:udostepnianie_danych}
+
+Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje REST API do tworzenia i pobierania raportów. API to umożliwia:
+
+\begin{itemize}
+    \item \textbf{Pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników
+    \item \textbf{Pobieranie danych przetworzonych} - dostęp do agregacji, wykrytych anomalii, predykcji
+    \item \textbf{Tworzenie raportów} - generowanie raportów na podstawie zadanych kryteriów
+    \item \textbf{Pobieranie raportów} - dostęp do wcześniej wygenerowanych raportów
+\end{itemize}
+
+API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, który korzysta z Keycloak.
+
+\subsubsection{Wizualizacja danych}
+\label{subsubsec:wizualizacja_danych}
+
+Ostatnim etapem przepływu danych jest ich wizualizacja na dashboardzie. Dashboard komunikuje się z API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+
+Dashboard umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, dashboard może wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
+
+Przepływ danych w projektowanym systemie zapewnia efektywne pozyskiwanie, przetwarzanie i analizę danych w czasie rzeczywistym, co jest kluczowe w kontekście monitorowania i optymalizacji procesu syntezy amoniaku. 
