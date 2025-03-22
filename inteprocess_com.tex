@@ -1,0 +1,205 @@
+\newpage
+\section{Metody komunikacji międzyprocesowej}\label{multiprocessing}
+{
+    \subsection{Wstęp}
+    {
+        Komunikacja międzyprocesowa jest krytycznym składnikiem każdego systemu operacyjnego. Komunikacja między procesami może odbywać się w obrębie jednej maszyny lub pomiędzy wieloma maszynami, umożliwiając przesyłanie i synchronizację informacji \cite{com_distr}.
+        
+        Komunikacja między procesami jest niezbędna dla wydajnych i bezpiecznych systemów. Bez niej procesy nie byłyby w stanie komunikować się ze sobą i koordynować swoich działań, co prowadziłoby do spowolnienia operacji. Komunikacja międzyprocesowa powinna być wdrażana w sposób efektywny, aby zmaksymalizować jej korzyści i zminimalizować potencjalne zagrożenia z nią związane. Również pozwala ona na podział większego zadania między kilka procesów w celu jego szybszego wykonania.
+
+        Komunikowanie procesów może się odbywać za pomocą różnych mechanizmów, takich jak gniazda, pamięć współdzielona, potoki nazwane lub nienazwane czy protokół D-Bus.
+        Jest ona stosowana jest na serwerach, systemach rozproszonych, systemach wbudowanych oraz sieciach przemysłowych. 
+    }
+    \label{sock_desc}
+    \subsection{Gniazda}
+    {
+        Dzięki zastosowaniu protokołu TCP lub UDP istnieje możliwość komunikacji międzyprocesowej opartej na portach oraz adresach IP. Tutaj istnieje możliwość komunikowania się procesów pomiędzy różnymi maszynami połączonymi w jedną sieć. Ten rodzaj komunikacji jest dwukierunkowy~i~opiera się na architekturze klient -- serwer \cite{sockets}.
+        
+        Architektura klient -- serwer polega na istnieniu dwóch procesów zwanych klientem~oraz~serwerem. Serwer oferuje pewne usługi lub zasoby. Klient wykonuje żądania pewnych usług~lub~zasobów. Zasoby należy rozumieć jako dane binarne lub tekstowe.
+
+        Gniazda można zdefiniować jako punkty końcowe połączenia sieciowego. Są identyfikowane jako kombinacja adresu IP oraz numer portu. Gniazdo może być połączone w danym czasie tylko~i~ wyłącznie jednym z gniazdem \cite{sockets}. Gniazda są w stanie wykonać poniższe podstawowe operacje~\cite{sockets}:
+        \begin{itemize}
+            \item utworzenie połączenia,
+            \item wysłanie danych,
+            \item odbiór danych,
+            \item zamknięcie połączenia.
+        \end{itemize}
+
+        Na listingach \ref{sock_server} oraz \ref{sock_client} przedstawiono najprostsze przykładowe implementacje serwera~oraz~klienta korzystających z gniazd. Komunikacja odbywa się w obrębie jednej maszyny, zatem jako adres IP została przypisana wartość \textit{localhost}. Klient wysyła krótką wiadomość, w odpowiedzi dostaje jej kopię i następnie zamyka połączenie z serwerem. Serwer nasłuchuje na odpowiednim porcie~
+        i~czeka na połączenie. Po utworzeniu połączenia odbiera wiadomości wysłane przez klienta. Serwer odbiera dowolną wiadomość i zwraca ją w odpowiedzi do klienta. 
+
+        \newpage
+        \begin{lstlisting}[caption=Przykładowa implementacja serwera za pomocą gniazd w języku Python, language=Python, label=sock_server]
+            import socket
+
+            HOST = "localhost"
+            PORT = 5555 
+            
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind((HOST, PORT))
+                s.listen()
+                conn, addr = s.accept()
+                with conn:
+                    while True:
+                        data = conn.recv(128) # 128 - rozmiar bufora danych
+                        if not data:
+                            break
+                        conn.sendall(data)
+        \end{lstlisting}
+
+        \begin{lstlisting}[caption=Przykładowa implementacja klienta za pomocą gniazd w języku Python, language=Python, label=sock_client]
+            import socket
+
+            HOST = "localhost"  
+            PORT = 5555  
+            
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((HOST, PORT))
+                s.sendall(b"Message from robot")
+                data = s.recv(128) # 128 - rozmiar bufora danych
+        \end{lstlisting}
+    }
+    \subsection{Pamięć współdzielona}
+    {
+        Model komunikacji między procesami na bazie pamięci współdzielonej polega na współdzieleniu pewnego obszaru pamięci operacyjnej przez kilka procesów \cite{com_distr}. Procesy mogą odczytywać lub zapisywać dane do tego obszaru pamięci. Synchronizacja w tym przypadku pomiędzy procesami odbywa się za pomocą semaforów \cite{com_distr}. Na listingach \ref{mem_write} oraz \ref{mem_read} zaprezentowano komunikację pomiędzy procesami za pomocą pamięci współdzielonej w języku C. Przykłady zostały napisane na podstawie dokumentacji systemu Linux \cite{sh_docs}. Wykorzystano biblioteki \textit{sys/shm.h} oraz \textit{sys/ipc.h}, które dostarczają poniższe funkcje. 
+        \begin{itemize}
+            \item Funkcja \textbf{ftok(const char *pathname, int proj\_id)} przyjmuje ścieżkę do istniejącego pliku oraz 8 bitowe ziarno do generowania klucza. Zwraca unikalny klucz używany przez inne funkcje. 
+            \item Funkcja \textbf{shmget(key\_t key, size\_t size, int shmflg)} przyjmuje unikalny klucz wygenerowany przez \textbf{ftok()}, rozmiar obszaru pamięci wyrażony w bajtach oraz sposób dostępu do pamięci. Funkcja zwraca identyfikator pamięci współdzielonej.
+            \item Funkcja \textbf{shmat(int shmid ,void *shmaddr ,int shmflg)} pozwala na podłączenie się procesu do pamięci współdzielonej. Zwraca wskaźnik na początek pamięci współdzielonej.
+            \item Funkcja \textbf{shmdt(void *shmaddr)} pozwala na odłączenie się procesu od fragmentu pamięci współdzielonej.
+        \end{itemize}
+
+        \vspace{3mm}
+
+        \begin{lstlisting}[caption=Przykładowa implementacja procesu zapisującego dane do pamięci \\ współdzielonej~w~języku~C, language=C, label=mem_write]
+            #include <sys/ipc.h>
+            #include <sys/shm.h>
+            #include <stdio.h>
+            
+            int main()
+            {
+            	key_t unique_key = ftok("file",65);
+            	int shmid = shmget(unique_key,128,0666|IPC_CREAT);
+            	char *mem = (char*) shmat(shmid, NULL, 0);
+            	sprintf(mem, "Message from robot");
+            	shmdt(mem);
+            	return 0;
+            }
+        \end{lstlisting}
+
+        \begin{lstlisting}[caption=Przykładowa implementacja procesu odczytującego dane z pamięci \\ współdzielonej w języku C, language=C, label=mem_read]
+        #include <sys/ipc.h>
+        #include <sys/shm.h>
+        #include <stdio.h>
+          
+        int main()
+        {
+            key_t unique_key = ftok("file",65);
+            int shmid = shmget(unique_key,128,0666|IPC_CREAT);
+            char *mem = (char*) shmat(shmid, NULL, 0);
+            printf("Data: %s",mem);
+            shmdt(mem);
+            return 0;
+        }
+        \end{lstlisting}
+    }
+    \subsection{Potoki nazwane}
+    {
+        Następnym typem komunikacji są potoki (ang. \textit{pipes}). Ten rodzaj komunikacji jest szeregowy oraz jednokierunkowy \cite{com_distr}. Potoki one zwykle widoczne jako pliki. Mają one ograniczoną i z góry znaną pojemność, która pozwala na zapis danych bez ich utraty w określonych granicach. Potoki nazwane pozwalają na komunikację niespokrewnionych z sobą procesów \cite{named_pipes}. Na listingach \ref{pipe_write} oraz \ref{pipe_read} podano przykład komunikacji między procesami, używając potoków nazwanych. By móc operować na tych potokach należy posłużyć się następującymi funkcjami:
+        
+        \begin{itemize}
+            \item Funkcja \textbf{mkfifo(const char *pathname, mode\_t mode)} tworzy potok nazwany na odpowiednim pliku. Drugi argument ustawia tryb dostępu.
+            \item Funkcja \textbf{open(const char *pathname, int flags)} otwiera plik wraz z odpowiednimi uprawnieniami.
+            \item Funkcja \textbf{read(int fd, void *buf, size\_t count)} czyta zadaną ilość bajtów z dane potoku i zapisuje je do bufora.
+            \nopagebreak
+            \item Funkcja \textbf{write(int fd, const void *buf, size\_t count)} zapisuje zadaną ilość bajtów do potoku z danego bufora.
+        \end{itemize}
+
+        \begin{lstlisting}[caption=Przykładowa implementacja procesu zapisującego dane do potoku nazwanego w języku~C, language=C, label=pipe_write]
+        #include <fcntl.h>
+        #include <sys/stat.h>
+        #include <sys/types.h>
+        #include <unistd.h>
+        
+        int main()
+        {
+            char* file_name = "file";
+            mkfifo(file_name, 0666);
+            int fd = open(file_name, O_WRONLY);
+            char* msg = "Message from robot";
+            write(fd, msg, strlen(msg)+1);
+            close(fd);
+            return 0;
+        }
+        \end{lstlisting}
+
+        \begin{lstlisting}[caption=Przykładowa implementacja procesu odczytującego dane z potoku nazwanego w języku~C, language=C, label=pipe_read]
+        #include <fcntl.h>
+        #include <sys/stat.h>
+        #include <sys/types.h>
+        #include <unistd.h>
+        #include <stdio.h>
+        
+        int main()
+        {
+            char* file_name = "file";
+            mkfifo(file_name, 0666);
+            int buff_size = 80;
+            char buffer[buff_size];
+            int fd = open(file_name,O_RDONLY);
+            while (1)
+            {
+                read(fd, buffer, buff_size);
+                printf("Incoming msg: %s", buffer);
+            }
+            close(fd);
+            return 0;
+        }
+        \end{lstlisting}
+    }
+    \subsection{Semafory}
+    {
+        Czasami istnieje potrzeba, by kilka procesów współdzieliło pewien zasób. By chronić ten krytyczny zasób wykorzystuje się semafory. Semafory mogą być przydatne przy synchronizacji procesów potomnych, które operują na wspólnym fragmencie kodu (sekcji krytycznej). Synchronizacja może być również wymagana przy wypisywaniu informacji na standardowe wyjście. Nie można pozwolić, by kilka procesów przekazywało informacje na standardowe wyjście w tym samym czasie. Semafory umożliwiają na korzystanie z danego fragmentu kodu ograniczonej liczbie procesów. Na listingu \ref{proc_sem} pokazano przykład synchronizacji z procesem potomnym za pomocą semafora.
+
+        \newpage
+        \begin{lstlisting}[caption=Przykładowa implementacja synchronizacji z procesem potomnym w języku~C, language=C, label=proc_sem]
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <unistd.h>
+        #include <semaphore.h>
+        #include <sys/types.h>
+        #include <sys/ipc.h>
+        #include <sys/sem.h>
+        
+        int main() {
+            int semid, pid;
+            key_t key;
+            struct sembuf sem_lock = { 0, -1, SEM_UNDO };
+            struct sembuf sem_unlock = { 0, 1, SEM_UNDO };
+        
+            // Tworzenie semafora
+            key = ftok(".", 'S');
+            semid = semget(key, 1, 0666 | IPC_CREAT);
+        
+            // Ustawianie wartości początkowej semafora na 1
+            semctl(semid, 0, SETVAL, 1);
+        
+            // Tworzenie nowego procesu
+            pid = fork();
+        
+            semop(semid, &sem_lock, 1); // Blokowanie semafora
+            printf("Bardzo dlugi tekst");
+            semop(semid, &sem_unlock, 1); // Odblokowanie semafora
+            return 0;
+        }
+        \end{lstlisting}
+    }
+    \subsection{Spotkania}
+    {
+        Spotkania są metodami synchronizacji międzyprocesowej. Polegają na zawieszeniu jednego procesu w oczekiwaniu na rezultat od drugiego procesu. Pierwszy proces będzie zawieszony dopóki drugi proces nie wykona swego zadania. Po wykonaniu zadania przez drugi proces, oba wznawiają swoje działanie.
+    }
+    \subsection{Przesył i kodowanie danych}
+    {
+        Podczas przesyłania danych pomiędzy procesami często istnieje potrzeba przesłania całych obiektów, czy też kolekcji obiektów. Żeby takie obiekty nadawały się do przesyłu, należy je zakodować do strumienia bajtowego lub tekstowego. Proces odbierający te dane musi je zdekodować tzn. przekształcić strumień danych binarnych bądź tekstowych do obiektu, który może być umieszczony w pamięci operacyjnej. Przykładowo by w języku Python dokonać wspomnianych wcześniej przekształceń, to należy użyć pakietu \textit{pickle}. 
+    }
+}

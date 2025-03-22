@@ -1,0 +1,79 @@
+\newpage
+\section{Napędy w robotach mobilnych}
+{
+    % \large
+    \subsection{Wstęp}
+    {
+    Wybór napędu do robota mobilnego jest kwestią kluczową. Istnieją różnego rodzaje napędów,~które różnią~się~skomplikowaniem w budowie oraz oferowanymi możliwościami. W tym rozdziale został dokonany przegląd wybranych napędów.
+    }
+    
+    \subsection{Napęd Ackermana}
+    {
+        Sterowanie orientacją \cite{ackerman} odbywa się za pomocą zmiany orientacji dwóch przednich kół. Napęd Ackermana sprawdza się przy pokonywaniu trajektorii o torze w kształcie krzywej, gdyż skręt może odbyć się w trakcie jazdy bez zmiany prędkości kątowych żadnego z kół. Z wykorzystaniem tego napędu nie da się zmienić orientacji robota w miejscu, gdyż dwa pozostałe koła nie są przystosowane do tego, by móc wykonać skręt. W napędzie Ackermana osie obrotu kół muszą się przecinać~w~jednym punkcie. Zastosowanie tego rodzaju napędu odbiera możliwość precyzyjnego obrotu robota. Kierunek jazdy robota jest określony pośrodku tylnej osi. Robot wykorzystujący napęd Ackermana podczas skrętu porusza się po łuku pewnego okręgu. Promień tego okręgu nazywa się promieniem skrętu.
+        
+        \singlesizedimage{images/ackerman_scheme.png}{Schemat działania napędu Ackermana}{0.5}
+        
+    }
+    \subsection{Napęd różnicowy}
+    {
+        Ten rodzaj sterowania \cite{diff_steering} jest najczęściej spotykanym w robotyce, jest to spowodowane jego prostotą konstrukcji. Dzięki zastosowaniu tego rodzaju napędu robot uzyskuje pełną zwrotność. Sterowanie różnicowe zakłada to, że koła robota są sterowane niezależnie po obu przeciwnych stronach jego platformy mobilnej.
+        Tutaj skręt może się odbyć tylko i wyłącznie za pomocą zmiany prędkości kątowej jednego z kół lub zmiany prędkości obrotowych par kół z lewej, lub prawej strony.
+        Ten napęd pozwala na obrót w miejscu.
+        
+        Zakładając, że jest się w posiadaniu robota wyposażonego w dwa osobne napędzane koła,~oraz~ jedno koło samonastawne, to jazdę w przód lub w tył można wymusić poprzez obrót obu kół~w~tym samym kierunku. Obrót robota w miejscu wykonuje się poprzez obrót kół w przeciwnych kierunkach z tym samym modułem prędkości. Obrót robota z przemieszczeniem (jazda po łuku) wykonuje się poprzez obrót kół w przeciwnych kierunkach z różnym modułem prędkości.
+        
+        \singlesizedimage{images/diff_drive_schema.png}{Schemat działania napędu różnicowego}{0.4}
+    }
+    \subsection{Napęd synchroniczny}
+    {
+        Na rynku jest dostępny jeszcze napęd zwany synchronicznym. Jest on wyposażony w 3 lub 4 koła, które są napędzane przez jeden silnik \cite{sync_drive}, gdzie drugi silnik służy do zmiany orientacji kół wokół osi pionowej. Jako że wszystkie koła są obracane przez jeden silnik, to ich obrót zawsze będzie jednakowy dla wszystkich kół. By robot mógł się poruszać prostoliniowo, to wspomniane koła muszą być zawsze równolegle ustawione względem siebie nawzajem. Wadą tego napędu to jest to, że nadaje się on tylko do wykorzystania w pomieszczeniach.
+
+        % Zaletą tego napędu jest to, że sterowanie prędkością i kierunkiem zostały rozdzielone na dwa niezależne silniki, co pozwala robotowi mobilnemu jechać prostoliniowo \cite{sync_drive}. Wadą tego rozwiązania jest jego wysoka złożoność wynikającą z obecności dwóch niezależnych silników.  \cite{sync_drive}.
+
+        \singlesizedimage{images/sync_drive.png}{Schemat działania napędu synchronicznego} {0.4}      
+    }
+    \newpage
+    \subsection{Przegląd implementacji napędów robota}
+    {
+    ROS zapewnia szereg sterowników napędów, które przejmują sterowanie napędami robota \cite{ros_controllers} i symulują zachowanie prawdziwego napędu robota. Symulowane napędy wyprowadzają interfejs prędkościowy, który pozwala nam sterować prędkością kątową oraz liniową. Pakiet, który zawiera w sobie różne sterowniki, nazywa się \textbf{ros\_controllers}.
+    
+    Wszystkie te symulatory wyprowadzają interfejs sterujący w postaci dwóch wektorów. Pierwszy z nich odpowiada za wymuszenie prędkościowe liniowe robota (tzn. wymuszenie wzdłuż osi x jego własnego układu współrzędnych). Drugi z nich odpowiada za wymuszenie prędkościowe kątowe robota (tzn. wymuszenie wzdłuż osi pionowej własnego układu współrzędnych).
+
+    \vspace{2mm}
+    
+    \begin{lstlisting}[caption=Format wiadomości wymuszenia prędkościowego]
+        geometry_msgs/Vector3 linear
+        geometry_msgs/Vector3 angular
+    \end{lstlisting}
+    
+    \begin{lstlisting}[caption=Format wiadomości definiującej wektor]
+        #geometry_msgs/Vector3
+        float64 x
+        float64 y
+        float64 z
+    \end{lstlisting}
+    
+    Wszystkie sterowniki posiadają kilka wspólnych konfigurowalnych parametrów. Są to między innymi:
+    \begin{itemize}
+            \item Parametr \textbf{publish\_rate} pozwala ustawić częstotliwość publikacji danych z odometrii.
+            \item Paramtetr \textbf{linear/x/max\_velocity} pozwala ustawić maksymalną prędkość liniową robota.
+            \item Parametr \textbf{angular/z/max\_velocity} pozwala ustawić maksymalną prędkość kątową robota wokół jego własnej osi obrotu.
+            \item Parametr \textbf{wheel\_separation} oznacza rozstaw kół wzdłuż osi x.
+            \item Parametr \textbf{wheel\_radius} oznacza promień koła.
+            \item Parametr \textbf{publish\_cmd} oznacza nazwę kanału do publikowania wymuszenia prędkościowego.
+        \end{itemize}
+    
+    Istnieją trzy szczególne symulatory napędów robota.
+    \begin{itemize}
+            \item \textbf{ackermann\_steering\_controller},
+            \item \textbf{diff\_drive\_controller},
+            \item \textbf{skid\_steer\_drive\_controller}
+    \end{itemize}
+    
+    Symulator \textbf{ackermann\_steering\_controller} symuluje napęd Ackermana \cite{ackermann_steering_controller}. Komenda prędkości jest rozdzielona. Wymuszenia liniowe oraz kątowe są generowane przez osobne pary~kół.
+
+    Symulator \textbf{diff\_drive\_controller} odpowiada za symulację napędu różnicowego \cite{diff_steering}. Wymuszenia liniowe, jak i kątowe jest przeliczane na prędkość obrotową kół robota.
+    
+    Symulator \textbf{skid\_steer\_drive\_controller} jest ulepszoną wersją symulatora z napędem różnicowym \cite{skid_steer_drive_controller}. Symuluje on dodatkowo poślizgi, co poprawia stopień odwzorowania rzeczywistości w symulacji. Częstotliwość występowania poślizgów jest konfigurowana we właściwościach sterownika.
+    }
+}

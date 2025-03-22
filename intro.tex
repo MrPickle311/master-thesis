@@ -1,0 +1,53 @@
+\newpage
+
+\section{Wprowadzenie}\label{introduction}
+{
+    % \large
+    
+    \subsection{Przedstawienie rozwiązania}
+    {
+    Rozwiązanie, które przedstawiam w tej pracy dyplomowej, to oprogramowanie autopilota~do ~sterowania robotami naziemnymi. Sterowanie rozumiemy tutaj jako wyznaczanie trajektorii skomponowanej z odcinków, które łączą punkty na mapie. Punkty są przekazywane w pliku misji. Ogólny pomysł jest taki, aby robot wyposażony w to oprogramowanie był w stanie pokonywać zadaną trajektorię w sposób autonomiczny.  Punkty są podane w postaci współrzędnych geograficznych tzn. szerokości i długości geograficznej.
+    }
+    
+    \subsection{Motywacja}
+    {
+        Motywacją do stworzenia tego oprogramowania była chęć nauczenia się: 
+        \begin{itemize}
+            \item modelowania robotów w symulacjach,
+            \item filtrowania danych pomiarowych,
+            \item projektowania oprogramowania złożonego z wielu procesów.
+        \end{itemize}
+         Na rynku są autopiloty dla bezzałogowych pojazdów latających, ale istnieje deficyt autopilotów dla robotów naziemnych. Dodatkowo takie oprogramowanie ma dużo innych zastosowań i może pomóc zautomatyzować zachowania wielu pojazdów. 
+    }
+    
+    \subsection{Cel}
+    {
+        Celem pracy było stworzenie oprogramowania, które nada robotowi naziemnemu pewne~cechy autonomiczności. Głównym celem było osiągnięcie tego, by użytkownik nie musiał manualnie sterować pojazdem, tę czynność często można zautomatyzować. Zwiększona efektywność oraz~produktywność takiego pojazdu w zastosowaniach komercyjnych mogłaby być zapewniona przez wyposażenie pojazdu w algorytmy, które obliczają trasę samodzielnie, wykorzystując informacje~o~terenie, przeszkodach~oraz~sieci istniejących dróg.  Zaletą takiego rozwiązania byłoby zmniejszenie wydatków firmy używającej takiego oprogramowania w swoich pojazdach.
+    }
+    
+    \subsection{Możliwe zastosowania}
+    {
+        Robot wyposażony w takie oprogramowanie może zostać wykorzystany do patrolowania zadanej trasy. Można nakazać takiemu robotowi poruszać się cyklicznie według zadanych trajektorii według zadanego harmonogramu. 
+        Można również wyposażyć większe pojazdy w to oprogramowanie i zaplanować im przewożenie ładunków na otwartym terenie.
+        Takiego oprogramowania można użyć wszędzie tam, gdzie widoczność jest ograniczona, i mamy pewność, że teren nie zawiera przeszkód, na przykład nocne patrole na lotniskach oraz ich pasach startowych.
+        
+        Zastosowanie tego oprogramowania znajdzie się również w transport ładunków wzdłuż kolei (na przykład przy jej budowie bądź modernizacji) na większe odległości. Przy sprzężeniu z czujnikami laserowymi lub kamerami można wyposażyć takie oprogramowanie w możliwość detekcji i omijania przeszkód.
+
+        \newpage
+
+        Oprogramowanie może mieć również zastosowanie w transporcie towarów pomiędzy poszczególnymi ich poszczególnymi odbiorcami. 
+        Za pomocą takiego oprogramowania można również zautomatyzować sprzęt rolniczy. Tutaj takie oprogramowanie będzie musiało współpracować również z kamerami oraz oprogramowaniem  osprzętu rolniczego.
+    }
+    
+    \subsection{Funkcje autopilota}
+    {
+        Autopilot ma za zadanie przyjąć plik z misją i ją wyegzekwować. Ma on za zadanie sterować prędkością kątową i liniową robota podczas procedury realizacji misji tak, by osiągał on kolejne punkty, które znajdują się w pliku misji. 
+    }
+    
+    \subsection{Wymagany sprzęt}
+    {
+        Autopilot wykorzystuje szereg czujników w celu wyznaczenia aktualnej orientacji oraz położenia robota mobilnego. Do określenia aktualnego położenia wykorzystany został odbiornik GPS. Do aktualnej orientacji robota zostały wykorzystane IMU oraz magnetometr, które dostarczają absolutną orientację (względem globalnego układu współrzędnych) wyrażoną w radianach. Robot taki powinien mieć na pokładzie również odpowiedni osprzęt do komunikacji bezprzewodowej.
+        
+        Dodatkowo sam robot musi być wyposażony w odpowiednie silniki, układ napędowy oraz zasilanie. Silniki i układ napędowy należy dobrać zależnie od zastosowania, gdyż inne wymagania~będą~stawiane na przykład na placu budowy,  inne podczas transportu towarów po lokalnych~i~utwardzonych drogach oraz całkiem inne, jeśli robot będzie wykorzystywany w rolnictwie. 
+    }
+}

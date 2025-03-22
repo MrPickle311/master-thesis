@@ -1,0 +1,19 @@
+\newpage
+\section{Podsumowanie}
+{
+    % \large
+    Implementacja oprogramowania takiej klasy przysporzyła kilka problemów. Również przyniosło to z sobą pewien zastrzyk wiedzy dla programistów podobnych rozwiązań.
+
+    Tworzenie symulacji również okazało się postawić kilka wyzwań. Najbardziej oczywiste było znalezienie oraz przetestowanie paczek symulujących wskazania czujników. Wytestowanych zostało kilka paczek i wybrane zostały te, które zostały wylistowane w rozdziale \ref{sensor_pkgs}. ROS oraz Gazebo oferują wiele pakietów służących jako sterowniki robota. Przetestowano ich kilka, przy czym~w~większości z nich istniał problem ze współczynnikiem tarcia. Robot ślizgał się i nie mógł ruszyć~z~miejsca lub nie mógł utrzymać stabilności  nawet przy znikomych przyspieszeniach.
+    
+    Kolejnym problemem były obarczone szumem wskazania GPS, IMU oraz magnetometru. Repozytorium paczek ROS-a dostarcza kilka gotowych filtrów, które wystarczy tylko skonfigurować, jednak ich działanie pozostawiało wiele do życzenia, dlatego wszystkie wymagane filtry (oprócz filtru Sawickiego-Golaya) należało zaimplementować samodzielnie, co zapewniło dodatkowo przejrzystość tego rozwiązania.
+    
+    Zaletami przedstawionego rozwiązania są prostota oraz zintegrowanie z ROS-em, który dostarcza wiele użytecznych paczek. Kolejną zaletą tego rozwiązania jest modularność, jeśli chcemy zmienić fragment kodu, to ta zmiana nie będzie mieć wpływu na inne elementy oprogramowania.
+    
+    Wadą tego rozwiązania jest to, że wymaga ono systemu operacyjnego. Takie oprogramowanie można byłoby zaimplementować na mikrokontrolerze np. STM32. Obecnego oprogramowania nie można przenieść na mikrokontrolery bez implementacji go od nowa.
+    Wymagałoby to mniej zaawansowanych technicznie komponentów elektronicznych. Kolejną wadą jest brak omijania przeszkód, gdy robot natrafi na przeszkodę, to wtedy zderzy się z nią. By ją usunąć, to robot przykładowo mógłby być wyposażony w czujnik laserowy wykrywający przeszkody wokół niego. Będąc w posiadaniu danych otrzymanych z takiego czujnika można byłoby zaimplementować algorytm omijania przeszkód. Algorytm dojazdu do punktu powinien być zmieniony na taki, który koryguje trajektorię w czasie jazdy robota.
+    
+    Dzięki temu projektowi uzyskano wiedzę na temat projektowania oprogramowania rozproszonego. Dodatkowo zauważono, że nie zawsze warto, jest korzystać z gotowych implementacji, gdyż są poza naszą kontrolą, mogą być trudne w konfiguracji bądź przestarzałe.
+    
+    Ten projekt ma duży potencjał na rozwój. Można ten pomysł przenieść i rozwinąć na każdym pojeździe naziemnym. Jednak taki rozwój wymagałby dużego zespołu złożonego z różnej klasy specjalistów, mechaników, elektroników i programistów.
+}

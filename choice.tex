@@ -1,0 +1,43 @@
+\newpage
+\label{soft_choice}
+\section{Dobór elementów oprogramowania autopilota}
+{
+    \subsection{Wybór właściwego sterownika napędu}
+    {
+        Napęd który należy dobrać charakteryzuje się następującymi cechami:
+        \begin{itemize}
+            \item Pozwoli robotowi skręcać w miejscu.
+            \item Pozwoli na uzyskanie wystarczającej dokładności podczas obrotu.
+        \end{itemize}
+        W takim wypadku właściwym wydaje się wybór napędu różnicowego, który pozwoli spełnić powyższe założenia. Taki napęd również uprości budowę robota.
+        Aby jak najlepiej oddać jak najwierniej rzeczywistość oraz zastosować napęd różnicowy wybieramy \textbf{skid\_steer\_drive\_controller}. Ta~odmiana sterownika napędu różnicowego zapewniona przez wspomniany pakiet dodatkowo wprowadza możliwość poślizgów kół, co przybliża nas do rzeczywistości.
+    }
+    \subsection{Pakiety symulujące dane czujniki}
+    {
+        \label{sensor_pkgs}
+        W symulatorze Gazebo oraz środowisku ROS istnieje możliwość symulacji wszystkich niezbędnych czujników. Poniższe pakiety zapewniają możliwość definiowania modelu zakłóceń.
+        \begin{itemize}
+            \item Pakiet \textbf{libhector\_gazebo\_ros\_gps} służy do symulacji odbiornika GPS, 
+            posiada on interfejs do definiowania postaci symulowanych szumów.
+            \item Pakiet \textbf{libhector\_gazebo\_ros\_magnetic}  symuluje wskazania magnetometru.
+            \item Pakiet \textbf{libgazebo\_ros\_imu} symuluje wskazania IMU, czyli umożliwia agregację pomiarów z akcelerometru oraz żyroskopu. 
+        \end{itemize}
+    }
+    \subsection{Filtr wygładzający odczyty orientacji robota}
+    {
+        Odnosząc się do analiz w rozdziale \ref{compass_analysis} wywnioskowano, że skorzystanie z filtru Kalmana zapewni wygładzenie danych, w sposób pozwalający na bezproblemowe korzystanie z algorytmów autopilota. Filtr ten zapewnia odpowiednią reaktywność względem danych surowych oraz cechuje się brakiem opóźnień. Reaktywność należy rozumieć jako szybkość nadążania za zmianami sygnału oryginalnego.
+
+        Metodą kalibracji filtru Kalmana jest dobranie odpowiednich macierzy stałych oraz macierzy startowych, gdzie w przypadku filtrów Sawickiego-Golaya średniej ruchomej należy odpowiednio manipulować rozmiarem okna pomiarowego. W przypadku Kalmana wartości kalibracyjne są wielkościami fizycznymi, zatem metoda kalibracji jest intuicyjna. Kalibracja filtru Sawickiego-Golaya jest trudna i nieintuicyjna, ze względu na potrzebę doboru stopnia wielomianu oraz abstrakcyjnych właściwości filtra.
+
+        Jeśli chodzi o złożoność obliczeniową, to filtr Sawickiego-Golaya charakteryzuje się dużą złożonością obliczeniową. Filtr średniej ruchomej posiada wysoką złożoność ze względu na dodatkowe zabiegi opisane w rozdziale \ref{av_filter}. Zastosowany filtr Kalmana ma niską złożoność, gdyż jeden krok składa się tylko z kilku prostych obliczeń. 
+        Jeśli chodzi o reaktywność względem danych surowych, to w przypadku filtrów Sawickiego-Golaya jest ona mniejsza względem reszty przetestowanych filtrów. Filtry średniej ruchomej oraz filtr Kalmana ma większą reaktywność. 
+        Jeśli chodzi o wzrost jakości wygładzenia względem wzrostu rozmiaru okna pomiarowego, to wzrost ten jest szybszy dla filtrów średniej ruchomej niż Sawickego-Golaya. Dla filtrów Kalmana szerokość okna pomiarowego jest zawsze stała.
+        By osiągnąć wymagane wygładzenie, to minimalny rozmiar okna pomiarowego dla filtru Sawickiego-Golaya był większy niż 51 próbek. Dla filtru średniej ruchomej wystarczyło 35 próbek.
+        Tylko filtr Kalmana pozwala na fuzję danych z wielu czujników.
+        Zatem ostatecznie został wybrany filtr Kalmana.
+    }
+    \subsection{Filtr wygładzający odczyty pozycji robota}
+    {
+        Odnosząc się do analiz wykonanych w rozdziale \ref{gps_analysis} wywnioskowano, że w tym przypadku również skorzystanie z filtru Kalmana, ale w postaci macierzowej, będzie odpowiednim rozwiązaniem. Dołożenie pomiarów z odometrii nie wnosi poprawienia jakości odczytów, więc ten etap nie został zastosowany.
+    }
+}

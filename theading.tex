@@ -1,0 +1,154 @@
+\newpage
+\section{Mechanizmy synchronizacji międzywątkowej}\label{threading}
+{
+    \subsection{Wstęp}
+    {
+        Mówiąc o komunikacji międzyprocesowej w rozdziale \ref{multiprocessing} nie można nie wspomnieć o komunikacji operacji pomiędzy wątkami. Wątki pozwalają na wykonywanie kilku operacji jednocześnie~w~ramach jednego procesu. Przetwarzanie współbieżne pozwala na zwiększenie wydajności oprogramowania poprzez rozdzielenie złożonego obliczeniowo zadania na kilka wątków. Przykładowo pozwala to na odciążenie głównego wątku programu poprzez delegowanie operacji wejścia~lub~wyjścia~do~innych wątków. Często~w~taki sposób zaimplementowana jest komunikacja międzyprocesowa, za którą odpowiadają osobne wątki w ramach jednego procesu. W tym rozdziale opisano kilka nowoczesnych metod komunikacji i synchronizacji pomiędzy wątkami. Wszystkie przykłady kodów źródłowych zostały napisane w języku C++.
+    }
+    \subsection{Wyścigi do danych}
+    {
+        Jest to sytuacja, gdy następuje próba modyfikacji danych zaburzająca niezmiennik.
+        Przykładem może być modyfikacja obiektu operującego na wskaźnikach w tym samym czasie przez dwa wątki, co może spowodować nieprawidłowe ustawienie się wskaźników i zaburzenie jego struktury.
+    }
+    \subsection{Muteksy}
+    {
+        Muteksy są obiektami, które służą do synchronizacji współbieżnego dostępu do danych z wielu wątków \cite{threads_williams}. Służą one do ochrony tzw. sekcji krytycznej. Sekcję krytyczną definiuje się jako fragment kodu, w którym jednoczesny dostęp do danych z poziomu wielu wątków może spowodować niedeterministyczne zachowanie się programu. Obiekt muteksu jest współdzielony przez kilka wątków. Tylko jeden wątek może w tym samym czasie posiadać blokadę na tym muteksie.
+        Na listingu \ref{mutex} pokazano przykład użycia muteksów.
+
+        \begin{lstlisting}[caption=Przykład użycia muteksów w języku C++, language=C++, label=mutex]
+                #include <chrono>
+                #include <thread>
+                #include <mutex>
+                 
+                int number = 0;
+                std::mutex mutex;
+                 
+                void function(int id) {
+                    mutex.lock();
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                    ++number;
+                    mutex.unlock();
+                }
+                 
+                int main(){
+                    std::thread t1(function, 0);
+                    std::thread t2(function, 1);
+                    t1.join();
+                    t2.join(); 
+                }
+        \end{lstlisting}
+    
+        \newpage
+    
+        W operowaniu na muteksach często poawia się problem zakleszczenia. Zbiór wątków jest zakleszczony wtedy, gdy wszystkie wątki z tego zbioru oczekują na wznowienie działania jednego~lub~więcej wątków z tego zbioru.
+    
+        By uchronić się przed zakleszczeniem należy stosować się do poniższych zaleceń \cite{threads_williams}:
+        \begin{itemize}
+            \item Należy unikać zagnieżdżonych blokad. Należy unikać żądania blokady, jeżeli dany wątek dysponuje już jakąś blokadą.
+            \item Należy stosować blokady w tej samej kolejności w tym samym wątku.
+                    Jeśli operacja wymaga zablokowania kilku muteksów, to należy zablokować je jednocześnie (np. za pomocą funkcji \textbf{std::lock}). W przypadku jakichkolwiek magazynów danych (list, tablic itd...) należy umożliwić operację na tych strukturach tylko jednemu wątkowi, co sprowadza się do tego, by używać dużo małych magazynów danych.
+            \item 	Należy unikać wykonywania kodu użytkownika w czasie utrzymywania  blokady.
+                    Nie wiadomo, czy kod użytkownika wywołuje jakieś blokady.
+        \end{itemize}
+        }
+    \subsection{Semafory}
+    {
+        Semafor również chroni kod sekcji krytycznej. Jednak w odróżnieniu od muteksu, pozwala on więcej niż jeden jednoczesny dostęp do danej sekcji. Obiekt semafora posiada w sobie wewnętrzny licznik, który jeśli dotrze do zera, to próba jego dekrementacji sprawi, że wątek zostaje zablokowany do czasu zwiększenia się wartości licznika. Na listingu \ref{semaphore} pokazano działanie semaforów. 
+
+        \begin{lstlisting}[caption=Przykład użycia semaforów w języku C++, language=C++, label=semaphore]
+                #include <thread>
+                #include <chrono>
+                #include <semaphore>
+                 
+                std::counting_semaphore semaphore{2};
+                int data = 0;
+                
+                void function()
+                {
+                    semaphore.acquire();
+                    ++data;
+                    semaphore.release();
+                }
+                 
+                int main()
+                {
+                    semaphore.acquire();
+                    semaphore.acquire();
+                    std::thread thread(function);
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                    semaphore.release();
+                    semaphore.release();
+                    thread.join();
+                }
+        \end{lstlisting}
+    }
+    \subsection{Zmienne warunkowe}
+    {
+        Czasami istnieje potrzeba, by jeden wątek mógł powiadomić inny o jakimś zdarzeniu. W tym celu są stosowane zmienne warunkowe. Zmienna warunkowa jest powiązana z pewnym zdarzeniem lub warunkiem oraz co najmniej jednym wątkiem, który czeka na spełnienie tego warunku. Wątek, który odkrywa, że warunek jest spełniony, może powiadomić pozostałe wątki oczekujące~na~tę~zmienną warunkową, aby je obudzić~i~umożliwić im dalsze przetwarzanie. Zmienne warunkowe do działania wymagają muteksu. Przykład działania tego mechanizmu pokazano na listingu~\ref{cv}.
+
+        \begin{lstlisting}[caption=Przykład użycia zmiennych warunkowych w języku C++, language=C++, label=cv]
+                #include <string>
+                #include <thread>
+                #include <mutex>
+                #include <condition_variable>
+                 
+                std::mutex mutex;
+                std::condition_variable cv;
+                std::string data{"start"};
+                bool is_processed = false;
+                 
+                void function()
+                {
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                    data =  "koniec";
+                    is_processed = true;
+                    lock.unlock();
+                    cv.notify_one();
+                }
+                 
+                int main()
+                {
+                    std::thread thread(function);
+                    data = "start";
+                    {
+                        std::unique_lock lock(mutex);
+                        cv.wait(lock, []{return is_processed;});
+                    }
+                    thread.join();
+                }
+        \end{lstlisting}
+    }
+
+    \newpage
+    \subsection{Przyszłości i obietnice}
+    {
+        Przyszłości są obiektami zwracanymi przez zadania, które są uruchomione w sposób asynchroniczny \cite{threads_williams}. Przyszłości służą do komunikacji między wątkami. Główny wątek może okresowo sprawdzać, czy zadanie w tle się wykonało i jednocześnie wykonywać inne zadania. Obiekt przyszłości jest jedynym egzemplarzem odwołującym się do zdarzenia. Gdy wywołanie zadania zostanie uruchomione, to wspomniane wywołanie zwraca natychmiastowo obiekt przyszłości. Obiekt ten zawiera w sobie przyszły wynik wykonania pewnej funkcji. Gdy funkcja skończy swoje wykonywanie, to jej wynik będzie zapisany do obiektu przyszłości i będzie gotowy do odbioru. Zwracanie wartości przez zadania wykonywane w tle. Na listingu \ref{future} pokazano użycie przyszłości. Obietnice są związane z przyszłościami. Pozwalają one na ustawienie danych w przyszłości w osobnym wątku. Wątek oczekujący może wstrzymać działanie w oczekiwaniu na przyszłość, natomiast wątek udostępniający dane może użyć obiektu obietnicy do ustawienia powiązanej wartości, tak aby odpowiednia przyszłość przeszła w stan gotowości.
+
+
+        \begin{lstlisting}[caption=Przykład użycia przyszłości w języku C++, language=C++, label=future]
+                #include <thread>
+                #include <future>
+                #include <chrono>
+                #include <iostream>
+                 
+                void function(std::promise<int> promise)
+                {
+                    std::this_thread::sleep_for(std::chrono::seconds(15));
+                    promise.set_value(555);// Powiadom watek glowny o 
+                                            //gotowosci i ustaw wartosc
+                }
+                 
+                int main()
+                {
+                    std::promise<int> promise;
+                    std::future<int> future = accumulate_promise.get_future();
+                    std::thread thread(function, std::move(accumulate_promise));
+                    std::this_thread::sleep_for(std::chrono::seconds(5));
+                    auto status = future.wait_for(2s); // poczekaj przez 2 sekundy i sprawdz co sie dzieje 
+                    std::cout << status + '\n';
+                    int result = future.get(); //poczekaj do konca na wynik i go zwroc
+                    thread.join();
+                }
+        \end{lstlisting}
+    }
+}

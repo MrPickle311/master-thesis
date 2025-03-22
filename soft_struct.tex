@@ -1,0 +1,69 @@
+\newpage
+\label{soft_struct}
+\section{Struktura oprogramowania}
+{
+    \subsection{Architektura}
+    {
+        W projekcie wykorzystano architekturę zorientowaną na mikroserwisy. Było to podyktowane koniecznością wykorzystania środowiska ROS, które narzuca taki styl architektury. Dodatkowo istniała konieczność przeprowadzenia kilku eksperymentów, zatem niektóre części oprogramowania musiały być co jakiś czas podmieniane na inne. 
+    }
+    \subsection{Struktura procesów i kanałów wiadomości}
+    {
+        \singlesizedimage{images/soft_struct3.png}{Struktura procesów i kanałów wiadomości}{0.9}
+        Na rysunku \ref{Struktura procesów i kanałów wiadomości} zaprezentowano strukturę oprogramowania autopilota (niektóre elementy~są~związane tylko i wyłącznie z samą symulacją). Rysunek został stworzony na podstawie schematu, za którego wygenerowanie jest odpowiedzialny ROS. W legendzie podano oznaczenia rodzajów elementów przedstawionych na schemacie. Elementy zaznaczone na żółto są elementami związanymi z symulacją.
+
+        Węzeł \textbf{/mission\_plannner} jest centrum całego oprogramowania autopilota, które agreguje wszystkie przefiltrowane dane i aplikuje je do algorytmów nawigacyjnych. Komunikuje się~z~akcjami algorytmów \textbf{/movement\_process} oraz \textbf{/rotation\_process} służącymi do skręcania oraz~dojazdu do punktu z wymaganą dokładnością. Pośrednio za pomocą wspomnianych algorytmów steruje wymuszeniem prędkościowym pojazdu, umożliwiając sterowanie robotem. Docierają~do~niego przefiltrowane odczyty GPS z procesu \textbf{/gps\_kalman} oraz orientacji z kanału \textbf{/compass\_heading}. 
+        Proces \textbf{/mission\_reader} przyjmuje misję, analizuje jej zawartość, przetwarza~tę~zawartość i przekazuje wynik tego parsowania\footnote{Analizowania składni danych wejściowych i przetwarzania ich na obiekty w zaalokowane pamięci}~jako~trasę do węzła \textbf{/mission\_plannner}. Węzeł \textbf{/gps\_kalman} pobiera surowe pomiary dotyczące pozycji z kanału \textbf{/gps/xy}. 
+        Węzeł \textbf{/compass} pobiera surowe dane dotyczące odczytów~z~magnetometru oraz żyroskopu odpowiednio~z~kanałów \textbf{/mobile\_robot\_gps\_mag} oraz \textbf{/mobile\_robot\_gps\_imu}. 
+        Dane~na~\textbf{/mobile\_robot\_gps\_mag}, \textbf{/mobile\_robot\_gps\_imu} oraz \textbf{/mobile\_robot\_gps/fix} są przesyłane bezpośrednio z symulacji.
+
+        \newpage
+        Poniżej znajduje się opis wszystkich procesów, kanałów wiadomości oraz akcji:
+    
+        \begin{itemize}
+            \item Proces \textbf{/joint\_state\_publisher} odpowiedzialny za publikowanie wiadomości o stanie więzów kinematycznych robota na kanał~\textbf{/joint\_states}.
+            \item Kanał \textbf{/join\_states} wiadomości służący do przesyłu wiadomości na temat więzów kinematycznych robota.
+            \item Proces \textbf{/robot\_state\_publisher} związany z publikowaniem wiadomości o stanie robota. Jest wewnętrznie wykorzystywany przez Gazebo.
+            \item  Proces główny \textbf{/gazebo} komunikuje się~z~symulatorem Gazebo, wystawia oraz subskrybuje wszystkie kanały bezpośrednio związane z symulacją.
+            \item Kanał \textbf{/mobile\_robot\_gps\_imu} jest tym, na który są wysyłane i odbierane są wiadomości dotyczące surowych wskazań IMU.
+            \item Kanał \textbf{/mobile\_robot\_gps\_mag} jest tym, na który wysyłane i odbierane są wiadomości dotyczące surowych wskazań magnetometru.
+            \item Proces \textbf{/compass} dokonuje fuzji wskazań magnetometru i IMU za pomocą filtru Kalmana, by otrzymać wskazania orientacji. Obliczoną orientację publikuje na kanał \textbf{/compass\_heading}.
+            \item Kanał \textbf{/compass\_heading} jest tym, na który przychodzą wiadomości odnośnie do absolutnej przefiltrowanej orientacji robota.
+            \item Kanał \textbf{/mobile\_robot\_gps/fix} jest tym, przez który przepływają surowe odczyty wskazań odbiornika GPS.
+            \item Proces \textbf{/gps\_to\_xy} konwertuje współrzędne geograficzne do kartezjańskich. Wyniki publikuje na \textbf{/gps/xy}.
+            \item Kanał \textbf{/gps/xy} służy do przepływu wiadomości dotyczących pozycji robota we współrzędnych kartezjańskich.
+            \item Proces \textbf{/gps\_kalman} filtruje wskazania GPS 
+            za pomocą filtru Kalmana i publikuje przefiltrowane wiadomości na kanał \textbf{/gps/xy\_filtered}.
+            \item Przez kanał \textbf{/gps/xy\_filtered} przepływają przefiltrowane wskazania GPS.
+            \item Proces \textbf{/mission\_reader} przyjmuje plik misji i uruchamia  akcję~\textbf{/mission\_plan}.
+            \item Akcja \textbf{/mission\_plan} nadzoruje wykonywanie całej misji.
+            \item Głównym procesem jest \textbf{/mission\_plannner}, w którym osadzone są wszystkie algorytmy dotyczące sterowania robotem oraz akcji.
+            \item Akcja \textbf{/rotation\_process} odpowiedzialna jest za wykonanie obrotu robota do zadanej orientacji.
+            \item Akcja \textbf{/movement\_process} odpowiedzialna jest za dojazd robota do zadanej pozycji.
+            \item Na kanał \textbf{cmd\_vel} wysyłane są wymuszenia prędkościowe napędu robota.
+        \end{itemize}
+        
+    }
+    \subsection{Użyte języki programowania oraz biblioteki}
+    {
+        Do implementacji funkcjonalności autopilota wykorzystano języki C++ oraz Python. Do implementacji wszystkich węzłów skorzystano z poniższych bibliotek:
+        \begin{itemize}
+            \item Pakietu \textbf{rospy} dostarczającego narzędzi do tworzenia węzłów oraz subskrypcje i publikowanie tematów w języku Python.
+            \item Pakietu \textbf{actionlib} dostarczającego narzędzi do definiowania serwerów oraz klientów akcji.
+            \item Pakietu \textbf{roscpp} dostarczającego narzędzi do tworzenia węzłów oraz subskrypcji i publikowania tematów w języku C++.
+            \item Pakietu \textbf{std\_msgs} dostarczającego definicji standardowych wiadomości dotyczących typów prostych takich jak np. Int32 lub String.
+            \item Pakietu \textbf{sensor\_msgs} dostarczającego definicji standardowych wiadomości dotyczących wskazań z czujników.
+            \item Pakietu \textbf{nav\_msgs} dostarczającego definicji standardowych wiadomości dotyczących wskazań odometrii czy GPS.
+            \item Pakietu \textbf{geometry\_msgs} dostarczającego definicji standardowych wiadomości dotyczących danych geometrycznych (np. definicje punktów lub wektorów).
+        \end{itemize}
+
+        Przy implementacji węzła, który filtrował dane filtrem Sawickiego-Golaya użyto pakietu~\textbf{scipy.signal},~który zapewniał gotową implementację tego filtru. Do zaimplementowania wielowymiarowego filtru Kalmana użyto pakietu \textbf{numpy} dostarczającego możliwość obliczeń na macierzach. 
+    }
+    \subsection{Sposób komunikacji międzyprocesowej}
+    {
+        Użyto komunikacji międzyprocesowej działającej z wykorzystaniem gniazd. Gniazda opisano w rozdziale \ref{sock_desc}. Wybór taki był spowodowany tym, że ROS narzuca komunikację wykorzystującą gniazda. Dodatkowo ten sposób jest najwydajniejszym ze wszystkich sposobów wymienionych~w~rozdziale \ref{multiprocessing}. Ta metoda jako jedyna nie wykonuje operacji na plikach, co jest wąskim gardłem pozostałych metod. Odczyt i zapis do pliku są kosztownymi operacjami, zatem nie istnieje potrzeba buforowania danych. Dodatkowo pozwala ona na przesyłanie bardziej skomplikowanych rodzajów danych i zapewnia większy poziom abstrakcji nad przesyłem. 
+    }
+    \subsection{Tworzenie plików wykonywalnych}
+    {
+        ROS narzuca używanie narzędzia \textbf{CMake} do budowania aplikacji. Domyślnie generuje ono pliki Makefile, które można potem skompilować narzędziem \textbf{make}. Dodatkowo ROS używa nakładki na narzędzie \textbf{CMake} zwane \textbf{catkin}. Ta nakładka powala w plikach CMakeLists.txt deklarować pliki wiadomości, serwisów i akcji, które mają być poddane kompilacji. 
+    }
+}
