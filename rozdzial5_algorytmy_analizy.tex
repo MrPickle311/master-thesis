@@ -1,0 +1,126 @@
+\section{ALGORYTMY ANALIZY DANYCH W CZASIE RZECZYWISTYM}
+\label{sec:algorytmy_analizy}
+
+W niniejszym rozdziale omówiono algorytmy wykorzystane do analizy danych w czasie rzeczywistym, zaimplementowane w ramach opracowanego systemu. Przedstawiono metody agregacji i generowania statystyk, algorytmy detekcji anomalii, modele predykcyjne do przewidywania awarii oraz techniki korelacji danych pochodzących z wielu czujników.
+
+\subsection{Agregacja danych i statystyki}
+\label{subsec:agregacja_statystyki}
+
+Agregacja danych stanowi podstawowy element analizy strumieni danych w czasie rzeczywistym. W zaimplementowanym systemie zastosowano kilka kluczowych metod agregacji:
+
+\subsubsection{Agregacja czasowa}
+\label{subsubsec:agregacja_czasowa}
+
+Agregacja czasowa polega na grupowaniu danych w okna czasowe o określonej wielkości. W systemie zaimplementowano trzy rodzaje okien czasowych:
+
+\begin{itemize}
+    \item \textbf{Okna przesuwne (sliding windows)} - pokrywające się okresy o stałej długości, przesuwane o określony interwał czasu. Przykładem jest analiza danych z ostatnich 5 minut, aktualizowana co 1 minutę.
+    \item \textbf{Okna skokowe (tumbling windows)} - niepokrywające się, przylegające do siebie okresy. Na przykład, analiza danych w 15-minutowych interwałach, gdzie każde okno zawiera wyłącznie dane z danego przedziału.
+    \item \textbf{Okna sesyjne (session windows)} - dynamiczne okna, które rozpoczynają się wraz z pojawieniem się danych i są zamykane po określonym czasie bezczynności.
+\end{itemize}
+
+Dla każdego typu okna czasowego obliczane są podstawowe statystyki, takie jak wartość minimalna, maksymalna, średnia, mediana oraz odchylenie standardowe. Implementacja wykorzystuje biblioteki Kafka Streams oraz dedykowane algorytmy opracowane na potrzeby systemu.
+
+\subsubsection{Statystyki opisowe i analiza trendów}
+\label{subsubsec:statystyki_opisowe}
+
+Oprócz podstawowych statystyk, system oblicza bardziej zaawansowane wskaźniki statystyczne, takie jak:
+
+\begin{itemize}
+    \item \textbf{Percentyle} - obliczane dla wartości 25\%, 50\% (mediana), 75\%, 90\%, 95\% i 99\%, co pozwala na dokładniejszą analizę rozkładu danych.
+    \item \textbf{Eksponencjalna średnia ruchoma (EMA)} - przypisująca większe wagi do nowszych obserwacji, co jest szczególnie istotne w analizie danych w czasie rzeczywistym.
+    \item \textbf{Analiza trendów} - wykorzystująca regresję liniową do wykrywania kierunku zmian parametrów w czasie.
+\end{itemize}
+
+Implementacja statystyk opisowych została zrealizowana przy użyciu algorytmów przybliżonych, które nie wymagają przechowywania wszystkich danych historycznych, co jest kluczowe dla systemów czasu rzeczywistego. Dla percentyli wykorzystano algorytm t-digest, który pozwala na efektywne obliczanie kwantyli dla strumieni danych.
+
+\subsection{Detekcja anomalii}
+\label{subsec:detekcja_anomalii}
+
+Detekcja anomalii jest kluczowym elementem systemu, umożliwiającym wczesne wykrywanie nieprawidłowości w działaniu monitorowanych urządzeń. W systemie zaimplementowano kilka komplementarnych podejść do wykrywania anomalii:
+
+\subsubsection{Metody statystyczne}
+\label{subsubsec:metody_statystyczne}
+
+\begin{itemize}
+    \item \textbf{Z-score} - wykrywanie wartości odstających na podstawie liczby odchyleń standardowych od średniej. W implementacji zastosowano adaptacyjny Z-score, który dynamicznie aktualizuje parametry rozkładu w miarę napływu nowych danych.
+    \item \textbf{Algorytm GESD (Generalized Extreme Studentized Deviate)} - wieloetapowa procedura do wykrywania wielu anomalii w zbiorze danych z rozkładem w przybliżeniu normalnym.
+    \item \textbf{Test IQR (Interquartile Range)} - identyfikacja wartości odstających na podstawie rozstępu międzykwartylowego, szczególnie skuteczna dla danych niesymetrycznych.
+\end{itemize}
+
+\subsubsection{Uczenie maszynowe w detekcji anomalii}
+\label{subsubsec:ml_anomalie}
+
+W systemie zaimplementowano również bardziej zaawansowane metody detekcji anomalii oparte na uczeniu maszynowym:
+
+\begin{itemize}
+    \item \textbf{Izolacyjne lasy (Isolation Forests)} - metoda bazująca na algorytmach drzew decyzyjnych, która izoluje obserwacje przez rekursywny podział przestrzeni cech. Anomalie wymagają mniej podziałów do izolacji niż normalne punkty danych.
+    \item \textbf{One-Class SVM} - odmiana algorytmu Support Vector Machines, która uczy się rozpoznawać normalne zachowanie systemu i klasyfikuje jako anomalię każde znaczące odchylenie od tego wzorca.
+    \item \textbf{Autoenkodery} - sieci neuronowe uczące się efektywnej reprezentacji danych. Anomalie są identyfikowane poprzez wysoki błąd rekonstrukcji, gdy model próbuje odtworzyć dane wejściowe.
+\end{itemize}
+
+W implementacji system dynamicznie wybiera najlepszy algorytm detekcji anomalii na podstawie charakterystyki danych i ich historycznych wzorców. Dodatkowo, algorytmy są regularnie przetrenowywane w celu adaptacji do ewolucji normalnego zachowania monitorowanych urządzeń.
+
+\subsection{Przewidywanie awarii i predykcja wartości parametrów}
+\label{subsec:predykcja_awarii}
+
+Predykcja awarii umożliwia proaktywne działania serwisowe, zanim dojdzie do faktycznej usterki. W systemie zaimplementowano następujące metody predykcyjne:
+
+\subsubsection{Modele szeregów czasowych}
+\label{subsubsec:szeregi_czasowe}
+
+\begin{itemize}
+    \item \textbf{ARIMA (AutoRegressive Integrated Moving Average)} - klasyczny model do analizy i prognozowania szeregów czasowych, zaimplementowany w wersji online, umożliwiającej ciągłą aktualizację parametrów modelu przy napływie nowych danych.
+    \item \textbf{Exponential Smoothing} - metoda wygładzania wykładniczego, szczególnie przydatna do prognozowania krótkoterminowego z uwzględnieniem sezonowości.
+    \item \textbf{Prophet} - framework opracowany przez Facebooka do prognozowania szeregów czasowych, dostosowany w systemie do pracy w trybie online.
+\end{itemize}
+
+\subsubsection{Zaawansowane modele predykcyjne}
+\label{subsubsec:modele_predykcyjne}
+
+\begin{itemize}
+    \item \textbf{LSTM (Long Short-Term Memory)} - rodzaj rekurencyjnych sieci neuronowych, szczególnie skuteczny w modelowaniu zależności długoterminowych w danych sekwencyjnych. W systemie wykorzystano LSTM do przewidywania przyszłych wartości kluczowych parametrów.
+    \item \textbf{GBM (Gradient Boosting Machines)} - ensemble model oparty na drzewach decyzyjnych, zastosowany do przewidywania prawdopodobieństwa awarii na podstawie wielu parametrów.
+    \item \textbf{Random Forest} - algorytm uczenia zespołowego, wykorzystany w systemie do klasyfikacji stanu urządzenia i predykcji potencjalnych awarii.
+\end{itemize}
+
+Modele predykcyjne zostały zaimplementowane z wykorzystaniem bibliotek TensorFlow, PyTorch oraz XGBoost, z interfejsami umożliwiającymi integrację z platformą Kafka Streams. System automatycznie monitoruje jakość predykcji i dokonuje retreningu modeli, gdy ich skuteczność spada poniżej ustalonego progu.
+
+\subsection{Korelacja danych z wielu czujników}
+\label{subsec:korelacja_danych}
+
+Analiza korelacji danych z wielu czujników pozwala na wykrywanie złożonych wzorców i zależności, które mogą być niewidoczne przy analizie pojedynczych strumieni danych. W systemie zaimplementowano następujące metody korelacji:
+
+\subsubsection{Metody statystyczne korelacji}
+\label{subsubsec:statystyczne_korelacje}
+
+\begin{itemize}
+    \item \textbf{Współczynnik korelacji Pearsona} - mierzący liniową zależność między parami parametrów. W systemie obliczany w czasie rzeczywistym dla wszystkich par parametrów.
+    \item \textbf{Korelacja rangowa Spearmana} - wykrywająca monotoniczne (niekoniecznie liniowe) zależności między parametrami.
+    \item \textbf{Analiza wzajemnej informacji (Mutual Information)} - pozwalająca wykryć nieliniowe zależności między zmiennymi.
+\end{itemize}
+
+\subsubsection{Zaawansowane techniki analizy powiązań}
+\label{subsubsec:zaawansowane_korelacje}
+
+\begin{itemize}
+    \item \textbf{Analiza przyczynowości Grangera} - badająca, czy jedna zmienna pomaga w przewidywaniu przyszłych wartości innej zmiennej. W systemie wykorzystywana do identyfikacji parametrów, które mogą być prekursorami awarii.
+    \item \textbf{Graph Neural Networks (GNN)} - sieci neuronowe działające na grafach, wykorzystane do modelowania złożonych zależności między wieloma czujnikami. W implementacji zastosowano model Graph Attention Networks.
+    \item \textbf{Clustering strumieni danych} - grupowanie czujników o podobnych wzorcach zachowania. Zaimplementowano algorytm DBSCAN dostosowany do pracy ze strumieniami danych.
+\end{itemize}
+
+Wszystkie metody korelacji są wykonywane w czasie rzeczywistym, z wynikami dostępnymi poprzez API systemu oraz wizualizowane na dashboardach. Dodatkowo, system automatycznie wykrywa zmiany w strukturze korelacji, które mogą wskazywać na rozwijające się problemy w monitorowanych urządzeniach.
+
+\subsection{Optymalizacja algorytmów dla przetwarzania strumieniowego}
+\label{subsec:optymalizacja_algorytmow}
+
+Implementacja algorytmów analizy danych dla systemów czasu rzeczywistego wymaga specjalnych technik optymalizacyjnych. W systemie zastosowano kilka kluczowych podejść:
+
+\begin{itemize}
+    \item \textbf{Przetwarzanie przyrostowe} - wszystkie algorytmy zostały zaimplementowane w sposób umożliwiający aktualizację wyników przy napływie nowych danych, bez konieczności ponownego przetwarzania całego zbioru historycznego.
+    \item \textbf{Równoległe przetwarzanie} - wykorzystanie architektury Kafka Streams do równoległego przetwarzania danych z różnych partycji, co znacząco zwiększa przepustowość systemu.
+    \item \textbf{Redukcja wymiarowości} - zastosowanie technik takich jak PCA (Principal Component Analysis) do zmniejszenia liczby wymiarów danych przed ich przetwarzaniem przez bardziej złożone algorytmy.
+    \item \textbf{Adaptacyjne próbkowanie} - dynamiczne dostosowywanie częstotliwości próbkowania danych w zależności od ich zmienności i obciążenia systemu.
+\end{itemize}
+
+Dzięki tym optymalizacjom, system jest w stanie analizować dane z tysięcy czujników w czasie rzeczywistym, zapewniając niskie opóźnienia i wysoką przepustowość, nawet przy ograniczonych zasobach obliczeniowych. 
