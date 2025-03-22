@@ -1,42 +1,74 @@
 \documentclass[12pt]{przejsciowka}
+\setlength{\headheight}{15pt}
 
-\input{utils}
+\usepackage[authoryear]{natbib}
+\bibliographystyle{plainnat}
+
+\class{Praca dyplomowa magisterska}
+\title{Analiza danych w czasie rzeczywistym z systemów wieloczujnikowych z wykorzystaniem klastra Kubernetes oraz narzędzi Big Data}
+\author{Damian Wojcik}
+\instructor{dr Andrzej Chmielniak}%
+
+% Ensure all chapter files are properly closed
+\newcommand{\inputcleanchapter}[1]{%
+    \begingroup
+    \input{#1}
+    \endgroup
+}
 
 \begin{document}
 
+    \maketitle
+    \tableofcontents
+    \clearpage
 
-\maketitle
-\enablesectionformat
-\setlength{\parindent}{20pt}
-\setlength{\headheight}{15pt}
+    \section*{Streszczenie}
+    \inputcleanchapter{abstract_pl}
+    \clearpage
 
-\tableofcontents
+    \section*{Abstract}
+    \inputcleanchapter{abstract_en}
+    \clearpage
 
-\include{abstract_pl.tex}
-\include{abstract_en.tex}
-\include{intro}
-\include{programming_methods}
-\include{ros}
-\include{inteprocess_com.tex}
-\include{theading}
-\include{robot_divers}
-\include{robot_model_utils}
-\include{sensors}
-\include{noises}
-\include{aggregation}
 
-\include{model_gazebo}
-\include{algorithms}
-\include{soft_struct}
-\include{choice}
-\include{sim_vs_real}
-\include{problems}
-\include{robot_tests.tex}
-\include{summary}
+    \inputcleanchapter{rozdzial1_wprowadzenie}
+    \clearpage
 
-\lstlistoflistings
-\listoffigures
-\listoftables
-\include{bibl}
+
+    \inputcleanchapter{rozdzial2_przeglad_literatury}
+    \clearpage
+
+
+    \inputcleanchapter{rozdzial3_projekt_systemu}
+    \clearpage
+
+
+    \inputcleanchapter{rozdzial4_implementacja_systemu}
+    \clearpage
+    
+    
+    \inputcleanchapter{rozdzial5_algorytmy_analizy}
+    \clearpage
+    
+    
+    \inputcleanchapter{rozdzial6_badania}
+    \clearpage
+    
+    
+    \inputcleanchapter{rozdzial7_zastosowania}
+    \clearpage
+    
+    
+    \inputcleanchapter{rozdzial8_podsumowanie}
+    \clearpage
+
+    \listoffigures
+    \clearpage
+
+    \listoftables
+    \clearpage
+
+    \bibliography{bibl}
+    \clearpage
 
 \end{document}
