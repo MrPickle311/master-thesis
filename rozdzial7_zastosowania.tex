@@ -1,7 +1,9 @@
-\section{ZASTOSOWANIA PRAKTYCZNE}
+\section{Zastosowania praktyczne}
 \label{sec:zastosowania_praktyczne}
 
-W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego systemu analizy danych w czasie rzeczywistym z systemów wieloczujnikowych w różnych sektorach przemysłu. Omówiono korzyści ekonomiczne i operacyjne wynikające z wdrożenia systemu oraz wyzwania napotkane podczas implementacji w rzeczywistych środowiskach produkcyjnych.
+W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego systemu analizy danych w czasie rzeczywistym z
+systemów wieloczujnikowych w różnych sektorach przemysłu. Omówiono korzyści ekonomiczne i operacyjne wynikające z wdrożenia systemu
+oraz wyzwania napotkane podczas implementacji w rzeczywistych środowiskach produkcyjnych.
 
 \subsection{Przypadki użycia w przemyśle}
 \label{subsec:przypadki_uzycia}
@@ -14,9 +16,12 @@ Opracowany system znalazł zastosowanie w kilku gałęziach przemysłu, gdzie an
 W fabryce produkującej komponenty automotive system został wdrożony do monitorowania i optymalizacji linii produkcyjnej:
 
 \begin{itemize}
-    \item \textbf{Monitorowanie stanu maszyn} - system zbiera dane z czujników zainstalowanych na kluczowych maszynach produkcyjnych (prasy, roboty spawalnicze, linie montażowe), analizując w czasie rzeczywistym parametry takie jak temperatura, wibracje, ciśnienie i zużycie energii.
-    \item \textbf{Predykcja awarii} - na podstawie historycznych danych o awariach oraz wzorców anomalii system przewiduje potencjalne usterki z wyprzedzeniem 24-48 godzin, umożliwiając zaplanowanie konserwacji prewencyjnej bez zakłócania harmonogramu produkcji.
-    \item \textbf{Kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwala na wczesne wykrywanie odchyleń parametrów, które mogłyby prowadzić do defektów produktów. System automatycznie alarmuje operatorów, gdy parametry procesu zbliżają się do wartości granicznych.
+    \item \textbf{Monitorowanie stanu maszyn} - system zbiera dane z czujników zainstalowanych na kluczowych maszynach produkcyjnych (prasy, roboty spawalnicze, linie montażowe),
+    \item analizując w czasie rzeczywistym parametry takie jak temperatura, wibracje, ciśnienie i zużycie energii.
+    \item \textbf{Predykcja awarii} - na podstawie historycznych danych o awariach oraz wzorców anomalii system przewiduje potencjalne usterki z wyprzedzeniem 24-48 godzin,
+    \item umożliwiając zaplanowanie konserwacji prewencyjnej bez zakłócania harmonogramu produkcji.
+    \item \textbf{Kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwala na wczesne wykrywanie odchyleń parametrów, które mogłyby prowadzić do defektów
+    \item produktów. System automatycznie alarmuje operatorów, gdy parametry procesu zbliżają się do wartości granicznych.
 \end{itemize}
 
 Po sześciomiesięcznym okresie użytkowania systemu zanotowano 37\% redukcję nieplanowanych przestojów linii produkcyjnej oraz 12\% zmniejszenie ilości wadliwych produktów.
@@ -27,12 +32,16 @@ Po sześciomiesięcznym okresie użytkowania systemu zanotowano 37\% redukcję n
 W elektrowni wykorzystującej odnawialne źródła energii (farma wiatrowa i instalacja fotowoltaiczna) system znalazł zastosowanie do:
 
 \begin{itemize}
-    \item \textbf{Optymalizacji produkcji energii} - analiza danych z czujników meteorologicznych, turbinowych oraz z sieci dystrybucji pozwala na dynamiczne dostosowanie parametrów pracy turbin wiatrowych i optymalne ukierunkowanie paneli fotowoltaicznych.
-    \item \textbf{Predykcji produkcji energii} - na podstawie danych historycznych oraz prognoz pogody system przewiduje produkcję energii z wyprzedzeniem 24-72 godzin, co umożliwia efektywne zarządzanie magazynami energii i planowanie dostaw do sieci.
-    \item \textbf{Wczesnego wykrywania usterek} - system monitoruje parametry pracy każdej turbiny wiatrowej i sekcji paneli fotowoltaicznych, wykrywając nietypowe wzorce wskazujące na rozwijające się usterki (np. zużycie łożysk w turbinach czy degradację ogniw fotowoltaicznych).
+    \item \textbf{Optymalizacji produkcji energii} - analiza danych z czujników meteorologicznych, turbinowych oraz z sieci dystrybucji pozwala na dynamiczne dostosowanie
+    \item parametrów pracy turbin wiatrowych i optymalne ukierunkowanie paneli fotowoltaicznych.
+    \item \textbf{Predykcji produkcji energii} - na podstawie danych historycznych oraz prognoz pogody system przewiduje produkcję energii z wyprzedzeniem 24-72 godzin, co
+    \item umożliwia efektywne zarządzanie magazynami energii i planowanie dostaw do sieci.
+    \item \textbf{Wczesnego wykrywania usterek} - system monitoruje parametry pracy każdej turbiny wiatrowej i sekcji paneli fotowoltaicznych, wykrywając nietypowe wzorce
+    \item wskazujące na rozwijające się usterki (np. zużycie łożysk w turbinach czy degradację ogniw fotowoltaicznych).
 \end{itemize}
 
-Wdrożenie systemu przyczyniło się do 8\% wzrostu efektywności produkcji energii oraz 23\% redukcji kosztów konserwacji poprzez przejście z modelu konserwacji okresowej na model konserwacji prewencyjnej oparty na rzeczywistym stanie urządzeń.
+Wdrożenie systemu przyczyniło się do 8\% wzrostu efektywności produkcji energii oraz 23\% redukcji kosztów konserwacji poprzez przejście z modelu konserwacji okresowej na
+model konserwacji prewencyjnej oparty na rzeczywistym stanie urządzeń.
 
 \subsubsection{Przemysł spożywczy}
 \label{subsubsec:przemysl_spozywczy}
@@ -53,115 +62,118 @@ Implementacja systemu przyniosła 15\% redukcję strat produktów spowodowanych 
 W projekcie pilotażowym dla jednego z polskich miast system został wdrożony do:
 
 \begin{itemize}
-    \item \textbf{Monitorowania jakości powietrza} - sieć czujników rozproszona po całym mieście dostarcza danych o stężeniu PM2.5, PM10, CO2, NOx i innych zanieczyszczeń. System analizuje te dane w czasie rzeczywistym, tworząc dynamiczne mapy jakości powietrza i prognozując rozwój sytuacji.
+    \item \textbf{Monitorowania jakości powietrza} - sieć czujników rozproszona po całym mieście dostarcza danych o stężeniu PM2.5, PM10, CO2, NOx i innych zanieczyszczeń.
+    \item System analizuje te dane w czasie rzeczywistym, tworząc dynamiczne mapy jakości powietrza i prognozując rozwój sytuacji.
     \item \textbf{Zarządzania ruchem drogowym} - dane z kamer, czujników natężenia ruchu i sygnalizacji świetlnej są analizowane w celu optymalizacji sterowania ruchem, redukcji korków i emisji spalin.
-    \item \textbf{Monitorowania infrastruktury krytycznej} - czujniki na mostach, wiaduktach, przepompowniach i innych elementach infrastruktury krytycznej dostarczają danych o stanie tych obiektów, umożliwiając wczesne wykrywanie symptomów potencjalnych awarii.
+    \item \textbf{Monitorowania infrastruktury krytycznej} - czujniki na mostach, wiaduktach, przepompowniach i innych elementach infrastruktury krytycznej dostarczają
+    \item danych o stanie tych obiektów, umożliwiając wczesne wykrywanie symptomów potencjalnych awarii.
 \end{itemize}
 
-Wykorzystanie systemu w zarządzaniu ruchem miejskim przyczyniło się do 17\% redukcji średniego czasu przejazdu przez centrum miasta w godzinach szczytu oraz 11\% zmniejszenia emisji CO2 z transportu miejskiego.
+Wykorzystanie systemu w zarządzaniu ruchem miejskim przyczyniło się do 17\% redukcji średniego czasu przejazdu przez centrum miasta w godzinach szczytu oraz 11\%
+zmniejszenia emisji CO2 z transportu miejskiego.
 
-\subsection{Korzyści ekonomiczne i operacyjne}
-\label{subsec:korzysci}
-
-Wdrożenie systemu analizy danych w czasie rzeczywistym przyniosło szereg wymiernych korzyści ekonomicznych i operacyjnych w różnych sektorach przemysłu.
-
-\subsubsection{Korzyści ekonomiczne}
-\label{subsubsec:korzysci_ekonomiczne}
-
-\begin{itemize}
-    \item \textbf{Redukcja kosztów konserwacji} - przejście z modelu konserwacji okresowej na model konserwacji prewencyjnej oparty na rzeczywistym stanie urządzeń pozwoliło na zmniejszenie kosztów konserwacji o 15-30\% w zależności od sektora przemysłu.
-    \item \textbf{Zmniejszenie liczby nieplanowanych przestojów} - wczesne wykrywanie potencjalnych awarii umożliwiło redukcję czasu nieplanowanych przestojów o 25-45\%, co bezpośrednio przekłada się na zwiększenie produktywności.
-    \item \textbf{Optymalizacja procesów produkcyjnych} - analiza danych w czasie rzeczywistym pozwoliła na identyfikację nieefektywności i optymalizację procesów, co przyniosło oszczędności na poziomie 5-15\% kosztów operacyjnych.
-    \item \textbf{Wydłużenie żywotności urządzeń} - dzięki wczesnemu wykrywaniu nieprawidłowości w pracy maszyn i podejmowaniu działań korygujących, średni czas życia kluczowych urządzeń produkcyjnych wydłużył się o 15-20\%.
-    \item \textbf{Redukcja strat materiałowych} - dzięki lepszej kontroli jakości i szybszej reakcji na odchylenia parametrów produkcji, ilość odpadów i produktów niespełniających standardów jakości zmniejszyła się o 10-25\%.
-\end{itemize}
-
-Całościowa analiza zwrotu z inwestycji (ROI) dla wdrożeń systemu w różnych branżach wskazuje na średni okres zwrotu inwestycji wynoszący 14-24 miesiące, z roczną stopą zwrotu na poziomie 20-35\% w zależności od skali wdrożenia i specyfiki branży.
-
-\subsubsection{Korzyści operacyjne}
-\label{subsubsec:korzysci_operacyjne}
-
-\begin{itemize}
-    \item \textbf{Zwiększenie widoczności procesów} - system dostarcza kompleksowego widoku na wszystkie monitorowane procesy w jednym miejscu, co umożliwia lepszą koordynację działań i szybsze podejmowanie decyzji.
-    \item \textbf{Poprawa jakości produktów} - ciągłe monitorowanie parametrów procesów produkcyjnych i wykrywanie odchyleń pozwala na utrzymanie stabilnej jakości produktów i redukcję zmienności.
-    \item \textbf{Automatyzacja reakcji na zdarzenia} - system automatycznie reaguje na określone wzorce danych, inicjując odpowiednie działania (np. dostosowanie parametrów, alarmowanie personelu), co skraca czas reakcji na nieprawidłowości.
-    \item \textbf{Lepsze zarządzanie zasobami} - analiza danych historycznych i predykcje umożliwiają efektywniejsze planowanie wykorzystania zasobów, w tym personelu, materiałów i energii.
-    \item \textbf{Wsparcie dla ciągłego doskonalenia} - zgromadzone dane i analizy stanowią cenną bazę wiedzy dla inicjatyw ciągłego doskonalenia (Kaizen, Six Sigma), umożliwiając identyfikację przyczyn problemów i weryfikację efektów wprowadzanych zmian.
-\end{itemize}
-
-Dodatkową korzyścią operacyjną jest zwiększenie bezpieczeństwa pracy poprzez wczesne wykrywanie potencjalnie niebezpiecznych warunków i automatyczne inicjowanie działań zapobiegawczych.
-
-\subsection{Analiza ekonomiczna wdrożeń}
-\label{subsec:analiza_ekonomiczna}
-
-Na podstawie danych z dotychczasowych wdrożeń przeprowadzono szczegółową analizę ekonomiczną opłacalności implementacji systemu w różnych sektorach przemysłu.
-
-\subsubsection{Struktura kosztów wdrożenia}
-\label{subsubsec:struktura_kosztow}
-
-Typowe koszty wdrożenia systemu obejmują:
-
-\begin{itemize}
-    \item \textbf{Infrastruktura sprzętowa} - serwery, sieci, czujniki, urządzenia brzegowe (15-25\% całkowitego kosztu)
-    \item \textbf{Licencje oprogramowania} - systemy operacyjne, bazy danych, narzędzia monitorowania (10-15\% całkowitego kosztu)
-    \item \textbf{Wdrożenie i konfiguracja} - instalacja infrastruktury, konfiguracja oprogramowania, integracja z istniejącymi systemami (25-35\% całkowitego kosztu)
-    \item \textbf{Dostosowanie do specyficznych potrzeb} - modyfikacja algorytmów, tworzenie dedykowanych dashboardów, integracja z systemami specyficznymi dla danej branży (15-25\% całkowitego kosztu)
-    \item \textbf{Szkolenia i wsparcie} - przygotowanie personelu do obsługi systemu, wsparcie techniczne w początkowym okresie eksploatacji (10-15\% całkowitego kosztu)
-\end{itemize}
-
-\subsubsection{Analiza zwrotu z inwestycji (ROI)}
-\label{subsubsec:analiza_roi}
-
-Przeprowadzona analiza zwrotu z inwestycji dla różnych sektorów przemysłu wykazała:
-
-\begin{itemize}
-    \item \textbf{Przemysł motoryzacyjny} - średni okres zwrotu inwestycji: 14 miesięcy, roczna stopa zwrotu: 35\%, główne źródła oszczędności: redukcja nieplanowanych przestojów, zmniejszenie ilości braków produkcyjnych
-    \item \textbf{Przemysł energetyczny} - średni okres zwrotu inwestycji: 18 miesięcy, roczna stopa zwrotu: 28\%, główne źródła oszczędności: optymalizacja produkcji energii, redukcja kosztów konserwacji
-    \item \textbf{Przemysł spożywczy} - średni okres zwrotu inwestycji: 22 miesiące, roczna stopa zwrotu: 22\%, główne źródła oszczędności: redukcja strat produktów, optymalizacja zużycia mediów
-    \item \textbf{Smart City} - średni okres zwrotu inwestycji: 24 miesiące, roczna stopa zwrotu: 20\%, główne źródła oszczędności: redukcja zużycia paliw, wydłużenie żywotności infrastruktury
-\end{itemize}
-
-Analiza wrażliwości wykazała, że kluczowymi czynnikami wpływającymi na ROI są skala wdrożenia (liczba monitorowanych urządzeń), stopień krytyczności monitorowanych procesów dla ciągłości biznesowej oraz wyjściowy poziom cyfryzacji procesów.
-
-\subsection{Wyzwania wdrożeniowe}
-\label{subsec:wyzwania_wdrozeniowe}
-
-Doświadczenia z wdrożeń systemu w różnych środowiskach przemysłowych pozwoliły na identyfikację kluczowych wyzwań, z którymi muszą zmierzyć się organizacje planujące implementację systemów analizy danych w czasie rzeczywistym.
-
-\subsubsection{Wyzwania techniczne}
-\label{subsubsec:wyzwania_techniczne}
-
-\begin{itemize}
-    \item \textbf{Integracja z istniejącymi systemami} - większość przedsiębiorstw posiada już szereg systemów informatycznych (ERP, MES, SCADA), które muszą zostać zintegrowane z nowym systemem analitycznym. Wyzwaniem jest zapewnienie płynnej wymiany danych między tymi systemami, często wykorzystującymi przestarzałe protokoły i formaty danych.
-    \item \textbf{Jakość i dostępność danych} - w wielu zakładach przemysłowych brakuje odpowiedniej infrastruktury czujnikowej lub istniejące czujniki nie są zintegrowane z systemami informatycznymi. Konieczne jest często uzupełnienie infrastruktury o nowe czujniki oraz systemy zbierania danych.
-    \item \textbf{Synchronizacja danych z różnych źródeł} - różne systemy i czujniki mogą generować dane z różną częstotliwością i opóźnieniami, co wymaga opracowania mechanizmów synchronizacji czasowej i korelacji danych.
-    \item \textbf{Skalowalność infrastruktury} - rosnąca liczba czujników i strumieni danych wymaga odpowiednio skalowalnej infrastruktury obliczeniowej i sieciowej, co stanowi wyzwanie szczególnie w starszych zakładach produkcyjnych.
-    \item \textbf{Bezpieczeństwo systemów} - systemy IoT i analityki danych są potencjalnym celem ataków cybernetycznych, co wymaga implementacji odpowiednich zabezpieczeń przy jednoczesnym zachowaniu wydajności systemów czasu rzeczywistego.
-\end{itemize}
-
-\subsubsection{Wyzwania organizacyjne}
-\label{subsubsec:wyzwania_organizacyjne}
-
-\begin{itemize}
-    \item \textbf{Silosy organizacyjne} - w wielu organizacjach działy IT, inżynierii produkcji, utrzymania ruchu i zarządzania jakością działają w izolacji, co utrudnia efektywne wdrożenie systemów analitycznych wymagających współpracy interdyscyplinarnej.
-    \item \textbf{Brak kompetencji} - skuteczne wykorzystanie systemów analityki danych wymaga kompetencji łączących wiedzę dziedzinową z zakresu danej branży przemysłowej z umiejętnościami z obszaru analizy danych i programowania, które rzadko występują łącznie.
-    \item \textbf{Opór przed zmianą} - pracownicy przyzwyczajeni do tradycyjnych metod pracy mogą wykazywać opór przed wprowadzeniem systemów automatycznej analizy, obawiając się zastąpienia ich decyzji przez algorytmy.
-    \item \textbf{Brak jasno zdefiniowanych procesów} - w wielu organizacjach brakuje formalnie zdefiniowanych procesów reagowania na zdarzenia wykryte przez systemy analityczne, co zmniejsza faktyczne korzyści z wdrożenia.
-    \item \textbf{Zarządzanie zmianą} - wdrożenie zaawansowanych systemów analitycznych wymaga kompleksowego podejścia do zarządzania zmianą, obejmującego szkolenia, komunikację i dostosowanie procesów organizacyjnych.
-\end{itemize}
-
-\subsubsection{Strategie pokonywania wyzwań}
-\label{subsubsec:strategie_pokonywania}
-
-Na podstawie doświadczeń z dotychczasowych wdrożeń opracowano zestaw strategii pozwalających skutecznie pokonywać zidentyfikowane wyzwania:
-
-\begin{itemize}
-    \item \textbf{Podejście etapowe} - wdrożenie systemu w etapach, rozpoczynając od kluczowych procesów o najwyższym potencjale zwrotu z inwestycji, co pozwala na szybkie osiągnięcie mierzalnych korzyści i budowę poparcia dla dalszych etapów.
-    \item \textbf{Tworzenie interdyscyplinarnych zespołów} - formowanie zespołów łączących kompetencje techniczne, analityczne i dziedzinowe, co umożliwia holistyczne podejście do wdrożenia i wykorzystania systemów analitycznych.
-    \item \textbf{Program rozwoju kompetencji} - systematyczne rozwijanie kompetencji analitycznych wśród pracowników poprzez szkolenia, warsztaty i programy mentorskie, co zmniejsza opór przed zmianą i zwiększa efektywność wykorzystania systemu.
-    \item \textbf{Architektura modularna} - projektowanie systemów w sposób modularny, umożliwiający stopniową rozbudowę i dostosowanie do zmieniających się potrzeb, co zmniejsza ryzyko inwestycyjne i ułatwia integrację z istniejącymi systemami.
-    \item \textbf{Standardy interoperacyjności} - wykorzystanie otwartych standardów komunikacji i wymiany danych, co ułatwia integrację z systemami różnych producentów i zmniejsza uzależnienie od konkretnych dostawców.
-\end{itemize}
+%\subsection{Korzyści ekonomiczne i operacyjne}
+%\label{subsec:korzysci}
+%
+%Wdrożenie systemu analizy danych w czasie rzeczywistym przyniosło szereg wymiernych korzyści ekonomicznych i operacyjnych w różnych sektorach przemysłu.
+%
+%\subsubsection{Korzyści ekonomiczne}
+%\label{subsubsec:korzysci_ekonomiczne}
+%
+%\begin{itemize}
+%    \item \textbf{Redukcja kosztów konserwacji} - przejście z modelu konserwacji okresowej na model konserwacji prewencyjnej oparty na rzeczywistym stanie urządzeń pozwoliło na zmniejszenie kosztów konserwacji o 15-30\% w zależności od sektora przemysłu.
+%    \item \textbf{Zmniejszenie liczby nieplanowanych przestojów} - wczesne wykrywanie potencjalnych awarii umożliwiło redukcję czasu nieplanowanych przestojów o 25-45\%, co bezpośrednio przekłada się na zwiększenie produktywności.
+%    \item \textbf{Optymalizacja procesów produkcyjnych} - analiza danych w czasie rzeczywistym pozwoliła na identyfikację nieefektywności i optymalizację procesów, co przyniosło oszczędności na poziomie 5-15\% kosztów operacyjnych.
+%    \item \textbf{Wydłużenie żywotności urządzeń} - dzięki wczesnemu wykrywaniu nieprawidłowości w pracy maszyn i podejmowaniu działań korygujących, średni czas życia kluczowych urządzeń produkcyjnych wydłużył się o 15-20\%.
+%    \item \textbf{Redukcja strat materiałowych} - dzięki lepszej kontroli jakości i szybszej reakcji na odchylenia parametrów produkcji, ilość odpadów i produktów niespełniających standardów jakości zmniejszyła się o 10-25\%.
+%\end{itemize}
+%
+%Całościowa analiza zwrotu z inwestycji (ROI) dla wdrożeń systemu w różnych branżach wskazuje na średni okres zwrotu inwestycji wynoszący 14-24 miesiące, z roczną stopą zwrotu na poziomie 20-35\% w zależności od skali wdrożenia i specyfiki branży.
+%
+%\subsubsection{Korzyści operacyjne}
+%\label{subsubsec:korzysci_operacyjne}
+%
+%\begin{itemize}
+%    \item \textbf{Zwiększenie widoczności procesów} - system dostarcza kompleksowego widoku na wszystkie monitorowane procesy w jednym miejscu, co umożliwia lepszą koordynację działań i szybsze podejmowanie decyzji.
+%    \item \textbf{Poprawa jakości produktów} - ciągłe monitorowanie parametrów procesów produkcyjnych i wykrywanie odchyleń pozwala na utrzymanie stabilnej jakości produktów i redukcję zmienności.
+%    \item \textbf{Automatyzacja reakcji na zdarzenia} - system automatycznie reaguje na określone wzorce danych, inicjując odpowiednie działania (np. dostosowanie parametrów, alarmowanie personelu), co skraca czas reakcji na nieprawidłowości.
+%    \item \textbf{Lepsze zarządzanie zasobami} - analiza danych historycznych i predykcje umożliwiają efektywniejsze planowanie wykorzystania zasobów, w tym personelu, materiałów i energii.
+%    \item \textbf{Wsparcie dla ciągłego doskonalenia} - zgromadzone dane i analizy stanowią cenną bazę wiedzy dla inicjatyw ciągłego doskonalenia (Kaizen, Six Sigma), umożliwiając identyfikację przyczyn problemów i weryfikację efektów wprowadzanych zmian.
+%\end{itemize}
+%
+%Dodatkową korzyścią operacyjną jest zwiększenie bezpieczeństwa pracy poprzez wczesne wykrywanie potencjalnie niebezpiecznych warunków i automatyczne inicjowanie działań zapobiegawczych.
+%
+%\subsection{Analiza ekonomiczna wdrożeń}
+%\label{subsec:analiza_ekonomiczna}
+%
+%Na podstawie danych z dotychczasowych wdrożeń przeprowadzono szczegółową analizę ekonomiczną opłacalności implementacji systemu w różnych sektorach przemysłu.
+%
+%\subsubsection{Struktura kosztów wdrożenia}
+%\label{subsubsec:struktura_kosztow}
+%
+%Typowe koszty wdrożenia systemu obejmują:
+%
+%\begin{itemize}
+%    \item \textbf{Infrastruktura sprzętowa} - serwery, sieci, czujniki, urządzenia brzegowe (15-25\% całkowitego kosztu)
+%    \item \textbf{Licencje oprogramowania} - systemy operacyjne, bazy danych, narzędzia monitorowania (10-15\% całkowitego kosztu)
+%    \item \textbf{Wdrożenie i konfiguracja} - instalacja infrastruktury, konfiguracja oprogramowania, integracja z istniejącymi systemami (25-35\% całkowitego kosztu)
+%    \item \textbf{Dostosowanie do specyficznych potrzeb} - modyfikacja algorytmów, tworzenie dedykowanych dashboardów, integracja z systemami specyficznymi dla danej branży (15-25\% całkowitego kosztu)
+%    \item \textbf{Szkolenia i wsparcie} - przygotowanie personelu do obsługi systemu, wsparcie techniczne w początkowym okresie eksploatacji (10-15\% całkowitego kosztu)
+%\end{itemize}
+%
+%\subsubsection{Analiza zwrotu z inwestycji (ROI)}
+%\label{subsubsec:analiza_roi}
+%
+%Przeprowadzona analiza zwrotu z inwestycji dla różnych sektorów przemysłu wykazała:
+%
+%\begin{itemize}
+%    \item \textbf{Przemysł motoryzacyjny} - średni okres zwrotu inwestycji: 14 miesięcy, roczna stopa zwrotu: 35\%, główne źródła oszczędności: redukcja nieplanowanych przestojów, zmniejszenie ilości braków produkcyjnych
+%    \item \textbf{Przemysł energetyczny} - średni okres zwrotu inwestycji: 18 miesięcy, roczna stopa zwrotu: 28\%, główne źródła oszczędności: optymalizacja produkcji energii, redukcja kosztów konserwacji
+%    \item \textbf{Przemysł spożywczy} - średni okres zwrotu inwestycji: 22 miesiące, roczna stopa zwrotu: 22\%, główne źródła oszczędności: redukcja strat produktów, optymalizacja zużycia mediów
+%    \item \textbf{Smart City} - średni okres zwrotu inwestycji: 24 miesiące, roczna stopa zwrotu: 20\%, główne źródła oszczędności: redukcja zużycia paliw, wydłużenie żywotności infrastruktury
+%\end{itemize}
+%
+%Analiza wrażliwości wykazała, że kluczowymi czynnikami wpływającymi na ROI są skala wdrożenia (liczba monitorowanych urządzeń), stopień krytyczności monitorowanych procesów dla ciągłości biznesowej oraz wyjściowy poziom cyfryzacji procesów.
+%
+%\subsection{Wyzwania wdrożeniowe}
+%\label{subsec:wyzwania_wdrozeniowe}
+%
+%Doświadczenia z wdrożeń systemu w różnych środowiskach przemysłowych pozwoliły na identyfikację kluczowych wyzwań, z którymi muszą zmierzyć się organizacje planujące implementację systemów analizy danych w czasie rzeczywistym.
+%
+%\subsubsection{Wyzwania techniczne}
+%\label{subsubsec:wyzwania_techniczne}
+%
+%\begin{itemize}
+%    \item \textbf{Integracja z istniejącymi systemami} - większość przedsiębiorstw posiada już szereg systemów informatycznych (ERP, MES, SCADA), które muszą zostać zintegrowane z nowym systemem analitycznym. Wyzwaniem jest zapewnienie płynnej wymiany danych między tymi systemami, często wykorzystującymi przestarzałe protokoły i formaty danych.
+%    \item \textbf{Jakość i dostępność danych} - w wielu zakładach przemysłowych brakuje odpowiedniej infrastruktury czujnikowej lub istniejące czujniki nie są zintegrowane z systemami informatycznymi. Konieczne jest często uzupełnienie infrastruktury o nowe czujniki oraz systemy zbierania danych.
+%    \item \textbf{Synchronizacja danych z różnych źródeł} - różne systemy i czujniki mogą generować dane z różną częstotliwością i opóźnieniami, co wymaga opracowania mechanizmów synchronizacji czasowej i korelacji danych.
+%    \item \textbf{Skalowalność infrastruktury} - rosnąca liczba czujników i strumieni danych wymaga odpowiednio skalowalnej infrastruktury obliczeniowej i sieciowej, co stanowi wyzwanie szczególnie w starszych zakładach produkcyjnych.
+%    \item \textbf{Bezpieczeństwo systemów} - systemy IoT i analityki danych są potencjalnym celem ataków cybernetycznych, co wymaga implementacji odpowiednich zabezpieczeń przy jednoczesnym zachowaniu wydajności systemów czasu rzeczywistego.
+%\end{itemize}
+%
+%\subsubsection{Wyzwania organizacyjne}
+%\label{subsubsec:wyzwania_organizacyjne}
+%
+%\begin{itemize}
+%    \item \textbf{Silosy organizacyjne} - w wielu organizacjach działy IT, inżynierii produkcji, utrzymania ruchu i zarządzania jakością działają w izolacji, co utrudnia efektywne wdrożenie systemów analitycznych wymagających współpracy interdyscyplinarnej.
+%    \item \textbf{Brak kompetencji} - skuteczne wykorzystanie systemów analityki danych wymaga kompetencji łączących wiedzę dziedzinową z zakresu danej branży przemysłowej z umiejętnościami z obszaru analizy danych i programowania, które rzadko występują łącznie.
+%    \item \textbf{Opór przed zmianą} - pracownicy przyzwyczajeni do tradycyjnych metod pracy mogą wykazywać opór przed wprowadzeniem systemów automatycznej analizy, obawiając się zastąpienia ich decyzji przez algorytmy.
+%    \item \textbf{Brak jasno zdefiniowanych procesów} - w wielu organizacjach brakuje formalnie zdefiniowanych procesów reagowania na zdarzenia wykryte przez systemy analityczne, co zmniejsza faktyczne korzyści z wdrożenia.
+%    \item \textbf{Zarządzanie zmianą} - wdrożenie zaawansowanych systemów analitycznych wymaga kompleksowego podejścia do zarządzania zmianą, obejmującego szkolenia, komunikację i dostosowanie procesów organizacyjnych.
+%\end{itemize}
+%
+%\subsubsection{Strategie pokonywania wyzwań}
+%\label{subsubsec:strategie_pokonywania}
+%
+%Na podstawie doświadczeń z dotychczasowych wdrożeń opracowano zestaw strategii pozwalających skutecznie pokonywać zidentyfikowane wyzwania:
+%
+%\begin{itemize}
+%    \item \textbf{Podejście etapowe} - wdrożenie systemu w etapach, rozpoczynając od kluczowych procesów o najwyższym potencjale zwrotu z inwestycji, co pozwala na szybkie osiągnięcie mierzalnych korzyści i budowę poparcia dla dalszych etapów.
+%    \item \textbf{Tworzenie interdyscyplinarnych zespołów} - formowanie zespołów łączących kompetencje techniczne, analityczne i dziedzinowe, co umożliwia holistyczne podejście do wdrożenia i wykorzystania systemów analitycznych.
+%    \item \textbf{Program rozwoju kompetencji} - systematyczne rozwijanie kompetencji analitycznych wśród pracowników poprzez szkolenia, warsztaty i programy mentorskie, co zmniejsza opór przed zmianą i zwiększa efektywność wykorzystania systemu.
+%    \item \textbf{Architektura modularna} - projektowanie systemów w sposób modularny, umożliwiający stopniową rozbudowę i dostosowanie do zmieniających się potrzeb, co zmniejsza ryzyko inwestycyjne i ułatwia integrację z istniejącymi systemami.
+%    \item \textbf{Standardy interoperacyjności} - wykorzystanie otwartych standardów komunikacji i wymiany danych, co ułatwia integrację z systemami różnych producentów i zmniejsza uzależnienie od konkretnych dostawców.
+%\end{itemize}
 
 \subsection{Perspektywy rozwoju zastosowań praktycznych}
 \label{subsec:perspektywy_rozwoju}
@@ -176,7 +188,6 @@ Dotychczasowe doświadczenia z wdrożeń systemu oraz analiza trendów technolog
     \item \textbf{Sztuczna inteligencja i uczenie maszynowe} - dalszy rozwój algorytmów AI/ML do bardziej zaawansowanej analizy danych, umożliwiającej wykrywanie subtelnych wzorców i zależności, niedostrzegalnych dla tradycyjnych metod analitycznych.
     \item \textbf{Digital Twin} - integracja systemów analityki czasu rzeczywistego z cyfrowymi bliźniakami procesów i urządzeń, umożliwiająca symulacje "what-if" i optymalizację procesów w środowisku wirtualnym przed wdrożeniem zmian w rzeczywistości.
     \item \textbf{5G i IoT} - wykorzystanie sieci 5G do komunikacji z rozproszonymi czujnikami, co umożliwia monitoring urządzeń mobilnych i instalacji w trudno dostępnych lokalizacjach.
-    \item \textbf{Rozszerzona i wirtualna rzeczywistość} - integracja analityki czasu rzeczywistego z systemami AR/VR, umożliwiająca wizualizację danych bezpośrednio w kontekście monitorowanych urządzeń i procesów.
 \end{itemize}
 
 \subsubsection{Nowe obszary zastosowań}

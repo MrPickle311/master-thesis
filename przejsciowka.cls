@@ -50,12 +50,15 @@
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{images/logo.png}
+        \includegraphics[width=0.5\textwidth]{images/logo_pw_we.png}
 \end{figure}
 
 \vspace{7mm}
 
-{\fontsize{15}{18}\selectfont Instytut Techniki Lotniczej i Mechaniki Stosowanej}
+{\fontsize{12}{18}\selectfont
+\textbf{Instytut Elektrotechniki Teoretycznej i Systemów Informacyjno-Pomiarowych }
+
+}
 
 \vspace{10mm}
 
@@ -63,8 +66,8 @@
 
 \vspace{10pt}
 
-{\fontsize{12}{14}\selectfont na kierunku Robotyka i Automatyka}\\
-{\fontsize{12}{14}\selectfont w specjalności Robotyka}
+{\fontsize{12}{14}\selectfont na kierunku Informatyka Stosowana}\\
+{\fontsize{12}{14}\selectfont w specjalności Inżyniera Oprogramowania}
 
 \vspace{10mm}
 
@@ -77,11 +80,11 @@
 \vspace{10mm}
 
 {\fontsize{12}{14}\selectfont promotor}\\
-{\fontsize{12}{14}\selectfont dr Andrzej Chmielniak}
+{\fontsize{12}{14}\selectfont dr. inż. Łukasz Oskwarek}
 
 \vspace{80mm}
 
-{\fontsize{12}{14}\selectfont Warszawa, 2024}
+{\fontsize{12}{14}\selectfont Warszawa, 2025}
 
 \end{center}
 

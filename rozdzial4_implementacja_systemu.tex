@@ -1,18 +1,19 @@
-\section{IMPLEMENTACJA SYSTEMU PRZETWARZANIA DANYCH W CZASIE RZECZYWISTYM}
+\section{Implementacja systemu przetwarzania danych w czasie rzeczywistym}
 \label{sec:implementacja_systemu}
 
-W niniejszym rozdziale przedstawiono szczegóły implementacji systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, zgodnie z projektem opisanym w poprzednim rozdziale. Omówiono wykorzystane technologie, implementację poszczególnych komponentów oraz wdrożenie systemu na klastrze Kubernetes.
+W niniejszym rozdziale przedstawiono szczegóły implementacji systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych,
+zgodnie z projektem opisanym w poprzednim rozdziale.
 
 \subsection{Wykorzystane technologie}
 \label{subsec:technologie}
 
-Implementacja systemu opiera się na wielu nowoczesnych technologiach, które umożliwiają efektywne przetwarzanie danych w czasie rzeczywistym. Kluczowe technologie wykorzystane w implementacji to:
+Kluczowe technologie wykorzystane w implementacji to:
 
 \subsubsection{Języki programowania}
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{Java 17} - główny język programowania wykorzystany do implementacji mikroserwisów przetwarzających dane.
+    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów przetwarzających dane.
     \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych.
     \item \textbf{TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
@@ -21,12 +22,10 @@ Implementacja systemu opiera się na wielu nowoczesnych technologiach, które um
 \label{subsubsec:frameworki}
 
 \begin{itemize}
-    \item \textbf{Spring Boot 3.1} - framework wykorzystany do implementacji mikroserwisów.
+    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów.
     \item \textbf{Kafka Streams 3.4} - biblioteka wykorzystana do przetwarzania strumieniowego.
     \item \textbf{Spring Cloud} - zestaw narzędzi do budowy aplikacji chmurowych.
     \item \textbf{React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
-    \item \textbf{D3.js} - biblioteka JavaScript wykorzystana do wizualizacji danych.
-    \item \textbf{Matplotlib i Pandas} - biblioteki Pythona wykorzystane w analizie danych i generowaniu wykresów.
 \end{itemize}
 
 \subsubsection{Bazy danych i systemy magazynowania}
@@ -50,20 +49,8 @@ Implementacja systemu opiera się na wielu nowoczesnych technologiach, które um
     \item \textbf{Terraform} - narzędzie do zarządzania infrastrukturą jako kod.
 \end{itemize}
 
-\subsubsection{Narzędzia monitorowania i logowania}
-\label{subsubsec:monitorowanie}
-
-\begin{itemize}
-    \item \textbf{Prometheus} - system monitorowania.
-    \item \textbf{Grafana} - platforma do wizualizacji danych monitorowania.
-    \item \textbf{ELK Stack} - zestaw narzędzi do zbierania, analizy i wizualizacji logów.
-    \item \textbf{Jaeger} - system do śledzenia rozproszonego.
-\end{itemize}
-
 \subsection{Implementacja symulatora czujników}
 \label{subsec:implementacja_symulatora}
-
-Symulator czujników został zaimplementowany jako zestaw funkcji AWS Lambda, które generują dane symulujące odczyty z różnych typów czujników. Funkcje te są wyzwalane periodycznie przez AWS Step Functions, co umożliwia kontrolowane generowanie danych z określoną częstotliwością.
 
 \subsubsection{Architektura symulatora}
 \label{subsubsec:architektura_symulatora}
@@ -77,19 +64,20 @@ Architektura symulatora składa się z kilku kluczowych komponentów:
     \item \textbf{AWS SQS} - usługa kolejek, która buforuje wiadomości przed ich przetworzeniem przez system.
 \end{itemize}
 
-Schemat architektury symulatora przedstawiono na Rysunku \ref{fig:architektura_symulatora}.
-
-\begin{figure}[h]
-    \centering
-    % Tutaj powinien być diagram architektury symulatora
-    \caption{Architektura symulatora czujników}
-    \label{fig:architektura_symulatora}
-\end{figure}
+%Schemat architektury symulatora przedstawiono na Rysunku \ref{fig:architektura_symulatora}.
+%
+%\begin{figure}[h]
+%    \centering
+%    % Tutaj powinien być diagram architektury symulatora
+%    \caption{Architektura symulatora czujników}
+%    \label{fig:architektura_symulatora}
+%\end{figure}
 
 \subsubsection{Implementacja funkcji Lambda}
 \label{subsubsec:implementacja_lambda}
 
-Funkcje Lambda zostały zaimplementowane w języku Python 3.9. Każda funkcja generuje dane dla określonego typu czujnika, symulując jego zachowanie w różnych warunkach pracy. Symulator uwzględnia specyfikę każdego typu czujnika i jego charakterystykę w kontekście procesu syntezy amoniaku.
+Funkcje Lambda zostały zaimplementowane w języku Python 3.9. Każda funkcja generuje dane dla określonego typu czujnika,
+symulując jego zachowanie w różnych warunkach pracy. Symulator uwzględnia specyfikę każdego typu czujnika i jego charakterystykę w kontekście procesu syntezy amoniaku.
 
 Dla każdego typu czujnika zaimplementowano logikę generowania realistycznych danych, uwzględniającą:
 \begin{itemize}
@@ -97,17 +85,4 @@ Dla każdego typu czujnika zaimplementowano logikę generowania realistycznych d
     \item Możliwość wystąpienia anomalii z określonym prawdopodobieństwem
     \item Korelacje między różnymi parametrami procesu
     \item Symulację zakłóceń i szumów pomiarowych
-    \item Różne scenariusze awarii i nieprawidłowości
-\end{itemize}
-
-\subsubsection{Konfiguracja AWS Step Functions}
-\label{subsubsec:konfiguracja_step_functions}
-
-AWS Step Functions zostało skonfigurowane do koordynacji wykonywania funkcji Lambda dla różnych typów czujników. Konfiguracja obejmuje:
-\begin{itemize}
-    \item Definicję przepływu pracy dla każdego typu czujnika
-    \item Harmonogram wykonywania funkcji
-    \item Obsługę błędów i ponownych prób
-    \item Równoległe wykonywanie symulatorów dla różnych czujników
-    \item Monitorowanie i raportowanie stanu wykonania
 \end{itemize}
