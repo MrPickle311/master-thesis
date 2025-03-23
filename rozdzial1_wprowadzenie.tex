@@ -1,21 +1,31 @@
-\section{WPROWADZENIE}
+\section{Wprowadzenie}
 \label{sec:wprowadzenie}
 
 \subsection{Kontekst i motywacja badań}
 \label{subsec:kontekst}
 
-W dobie czwartej rewolucji przemysłowej (Przemysł 4.0) i Internetu Rzeczy (IoT), systemy wieloczujnikowe stają się nieodłącznym elementem nowoczesnych procesów produkcyjnych. Generują one ogromne ilości danych, które odpowiednio wykorzystane mogą dostarczyć cennych informacji na temat stanu i wydajności monitorowanych procesów. Analiza tych danych w czasie rzeczywistym stanowi jednak wyzwanie, zarówno pod względem technicznym, jak i organizacyjnym.
+W dobie czwartej rewolucji przemysłowej (Przemysł 4.0) i Internetu Rzeczy (IoT), systemy wieloczujnikowe stają się nieodłącznym
+elementem nowoczesnych procesów produkcyjnych. Generują one ogromne ilości danych, które odpowiednio wykorzystane mogą dostarczyć
+cennych informacji na temat stanu i wydajności monitorowanych procesów. Analiza tych danych w czasie rzeczywistym stanowi jednak
+wyzwanie, zarówno pod względem technicznym, jak i organizacyjnym.
 
-Tradycyjne podejścia do przetwarzania danych, oparte na scentralizowanych systemach, często nie są w stanie efektywnie obsłużyć dużej liczby równoczesnych strumieni danych przy zachowaniu niskich opóźnień. Ponadto, skalowanie takich systemów w odpowiedzi na rosnące obciążenie może być problematyczne i kosztowne.
+Tradycyjne podejścia do przetwarzania danych, oparte na scentralizowanych systemach, często nie są w stanie efektywnie obsłużyć
+dużej liczby równoczesnych strumieni danych przy zachowaniu niskich opóźnień. Ponadto, skalowanie takich systemów w odpowiedzi na rosnące
+obciążenie może być problematyczne i kosztowne.
 
-Architektura mikroserwisowa, w połączeniu z technologiami konteneryzacji i orkiestracji, takimi jak Kubernetes, oferuje nowe możliwości w zakresie budowy systemów do analizy danych w czasie rzeczywistym. Umożliwia ona elastyczne skalowanie, izolację usług i łatwiejsze zarządzanie złożonymi aplikacjami. Jednocześnie narzędzia Big Data, takie jak Apache Kafka, zapewniają wydajne mechanizmy do przetwarzania strumieniowego, niezbędne w analizie danych w czasie rzeczywistym.
+Rozproszona architektura, w połączeniu z technologiami konteneryzacji i orkiestracji, takimi jak Kubernetes,
+oferuje nowe możliwości w zakresie budowy systemów do analizy danych w czasie rzeczywistym. Umożliwia ona elastyczne skalowanie,
+izolację usług i łatwiejsze zarządzanie złożonymi aplikacjami. Jednocześnie narzędzia Big Data, takie jak Apache Kafka czy Apache Spark zapewniają
+wydajne mechanizmy do przetwarzania strumieniowego, niezbędne w analizie danych w czasie rzeczywistym.
 
-Motywacją do podjęcia niniejszych badań jest potrzeba opracowania wydajnego, skalowalnego i odpornego na awarie systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, który mógłby być wykorzystany w różnych procesach przemysłowych, ze szczególnym uwzględnieniem syntezy amoniaku (proces Habera).
+Motywacją do podjęcia niniejszych badań jest potrzeba sprawdzenia możliwości do opracowania wydajnego i skalowalnego do
+analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, który mógłby być wykorzystany w różnych procesach przemysłowych.
 
 \subsection{Cel i zakres pracy}
 \label{subsec:cel}
 
-Głównym celem niniejszej pracy jest projekt, implementacja i analiza wydajności systemu do przetwarzania danych w czasie rzeczywistym z wielu czujników, wykorzystując architekturę mikroserwisową opartą na klastrze Kubernetes oraz narzędzia Big Data.
+Głównym celami niniejszej pracy są zaprojektowanie, implementacja i analiza wydajności systemu do przetwarzania danych w
+czasie rzeczywistym z wielu czujników.
 
 Szczegółowe cele pracy obejmują:
 \begin{itemize}
@@ -36,31 +46,19 @@ Zakres pracy obejmuje:
     \item Ocenę przydatności zaimplementowanego rozwiązania w środowisku produkcyjnym
 \end{itemize}
 
-\subsection{Teza pracy}
-\label{subsec:teza}
-
-Teza niniejszej pracy brzmi: Wykorzystanie architektury mikroserwisowej opartej na klastrze Kubernetes oraz narzędzi Big Data umożliwia efektywną analizę danych w czasie rzeczywistym z systemów wieloczujnikowych, zapewniając elastyczne skalowanie, odporność na awarie oraz niskie opóźnienia przetwarzania, co jest kluczowe w zastosowaniach przemysłowych.
-
 \subsection{Metodologia badań}
 \label{subsec:metodologia}
 
 Badania przeprowadzone w ramach niniejszej pracy opierają się na następującej metodologii:
 
 \begin{enumerate}
-    \item Analiza literatury i istniejących rozwiązań w zakresie przetwarzania danych w czasie rzeczywistym, ze szczególnym uwzględnieniem zastosowań w systemach wieloczujnikowych
-    \item Projekt architektury systemu do analizy danych w czasie rzeczywistym, z wykorzystaniem klastra Kubernetes i narzędzi Big Data
-    \item Implementacja systemu zgodnie z zaprojektowaną architekturą
-    \item Przeprowadzenie badań eksperymentalnych, obejmujących:
-    \begin{itemize}
-        \item Pomiar obciążenia procesora i zajętości pamięci operacyjnej
-        \item Testowanie poprawności wykonywania algorytmów pod zwiększonym obciążeniem
-        \item Testowanie automatycznego skalowania systemu
-        \item Pomiar przepustowości i opóźnień przetwarzania
-    \end{itemize}
-    \item Analiza wyników badań i formułowanie wniosków
+    \item Pomiar obciążenia procesora i zajętości pamięci operacyjnej
+    \item Testowanie poprawności wykonywania algorytmów pod zwiększonym obciążeniem
+    \item Testowanie automatycznego skalowania systemu
+    \item Pomiar przepustowości i opóźnień przetwarzania
 \end{enumerate}
 
-W badaniach wykorzystano dane symulowane, generowane przez funkcje AWS Lambda, które odzwierciedlają odczyty czujników w procesie syntezy amoniaku. Dane te obejmują pomiary temperatury, ciśnienia, przepływu oraz składu gazu (H2, N2, NH3, O2, CO2).
+W badaniach wykorzystano dane symulowane, generowane przez funkcje AWS Lambda.
 
 \subsection{Struktura pracy}
 \label{subsec:struktura}
@@ -71,9 +69,9 @@ Praca składa się z następujących rozdziałów:
     \item \textbf{Rozdział 1: Wprowadzenie} - przedstawia kontekst i motywację badań, cel i zakres pracy, tezę oraz metodologię badań
     \item \textbf{Rozdział 2: Przegląd literatury i stan wiedzy} - omawia istniejące rozwiązania w zakresie analizy danych w czasie rzeczywistym, architektury mikroserwisowej, Kubernetes oraz narzędzi Big Data
     \item \textbf{Rozdział 3: Projekt systemu przetwarzania danych w czasie rzeczywistym} - przedstawia wymagania, architekturę, model danych oraz przepływ danych w projektowanym systemie
-    \item \textbf{Rozdział 4: Implementacja systemu na klastrze Kubernetes} - opisuje konfigurację klastra, wdrożenie mikroserwisów, konfigurację Apache Kafka i Kafka Streams, implementację przetwarzania strumieniowego oraz aspekty bezpieczeństwa
-    \item \textbf{Rozdział 5: Algorytmy analizy danych w czasie rzeczywistym} - omawia zaimplementowane algorytmy do analizy danych, w tym agregację i statystyki, detekcję anomalii, przewidywanie awarii oraz korelację danych z wielu czujników
-    \item \textbf{Rozdział 6: Badania eksperymentalne i analiza wyników} - przedstawia metodologię testowania, scenariusze testowe, wyniki badań wydajnościowych oraz porównanie z innymi rozwiązaniami
+    \item \textbf{Rozdział 4: Implementacja systemu na klastrze Kubernetes} - opisuje konfigurację klastra, wdrożenie mikroserwisów, konfigurację Apache Kafka i Kafka Streams, implementację przetwarzania strumieniowego
+    \item \textbf{Rozdział 5: Algorytmy analizy danych w czasie rzeczywistym} - omawia zaimplementowane algorytmy do analizy danych
+    \item \textbf{Rozdział 6: Badania eksperymentalne i analiza wyników} - przedstawia metodologię testowania, scenariusze testowe, wyniki badań wydajnościowych
     \item \textbf{Rozdział 7: Zastosowania praktyczne} - omawia praktyczne zastosowania opracowanego systemu w przemyśle, korzyści ekonomiczne i operacyjne oraz wyzwania wdrożeniowe
     \item \textbf{Rozdział 8: Podsumowanie i wnioski} - zawiera podsumowanie pracy, główne osiągnięcia i wnioski, ograniczenia badań oraz kierunki przyszłych badań
 \end{itemize} 
