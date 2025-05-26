@@ -1,4 +1,245 @@
-\section{Generator danych w chmurze}
+\chapter{Generator danych w chmurze}
 \label{chap:generator_danych}
 
-% Treść rozdziału zostanie dodana później 
+\section{Wprowadzenie}
+\label{sec:generator_wprowadzenie}
+
+W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rzeczywistym oraz zapewnienia ciągłego strumienia danych testowych, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+
+System generatora został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+
+Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej dataset z danymi z prawdziwych urządzeń przemysłowych. Na tej podstawie generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
+
+
+\section{Implementacja generowania danych}
+\label{sec:implementacja_generowania}
+
+\subsection{Przygotowanie danych wstępnych do generatora}
+
+Proces przygotowania danych do generatora rozpoczyna się od analizy rzeczywistego datasetu przemysłowego za pomocą skryptu opartego na Apache Spark. Dataset wejściowy zawiera dane sensoryczne z trzech typów urządzeń przemysłowych (pomp, sprężarek i turbin) rozmieszczonych w różnych lokalizacjach fabrycznych.
+
+\subsubsection{Struktura danych wejściowych}
+
+Dane wejściowe składają się z następujących kolumn:
+\begin{itemize}
+    \item \textbf{temperature} - temperatura urządzenia w stopniach Celsjusza
+    \item \textbf{pressure} - ciśnienie w barach
+    \item \textbf{vibration} - poziom wibracji w jednostkach przyspieszenia
+    \item \textbf{humidity} - wilgotność względna w procentach
+    \item \textbf{equipment} - typ urządzenia (Pump, Compressor, Turbine)
+    \item \textbf{location} - lokalizacja fabryczna (Atlanta, Chicago, San Francisco, New York, Houston)
+    \item \textbf{faulty} - wskaźnik stanu awaryjnego (0.0 = normalny, 1.0 = awaryjny)
+\end{itemize}
+
+\subsubsection{Proces analizy statystycznej}
+
+Skrypt wykonuje wieloetapową analizę danych w następujących krokach:
+
+\paragraph{Analiza podstawowych statystyk}
+Obliczane są podstawowe metryki statystyczne dla każdego typu urządzenia i stanu technicznego:
+\begin{itemize}
+    \item Średnie wartości
+    \item Odchylenia standardowe
+    \item Wartości minimalne i maksymalne
+    \item Liczebności obserwacji
+\end{itemize}
+
+Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co pozwala na wyznaczenie charakterystycznych zakresów parametrów dla stanów normalnych i awaryjnych każdego typu urządzenia.
+
+\paragraph{Analiza korelacji między sensorami}
+Skrypt generuje macierze korelacji Pearsona dla różnych kombinacji:
+\begin{itemize}
+    \item \textbf{Korelacja ogólna} - dla wszystkich danych
+    \item \textbf{Korelacja specyficzna dla urządzeń} - oddzielnie dla każdego typu urządzenia
+    \item \textbf{Korelacja specyficzna dla stanów} - oddzielnie dla stanów normalnych i awaryjnych
+    \item \textbf{Korelacja kombinowana} - dla każdej kombinacji typu urządzenia i stanu
+\end{itemize}
+
+Dodatkowo obliczana jest macierz zmian korelacji:
+$$\Delta\mathbf{R} = \mathbf{R}_{faulty} - \mathbf{R}_{normal}$$
+
+która pokazuje, jak korelacje między parametrami zmieniają się podczas przejścia ze stanu normalnego do awaryjnego.
+
+\paragraph{Analiza głównych składowych (PCA)}
+Wykonywana jest analiza PCA w celu:
+\begin{itemize}
+    \item Identyfikacji najważniejszych czynników wpływających na stan urządzeń
+    \item Określenia wkładu każdego parametru sensorycznego w główne składowe
+    \item Redukcji wymiarowości danych przy zachowaniu maksymalnej wariancji
+    \item Wyznaczenia ważności cech (\textit{feature importance}) na podstawie ładunków składowych
+\end{itemize}
+
+\subsubsection{Generowane pliki konfiguracyjne}
+
+Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci plików wykorzystywanych przez generator:
+
+\paragraph{Pliki statystyk}
+\begin{itemize}
+    \item Statystyki podstawowe dla każdego typu urządzenia
+    \item Statystyki dla stanów normalnych i awaryjnych
+    \item Statystyki dla kombinacji urządzenie-stan
+\end{itemize}
+
+\paragraph{Pliki korelacji}
+\begin{itemize}
+    \item Macierz korelacji ogólnej
+    \item Macierze specyficzne dla urządzeń i stanów
+    \item Macierz zmian korelacji
+    \item Słownik korelacji w formacie JSON
+\end{itemize}
+
+Te pliki konfiguracyjne stanowią fundament dla generatora danych, zapewniając, że symulowane dane zachowują realistyczne charakterystyki statystyczne i korelacyjne obserwowane w rzeczywistych danych przemysłowych.
+
+\subsection{Stany urządzeń}
+\label{subsec:symulator_urzadzen}
+
+Drugi komponent to zaawansowany symulator urządzeń przemysłowych, który implementuje model stanów dla każdego urządzenia:
+
+\begin{itemize}
+    \item \textbf{Stan normalny} - prawidłowa praca urządzenia
+    \item \textbf{Wczesne zużycie} - początkowe oznaki degradacji
+    \item \textbf{Stan podkrytyczny} - znaczące pogorszenie parametrów
+    \item \textbf{Stan krytyczny} - stan przed awarią
+    \item \textbf{Naprawa} - okres nieaktywności urządzenia
+\end{itemize}
+
+Symulator wykorzystuje wielowymiarowe rozkłady normalne do generowania skorelowanych danych sensorycznych, zachowując realistyczne relacje między parametrami. Przejścia między stanami są modelowane probabilistycznie z określonymi czasami trwania dla każdego stanu.
+
+
+\subsection{Model matematyczny korelacji}
+\label{subsec:model_korelacji}
+
+Generator wykorzystuje macierze korelacji wyznaczone na podstawie analizy danych historycznych. Dla każdego typu urządzenia $i$ i stanu $s$ definiowana jest macierz korelacji $\mathbf{R}_{i,s}$:
+
+$$\mathbf{R}_{i,s} = \begin{pmatrix}
+1 & r_{12} & r_{13} & r_{14} \\
+r_{12} & 1 & r_{23} & r_{24} \\
+r_{13} & r_{23} & 1 & r_{34} \\
+r_{14} & r_{24} & r_{34} & 1
+\end{pmatrix}$$
+
+gdzie $r_{jk}$ oznacza współczynnik korelacji między parametrami $j$ i $k$.
+
+\subsection{Generowanie skorelowanych wartości}
+\label{subsec:generowanie_skorelowanych}
+
+Skorelowane wartości sensoryczne są generowane przy użyciu wielowymiarowego rozkładu normalnego:
+
+$$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$$
+
+gdzie:
+\begin{itemize}
+    \item $\boldsymbol{\mu}$ - wektor średnich wartości dla danego urządzenia i stanu
+    \item $\boldsymbol{\Sigma}$ - macierz kowariancji obliczona z macierzy korelacji i odchyleń standardowych
+\end{itemize}
+
+Macierz kowariancji obliczana jest jako:
+$$\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R} \mathbf{D}$$
+
+gdzie $\mathbf{D}$ to macierz diagonalna odchyleń standardowych.
+
+\subsection{Wygładzanie czasowe}
+\label{subsec:wygladzanie_czasowe}
+
+Aby zapewnić realistyczne przejścia między kolejnymi odczytami, implementowane jest wygładzanie wykładnicze:
+
+$$x_{t+1} = \alpha \cdot x_t + (1-\alpha) \cdot x_{target}$$
+
+gdzie:
+\begin{itemize}
+    \item $x_t$ - poprzednia wartość parametru
+    \item $x_{target}$ - docelowa wartość z rozkładu
+    \item $\alpha$ - współczynnik wygładzania (0.8)
+\end{itemize}
+
+\section{Integracja z chmurą AWS}
+\label{sec:integracja_aws}
+
+\subsection{Funkcja Lambda w chmurze AWS}
+\label{subsec:lambda_funkcja}
+
+Trzeci komponent to funkcja AWS Lambda, która:
+
+\begin{itemize}
+    \item \textbf{Generuje dane w czasie rzeczywistym} - uruchamiana co minutę, generuje nowe odczyty sensoryczne
+    \item \textbf{Publikuje dane} - wysyła wygenerowane dane do odpowiednich tematów SNS dla każdego typu sensora
+\end{itemize}
+
+\subsection{Amazon SNS}
+\label{subsec:amazon_sns}
+
+Generator wykorzystuje Amazon Simple Notification Service (SNS) do publikowania danych. Dla każdego typu sensora utworzony jest oddzielny temat SNS:
+
+\begin{itemize}
+    \item \texttt{sensor\_data\_temperature} - dane temperaturowe
+    \item \texttt{sensor\_data\_pressure} - dane ciśnieniowe  
+    \item \texttt{sensor\_data\_vibration} - dane wibracyjne
+    \item \texttt{sensor\_data\_humidity} - dane wilgotnościowe
+\end{itemize}
+
+\subsection{Modele danych}
+\label{subsec:modele_danych}
+
+Dane są strukturyzowane przy użyciu biblioteki Pydantic, zapewniając walidację i spójność formatów:
+
+\begin{verbatim}
+{
+  "label": "pump",
+  "timestamp": 1672531200,
+  "event_key": "pump-1672531200",
+  "temperature": {
+    "temperature": 72.5
+  }
+}
+\end{verbatim}
+
+\subsection{Konfiguracja i parametryzacja}
+\label{sec:konfiguracja}
+
+\subsubsection{Parametry stanów urządzeń}
+\label{subsec:parametry_stanow}
+
+Każdy stan urządzenia charakteryzuje się określonymi parametrami czasowymi:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|l|}
+\hline
+\textbf{Stan} & \textbf{Min. czas} & \textbf{Max. czas} & \textbf{Następny stan} \\
+\hline
+Normalny & 24h & 7 dni & Wczesne zużycie \\
+Wczesne zużycie & 12h & 48h & Podkrytyczny \\
+Podkrytyczny & 6h & 24h & Krytyczny \\
+Krytyczny & 1h & 6h & Naprawa \\
+Naprawa & 2h & 4h & Normalny \\
+\hline
+\end{tabular}
+\caption{Parametry czasowe stanów urządzeń}
+\label{tab:parametry_stanow}
+\end{table}
+
+\subsubsection{Zmienne środowiskowe}
+\label{subsec:zmienne_srodowiskowe}
+
+Funkcja Lambda konfigurowana jest poprzez zmienne środowiskowe:
+
+\begin{itemize}
+    \item \texttt{TOPIC\_PREFIX} - prefiks tematów SNS
+    \item \texttt{AWS\_REGION} - region AWS
+    \item \texttt{SEED} - ziarno generatora liczb losowych dla deterministycznych wyników
+\end{itemize}
+
+\subsubsection{Zastosowania i korzyści}
+\label{sec:zastosowania_korzysci}
+
+Generator danych w chmurze zapewnia:
+
+\begin{itemize}
+    \item \textbf{Środowisko testowe} - umożliwia testowanie systemu analizy bez dostępu do rzeczywistych urządzeń przemysłowych
+    \item \textbf{Scenariusze awaryjne} - generuje kontrolowane scenariusze degradacji i awarii urządzeń
+    \item \textbf{Walidację algorytmów} - pozwala na weryfikację skuteczności algorytmów detekcji anomalii
+    \item \textbf{Obciążenia testowe} - umożliwia generowanie dużych wolumenów danych do testów skalowalności
+    \item \textbf{Ciągłość działania} - zapewnia nieprzerwany strumień danych do celów demonstracyjnych i szkoleniowych
+\end{itemize}
+
+System ten stanowi kluczowy element infrastruktury testowej, umożliwiając kompleksną walidację opracowanego systemu analizy danych w czasie rzeczywistym bez konieczności dostępu do rzeczywistych instalacji przemysłowych. 
