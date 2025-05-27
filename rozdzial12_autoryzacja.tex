@@ -1,4 +1,44 @@
 \section{System autoryzacji}
 \label{chap:autoryzacja}
 
-% Treść rozdziału zostanie dodana później 
+System analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach JWT (JSON Web Token) z wykorzystaniem serwera Keycloak jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
+
+\subsection{Architektura systemu autoryzacji}
+
+Keycloak pełni rolę centralnego serwera uwierzytelnienia, który zarządza procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług backendowych poprzez FrontService - bramę API działającą w architekturze mikroserwisowej.
+
+FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług backendowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
+
+Backend aplikacji został skonfigurowany do pracy w trybie hybrydowym - może działać zarówno z Keycloak jako zewnętrznym dostawcą uwierzytelnienia, jak i z własnym wewnętrznym systemem JWT. Konfiguracja ta jest kontrolowana przez parametr \texttt{app.security.useKeycloak}, co zapewnia elastyczność wdrożenia w różnych środowiskach.
+
+\subsection{Implementacja po stronie frontendu}
+
+Aplikacja frontendowa wykorzystuje bibliotekę \texttt{keycloak-js} do integracji z serwerem Keycloak. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę realm oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania Keycloak w przypadku braku ważnego tokenu dostępu.
+
+Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka \texttt{Authorization} wszystkich żądań HTTP kierowanych do API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, który sprawdza ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
+
+Interface \texttt{KeycloakInterface} zapewnia zunifikowane API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z Keycloak, ułatwiając integrację z komponentami React.
+
+\subsection{Autoryzacja po stronie backendu}
+
+FrontService implementuje wielowarstwowy system autoryzacji wykorzystujący Spring Security WebFlux. W trybie Keycloak, system wykorzystuje mechanizm OAuth2 Resource Server do walidacji tokenów JWT wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
+
+Ekstractor uprawnień \texttt{KeycloakGrantedAuthoritiesConverter} analizuje strukturę tokenu JWT w celu pobrania ról zarówno z poziomu realm jak i klienta. Umożliwia to precyzyjne mapowanie uprawnień Keycloak na role używane wewnętrznie przez aplikację. System rozpoznaje hierarchię uprawnień, gdzie role realm mają wyższy priorytet niż role specyficzne dla klienta.
+
+\subsection{Model uprawnień}
+
+System definiuje dwie podstawowe role użytkowników: \texttt{DATA\_ACCESSOR} oraz \texttt{ADMIN}. Użytkownicy z rolą \texttt{DATA\_ACCESSOR} mają dostęp do funkcji odczytu i analizy danych, obejmujących przeglądanie raportów, dashboardów oraz konfiguracji systemu. Rola \texttt{ADMIN} rozszerza te uprawnienia o możliwość zarządzania użytkownikami, modyfikacji konfiguracji systemu oraz dostępu do funkcji administracyjnych.
+
+Kontrola dostępu jest implementowana na poziomie endpointów API poprzez adnotacje Spring Security. Ścieżki publiczne, takie jak endpointy healthcheck, są dostępne bez uwierzytelnienia, podczas gdy zasoby biznesowe wymagają odpowiednich ról. System automatycznie zwraca kod odpowiedzi HTTP 401 dla żądań bez ważnego tokenu oraz 403 dla żądań z niewystarczającymi uprawnieniami.
+
+\subsection{Zarządzanie użytkownikami}
+
+Proces zarządzania kontami użytkowników odbywa się centralnie przez panel administracyjny Keycloak. Administratorzy systemu mają wyłączną kontrolę nad tworzeniem nowych kont użytkowników, przypisywaniem ról oraz zarządzaniem uprawnieniami dostępu. Takie podejście zapewnia pełną kontrolę nad bezpieczeństwem systemu oraz eliminuje ryzyko związane z samorejestracją użytkowników. Administrator może definiować szczegółowe profile użytkowników, ustalać zasady haseł oraz kontrolować aktywność kont. 
+
+\subsection{Bezpieczeństwo i zarządzanie sesjami}
+
+Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webowych. Tokeny JWT mają ograniczony czas życia, co minimalizuje ryzyko w przypadku ich kompromitacji. System automatycznie czyści tokeny z pamięci przeglądarki po wylogowaniu użytkownika oraz implementuje mechanizmy ochrony przed atakami typu CSRF poprzez odpowiednią konfigurację nagłówków CORS.
+
+FrontService implementuje dodatkowe mechanizmy bezpieczeństwa, w tym ograniczenie liczby prób logowania z określonego adresu IP za pomocą cache'a Caffeine. Konfiguracja ta chroni system przed atakami brute force poprzez czasowe blokowanie adresów IP po przekroczeniu limitu nieudanych prób uwierzytelnienia.
+
+Zarządzanie błędami autoryzacji jest zunifikowane przez \texttt{ReactiveExceptionHandler}, który zapewnia spójne komunikaty błędów oraz odpowiednie kody odpowiedzi HTTP niezależnie od źródła błędu uwierzytelnienia czy autoryzacji. 
