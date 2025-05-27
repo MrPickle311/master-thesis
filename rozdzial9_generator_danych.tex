@@ -1,18 +1,11 @@
-\chapter{Generator danych w chmurze}
-\label{chap:generator_danych}
-
-\section{Wprowadzenie}
-\label{sec:generator_wprowadzenie}
+\section{Generator danych w chmurze}
+\label{sec:implementacja_generowania}
 
 W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rzeczywistym oraz zapewnienia ciągłego strumienia danych testowych, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
 System generatora został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej dataset z danymi z prawdziwych urządzeń przemysłowych. Na tej podstawie generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
-
-
-\section{Implementacja generowania danych}
-\label{sec:implementacja_generowania}
 
 \subsection{Przygotowanie danych wstępnych do generatora}
 
@@ -279,14 +272,14 @@ Podczas stanu naprawy system:
     \item Po zakończeniu naprawy resetuje wartości do normalnych
 \end{itemize}
 
-\section{Integracja z chmurą AWS}
+\subsubsection{Integracja z chmurą AWS}
 \label{sec:integracja_aws}
 
 System generatora danych został zaimplementowany jako w pełni bezserwerowa architektura w chmurze AWS, wykorzystująca usługi AWS Lambda, Amazon S3 oraz Amazon SNS. Implementacja zapewnia skalowalność, niezawodność oraz efektywność kosztową przy minimalnych wymaganiach administracyjnych.
 
 Generator czyta wcześniej wygenerowane pliki CSV z danymi z S3 i generuje dane w odstępach minutowych.
 
-\subsection{Architektura bezserwerowa}
+\subsubsection{Architektura bezserwerowa}
 \label{subsec:architektura_bezserwerowa}
 
 System składa się z trzech głównych komponentów AWS:
@@ -297,7 +290,7 @@ System składa się z trzech głównych komponentów AWS:
     \item \textbf{Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora
 \end{itemize}
 
-\subsection{Przechowywanie danych w Amazon S3}
+\subsubsection{Przechowywanie danych w Amazon S3}
 \label{subsec:amazon_s3}
 
 System wykorzystuje Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
@@ -312,11 +305,11 @@ Dane są organizowane w następującej strukturze:
     \item \textbf{Metadane}: \texttt{prod\_data/historical\_metadata.json}
 \end{itemize}
 
-\subsubsection{Format metadanych}
+Format metadanych:
 
 Plik metadanych zawiera konfigurację systemu w formacie JSON:
 
-\begin{verbatim}
+\begin{lstlisting}[language=JSON, caption=Plik metadanych]
 {
   "generated_at": "2023-01-15 14:30:00",
   "start_timestamp": 1672531200,
@@ -331,37 +324,31 @@ Plik metadanych zawiera konfigurację systemu w formacie JSON:
     "Turbine": "turbine_20230101.csv"
   }
 }
-\end{verbatim}
+\end{lstlisting}
 
-\subsection{Funkcja AWS Lambda}
+\subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
-Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek boto3, pandas oraz pydantic.
+Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek boto3, pandas oraz pydantic. System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych.
 
-\subsubsection{Klasy modeli danych}
+\begin{lstlisting}[language=Python, caption=Klasy modeli danych]
 
-System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych:
-
-\paragraph{Model bazowy}
-\begin{verbatim}
 class SensorData(BaseModel):
     label: str
     timestamp: int
     event_key: str
-\end{verbatim}
 
-\paragraph{Modele specyficzne dla sensorów}
-\begin{verbatim}
 class Temperature(SensorData):
     temperature: TemperatureData
 
 class Pressure(SensorData):
     pressure: PressureData
-\end{verbatim}
 
-\subsubsection{Algorytm publikowania danych}
+\end{lstlisting}
 
-Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu:
+\textbf{Algorytm publikowania danych}
+
+Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu.
 
 \begin{enumerate}
     \item \textbf{Ładowanie metadanych} z S3 w celu określenia dostępnych plików danych
@@ -372,24 +359,20 @@ Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu:
     \item \textbf{Publikowanie danych} do odpowiednich tematów SNS dla każdego sensora
 \end{enumerate}
 
-\subsubsection{Wyszukanie najbliższego rekordu}
+\textbf{Wyszukanie najbliższego rekordu}
 
-System implementuje algorytm wyszukiwania najbliższego czasowo rekordu:
-
-\begin{verbatim}
+\begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu]
 def _find_closest_record(self, df, target_time):
     target_time_dt = pd.to_datetime(target_time)
     df['time_diff'] = abs(df['timestamp'] - target_time_dt)
     closest_record = df.loc[df['time_diff'].idxmin()]
     return closest_record
-\end{verbatim}
+\end{lstlisting}
 
-\subsection{Amazon SNS dla publikowania danych}
+\subsubsection{Amazon SNS dla publikowania danych}
 \label{subsec:amazon_sns}
 
-System wykorzystuje Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe.
-
-\subsubsection{Tematy SNS}
+System wykorzystuje Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
 
 Dla każdego typu sensora utworzony jest dedykowany temat SNS:
 
@@ -400,11 +383,9 @@ Dla każdego typu sensora utworzony jest dedykowany temat SNS:
     \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}
 \end{itemize}
 
-\subsubsection{Format publikowanych wiadomości}
+Format publikowanych wiadomości:
 
-Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic:
-
-\begin{verbatim}
+\begin{lstlisting}[language=JSON, caption=Format publikowanych wiadomości]
 {
   "label": "pump",
   "timestamp": 1672531200,
@@ -413,14 +394,7 @@ Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic:
     "temperature": 72.5
   }
 }
-\end{verbatim}
-
-
-
-
-
-
-
+\end{lstlisting}
 
 
 System ten stanowi kluczowy element infrastruktury testowej, umożliwiając kompleksową walidację opracowanego systemu analizy danych bez konieczności dostępu do rzeczywistych instalacji przemysłowych oraz zapewniając pełną integrację z ekosystemem chmury AWS.
