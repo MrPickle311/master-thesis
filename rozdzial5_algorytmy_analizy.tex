@@ -19,7 +19,7 @@ Agregacja czasowa polega na grupowaniu danych w okna czasowe o określonej wielk
     \item \textbf{Okna sesyjne (session windows)} - dynamiczne okna, które rozpoczynają się wraz z pojawieniem się danych i są zamykane po określonym czasie bezczynności.
 \end{itemize}
 
-Dla każdego typu okna czasowego obliczane są podstawowe statystyki, takie jak wartość minimalna, maksymalna, średnia, mediana oraz odchylenie standardowe. Implementacja wykorzystuje biblioteki Kafka Streams oraz dedykowane algorytmy opracowane na potrzeby systemu.
+Dla każdego typu okna czasowego obliczane są podstawowe statystyki, takie jak wartość minimalna, maksymalna, średnia, mediana oraz odchylenie standardowe. Implementacja wykorzystuje biblioteki Kafka Streams oraz dedykowane algorytmy opracowane na potrzeby systemu. Obecnie system oblicza jedynie wartość średnią dla zdefiniowanych okien czasowych.
 
 \subsubsection{Statystyki opisowe i analiza trendów}
 \label{subsubsec:statystyki_opisowe}
@@ -27,12 +27,13 @@ Dla każdego typu okna czasowego obliczane są podstawowe statystyki, takie jak 
 Oprócz podstawowych statystyk, system oblicza bardziej zaawansowane wskaźniki statystyczne, takie jak:
 
 \begin{itemize}
-    \item \textbf{Percentyle} - obliczane dla wartości 25\%, 50\% (mediana), 75\%, 90\%, 95\% i 99\%, co pozwala na dokładniejszą analizę rozkładu danych.
-    \item \textbf{Eksponencjalna średnia ruchoma (EMA)} - przypisująca większe wagi do nowszych obserwacji, co jest szczególnie istotne w analizie danych w czasie rzeczywistym.
-    \item \textbf{Analiza trendów} - wykorzystująca regresję liniową do wykrywania kierunku zmian parametrów w czasie.
+    \item \textbf{Średnia} - podstawowa miara tendencji centralnej.
+    \item \textbf{Percentyle} - obliczane dla wartości 25\%, 50\% (mediana), 75\%, 90\%, 95\% i 99\%, co pozwala na dokładniejszą analizę rozkładu danych (planowane w przyszłości).
+    \item \textbf{Eksponencjalna średnia ruchoma (EMA)} - przypisująca większe wagi do nowszych obserwacji, co jest szczególnie istotne w analizie danych w czasie rzeczywistym (planowane w przyszłości).
+    \item \textbf{Analiza trendów} - wykorzystująca regresję liniową do wykrywania kierunku zmian parametrów w czasie (planowane w przyszłości).
 \end{itemize}
 
-Implementacja statystyk opisowych została zrealizowana przy użyciu algorytmów przybliżonych, które nie wymagają przechowywania wszystkich danych historycznych, co jest kluczowe dla systemów czasu rzeczywistego. Dla percentyli wykorzystano algorytm t-digest, który pozwala na efektywne obliczanie kwantyli dla strumieni danych.
+Implementacja statystyk opisowych została zrealizowana przy użyciu algorytmów przybliżonych, które nie wymagają przechowywania wszystkich danych historycznych, co jest kluczowe dla systemów czasu rzeczywistego. Dla percentyli rozważane jest wykorzystanie algorytmu t-digest, który pozwala na efektywne obliczanie kwantyli dla strumieni danych.
 
 \subsection{Detekcja anomalii}
 \label{subsec:detekcja_anomalii}
@@ -44,14 +45,14 @@ Detekcja anomalii jest kluczowym elementem systemu, umożliwiającym wczesne wyk
 
 \begin{itemize}
     \item \textbf{Z-score} - wykrywanie wartości odstających na podstawie liczby odchyleń standardowych od średniej. W implementacji zastosowano adaptacyjny Z-score, który dynamicznie aktualizuje parametry rozkładu w miarę napływu nowych danych.
-    \item \textbf{Algorytm GESD (Generalized Extreme Studentized Deviate)} - wieloetapowa procedura do wykrywania wielu anomalii w zbiorze danych z rozkładem w przybliżeniu normalnym.
-    \item \textbf{Test IQR (Interquartile Range)} - identyfikacja wartości odstających na podstawie rozstępu międzykwartylowego, szczególnie skuteczna dla danych niesymetrycznych.
+    \item \textbf{Algorytm GESD (Generalized Extreme Studentized Deviate)} - wieloetapowa procedura do wykrywania wielu anomalii w zbiorze danych z rozkładem w przybliżeniu normalnym (planowane w przyszłości).
+    \item \textbf{Test IQR (Interquartile Range)} - identyfikacja wartości odstających na podstawie rozstępu międzykwartylowego, szczególnie skuteczna dla danych niesymetrycznych (planowane w przyszłości).
 \end{itemize}
 
 \subsubsection{Uczenie maszynowe w detekcji anomalii}
 \label{subsubsec:ml_anomalie}
 
-W systemie zaimplementowano również bardziej zaawansowane metody detekcji anomalii oparte na uczeniu maszynowym:
+W systemie rozważane jest zaimplementowanie bardziej zaawansowanych metod detekcji anomalii opartych na uczeniu maszynowym. Planowane jest dodanie następujących algorytmów:
 
 \begin{itemize}
     \item \textbf{Izolacyjne lasy (Isolation Forests)} - metoda bazująca na algorytmach drzew decyzyjnych, która izoluje obserwacje przez rekursywny podział przestrzeni cech. Anomalie wymagają mniej podziałów do izolacji niż normalne punkty danych.
@@ -81,7 +82,7 @@ Predykcja awarii umożliwia proaktywne działania serwisowe, zanim dojdzie do fa
 \begin{itemize}
     \item \textbf{LSTM (Long Short-Term Memory)} - rodzaj rekurencyjnych sieci neuronowych, szczególnie skuteczny w modelowaniu zależności długoterminowych w danych sekwencyjnych. W systemie wykorzystano LSTM do przewidywania przyszłych wartości kluczowych parametrów.
     \item \textbf{GBM (Gradient Boosting Machines)} - ensemble model oparty na drzewach decyzyjnych, zastosowany do przewidywania prawdopodobieństwa awarii na podstawie wielu parametrów.
-    \item \textbf{Random Forest} - algorytm uczenia zespołowego, wykorzystany w systemie do klasyfikacji stanu urządzenia i predykcji potencjalnych awarii.
+    \item \textbf{Random Forest} - algorytm uczenia zespołowego (`RandomForestClassifier` z biblioteki Spark MLlib), wykorzystany w systemie do klasyfikacji stanu urządzenia i predykcji potencjalnych awarii. Szczegółowy opis przygotowania danych oraz procesu uczenia modelu znajduje się w rozdziale \ref{sec:implementacja_generowania}. Model jest trenowany na danych historycznych generowanych przez symulator, a następnie wykorzystywany do predykcji stanu urządzeń na podstawie napływających danych telemetrycznych.
 \end{itemize}
 
 Modele predykcyjne zostały zaimplementowane z wykorzystaniem bibliotek TensorFlow, PyTorch oraz XGBoost, z interfejsami umożliwiającymi integrację z platformą Kafka Streams. System automatycznie monitoruje jakość predykcji i dokonuje retreningu modeli, gdy ich skuteczność spada poniżej ustalonego progu.
