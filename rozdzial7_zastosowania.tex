@@ -1,14 +1,14 @@
 \section{Zastosowania praktyczne}
 \label{sec:zastosowania_praktyczne}
 
-W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego systemu analizy danych w czasie rzeczywistym z
+W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego systemu analizy danych z
 systemów wieloczujnikowych w różnych sektorach przemysłu. Omówiono korzyści ekonomiczne i operacyjne wynikające z wdrożenia systemu
-oraz wyzwania napotkane podczas implementacji w rzeczywistych środowiskach produkcyjnych.
+oraz wyzwania napotkane podczas implementacji w rzeczywistych środowiskach produkcyjnych. Przedstawiony w pracy system można rozszerzyć o dodatkowe funkcje, które pozwolą na zastosowanie go w różnych sektorach przemysłu.
 
 \subsection{Przypadki użycia w przemyśle}
 \label{subsec:przypadki_uzycia}
 
-Opracowany system znalazł zastosowanie w kilku gałęziach przemysłu, gdzie analiza danych w czasie rzeczywistym przynosi wymierne korzyści.
+Opracowany system znalazł zastosowanie w kilku gałęziach przemysłu, gdzie analiza danych strumieniowych przynosi wymierne korzyści.
 
 \subsubsection{Przemysł motoryzacyjny}
 \label{subsubsec:przemysl_motoryzacyjny}
@@ -18,13 +18,11 @@ W fabryce produkującej komponenty automotive system mógłby zostać wdrożony 
 \begin{itemize}
     \item \textbf{Monitorowanie stanu maszyn} - system zbierałby dane z czujników zainstalowanych na kluczowych maszynach (np. prasy hydrauliczne, roboty spawalnicze, systemy transportu bliskiego),
     analizując w czasie rzeczywistym parametry takie jak temperatura, wibracje, ciśnienie i wilgotność, analogicznie do danych generowanych w systemie opisanym w rozdziale \ref{sec:implementacja_generowania}.
-    \item \textbf{Predykcja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{subsec:modele_predykcyjne}), system przewidywałby zmiany stanu technicznego maszyn,
+    \item \textbf{Klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{subsec:modele_predykcyjne}), system przewidywałby zmiany stanu technicznego maszyn,
     umożliwiając zaplanowanie konserwacji predykcyjnej i minimalizację nieplanowanych przestojów.
     \item \textbf{Kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwalałaby na wczesne wykrywanie odchyleń parametrów, które mogłyby prowadzić do defektów
     produktów. System alarmowałby operatorów, gdy parametry procesu zbliżają się do wartości krytycznych.
 \end{itemize}
-
-Implementacja takiego systemu mogłaby przynieść znaczącą redukcję nieplanowanych przestojów linii produkcyjnej oraz zmniejszenie ilości wadliwych produktów.
 
 \subsubsection{Przemysł energetyczny}
 \label{subsubsec:przemysl_energetyczny}
@@ -36,11 +34,9 @@ W elektrowniach, zarówno konwencjonalnych, jak i wykorzystujących odnawialne �
     parametrów pracy urządzeń w celu maksymalizacji ich efektywności i żywotności.
     \item \textbf{Predykcji zapotrzebowania na konserwację} - na podstawie danych historycznych oraz prognoz stanu technicznego komponentów (np. z wykorzystaniem modeli ML), system wspierałby
     planowanie działań konserwacyjnych, minimalizując ryzyko awarii.
-    \item \textbf{Wczesnego wykrywania usterek} - system monitorowałby parametry pracy każdego kluczowego urządzenia, wykrywając nietypowe wzorce i anomalie (np. z wykorzystaniem metody Z-score opisanej w \ref{subsubsec:metody_statystyczne})
+    \item \textbf{Wczesnego wykrywania usterek} - system monitorowałby parametry pracy każdego kluczowego urządzenia, wykrywając nietypowe wzorce i anomalie 
     wskazujące na rozwijające się usterki (np. zużycie łożysk w pompach czy problemy z uszczelnieniami w turbinach).
 \end{itemize}
-
-Wdrożenie systemu mogłoby przyczynić się do wzrostu efektywności produkcji energii oraz redukcji kosztów konserwacji poprzez przejście na model konserwacji predykcyjnej.
 
 \subsubsection{Przemysł spożywczy}
 \label{subsubsec:przemysl_spozywczy}
@@ -48,45 +44,25 @@ Wdrożenie systemu mogłoby przyczynić się do wzrostu efektywności produkcji 
 W zakładzie przetwórstwa spożywczego system mógłby być wykorzystywany do:
 
 \begin{itemize}
-    \item \textbf{Monitorowania krytycznych urządzeń procesowych} - czujniki temperatury, ciśnienia i wibracji na pompach, mieszadłach, systemach transportujących surowce dostarczałyby danych do analizy w czasie rzeczywistym, zapewniając stabilność procesów.
+    \item \textbf{Monitorowania krytycznych urządzeń procesowych} - czujniki temperatury, ciśnienia i wibracji na pompach, mieszadłach, systemach transportujących surowce dostarczałyby danych do analizy, zapewniając stabilność procesów.
     \item \textbf{Kontroli parametrów procesów produkcyjnych} - w procesach takich jak pasteryzacja, fermentacja czy homogenizacja system monitorowałby parametry kluczowe dla jakości i bezpieczeństwa produktów, natychmiast alarmując o odchyleniach.
     \item \textbf{Optymalizacji zużycia mediów} - analiza korelacji między zużyciem energii, wody a parametrami pracy urządzeń (np. pomp, sprężarek w systemach chłodzenia) pozwoliłaby na identyfikację nieefektywności.
 \end{itemize}
 
-Implementacja systemu mogłaby przynieść redukcję strat produktów oraz oszczędności na zużyciu energii.
-
-\subsubsection{Smart City i infrastruktura miejska}
-\label{subsubsec:smart_city}
-
-W kontekście Smart City, opracowany system mógłby zostać wykorzystany jako platforma do analizy danych z różnorodnych czujników miejskich:
-
-\begin{itemize}
-    \item \textbf{Monitorowania jakości powietrza} - sieć czujników rozproszona po całym mieście dostarcza danych o stężeniu PM2.5, PM10, CO2, NOx i innych zanieczyszczeń.
-    \item System analizuje te dane w czasie rzeczywistym, tworząc dynamiczne mapy jakości powietrza i prognozując rozwój sytuacji.
-    \item \textbf{Zarządzania ruchem drogowym} - dane z kamer, czujników natężenia ruchu i sygnalizacji świetlnej są analizowane w celu optymalizacji sterowania ruchem, redukcji korków i emisji spalin.
-    \item \textbf{Monitorowania infrastruktury krytycznej} - czujniki na mostach, wiaduktach, przepompowniach i innych elementach infrastruktury krytycznej dostarczają
-    danych o stanie tych obiektów, umożliwiając wczesne wykrywanie symptomów potencjalnych awarii.
-\end{itemize}
-
-Wykorzystanie systemu do analizy danych sensorycznych w zarządzaniu miejskim mogłoby przyczynić się do poprawy efektywności usług i jakości życia mieszkańców.
-
 \subsection{Korzyści ekonomiczne i operacyjne}
 \label{subsec:korzysci}
 
-Wdrożenie systemu analizy danych w czasie rzeczywistym, takiego jak opisany w niniejszej pracy, może przynieść szereg wymiernych korzyści ekonomicznych i operacyjnych w różnych sektorach przemysłu.
+Wdrożenie systemu analizy danych strumieniowych, takiego jak opisany w niniejszej pracy, może przynieść szereg wymiernych korzyści ekonomicznych i operacyjnych w różnych sektorach przemysłu.
 
 \subsubsection{Korzyści ekonomiczne}
 \label{subsubsec:korzysci_ekonomiczne}
 
 \begin{itemize}
-    \item \textbf{Redukcja kosztów konserwacji} - przejście z modelu konserwacji reaktywnej lub okresowej na model konserwacji predykcyjnej, wspieranej przez analizę danych i modele ML, może zmniejszyć koszty konserwacji poprzez optymalizację harmonogramów i unikanie niepotrzebnych interwencji.
     \item \textbf{Zmniejszenie liczby nieplanowanych przestojów} - wczesne wykrywanie symptomów potencjalnych awarii urządzeń (np. pomp, sprężarek, turbin) pozwala na zaplanowanie działań naprawczych przed wystąpieniem krytycznej usterki, co bezpośrednio przekłada się na zwiększenie dostępności i produktywności maszyn.
-    \item \textbf{Optymalizacja procesów produkcyjnych} - analiza danych w czasie rzeczywistym o parametrach pracy urządzeń i przebiegu procesów może pozwolić na identyfikację nieefektywności i obszarów do optymalizacji, prowadząc do oszczędności surowców i energii.
+    \item \textbf{Optymalizacja procesów produkcyjnych} - analiza danych strumieniowych o parametrach pracy urządzeń i przebiegu procesów może pozwolić na identyfikację nieefektywności i obszarów do optymalizacji, prowadząc do oszczędności surowców i energii.
     \item \textbf{Wydłużenie żywotności urządzeń} - dzięki monitorowaniu stanu technicznego i wczesnemu reagowaniu na nieprawidłowości, możliwe jest zapobieganie poważniejszym uszkodzeniom, co może wydłużyć średni czas życia kluczowych aktywów produkcyjnych.
     \item \textbf{Poprawa jakości produktów} - stabilniejsze i lepiej kontrolowane procesy produkcyjne, wynikające z ciągłego monitoringu, mogą prowadzić do zmniejszenia liczby wadliwych produktów.
 \end{itemize}
-
-Ocena potencjalnego zwrotu z inwestycji (ROI) dla wdrożeń systemów tego typu zależy od skali implementacji, specyfiki branży oraz stopnia integracji z istniejącymi procesami.
 
 \subsubsection{Korzyści operacyjne}
 \label{subsubsec:korzysci_operacyjne}
@@ -95,16 +71,11 @@ Ocena potencjalnego zwrotu z inwestycji (ROI) dla wdrożeń systemów tego typu 
     \item \textbf{Zwiększenie świadomości sytuacyjnej} - system dostarcza szczegółowych informacji o stanie monitorowanych urządzeń i procesów w czasie rzeczywistym, co umożliwia operatorom i kadrze zarządzającej podejmowanie decyzji w oparciu o dane.
     \item \textbf{Wsparcie dla operatorów i personelu utrzymania ruchu} - automatyczne alarmy, diagnostyka i prognozy stanu technicznego odciążają personel, pozwalając skupić się na strategicznych zadaniach.
     \item \textbf{Automatyzacja detekcji problemów} - algorytmy analizy danych mogą automatycznie identyfikować anomalie i odchylenia od normy, które mogłyby zostać przeoczone przez człowieka.
-    \item \textbf{Lepsze zarządzanie zasobami} - predykcje dotyczące zapotrzebowania na konserwację i potencjalnych awarii umożliwiają efektywniejsze planowanie wykorzystania zasobów, takich jak części zamienne i personel techniczny.
     \item \textbf{Wsparcie dla ciągłego doskonalenia} - zgromadzone dane i wyniki analiz stanowią cenną bazę wiedzy dla inicjatyw ciągłego doskonalenia procesów produkcyjnych i strategii utrzymania ruchu.
 \end{itemize}
 
-Dodatkową korzyścią operacyjną może być zwiększenie bezpieczeństwa pracy poprzez wczesne wykrywanie potencjalnie niebezpiecznych warunków pracy maszyn.
-
 \subsection{Analiza ekonomiczna wdrożeń systemów podobnego typu}
 \label{subsec:analiza_ekonomiczna}
-
-Analiza ekonomiczna wdrożenia systemu analizy danych w czasie rzeczywistym, takiego jak prezentowany prototyp, powinna uwzględniać zarówno koszty implementacji, jak i potencjalne korzyści.
 
 \subsubsection{Struktura kosztów wdrożenia}
 \label{subsubsec:struktura_kosztow}
@@ -113,7 +84,7 @@ Typowe koszty wdrożenia systemów tego typu mogą obejmować:
 
 \begin{itemize}
     \item \textbf{Infrastruktura sprzętowa i programowa} - serwery (w przypadku wdrożeń on-premise) lub koszty usług chmurowych (np. dla platformy Kubernetes, baz danych), czujniki, urządzenia brzegowe (edge devices).
-    \item \textbf{Oprogramowanie} - licencje na komercyjne komponenty platformy (jeśli używane), koszty rozwoju lub subskrypcji specjalistycznego oprogramowania analitycznego. W przypadku systemu opartego na otwartym oprogramowaniu (jak wiele komponentów w opisywanym systemie: Kubernetes, Kafka, Spark, Keycloak), koszty licencji mogą być niższe, ale należy uwzględnić koszty konfiguracji i utrzymania.
+    \item \textbf{Oprogramowanie} - licencje na komercyjne komponenty platformy
     \item \textbf{Wdrożenie i konfiguracja} - instalacja infrastruktury, konfiguracja oprogramowania (np. klastra Kubernetes, usług danych), integracja z istniejącymi systemami (np. SCADA, MES, ERP).
     \item \textbf{Rozwój i dostosowanie modeli analitycznych} - tworzenie i trenowanie modeli uczenia maszynowego, implementacja algorytmów detekcji anomalii, dostosowanie do specyficznych typów danych i urządzeń.
     \item \textbf{Szkolenia i wsparcie} - przygotowanie personelu do obsługi i wykorzystania systemu, wsparcie techniczne.
@@ -127,18 +98,14 @@ Potencjalny zwrot z inwestycji w systemy analizy danych przemysłowych jest zale
 \begin{itemize}
     \item \textbf{Skala wdrożenia} - liczba monitorowanych maszyn, punktów pomiarowych i złożoność procesów.
     \item \textbf{Krytyczność monitorowanych aktywów} - im wyższe koszty przestojów lub awarii, tym większe potencjalne oszczędności.
-    \item \textbf{Wartość dodana z predykcji} - dokładność modeli predykcyjnych i zdolność do generowania praktycznych, użytecznych rekomendacji.
     \item \textbf{Koszty operacyjne systemu} - utrzymanie infrastruktury, aktualizacja modeli, zarządzanie platformą.
     \item \textbf{Stopień integracji z procesami biznesowymi} - zdolność organizacji do wykorzystania informacji z systemu do podejmowania decyzji i modyfikacji działań operacyjnych.
     \item \textbf{Istniejący poziom dojrzałości cyfrowej} - firmy z już istniejącą infrastrukturą do zbierania danych mogą osiągnąć ROI szybciej.
 \end{itemize}
 
-Analiza wrażliwości powinna wykazać, które z tych czynników mają największy wpływ na opłacalność wdrożenia w konkretnym przypadku.
 
 \subsection{Wyzwania wdrożeniowe}
 \label{subsec:wyzwania_wdrozeniowe}
-
-Doświadczenia z wdrażania systemów analizy danych w czasie rzeczywistym w środowiskach przemysłowych wskazują na szereg wyzwań.
 
 \subsubsection{Wyzwania techniczne}
 \label{subsubsec:wyzwania_techniczne}
@@ -175,19 +142,5 @@ Dotychczasowe doświadczenia z wdrożeń systemu oraz analiza trendów technolog
     \item \textbf{Edge computing} - przetwarzanie danych bliżej źródła ich powstawania, co zmniejsza opóźnienia i obciążenie sieci, szczególnie istotne dla aplikacji wymagających bardzo szybkiej reakcji.
     \item \textbf{Zaawansowane algorytmy AI/ML} - rozwój i implementacja bardziej zaawansowanych technik, takich jak głębokie uczenie (np. LSTM do analizy szeregów czasowych), systemy uczące się w trybie online, czy bardziej zaawansowane metody detekcji anomalii (np. Isolation Forest, One-Class SVM, autoenkodery, jak wspomniano w rozdziale \ref{subsubsec:ml_anomalie} jako planowane).
     \item \textbf{Digital Twin (Cyfrowy Bliźniak)} - integracja systemu analitycznego z cyfrowymi reprezentacjami fizycznych aktywów i procesów, umożliwiająca symulacje, testowanie scenariuszy "what-if" i optymalizację w środowisku wirtualnym.
-    \item \textbf{Explainable AI (XAI)} - rozwój metod pozwalających na lepsze zrozumienie decyzji podejmowanych przez modele AI/ML, co jest kluczowe dla budowania zaufania i akceptacji tych technologii w przemyśle.
     \item \textbf{Integracja z 5G i rozszerzonym IoT} - wykorzystanie nowych standardów komunikacji do obsługi jeszcze większej liczby rozproszonych czujników i urządzeń mobilnych.
 \end{itemize}
-
-\subsubsection{Nowe obszary zastosowań}
-\label{subsubsec:nowe_obszary}
-
-\begin{itemize}
-    \item \textbf{Rolnictwo precyzyjne} - monitoring parametrów glebowych, pogodowych i stanu upraw w celu optymalizacji nawadniania, nawożenia i ochrony roślin.
-    \item \textbf{Medycyna i opieka zdrowotna} - analiza danych z urządzeń medycznych i wearables w czasie rzeczywistym, umożliwiająca wczesne wykrywanie symptomów chorób i personalizację terapii.
-    \item \textbf{Logistyka i łańcuchy dostaw} - monitoring w czasie rzeczywistym wszystkich elementów łańcucha dostaw, umożliwiający optymalizację tras, redukcję opóźnień i lepsze zarządzanie zapasami.
-    \item \textbf{Autonomiczne pojazdy i drony} - przetwarzanie danych z wielu czujników (kamery, lidar, radar) w czasie rzeczywistym, umożliwiające autonomiczną nawigację i podejmowanie decyzji.
-    \item \textbf{Zarządzanie kryzysowe} - analiza danych z różnych źródeł (czujniki, media społecznościowe, systemy monitoringu) w sytuacjach kryzysowych, wspomagająca koordynację działań służb ratunkowych.
-\end{itemize}
-
-Rozwój tych obszarów zastosowań będzie napędzany zarówno przez postęp technologiczny, jak i rosnącą świadomość korzyści płynących z analityki danych w czasie rzeczywistym wśród decydentów w różnych sektorach gospodarki. 
