@@ -13,56 +13,49 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
 
 \begin{enumerate}
     \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników
-%    \item , w tym:
-%    \begin{itemize}
-%        \item Czujników temperatury
-%        \item Czujników ciśnienia
-%        \item Czujników przepływu
-%        \item Analizatorów składu gazu (H2, N2, NH3, O2, CO2)
-%        \item Czujników drgań i hałasu
-%    \end{itemize}
+   \item , w tym:
+   \begin{itemize}
+       \item Czujników temperatury
+       \item Czujników ciśnienia
+       \item Czujników przepływu
+       \item Czujników drgań
+   \end{itemize}
     
     \item \textbf{Przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
     \begin{itemize}
         \item Filtrację danych
         \item Agregację danych w różnych oknach czasowych
-        \item Wykrywanie anomalii
-        \item Przewidywanie awarii
-        \item Korelację danych z wielu czujników
+        \item Klasyfikację awarii
+        \item Generowanie zdarzeń
     \end{itemize}
     
     \item \textbf{Wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
     \begin{itemize}
-        \item Wykresy liniowe i słupkowe
+        \item Wykresy liniowe
         \item Wskaźniki i mierniki
         \item Alerty i powiadomienia
     \end{itemize}
     
-%    \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
-%    \begin{itemize}
-%        \item Rejestrację i logowanie użytkowników
-%        \item Różne poziomy uprawnień (admin, operator, gość)
-%        \item Kontrolę dostępu do danych
-%    \end{itemize}
+   \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
+   \begin{itemize}
+       \item Logowanie użytkowników
+       \item Różne poziomy uprawnień (admin, operator, gość)
+       \item Rejestrację użytkowników z poziomu panelu administracyjnego
+       \item Kontrolę dostępu do danych
+   \end{itemize}
     
     \item \textbf{Raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
-%    \begin{itemize}
-%        \item Raporty periodyczne (dzienne, tygodniowe, miesięczne)
-%        \item Raporty ad-hoc
-%        \item Eksport danych do różnych formatów (CSV, PDF, Excel)
-%    \end{itemize}
+   \begin{itemize}
+       \item Tworzenie raportów dla dowolnej zakresu czasu
+       \item Edycję raportów
+       \item Wyszukiwanie raportów na podstawie różnych kryteriów
+   \end{itemize}
 \end{enumerate}
 
 \subsubsection{Wymagania niefunkcjonalne}
 \label{subsubsec:wymagania_niefunkcjonalne}
 
 \begin{enumerate}
-%    \item \textbf{Wydajność} - system powinien charakteryzować się:
-%    \begin{itemize}
-%        \item Niskimi opóźnieniami przetwarzania (< 100 ms)
-%        \item Wysoką przepustowością (> 10 000 wiadomości/s)
-%        \item Efektywnym wykorzystaniem zasobów
-%    \end{itemize}
     
     \item \textbf{Skalowalność} - system powinien umożliwiać:
     \begin{itemize}
@@ -105,16 +98,6 @@ Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wst
 W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda.
 Symulatory te generują dane symulujące odczyty z różnych typów czujników.
 
-Główne komponenty tej warstwy to:
-
-%\begin{itemize}
-%    \item \textbf{Symulatory czujników temperatury} - generują dane o temperaturze w różnych punktach instalacji
-%    \item \textbf{Symulatory czujników ciśnienia} - generują dane o ciśnieniu w różnych punktach instalacji
-%    \item \textbf{Symulatory czujników przepływu} - generują dane o przepływie materiałów przez instalację
-%    \item \textbf{Symulatory analizatorów składu gazu} - generują dane o składzie mieszanin gazowych
-%    \item \textbf{Symulatory czujników drgań i hałasu} - generują dane o drganiach i hałasie generowanym przez urządzenia
-%\end{itemize}
-
 Dane generowane przez symulatory są formatowane jako wiadomości JSON i publikowane na tematy SNS, a następnie przenoszone do kolejek SQS,
 które stanowią interfejs między AWS a klastrem Kubernetes.
 
@@ -127,21 +110,12 @@ W projektowanym systemie, warstwa ta opiera się na Apache Kafka, rozproszonej p
 
 Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście przetwarzania danych w czasie rzeczywistym z wielu czujników.
 
-\subsubsection{Warstwa przetwarzania (Kafka Streams)}
+\subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na Kafka Streams, bibliotece przetwarzania
-strumieniowego zintegrowanej z Apache Kafka.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
 
-%Główne komponenty tej warstwy to:
-
-%\begin{itemize}
-%    \item \textbf{Kafka Data Processor} - mikroserwis, który przetwarza dane z tematów Kafka, wykorzystując Kafka Streams
-%    \item \textbf{Processor API} - interfejs programistyczny Kafka Streams, umożliwiający implementację niestandardowych procesorów
-%    \item \textbf{Algorytmy analizy danych} - implementacje algorytmów do analizy danych, takich jak detekcja anomalii czy przewidywanie awarii
-%\end{itemize}
-%
-%Kafka Streams umożliwia przetwarzanie danych w czasie rzeczywistym, z minimalnymi opóźnieniami i gwarancjami przetwarzania "dokładnie raz", co jest kluczowe w kontekście analizy danych z systemów wieloczujnikowych.
+Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę danych opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \subsubsection{Warstwa składowania danych}
 \label{subsubsec:warstwa_skladowania}
@@ -152,8 +126,6 @@ Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do
     \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak odczyty czujników, metadane czy informacje o użytkownikach
     \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów
 \end{itemize}
-
-%Dane są zapisywane do baz danych przez mikroserwis Kafka-DB-Forwarder, który konsumuje przetworzone dane z tematów Kafka i przekształca je do odpowiedniego formatu.
 
 \subsubsection{Warstwa usług i API}
 \label{subsubsec:warstwa_uslug}
@@ -211,58 +183,39 @@ Dane te są serializowane przy użyciu Apache Avro, co zapewnia efektywne kodowa
 \subsubsection{Przetworzone dane}
 \label{subsubsec:przetworzone_dane}
 
-Przetworzone dane są wynikiem analizy danych surowych i zgodnie z modelem danych przedstawionym na Rysunku \ref{Model danych systemu} obejmują:
+Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{SparkDataProcessor} i obejmują:
 
 \begin{itemize}
-    \item \textbf{Agregacje (Aggregations)} - statystyki obliczane w różnych oknach czasowych na podstawie danych surowych:
+    \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
     \begin{itemize}
-        \item \textit{measurement\_id} - unikalny identyfikator pomiaru
-        \item \textit{sensor\_id} - identyfikator czujnika, którego dotyczą agregacje
-        \item \textit{timestamp} - znacznik czasu agregacji
-        \item \textit{window\_size} - rozmiar okna czasowego (np. 1 minuta, 5 minut, 1 godzina)
-        \item \textit{avg\_value} - średnia wartość w oknie czasowym
-        \item \textit{min\_value} - minimalna wartość w oknie czasowym
-        \item \textit{max\_value} - maksymalna wartość w oknie czasowym
-        \item \textit{std\_dev} - odchylenie standardowe wartości w oknie czasowym
+        \item \textit{sensor_type} - typ sensora (np. "pressure", "temperature")
+        \item \textit{label} - etykieta urządzenia (np. "pump", "compressor")
+        \item \textit{window_start} - początek okna czasowego
+        \item \textit{window_end} - koniec okna czasowego
+        \item \textit{avg_value} - średnia wartość pomiarów w oknie
+        \item \textit{count} - liczba pomiarów w oknie
     \end{itemize}
     
-    \item \textbf{Anomalie (Anomalies)} - wykryte odstępstwa od normalnego zachowania czujników:
+    \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
-        \item \textit{anomaly\_id} - unikalny identyfikator anomalii
-        \item \textit{sensor\_id} - identyfikator czujnika, na którym wykryto anomalię
-        \item \textit{timestamp} - czas wykrycia anomalii
-        \item \textit{type} - typ anomalii (np. spike, drift, stuck value)
-        \item \textit{severity} - poziom ważności (niski, średni, wysoki, krytyczny)
-        \item \textit{description} - tekstowy opis anomalii
-        \item \textit{actual\_value} - rzeczywista wartość, która spowodowała anomalię
-        \item \textit{expected\_value} - oczekiwana wartość na podstawie modelu
+        \item \textit{event_id} - unikalny identyfikator zdarzenia
+        \item \textit{sensor_type} - typ sensora, którego dotyczy zdarzenie
+        \item \textit{label} - etykieta urządzenia
+        \item \textit{timestamp} - czas wykrycia zdarzenia
+        \item \textit{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia")
+        \item \textit{status} - status alertu (np. "Ostrzeżenie", "Krytyczny")
+        \item \textit{actual_value} - rzeczywista wartość, która spowodowała zdarzenie
     \end{itemize}
     
-    \item \textbf{Predykcje (Predictions)} - przewidywane wartości parametrów lub prawdopodobieństwa awarii:
+    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
     \begin{itemize}
-        \item \textit{prediction\_id} - unikalny identyfikator predykcji
-        \item \textit{sensor\_id} - identyfikator czujnika, którego dotyczy predykcja
-        \item \textit{timestamp} - czas utworzenia predykcji
-        \item \textit{prediction\_horizon} - horyzont czasowy predykcji (np. 1 minuta, 1 godzina, 1 dzień)
-        \item \textit{predicted\_value} - przewidywana wartość
-        \item \textit{confidence} - poziom pewności predykcji (0-100%)
-        \item \textit{model\_type} - typ modelu użytego do predykcji
-    \end{itemize}
-    
-    \item \textbf{Korelacje (Correlations)} - zidentyfikowane zależności między różnymi parametrami:
-    \begin{itemize}
-        \item \textit{correlation\_id} - unikalny identyfikator korelacji
-        \item \textit{source\_sensor\_id} - identyfikator pierwszego czujnika
-        \item \textit{target\_sensor\_id} - identyfikator drugiego czujnika
-        \item \textit{timestamp} - czas obliczenia korelacji
-        \item \textit{window\_size} - rozmiar okna czasowego użytego do obliczenia korelacji
-        \item \textit{correlation\_coefficient} - współczynnik korelacji (-1 do 1)
-        \item \textit{time\_lag} - opóźnienie czasowe między sygnałami
-        \item \textit{significance} - istotność statystyczna korelacji
+        \item \textit{original_sensor_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.)
+        \item \textit{predicted_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa")
+        \item \textit{model_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier})
     \end{itemize}
 \end{itemize}
 
-Wszystkie te dane są przechowywane w bazie danych PostgreSQL, w tabelach odpowiadających poszczególnym typom danych. Relacje między tabelami są zdefiniowane przez klucze obce, co umożliwia efektywne wykonywanie złożonych zapytań analitycznych.
+Wszystkie te dane są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane dane (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak PostgreSQL lub Elasticsearch przez dedykowane serwisy (np. \texttt{Kafka-DB-Forwarder}).
 
 \subsection{Przepływ danych w systemie}
 \label{subsec:przeplyw_danych}
@@ -291,22 +244,22 @@ W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis Kafka-Data-Processor, który wykorzystuje Kafka Streams do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje Apache Spark (Spark Structured Streaming) do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
-    \item \textbf{Filtrację} - usuwanie nieprawidłowych lub niekompletnych danych
-    \item \textbf{Transformację} - przekształcanie danych do odpowiedniego formatu
-    \item \textbf{Agregację} - obliczanie statystyk w różnych oknach czasowych
-    \item \textbf{Analizę} - wykrywanie anomalii, przewidywanie awarii, korelację danych
+    \item \textbf{Obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}).
+    \item \textbf{Wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \texttt{EventProcessor}).
+    \item \textbf{Predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych danych z wielu sensorów, przy użyciu modelu \texttt{RandomForestClassifier} (moduł \texttt{EquipmentStateProcessor}).
+    \item \textbf{Wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
-Wyniki przetwarzania są publikowane na nowe tematy Kafka, które zawierają przetworzone dane.
+Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane tematy Kafka.
 
 \subsubsection{Zapisywanie danych do bazy danych}
 \label{subsubsec:zapisywanie_danych}
 
 Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, który zapisuje je do baz danych. Dane strukturalne, takie jak odczyty czujników,
-agregacje i metadane, są zapisywane do bazy danych PostgreSQL, natomiast dane semi-strukturalne, takie jak logi i zdarzenia, są zapisywane do Elasticsearch.
+agregacje i metadane, są zapisywane do bazy danych PostgreSQL.
 
 Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportowanie i wizualizację, a także zapewnia trwałość danych.
 
