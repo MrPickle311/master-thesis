@@ -13,8 +13,9 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów przetwarzających dane.
-    \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych.
+    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}).
+    \item \textbf{Scala} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą Apache Spark.
+    \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu ML).
     \item \textbf{TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
 
@@ -22,8 +23,8 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:frameworki}
 
 \begin{itemize}
-    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów.
-    \item \textbf{Kafka Streams 3.4} - biblioteka wykorzystana do przetwarzania strumieniowego.
+    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów Java.
+    \item \textbf{Apache Spark 3.x} - framework wykorzystany do przetwarzania strumieniowego danych (Spark Structured Streaming) oraz do zadań uczenia maszynowego (Spark ML) w aplikacji \texttt{SparkDataProcessor}.
     \item \textbf{Spring Cloud} - zestaw narzędzi do budowy aplikacji chmurowych.
     \item \textbf{React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
 \end{itemize}
