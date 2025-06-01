@@ -18,9 +18,9 @@ strumieni danych (ang. stream processing) z minimalnymi opóźnieniami.
 W literaturze wyróżnia się trzy główne modele przetwarzania danych \citep{data_processing_models}:
 
 \begin{itemize}
-    \item \textbf{Przetwarzanie wsadowe (ang. batch processing)} - dane są gromadzone w pakiety i przetwarzane periodycznie, np. raz dziennie lub raz na tydzień. Model ten charakteryzuje się wysoką przepustowością, ale dużymi opóźnieniami.
-    \item \textbf{Przetwarzanie mikrowsadowe (ang. micro-batch processing)} - dane są przetwarzane w małych pakietach, z częstotliwością rzędu sekund lub minut. Jest to kompromis między przetwarzaniem wsadowym a strumieniowym.
-    \item \textbf{Przetwarzanie strumieniowe (ang. stream processing)} - dane są przetwarzane natychmiast po ich wygenerowaniu, indywidualnie lub w bardzo małych grupach. Model ten charakteryzuje się niskimi opóźnieniami, ale często niższą przepustowością.
+    \item \textbf{przetwarzanie wsadowe (ang. batch processing)} - dane są gromadzone w pakiety i przetwarzane periodycznie, np. raz dziennie lub raz na tydzień. Model ten charakteryzuje się wysoką przepustowością, ale dużymi opóźnieniami,
+    \item \textbf{przetwarzanie mikrowsadowe (ang. micro-batch processing)} - dane są przetwarzane w małych pakietach, z częstotliwością rzędu sekund lub minut. Jest to kompromis między przetwarzaniem wsadowym a strumieniowym,
+    \item \textbf{przetwarzanie strumieniowe (ang. stream processing)} - dane są przetwarzane natychmiast po ich wygenerowaniu, indywidualnie lub w bardzo małych grupach. Model ten charakteryzuje się niskimi opóźnieniami, ale często niższą przepustowością.
 \end{itemize}
 
 W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne jest przetwarzanie strumieniowe, które umożliwia szybką reakcję na zmieniające się warunki procesu produkcyjnego.
@@ -31,21 +31,21 @@ W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne
 Analiza danych w czasie rzeczywistym, choć oferuje wiele korzyści, stawia przed projektantami systemów szereg istotnych wyzwań technicznych. Według \cite{geeksforgeeks_realtime}, kluczowe wyzwania obejmują:
 
 \begin{itemize}
-    \item \textbf{Duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego muszą obsługiwać ogromne ilości danych napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania danych z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami.
+    \item \textbf{duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego muszą obsługiwać ogromne ilości danych napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania danych z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami,
     
-    \item \textbf{Wymóg niskich opóźnień} - aplikacje czasu rzeczywistego wymagają niemal natychmiastowego przetwarzania danych i generowania odpowiedzi. Opóźnienia mogą prowadzić do nieaktualnych wyników i nieprawidłowych decyzji. Kluczowe jest zastosowanie przetwarzania w pamięci, optymalizacji zapytań i minimalizacji operacji wejścia/wyjścia.
+    \item \textbf{wymóg niskich opóźnień} - aplikacje czasu rzeczywistego wymagają niemal natychmiastowego przetwarzania danych i generowania odpowiedzi. Opóźnienia mogą prowadzić do nieaktualnych wyników i nieprawidłowych decyzji. Kluczowe jest zastosowanie przetwarzania w pamięci, optymalizacji zapytań i minimalizacji operacji wejścia/wyjścia,
     
-    \item \textbf{Spójność i dokładność danych} - utrzymanie spójności danych podczas ich przetwarzania jest krytyczne dla poprawności analizy. Systemy muszą zapewnić dokładną semantykę przetwarzania (exactly-once processing) i obsługę nieporządku czasowego w danych.
+    \item \textbf{spójność i dokładność danych} - utrzymanie spójności danych podczas ich przetwarzania jest krytyczne dla poprawności analizy. Systemy muszą zapewnić dokładną semantykę przetwarzania (exactly-once processing) i obsługę nieporządku czasowego w danych,
     
-    \item \textbf{Odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego muszą działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia.
+    \item \textbf{odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego muszą działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia,
     
-    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (Complex Event Processing) zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
+    \item \textbf{przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (Complex Event Processing) zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym,
     
-    \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania muszą współpracować z istniejącą infrastrukturą IT. Wymaga to wykorzystania standardowych interfejsów, brokerów wiadomości i metod transformacji danych.
+    \item \textbf{integracja z istniejącymi systemami} - nowe rozwiązania muszą współpracować z istniejącą infrastrukturą IT. Wymaga to wykorzystania standardowych interfejsów, brokerów wiadomości i metod transformacji danych,
     
-    \item \textbf{Skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów.
+    \item \textbf{skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów,
     
-    \item \textbf{Bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy muszą implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony danych.
+    \item \textbf{bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy muszą implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony danych.
 \end{itemize}
 
 Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury systemu, doboru odpowiednich technologii oraz uwzględnienia specyficznych wymagań aplikacji \cite{geeksforgeeks_realtime}. W kolejnych rozdziałach omówione zostaną narzędzia i techniki, które pozwalają sprostać tym wyzwaniom.
@@ -63,12 +63,12 @@ dostarczyć cennych informacji na temat stanu procesu.
 W przemyśle chemicznym, w tym w procesie syntezy amoniaku, wykorzystuje się różne rodzaje czujników:
 
 \begin{itemize}
-    \item \textbf{Czujniki temperatury} - monitorują temperaturę w różnych punktach instalacji
-    \item \textbf{Czujniki ciśnienia} - mierzą ciśnienie gazu lub cieczy w instalacji
-    \item \textbf{Czujniki przepływu} - monitorują przepływ materiałów przez instalację
-    \item \textbf{Czujniki składu gazu} - analizują skład mieszanin gazowych, np. zawartość wodoru, azotu, amoniaku, tlenu czy dwutlenku węgla
-    \item \textbf{Czujniki drgań i hałasu} - monitorują drgania i hałas generowane przez urządzenia, co może wskazywać na potencjalne problemy
-    \item i inne
+    \item \textbf{czujniki temperatury} - monitorują temperaturę w różnych punktach instalacji,
+    \item \textbf{czujniki ciśnienia} - mierzą ciśnienie gazu lub cieczy w instalacji,
+    \item \textbf{czujniki przepływu} - monitorują przepływ materiałów przez instalację,
+    \item \textbf{czujniki składu gazu} - analizują skład mieszanin gazowych, np. zawartość wodoru, azotu, amoniaku, tlenu czy dwutlenku węgla,
+    \item \textbf{czujniki drgań i hałasu} - monitorują drgania i hałas generowane przez urządzenia, co może wskazywać na potencjalne problemy,
+    \item i inne.
 \end{itemize}
 
 \subsubsection{Architektura systemów wieloczujnikowych}
@@ -77,9 +77,9 @@ W przemyśle chemicznym, w tym w procesie syntezy amoniaku, wykorzystuje się r�
 Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwowej:
 
 \begin{itemize}
-    \item \textbf{Warstwa czujników} - obejmuje czujniki fizyczne wraz z konwerterami analogowo-cyfrowymi
-    \item \textbf{Warstwa komunikacji} - odpowiada za przesyłanie danych z czujników do warstwy przetwarzania
-    \item \textbf{Warstwa przetwarzania} - przetwarza dane z czujników i udostępnia je użytkownikom lub innym systemom
+    \item \textbf{warstwa czujników} - obejmuje czujniki fizyczne wraz z konwerterami analogowo-cyfrowymi,
+    \item \textbf{warstwa komunikacji} - odpowiada za przesyłanie danych z czujników do warstwy przetwarzania,
+    \item \textbf{warstwa przetwarzania} - przetwarza dane z czujników i udostępnia je użytkownikom lub innym systemom.
 \end{itemize}
 
 W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie IoT, takie jak MQTT, AMQP czy OPC UA,
@@ -99,11 +99,11 @@ Każdy mikroserwis realizuje określoną funkcjonalność biznesową i może by�
 Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do analizy danych w czasie rzeczywistym \citep{microservice_benefits}:
 
 \begin{itemize}
-    \item \textbf{Skalowalność} - możliwość niezależnego skalowania poszczególnych usług w zależności od obciążenia
-    \item \textbf{Odporność na awarie} - awaria jednego mikroserwisu nie powoduje awarii całego systemu
-    \item \textbf{Elastyczność technologiczna} - możliwość wykorzystania różnych technologii i języków programowania w różnych mikroserwisach
-    \item \textbf{Szybsze wdrażanie} - możliwość niezależnego wdrażania poszczególnych mikroserwisów
-    \item \textbf{Łatwiejsze zarządzanie kodem} - mniejsze, bardziej zrozumiałe bazy kodu dla poszczególnych usług
+    \item \textbf{skalowalność} - możliwość niezależnego skalowania poszczególnych usług w zależności od obciążenia,
+    \item \textbf{odporność na awarie} - awaria jednego mikroserwisu nie powoduje awarii całego systemu,
+    \item \textbf{elastyczność technologiczna} - możliwość wykorzystania różnych technologii i języków programowania w różnych mikroserwisach,
+    \item \textbf{szybsze wdrażanie} - możliwość niezależnego wdrażania poszczególnych mikroserwisów,
+    \item \textbf{łatwiejsze zarządzanie kodem} - mniejsze, bardziej zrozumiałe bazy kodu dla poszczególnych usług.
 \end{itemize}
 
 \subsubsection{Wyzwania architektury mikroserwisowej}
@@ -112,10 +112,10 @@ Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do anal
 Architektura mikroserwisowa stawia również pewne wyzwania \citep{microservice_challenges}:
 
 \begin{itemize}
-    \item \textbf{Złożoność operacyjna} - zarządzanie wieloma niezależnymi usługami może być skomplikowane
-    \item \textbf{Spójność danych} - trudności w utrzymaniu spójności danych między różnymi mikroserwisami
-    \item \textbf{Koszty komunikacji sieciowej} - komunikacja między mikroserwisami wprowadza dodatkowe opóźnienia
-    \item \textbf{Testowanie end-to-end} - trudności w testowaniu całego systemu złożonego z wielu niezależnych usług
+    \item \textbf{złożoność operacyjna} - zarządzanie wieloma niezależnymi usługami może być skomplikowane,
+    \item \textbf{spójność danych} - trudności w utrzymaniu spójności danych między różnymi mikroserwisami,
+    \item \textbf{koszty komunikacji sieciowej} - komunikacja między mikroserwisami wprowadza dodatkowe opóźnienia,
+    \item \textbf{testowanie end-to-end} - trudności w testowaniu całego systemu złożonego z wielu niezależnych usług.
 \end{itemize}
 
 \subsection{Kubernetes jako platforma orkiestracji kontenerów}
@@ -130,12 +130,12 @@ kontenerowymi \citep{kubernetes}. Powstała jako projekt Google, obecnie rozwija
 Kubernetes operuje na kilku kluczowych koncepcjach \citep{kubernetes_concepts}:
 
 \begin{itemize}
-    \item \textbf{Pod} - najmniejsza jednostka wdrożeniowa w Kubernetes, składająca się z jednego lub więcej kontenerów
-    \item \textbf{Deployment} - określa pożądany stan podów, umożliwiając ich skalowanie i aktualizacje
-    \item \textbf{Service} - abstrakcja, która definiuje logiczny zestaw podów i politykę dostępu do nich
-    \item \textbf{Ingress} - zarządza zewnętrznym dostępem do usług w klastrze
-    \item \textbf{ConfigMap} i \textbf{Secret} - mechanizmy do przechowywania konfiguracji i tajnych danych
-    \item \textbf{Namespace} - mechanizm do izolacji zasobów w klastrze
+    \item \textbf{pod} - najmniejsza jednostka wdrożeniowa w Kubernetes, składająca się z jednego lub więcej kontenerów,
+    \item \textbf{deployment} - określa pożądany stan podów, umożliwiając ich skalowanie i aktualizacje,
+    \item \textbf{service} - abstrakcja, która definiuje logiczny zestaw podów i politykę dostępu do nich,
+    \item \textbf{ingress} - zarządza zewnętrznym dostępem do usług w klastrze,
+    \item \textbf{configMap} i \textbf{Secret} - mechanizmy do przechowywania konfiguracji i tajnych danych,
+    \item \textbf{namespace} - mechanizm do izolacji zasobów w klastrze.
 \end{itemize}
 
 \subsubsection{Zalety Kubernetes w kontekście analizy danych w czasie rzeczywistym}
@@ -144,11 +144,11 @@ Kubernetes operuje na kilku kluczowych koncepcjach \citep{kubernetes_concepts}:
 Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \citep{kubernetes_benefits}:
 
 \begin{itemize}
-    \item \textbf{Automatyczne skalowanie} - możliwość automatycznego dostosowywania liczby replik usług w zależności od obciążenia
-    \item \textbf{Samonaprawianie} - automatyczne ponowne uruchamianie podów doznających awarii
-    \item \textbf{Równoważenie obciążenia} - równomierne rozłożenie ruchu między replikami usług
-    \item \textbf{Aktualizacje bez przestojów} - możliwość aktualizacji usług bez przerywania ich działania
-    \item \textbf{Deklaratywna konfiguracja} - definiowanie pożądanego stanu systemu, a nie kroków do jego osiągnięcia
+    \item \textbf{automatyczne skalowanie} - możliwość automatycznego dostosowywania liczby replik usług w zależności od obciążenia,
+    \item \textbf{samonaprawianie} - automatyczne ponowne uruchamianie podów doznających awarii,
+    \item \textbf{równoważenie obciążenia} - równomierne rozłożenie ruchu między replikami usług,
+    \item \textbf{aktualizacje bez przestojów} - możliwość aktualizacji usług bez przerywania ich działania,
+    \item \textbf{deklaratywna konfiguracja} - definiowanie pożądanego stanu systemu, a nie kroków do jego osiągnięcia.
 \end{itemize}
 
 \subsection{Narzędzia Big Data do przetwarzania strumieniowego}
@@ -164,11 +164,11 @@ Apache Kafka to rozproszona platforma do przetwarzania strumieniowego, opracowan
 Apache Software Foundation \citep{kafka}. Kafka oferuje następujące funkcjonalności:
 
 \begin{itemize}
-    \item \textbf{Wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę
-    \item \textbf{Trwałość danych} - dane są przechowywane na dysku i replikowane między brokerami
-    \item \textbf{Skalowalność} - łatwe skalowanie poziome przez dodawanie nowych brokerów
-    \item \textbf{Mechanizm partycjonowania} - umożliwia równoległe przetwarzanie danych
-    \item \textbf{Gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz
+    \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
+    \item \textbf{trwałość danych} - dane są przechowywane na dysku i replikowane między brokerami,
+    \item \textbf{skalowalność} - łatwe skalowanie poziome przez dodawanie nowych brokerów,
+    \item \textbf{mechanizm partycjonowania} - umożliwia równoległe przetwarzanie danych,
+    \item \textbf{gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz.
 \end{itemize}
 
 \subsubsection{Kafka Streams}
@@ -177,11 +177,11 @@ Apache Software Foundation \citep{kafka}. Kafka oferuje następujące funkcjonal
 Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \citep{kafka_streams}. Oferuje następujące funkcjonalności:
 
 \begin{itemize}
-    \item \textbf{Przetwarzanie rekord po rekordzie} - minimalne opóźnienia przetwarzania
-    \item \textbf{Operacje stanowe i bezstanowe} - możliwość agregacji danych w czasie
-    \item \textbf{Okna czasowe} - przetwarzanie danych w zdefiniowanych oknach czasowych
-    \item \textbf{Łączenie strumieni} - możliwość łączenia danych z różnych strumieni
-    \item \textbf{Dokładnie raz} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych
+    \item \textbf{przetwarzanie rekord po rekordzie} - minimalne opóźnienia przetwarzania,
+    \item \textbf{operacje stanowe i bezstanowe} - możliwość agregacji danych w czasie,
+    \item \textbf{okna czasowe} - przetwarzanie danych w zdefiniowanych oknach czasowych,
+    \item \textbf{łączenie strumieni} - możliwość łączenia danych z różnych strumieni,
+    \item \textbf{dokładnie raz} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych.
 \end{itemize}
 
 \subsubsection{Apache Flink}
@@ -191,11 +191,11 @@ Apache Flink to framework przetwarzania strumieniowego, oferujący funkcjonalno�
 ale jako oddzielna platforma \citep{flink}. Flink charakteryzuje się:
 
 \begin{itemize}
-    \item \textbf{Niskimi opóźnieniami} - przetwarzanie rekord po rekordzie z minimalnymi opóźnieniami
-    \item \textbf{Wysoką przepustowością} - efektywne przetwarzanie dużych wolumenów danych
-    \item \textbf{Dokładnie raz} - gwarancje przetwarzania dokładnie raz
-    \item \textbf{Zaawansowanym zarządzaniem stanem} - efektywne przechowywanie i dostęp do stanu przetwarzania
-    \item \textbf{Obsługą czasu zdarzeń} - możliwość przetwarzania danych na podstawie czasu, w którym zdarzenia zostały wygenerowane
+    \item \textbf{niskimi opóźnieniami} - przetwarzanie rekord po rekordzie z minimalnymi opóźnieniami,
+    \item \textbf{wysoką przepustowością} - efektywne przetwarzanie dużych wolumenów danych,
+    \item \textbf{dokładnie raz} - gwarancje przetwarzania dokładnie raz,
+    \item \textbf{zaawansowanym zarządzaniem stanem} - efektywne przechowywanie i dostęp do stanu przetwarzania,
+    \item \textbf{obsługą czasu zdarzeń} - możliwość przetwarzania danych na podstawie czasu, w którym zdarzenia zostały wygenerowane.
 \end{itemize}
 
 \subsubsection{Apache Spark Streaming}
@@ -205,10 +205,10 @@ Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache S
 Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. Spark Streaming oferuje:
 
 \begin{itemize}
-    \item \textbf{Integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego. Ekosystem ten obejmuje m.in. Spark SQL do przetwarzania danych strukturalnych oraz Spark ML (Machine Learning Library) do implementacji algorytmów uczenia maszynowego
-    \item \textbf{Wysoką przepustowość} - efektywne przetwarzanie dużych wolumenów danych
-    \item \textbf{Odporność na awarie} - automatyczne odtwarzanie stanu po awarii
-    \item \textbf{Łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów
+    \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego. Ekosystem ten obejmuje m.in. Spark SQL do przetwarzania danych strukturalnych oraz Spark ML (Machine Learning Library) do implementacji algorytmów uczenia maszynowego,
+    \item \textbf{wysoką przepustowość} - efektywne przetwarzanie dużych wolumenów danych,
+    \item \textbf{odporność na awarie} - automatyczne odtwarzanie stanu po awarii,
+    \item \textbf{łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów.
 \end{itemize}
 
 \subsubsection{Apache Avro i Confluent Schema Registry}
@@ -232,10 +232,10 @@ Systemy SCADA (Supervisory Control and Data Acquisition) to tradycyjne rozwiąza
 Mimo popularności, systemy te mają pewne ograniczenia w kontekście analizy danych w czasie rzeczywistym:
 
 \begin{itemize}
-    \item \textbf{Ograniczona skalowalność} - trudności w obsłudze dużej liczby czujników i strumieni danych
-    \item \textbf{Monolityczna architektura} - utrudnia elastyczne rozwijanie i modyfikowanie systemu
-    \item \textbf{Ograniczone możliwości analityczne} - często koncentrują się na wizualizacji danych, a nie ich głębokiej analizie
-    \item \textbf{Wysokie koszty licencji} - komercyjne systemy SCADA często wiążą się z wysokimi kosztami licencji
+    \item \textbf{ograniczona skalowalność} - trudności w obsłudze dużej liczby czujników i strumieni danych,
+    \item \textbf{monolityczna architektura} - utrudnia elastyczne rozwijanie i modyfikowanie systemu,
+    \item \textbf{ograniczone możliwości analityczne} - często koncentrują się na wizualizacji danych, a nie ich głębokiej analizie,
+    \item \textbf{wysokie koszty licencji} - komercyjne systemy SCADA często wiążą się z wysokimi kosztami licencji.
 \end{itemize}
 
 \subsubsection{Platformy IoT w chmurze}
@@ -245,10 +245,10 @@ Platformy IoT w chmurze, takie jak AWS IoT, Azure IoT Hub czy Google Cloud IoT C
 urządzeń IoT \citep{cloud_iot}. Mimo to, mają pewne ograniczenia:
 
 \begin{itemize}
-    \item \textbf{Zależność od dostawcy chmury} - trudności w migracji między różnymi dostawcami
-    \item \textbf{Koszty transferu danych} - wysokie koszty przy dużym wolumenie danych
-    \item \textbf{Opóźnienia sieciowe} - potencjalne opóźnienia związane z przesyłaniem danych do chmury
-    \item \textbf{Ograniczone możliwości dostosowania} - platformy chmurowe oferują określony zestaw usług, które mogą nie spełniać wszystkich wymagań
+    \item \textbf{zależność od dostawcy chmury} - trudności w migracji między różnymi dostawcami,
+    \item \textbf{koszty transferu danych} - wysokie koszty przy dużym wolumenie danych,
+    \item \textbf{opóźnienia sieciowe} - potencjalne opóźnienia związane z przesyłaniem danych do chmury,
+    \item \textbf{ograniczone możliwości dostosowania} - platformy chmurowe oferują określony zestaw usług, które mogą nie spełniać wszystkich wymagań.
 \end{itemize}
 
 \subsubsection{Open source rozwiązania do analizy danych w czasie rzeczywistym}
@@ -258,9 +258,9 @@ Istnieje szereg open source rozwiązań do analizy danych w czasie rzeczywistym,
 Apache Druid czy InfluxDB . Mimo ich zalet, mają również pewne ograniczenia:
 
 \begin{itemize}
-    \item \textbf{Złożoność wdrożenia} - konfiguracja i wdrożenie mogą być skomplikowane
-    \item \textbf{Ograniczone wsparcie} - wsparcie techniczne może być ograniczone w porównaniu do rozwiązań komercyjnych
-    \item \textbf{Konieczność integracji wielu narzędzi} - często wymagają integracji wielu narzędzi, co zwiększa złożoność systemu
+    \item \textbf{złożoność wdrożenia} - konfiguracja i wdrożenie mogą być skomplikowane,
+    \item \textbf{ograniczone wsparcie} - wsparcie techniczne może być ograniczone w porównaniu do rozwiązań komercyjnych,
+    \item \textbf{konieczność integracji wielu narzędzi} - często wymagają integracji wielu narzędzi, co zwiększa złożoność systemu.
 \end{itemize}
 
 Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia,

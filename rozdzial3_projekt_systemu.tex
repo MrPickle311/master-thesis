@@ -12,7 +12,7 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
 \label{subsubsec:wymagania_funkcjonalne}
 
 \begin{itemize}
-    \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników
+    \item \textbf{pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników, w tym:
    \begin{itemize}
        \item czujników temperatury,
        \item czujników ciśnienia,
@@ -20,7 +20,7 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
        \item czujników drgań.
    \end{itemize}
     
-    \item \textbf{Przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
+    \item \textbf{przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
     \begin{itemize}
         \item filtrację danych,
         \item agregację danych w różnych oknach czasowych,
@@ -28,14 +28,14 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
         \item generowanie zdarzeń.
     \end{itemize}
     
-    \item \textbf{Wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
+    \item \textbf{wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
     \begin{itemize}
         \item wykresy liniowe,
         \item wskaźniki i mierniki,
         \item alerty i powiadomienia.
     \end{itemize}
     
-   \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
+   \item \textbf{zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
    \begin{itemize}
        \item logowanie użytkowników,
        \item różne poziomy uprawnień (admin, operator, gość),
@@ -43,7 +43,7 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
        \item kontrolę dostępu do danych.
    \end{itemize}
     
-    \item \textbf{Raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
+    \item \textbf{raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
    \begin{itemize}
        \item tworzenie raportów dla dowolnej zakresu czasu,
        \item edycję raportów,
@@ -56,25 +56,25 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
 
 \begin{itemize}
     
-    \item \textbf{Skalowalność} - system powinien umożliwiać:
+    \item \textbf{skalowalność} - system powinien umożliwiać:
     \begin{itemize}
         \item skalowanie horyzontalne (dodawanie nowych węzłów),
         \item automatyczne skalowanie w zależności od obciążenia.
     \end{itemize}
     
-    \item \textbf{Niezawodność} - system powinien charakteryzować się:
+    \item \textbf{niezawodność} - system powinien charakteryzować się:
     \begin{itemize}
         \item odpornością na awarie pojedynczych komponentów.
     \end{itemize}
     
-    \item \textbf{Bezpieczeństwo} - system powinien zapewniać:
+    \item \textbf{bezpieczeństwo} - system powinien zapewniać:
     \begin{itemize}
         \item szyfrowanie danych w spoczynku i w transporcie,
         \item uwierzytelnianie i autoryzację użytkowników,
         \item audytowanie dostępu do danych.
     \end{itemize}
     
-    \item \textbf{Utrzymywalność} - system powinien charakteryzować się:
+    \item \textbf{utrzymywalność} - system powinien charakteryzować się:
     \begin{itemize}
         \item modułową architekturą,
         \item dobrą dokumentacją,
@@ -122,8 +122,8 @@ Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaa
 Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie, warstwa ta składa się z dwóch głównych komponentów:
 
 \begin{itemize}
-    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak odczyty czujników, metadane czy informacje o użytkownikach
-    \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów
+    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak odczyty czujników, metadane czy informacje o użytkownikach,
+    \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
 \subsubsection{Warstwa usług i API}
@@ -133,9 +133,9 @@ Warstwa usług i API odpowiada za udostępnianie danych i funkcjonalności syste
 warstwa ta składa się z kilku mikroserwisów:
 
 \begin{itemize}
-    \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów
-    \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością
-    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway, który ekspozuje API innych mikroserwisów na zewnątrz klastra
+    \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
+    \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością,
+    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway, który ekspozuje API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
@@ -149,10 +149,10 @@ W projektowanym systemie, warstwa ta składa się z dashboardu, który wyświetl
 Główne funkcjonalności dashboardu to:
 
 \begin{itemize}
-    \item \textbf{Wykresy liniowe} - wizualizacja zmian parametrów w czasie
-    \item \textbf{Wskaźniki i mierniki} - wizualizacja aktualnych wartości parametrów
-    \item \textbf{Alerty} - powiadomienia o anomaliach i potencjalnych awariach
-    \item \textbf{Raporty} - generowanie i przeglądanie raportów
+    \item \textbf{wykresy liniowe} - wizualizacja zmian parametrów w czasie,
+    \item \textbf{wskaźniki i mierniki} - wizualizacja aktualnych wartości parametrów,
+    \item \textbf{alerty} - powiadomienia o anomaliach i potencjalnych awariach,
+    \item \textbf{raporty} - generowanie i przeglądanie raportów.
 \end{itemize}
 
 Dashboard jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji danych.
@@ -170,11 +170,11 @@ Model danych projektowanego systemu składa się z kilku kluczowych encji, przed
 Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzenie zawiera:
 
 \begin{itemize}
-    \item \textbf{Typ czujnika} - rodzaj czujnika (temperatura, ciśnienie, przepływ, skład gazu, drgania)
-    \item \textbf{Znacznik lokalizacji} - miejsce, w którym znajduje się czujnik
-    \item \textbf{Znacznik czasu} - czas, w którym dokonano pomiaru
-    \item \textbf{Wartość} - wartość pomiaru
-    \item \textbf{Jednostka} - jednostka, w której wyrażona jest wartość
+    \item \textbf{typ czujnika} - rodzaj czujnika (temperatura, ciśnienie, przepływ, skład gazu, drgania),
+    \item \textbf{znacznik lokalizacji} - miejsce, w którym znajduje się czujnik,
+    \item \textbf{znacznik czasu} - czas, w którym dokonano pomiaru,
+    \item \textbf{wartość} - wartość pomiaru,
+    \item \textbf{jednostka} - jednostka, w której wyrażona jest wartość.
 \end{itemize}
 
 Dane te są serializowane przy użyciu Apache Avro, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
@@ -185,32 +185,32 @@ Dane te są serializowane przy użyciu Apache Avro, co zapewnia efektywne kodowa
 Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{SparkDataProcessor} i obejmują:
 
 \begin{itemize}
-    \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
+    \item \textbf{agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
     \begin{itemize}
-        \item \textit{sensor_type} - typ sensora (np. "pressure", "temperature")
-        \item \textit{label} - etykieta urządzenia (np. "pump", "compressor")
-        \item \textit{window_start} - początek okna czasowego
-        \item \textit{window_end} - koniec okna czasowego
-        \item \textit{avg_value} - średnia wartość pomiarów w oknie
-        \item \textit{count} - liczba pomiarów w oknie
+        \item \textit{sensor_type} - typ sensora (np. "pressure", "temperature"),
+        \item \textit{label} - etykieta urządzenia (np. "pump", "compressor"),
+        \item \textit{window_start} - początek okna czasowego,
+        \item \textit{window_end} - koniec okna czasowego,
+        \item \textit{avg_value} - średnia wartość pomiarów w oknie,
+        \item \textit{count} - liczba pomiarów w oknie.
     \end{itemize}
     
-    \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
+    \item \textbf{zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
-        \item \textit{event_id} - unikalny identyfikator zdarzenia
-        \item \textit{sensor_type} - typ sensora, którego dotyczy zdarzenie
-        \item \textit{label} - etykieta urządzenia
-        \item \textit{timestamp} - czas wykrycia zdarzenia
-        \item \textit{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia")
-        \item \textit{status} - status alertu (np. "Ostrzeżenie", "Krytyczny")
-        \item \textit{actual_value} - rzeczywista wartość, która spowodowała zdarzenie
+        \item \textit{event_id} - unikalny identyfikator zdarzenia,
+        \item \textit{sensor_type} - typ sensora, którego dotyczy zdarzenie,
+        \item \textit{label} - etykieta urządzenia,
+        \item \textit{timestamp} - czas wykrycia zdarzenia,
+        \item \textit{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia"),
+        \item \textit{status} - status alertu (np. "Ostrzeżenie", "Krytyczny"),
+        \item \textit{actual_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
-    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
+    \item \textbf{dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
     \begin{itemize}
-        \item \textit{original_sensor_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.)
-        \item \textit{predicted_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa")
-        \item \textit{model_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier})
+        \item \textit{original_sensor_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
+        \item \textit{predicted_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
+        \item \textit{model_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier}).
     \end{itemize}
 \end{itemize}
 
@@ -246,10 +246,10 @@ W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie
 Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje Apache Spark (Spark Structured Streaming) do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
-    \item \textbf{Obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}).
-    \item \textbf{Wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \texttt{EventProcessor}).
-    \item \textbf{Predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych danych z wielu sensorów, przy użyciu modelu \texttt{RandomForestClassifier} (moduł \texttt{EquipmentStateProcessor}).
-    \item \textbf{Wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
+    \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
+    \item \textbf{wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \texttt{EventProcessor}),
+    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych danych z wielu sensorów, przy użyciu modelu \texttt{RandomForestClassifier} (moduł \texttt{EquipmentStateProcessor}),
+    \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
 Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane tematy Kafka.
@@ -268,10 +268,10 @@ Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportow
 Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje REST API do tworzenia i pobierania raportów. API to umożliwia:
 
 \begin{itemize}
-    \item \textbf{Pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników
-    \item \textbf{Pobieranie danych przetworzonych} - dostęp do agregacji, wykrytych anomalii, predykcji
-    \item \textbf{Tworzenie raportów} - generowanie raportów na podstawie zadanych kryteriów
-    \item \textbf{Pobieranie raportów} - dostęp do wcześniej wygenerowanych raportów
+    \item \textbf{pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników,
+    \item \textbf{pobieranie danych przetworzonych} - dostęp do agregacji, wykrytych anomalii, predykcji,
+    \item \textbf{tworzenie raportów} - generowanie raportów na podstawie zadanych kryteriów,
+    \item \textbf{pobieranie raportów} - dostęp do wcześniej wygenerowanych raportów.
 \end{itemize}
 
 API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, który korzysta z Keycloak.

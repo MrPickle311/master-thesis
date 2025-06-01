@@ -13,9 +13,9 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}).
-    \item \textbf{Scala} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą Apache Spark.
-    \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu ML).
+    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}),
+    \item \textbf{Scala} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą Apache Spark,
+    \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu ML),
     \item \textbf{TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
 
@@ -23,9 +23,9 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:frameworki}
 
 \begin{itemize}
-    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów Java.
-    \item \textbf{Apache Spark 3.x} - framework wykorzystany do przetwarzania strumieniowego danych (Spark Structured Streaming) oraz do zadań uczenia maszynowego (Spark ML) w aplikacji \texttt{SparkDataProcessor}.
-    \item \textbf{Spring Cloud} - zestaw narzędzi do budowy aplikacji chmurowych.
+    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów Java,
+    \item \textbf{Apache Spark 3.x} - framework wykorzystany do przetwarzania strumieniowego danych (Spark Structured Streaming) oraz do zadań uczenia maszynowego (Spark ML) w aplikacji \texttt{SparkDataProcessor},
+    \item \textbf{Spring Cloud} - zestaw narzędzi do budowy aplikacji chmurowych,
     \item \textbf{React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
 \end{itemize}
 
@@ -33,9 +33,9 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:bazy_danych}
 
 \begin{itemize}
-    \item \textbf{Apache Kafka 3.4} - platforma do przetwarzania strumieniowego.
-    \item \textbf{PostgreSQL 15} - relacyjna baza danych.
-    \item \textbf{Elasticsearch 8.7} - baza danych NoSQL do wyszukiwania i analizy.
+    \item \textbf{Apache Kafka 3.4} - platforma do przetwarzania strumieniowego,
+    \item \textbf{PostgreSQL 15} - relacyjna baza danych,
+    \item \textbf{Elasticsearch 8.7} - baza danych NoSQL do wyszukiwania i analizy,
     \item \textbf{Redis 7.0} - baza danych in-memory wykorzystywana jako cache.
 \end{itemize}
 
@@ -43,10 +43,10 @@ Kluczowe technologie wykorzystane w implementacji to:
 \label{subsubsec:infrastruktura}
 
 \begin{itemize}
-    \item \textbf{Kubernetes 1.26} - platforma do orkiestracji kontenerów.
-    \item \textbf{Docker} - platforma konteneryzacji.
-    \item \textbf{Helm 3} - menedżer pakietów dla Kubernetes.
-    \item \textbf{AWS} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych.
+    \item \textbf{Kubernetes 1.26} - platforma do orkiestracji kontenerów,
+    \item \textbf{Docker} - platforma konteneryzacji,
+    \item \textbf{Helm 3} - menedżer pakietów dla Kubernetes,
+    \item \textbf{AWS} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
     \item \textbf{Terraform} - narzędzie do zarządzania infrastrukturą jako kod.
 \end{itemize}
 
@@ -59,9 +59,9 @@ Kluczowe technologie wykorzystane w implementacji to:
 Architektura symulatora składa się z kilku kluczowych komponentów:
 
 \begin{itemize}
-    \item \textbf{AWS Step Functions} - usługa, która koordynuje wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych.
-    \item \textbf{AWS Lambda} - usługa bezserwerowa, która wykonuje kod symulatora.
-    \item \textbf{AWS SNS} - usługa powiadomień, która działa jako punkt dystrybucji dla wygenerowanych danych.
+    \item \textbf{AWS Step Functions} - usługa, która koordynuje wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
+    \item \textbf{AWS Lambda} - usługa bezserwerowa, która wykonuje kod symulatora,
+    \item \textbf{AWS SNS} - usługa powiadomień, która działa jako punkt dystrybucji dla wygenerowanych danych,
     \item \textbf{AWS SQS} - usługa kolejek, która buforuje wiadomości przed ich przetworzeniem przez system.
 \end{itemize}
 
@@ -82,8 +82,8 @@ symulując jego zachowanie w różnych warunkach pracy. Symulator uwzględnia sp
 
 Dla każdego typu czujnika zaimplementowano logikę generowania realistycznych danych, uwzględniającą:
 \begin{itemize}
-    \item Normalne wahania wartości w zakresie typowym dla danego parametru
-    \item Możliwość wystąpienia anomalii z określonym prawdopodobieństwem
-    \item Korelacje między różnymi parametrami procesu
-    \item Symulację zakłóceń i szumów pomiarowych
+    \item normalne wahania wartości w zakresie typowym dla danego parametru,
+    \item możliwość wystąpienia anomalii z określonym prawdopodobieństwem,
+    \item korelacje między różnymi parametrami procesu,
+    \item symulację zakłóceń i szumów pomiarowych.
 \end{itemize}

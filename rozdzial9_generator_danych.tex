@@ -15,13 +15,13 @@ Proces przygotowania danych do generatora rozpoczyna się od analizy rzeczywiste
 
 Dane wejściowe składają się z następujących kolumn:
 \begin{itemize}
-    \item \textbf{temperature} - temperatura urządzenia w stopniach Celsjusza
-    \item \textbf{pressure} - ciśnienie w barach
-    \item \textbf{vibration} - poziom wibracji w jednostkach przyspieszenia
-    \item \textbf{humidity} - wilgotność względna w procentach
-    \item \textbf{equipment} - typ urządzenia (Pump, Compressor, Turbine)
-    \item \textbf{location} - lokalizacja fabryczna (Atlanta, Chicago, San Francisco, New York, Houston)
-    \item \textbf{faulty} - wskaźnik stanu awaryjnego (0.0 = normalny, 1.0 = awaryjny)
+    \item \textbf{temperature} - temperatura urządzenia w stopniach Celsjusza,
+    \item \textbf{pressure} - ciśnienie w barach,
+    \item \textbf{vibration} - poziom wibracji w jednostkach przyspieszenia,
+    \item \textbf{humidity} - wilgotność względna w procentach,
+    \item \textbf{equipment} - typ urządzenia (Pump, Compressor, Turbine),
+    \item \textbf{location} - lokalizacja fabryczna (Atlanta, Chicago, San Francisco, New York, Houston),
+    \item \textbf{faulty} - wskaźnik stanu awaryjnego (0.0 = normalny, 1.0 = awaryjny).
 \end{itemize}
 
 \subsubsection{Proces analizy statystycznej}
@@ -31,10 +31,10 @@ Skrypt wykonuje wieloetapową analizę danych w następujących krokach:
 \paragraph{Analiza podstawowych statystyk}
 Obliczane są podstawowe metryki statystyczne dla każdego typu urządzenia i stanu technicznego:
 \begin{itemize}
-    \item Średnie wartości
-    \item Odchylenia standardowe
-    \item Wartości minimalne i maksymalne
-    \item Liczebności obserwacji
+    \item średnie wartości,
+    \item odchylenia standardowe,
+    \item wartości minimalne i maksymalne,
+    \item liczebności obserwacji.
 \end{itemize}
 
 Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co pozwala na wyznaczenie charakterystycznych zakresów parametrów dla stanów normalnych i awaryjnych każdego typu urządzenia.
@@ -42,10 +42,10 @@ Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co 
 \paragraph{Analiza korelacji między sensorami}
 Skrypt generuje macierze korelacji Pearsona dla różnych kombinacji:
 \begin{itemize}
-    \item \textbf{Korelacja ogólna} - dla wszystkich danych
-    \item \textbf{Korelacja specyficzna dla urządzeń} - oddzielnie dla każdego typu urządzenia
-    \item \textbf{Korelacja specyficzna dla stanów} - oddzielnie dla stanów normalnych i awaryjnych
-    \item \textbf{Korelacja kombinowana} - dla każdej kombinacji typu urządzenia i stanu
+    \item \textbf{korelacja ogólna} - dla wszystkich danych,
+    \item \textbf{korelacja specyficzna dla urządzeń} - oddzielnie dla każdego typu urządzenia,
+    \item \textbf{korelacja specyficzna dla stanów} - oddzielnie dla stanów normalnych i awaryjnych,
+    \item \textbf{korelacja kombinowana} - dla każdej kombinacji typu urządzenia i stanu.
 \end{itemize}
 
 Dodatkowo obliczana jest macierz zmian korelacji:
@@ -56,10 +56,10 @@ która pokazuje, jak korelacje między parametrami zmieniają się podczas przej
 \paragraph{Analiza głównych składowych (PCA)}
 Wykonywana jest analiza PCA w celu:
 \begin{itemize}
-    \item Identyfikacji najważniejszych czynników wpływających na stan urządzeń
-    \item Określenia wkładu każdego parametru sensorycznego w główne składowe
-    \item Redukcji wymiarowości danych przy zachowaniu maksymalnej wariancji
-    \item Wyznaczenia ważności cech (\textit{feature importance}) na podstawie ładunków składowych
+    \item identyfikacji najważniejszych czynników wpływających na stan urządzeń,
+    \item określenia wkładu każdego parametru sensorycznego w główne składowe,
+    \item redukcji wymiarowości danych przy zachowaniu maksymalnej wariancji,
+    \item wyznaczenia ważności cech (\textit{feature importance}) na podstawie ładunków składowych.
 \end{itemize}
 
 \subsubsection{Generowane pliki konfiguracyjne}
@@ -68,17 +68,17 @@ Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci pli
 
 \paragraph{Pliki statystyk}
 \begin{itemize}
-    \item Statystyki podstawowe dla każdego typu urządzenia
-    \item Statystyki dla stanów normalnych i awaryjnych
-    \item Statystyki dla kombinacji urządzenie-stan
+    \item statystyki podstawowe dla każdego typu urządzenia,
+    \item statystyki dla stanów normalnych i awaryjnych,
+    \item statystyki dla kombinacji urządzenie-stan.
 \end{itemize}
 
 \paragraph{Pliki korelacji}
 \begin{itemize}
-    \item Macierz korelacji ogólnej
-    \item Macierze specyficzne dla urządzeń i stanów
-    \item Macierz zmian korelacji
-    \item Słownik korelacji w formacie JSON
+    \item macierz korelacji ogólnej,
+    \item macierze specyficzne dla urządzeń i stanów,
+    \item macierz zmian korelacji,
+    \item słownik korelacji w formacie JSON.
 \end{itemize}
 
 Te pliki konfiguracyjne stanowią fundament dla generatora danych, zapewniając, że symulowane dane zachowują realistyczne charakterystyki statystyczne i korelacyjne obserwowane w rzeczywistych danych przemysłowych.
@@ -104,10 +104,10 @@ gdzie $r_{jk}$ oznacza współczynnik korelacji między parametrami $j$ i $k$.
 
 Generator implementuje adaptacyjny wybór macierzy korelacji na podstawie aktualnego stanu urządzenia:
 \begin{itemize}
-    \item Dla stanu normalnego: $\mathbf{R}_{i,normal}$
-    \item Dla stanów degradacji: progresywne przejście od $\mathbf{R}_{i,normal}$ do $\mathbf{R}_{i,faulty}$
-    \item Dla stanu krytycznego: $\mathbf{R}_{i,faulty}$
-    \item Dla stanu naprawy: brak generowania danych sensorycznych
+    \item dla stanu normalnego: $\mathbf{R}_{i,normal}$,
+    \item dla stanów degradacji: progresywne przejście od $\mathbf{R}_{i,normal}$ do $\mathbf{R}_{i,faulty}$,
+    \item dla stanu krytycznego: $\mathbf{R}_{i,faulty}$,
+    \item dla stanu naprawy: brak generowania danych sensorycznych.
 \end{itemize}
 
 \subsection{Algorytm generowania skorelowanych wartości}
@@ -140,9 +140,9 @@ $$\mu_{cykliczne} = \mu_{mieszane} + A \cdot \sin\left(\frac{2\pi t}{T}\right)$$
 
 gdzie:
 \begin{itemize}
-    \item $A = 0.2 \cdot \sigma_{normal}$ - amplituda cyklu dobowego
-    \item $T = 24$ godziny - okres cyklu
-    \item $t$ - aktualny czas w godzinach
+    \item $A = 0.2 \cdot \sigma_{normal}$ - amplituda cyklu dobowego,
+    \item $T = 24$ godziny - okres cyklu,
+    \item $t$ - aktualny czas w godzinach.
 \end{itemize}
 
 \subsubsection{Generowanie wartości z rozkładu wielowymiarowego}
@@ -169,8 +169,8 @@ $$\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan}$$
 
 gdzie:
 \begin{itemize}
-    \item $r_{max} = 0.2$ - maksymalny współczynnik zmiany
-    \item $k_{stan}$ - czynnik stanu (1.0 dla normalnego, 1.5 dla podkrytycznego, 2.0 dla krytycznego)
+    \item $r_{max} = 0.2$ - maksymalny współczynnik zmiany,
+    \item $k_{stan}$ - czynnik stanu (1.0 dla normalnego, 1.5 dla podkrytycznego, 2.0 dla krytycznego).
 \end{itemize}
 
 Rzeczywista zmiana jest ograniczana zgodnie z:
@@ -267,9 +267,9 @@ Dla każdego kroku czasowego $t$ (minuty):
 
 Podczas stanu naprawy system:
 \begin{itemize}
-    \item Nie generuje wartości sensorycznych (wartości NULL)
-    \item Zachowuje informacje o stanie i czasie
-    \item Po zakończeniu naprawy resetuje wartości do normalnych
+    \item nie generuje wartości sensorycznych (wartości NULL),
+    \item zachowuje informacje o stanie i czasie,
+    \item po zakończeniu naprawy resetuje wartości do normalnych.
 \end{itemize}
 
 \subsubsection{Integracja z chmurą AWS}
@@ -285,9 +285,9 @@ Generator czyta wcześniej wygenerowane pliki CSV z danymi z S3 i generuje dane 
 System składa się z trzech głównych komponentów AWS:
 
 \begin{itemize}
-    \item \textbf{Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych
-    \item \textbf{AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym
-    \item \textbf{Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora
+    \item \textbf{Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
+    \item \textbf{AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
+    \item \textbf{Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
 \end{itemize}
 
 \subsubsection{Przechowywanie danych w Amazon S3}
@@ -300,9 +300,9 @@ System wykorzystuje Amazon S3 jako centralne repozytorium dla danych historyczny
 Dane są organizowane w następującej strukturze:
 
 \begin{itemize}
-    \item \textbf{Prefiks danych}: \texttt{prod\_data/}
-    \item \textbf{Pliki CSV}: \texttt{pump\_YYYYMMDD.csv}, \texttt{compressor\_YYYYMMDD.csv}, \texttt{turbine\_YYYYMMDD.csv}
-    \item \textbf{Metadane}: \texttt{prod\_data/historical\_metadata.json}
+    \item \textbf{prefiks danych}: \texttt{prod\_data/},
+    \item \textbf{pliki CSV}: \texttt{pump\_YYYYMMDD.csv}, \texttt{compressor\_YYYYMMDD.csv}, \texttt{turbine\_YYYYMMDD.csv},
+    \item \textbf{metadane}: \texttt{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
 Format metadanych:
@@ -332,7 +332,6 @@ Plik metadanych zawiera konfigurację systemu w formacie JSON:
 Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek boto3, pandas oraz pydantic. System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych.
 
 \begin{lstlisting}[language=Python, caption=Klasy modeli danych]
-
 class SensorData(BaseModel):
     label: str
     timestamp: int
@@ -343,7 +342,6 @@ class Temperature(SensorData):
 
 class Pressure(SensorData):
     pressure: PressureData
-
 \end{lstlisting}
 
 \textbf{Algorytm publikowania danych}
@@ -377,10 +375,10 @@ System wykorzystuje Amazon Simple Notification Service (SNS) do asynchronicznego
 Dla każdego typu sensora utworzony jest dedykowany temat SNS:
 
 \begin{itemize}
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:temperature-topic}
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:pressure-topic}
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:vibration-topic}
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}
+    \item \texttt{arn:aws:sns:eu-central-1:accountid:temperature-topic},
+    \item \texttt{arn:aws:sns:eu-central-1:accountid:pressure-topic},
+    \item \texttt{arn:aws:sns:eu-central-1:accountid:vibration-topic},
+    \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
 
 Format publikowanych wiadomości:
