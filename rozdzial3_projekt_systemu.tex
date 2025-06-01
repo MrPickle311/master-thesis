@@ -11,77 +11,76 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
 \subsubsection{Wymagania funkcjonalne}
 \label{subsubsec:wymagania_funkcjonalne}
 
-\begin{enumerate}
+\begin{itemize}
     \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników
-   \item , w tym:
    \begin{itemize}
-       \item Czujników temperatury
-       \item Czujników ciśnienia
-       \item Czujników przepływu
-       \item Czujników drgań
+       \item czujników temperatury,
+       \item czujników ciśnienia,
+       \item czujników przepływu,
+       \item czujników drgań.
    \end{itemize}
     
     \item \textbf{Przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
     \begin{itemize}
-        \item Filtrację danych
-        \item Agregację danych w różnych oknach czasowych
-        \item Klasyfikację awarii
-        \item Generowanie zdarzeń
+        \item filtrację danych,
+        \item agregację danych w różnych oknach czasowych,
+        \item klasyfikację awarii,
+        \item generowanie zdarzeń.
     \end{itemize}
     
     \item \textbf{Wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
     \begin{itemize}
-        \item Wykresy liniowe
-        \item Wskaźniki i mierniki
-        \item Alerty i powiadomienia
+        \item wykresy liniowe,
+        \item wskaźniki i mierniki,
+        \item alerty i powiadomienia.
     \end{itemize}
     
    \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
    \begin{itemize}
-       \item Logowanie użytkowników
-       \item Różne poziomy uprawnień (admin, operator, gość)
-       \item Rejestrację użytkowników z poziomu panelu administracyjnego
-       \item Kontrolę dostępu do danych
+       \item logowanie użytkowników,
+       \item różne poziomy uprawnień (admin, operator, gość),
+       \item rejestrację użytkowników z poziomu panelu administracyjnego,
+       \item kontrolę dostępu do danych.
    \end{itemize}
     
     \item \textbf{Raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
    \begin{itemize}
-       \item Tworzenie raportów dla dowolnej zakresu czasu
-       \item Edycję raportów
-       \item Wyszukiwanie raportów na podstawie różnych kryteriów
+       \item tworzenie raportów dla dowolnej zakresu czasu,
+       \item edycję raportów,
+       \item wyszukiwanie raportów na podstawie różnych kryteriów.
    \end{itemize}
-\end{enumerate}
+\end{itemize}
 
 \subsubsection{Wymagania niefunkcjonalne}
 \label{subsubsec:wymagania_niefunkcjonalne}
 
-\begin{enumerate}
+\begin{itemize}
     
     \item \textbf{Skalowalność} - system powinien umożliwiać:
     \begin{itemize}
-        \item Skalowanie horyzontalne (dodawanie nowych węzłów)
-        \item Automatyczne skalowanie w zależności od obciążenia
+        \item skalowanie horyzontalne (dodawanie nowych węzłów),
+        \item automatyczne skalowanie w zależności od obciążenia.
     \end{itemize}
     
     \item \textbf{Niezawodność} - system powinien charakteryzować się:
     \begin{itemize}
-        \item Odpornością na awarie pojedynczych komponentów
+        \item odpornością na awarie pojedynczych komponentów.
     \end{itemize}
     
     \item \textbf{Bezpieczeństwo} - system powinien zapewniać:
     \begin{itemize}
-        \item Szyfrowanie danych w spoczynku i w transporcie
-        \item Uwierzytelnianie i autoryzację użytkowników
-        \item Audytowanie dostępu do danych
+        \item szyfrowanie danych w spoczynku i w transporcie,
+        \item uwierzytelnianie i autoryzację użytkowników,
+        \item audytowanie dostępu do danych.
     \end{itemize}
     
     \item \textbf{Utrzymywalność} - system powinien charakteryzować się:
     \begin{itemize}
-        \item Modułową architekturą
-        \item Dobrą dokumentacją
-        \item Łatwością rozszerzania i modyfikacji
+        \item modułową architekturą,
+        \item dobrą dokumentacją,
+        \item łatwością rozszerzania i modyfikacji.
     \end{itemize}
-\end{enumerate}
+\end{itemize}
 
 \subsection{Architektura systemu}
 \label{subsec:architektura}
