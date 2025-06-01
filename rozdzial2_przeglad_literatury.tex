@@ -8,14 +8,14 @@ architektury mikroserwisowej, platformy Kubernetes oraz narzędzi Big Data. Omó
 \label{subsec:analiza_danych}
 
 Analiza danych w czasie rzeczywistym to proces przetwarzania i analizy danych natychmiast po ich wygenerowaniu,
-umożliwiający podejmowanie decyzji na podstawie aktualnych informacji \citep{realtime_analytics}. W przeciwieństwie do tradycyjnego przetwarzania
+umożliwiający podejmowanie decyzji na podstawie aktualnych informacji \cite{realtime_analytics}. W przeciwieństwie do tradycyjnego przetwarzania
 wsadowego (ang. batch processing), które operuje na dużych zbiorach historycznych danych, analiza w czasie rzeczywistym koncentruje się na przetwarzaniu
 strumieni danych (ang. stream processing) z minimalnymi opóźnieniami.
 
 \subsubsection{Modele przetwarzania danych}
 \label{subsubsec:modele_przetwarzania}
 
-W literaturze wyróżnia się trzy główne modele przetwarzania danych \citep{data_processing_models}:
+W literaturze wyróżnia się trzy główne modele przetwarzania danych \cite{data_processing_models}:
 
 \begin{itemize}
     \item \textbf{przetwarzanie wsadowe (ang. batch processing)} - dane są gromadzone w pakiety i przetwarzane periodycznie, np. raz dziennie lub raz na tydzień. Model ten charakteryzuje się wysoką przepustowością, ale dużymi opóźnieniami,
@@ -53,7 +53,7 @@ Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury
 \subsection{Systemy wieloczujnikowe w przemyśle}
 \label{subsec:systemy_wieloczujnikowe}
 
-Systemy wieloczujnikowe to zbiory urządzeń pomiarowych, które monitorują różne parametry procesów przemysłowych \citep{multisensor_systems}.
+Systemy wieloczujnikowe to zbiory urządzeń pomiarowych, które monitorują różne parametry procesów przemysłowych \cite{multisensor_systems}.
 W nowoczesnych zakładach produkcyjnych, systemy te generują ogromne ilości danych, które odpowiednio przetworzone mogą
 dostarczyć cennych informacji na temat stanu procesu.
 
@@ -90,13 +90,13 @@ a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego
 \label{subsec:architektura_mikroserwisowa}
 
 Architektura mikroserwisowa to podejście do tworzenia aplikacji jako zbioru luźno powiązanych, małych, autonomicznych usług,
-komunikujących się ze sobą za pomocą mechanizmów, takich jak protokół HTTP \citep{microservice_architecture}.
+komunikujących się ze sobą za pomocą mechanizmów, takich jak protokół HTTP \cite{microservice_architecture}.
 Każdy mikroserwis realizuje określoną funkcjonalność biznesową i może być rozwijany, wdrażany i skalowany niezależnie od innych usług.
 
 \subsubsection{Zalety architektury mikroserwisowej}
 \label{subsubsec:zalety_mikroserwisow}
 
-Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do analizy danych w czasie rzeczywistym \citep{microservice_benefits}:
+Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do analizy danych w czasie rzeczywistym \cite{microservice_benefits}:
 
 \begin{itemize}
     \item \textbf{skalowalność} - możliwość niezależnego skalowania poszczególnych usług w zależności od obciążenia,
@@ -109,7 +109,7 @@ Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do anal
 \subsubsection{Wyzwania architektury mikroserwisowej}
 \label{subsubsec:wyzwania_mikroserwisow}
 
-Architektura mikroserwisowa stawia również pewne wyzwania \citep{microservice_challenges}:
+Architektura mikroserwisowa stawia również pewne wyzwania \cite{microservice_challenges}:
 
 \begin{itemize}
     \item \textbf{złożoność operacyjna} - zarządzanie wieloma niezależnymi usługami może być skomplikowane,
@@ -122,12 +122,12 @@ Architektura mikroserwisowa stawia również pewne wyzwania \citep{microservice_
 \label{subsec:kubernetes}
 
 Kubernetes to otwarta platforma do orkiestracji kontenerów, która automatyzuje wdrażanie, skalowanie i zarządzanie aplikacjami
-kontenerowymi \citep{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez Cloud Native Computing Foundation (CNCF).
+kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez Cloud Native Computing Foundation (CNCF).
 
 \subsubsection{Podstawowe koncepcje Kubernetes}
 \label{subsubsec:podstawy_kubernetes}
 
-Kubernetes operuje na kilku kluczowych koncepcjach \citep{kubernetes_concepts}:
+Kubernetes operuje na kilku kluczowych koncepcjach \cite{kubernetes_concepts}:
 
 \begin{itemize}
     \item \textbf{pod} - najmniejsza jednostka wdrożeniowa w Kubernetes, składająca się z jednego lub więcej kontenerów,
@@ -141,7 +141,7 @@ Kubernetes operuje na kilku kluczowych koncepcjach \citep{kubernetes_concepts}:
 \subsubsection{Zalety Kubernetes w kontekście analizy danych w czasie rzeczywistym}
 \label{subsubsec:zalety_kubernetes}
 
-Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \citep{kubernetes_benefits}:
+Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kubernetes_benefits}:
 
 \begin{itemize}
     \item \textbf{automatyczne skalowanie} - możliwość automatycznego dostosowywania liczby replik usług w zależności od obciążenia,
@@ -161,7 +161,7 @@ Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 \label{subsubsec:apache_kafka}
 
 Apache Kafka to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
-Apache Software Foundation \citep{kafka}. Kafka oferuje następujące funkcjonalności:
+Apache Software Foundation \cite{kafka}. Kafka oferuje następujące funkcjonalności:
 
 \begin{itemize}
     \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
@@ -174,7 +174,7 @@ Apache Software Foundation \citep{kafka}. Kafka oferuje następujące funkcjonal
 \subsubsection{Kafka Streams}
 \label{subsubsec:kafka_streams}
 
-Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \citep{kafka_streams}. Oferuje następujące funkcjonalności:
+Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \cite{kafka_streams}. Oferuje następujące funkcjonalności:
 
 \begin{itemize}
     \item \textbf{przetwarzanie rekord po rekordzie} - minimalne opóźnienia przetwarzania,
@@ -188,7 +188,7 @@ Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache 
 \label{subsubsec:apache_flink}
 
 Apache Flink to framework przetwarzania strumieniowego, oferujący funkcjonalności podobne do Kafka Streams,
-ale jako oddzielna platforma \citep{flink}. Flink charakteryzuje się:
+ale jako oddzielna platforma \cite{flink}. Flink charakteryzuje się:
 
 \begin{itemize}
     \item \textbf{niskimi opóźnieniami} - przetwarzanie rekord po rekordzie z minimalnymi opóźnieniami,
@@ -201,7 +201,7 @@ ale jako oddzielna platforma \citep{flink}. Flink charakteryzuje się:
 \subsubsection{Apache Spark Streaming}
 \label{subsubsec:spark_streaming}
 
-Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache Spark \citep{spark_streaming}.
+Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache Spark \cite{spark_streaming}.
 Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. Spark Streaming oferuje:
 
 \begin{itemize}
@@ -216,9 +216,9 @@ Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakie
 
 W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących Apache Kafka, kluczowe znaczenie ma efektywna serializacja danych oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
 
-\textbf{Apache Avro} to format serializacji danych oparty na schematach, który zapewnia kompaktową reprezentację binarną oraz bogate możliwości ewolucji schematów \citep{avro_documentation}. Dzięki temu możliwe jest modyfikowanie struktury danych bez zakłócania pracy istniejących producentów i konsumentów. Avro jest szczególnie popularne w ekosystemie Apache Kafka ze względu na swoją wydajność i elastyczność.
+\textbf{Apache Avro} to format serializacji danych oparty na schematach, który zapewnia kompaktową reprezentację binarną oraz bogate możliwości ewolucji schematów \cite{avro_documentation}. Dzięki temu możliwe jest modyfikowanie struktury danych bez zakłócania pracy istniejących producentów i konsumentów. Avro jest szczególnie popularne w ekosystemie Apache Kafka ze względu na swoją wydajność i elastyczność.
 
-\textbf{Confluent Schema Registry} to usługa działająca jako centralne repozytorium schematów (m.in. Avro, JSON Schema, Protobuf) \citep{confluent_schema_registry}. Integruje się z klientami Kafka, umożliwiając automatyczną rejestrację, walidację i pobieranie schematów podczas serializacji i deserializacji wiadomości. Schema Registry pomaga w utrzymaniu jakości danych, zapobiega problemom związanym z niekompatybilnością schematów oraz ułatwia zarządzanie zmianami w strukturze danych w dynamicznie rozwijających się systemach. W ramach opisywanego projektu, Confluent Schema Registry zostało wykorzystane do zarządzania schematami Avro dla danych przesyłanych przez Apache Kafka.
+\textbf{Confluent Schema Registry} to usługa działająca jako centralne repozytorium schematów (m.in. Avro, JSON Schema, Protobuf) \cite{confluent_schema_registry}. Integruje się z klientami Kafka, umożliwiając automatyczną rejestrację, walidację i pobieranie schematów podczas serializacji i deserializacji wiadomości. Schema Registry pomaga w utrzymaniu jakości danych, zapobiega problemom związanym z niekompatybilnością schematów oraz ułatwia zarządzanie zmianami w strukturze danych w dynamicznie rozwijających się systemach. W ramach opisywanego projektu, Confluent Schema Registry zostało wykorzystane do zarządzania schematami Avro dla danych przesyłanych przez Apache Kafka.
 
 \subsection{Istniejące rozwiązania i ich ograniczenia}
 \label{subsec:istniejace_rozwiazania}
@@ -228,7 +228,7 @@ W literaturze i praktyce przemysłowej istnieje szereg rozwiązań do analizy da
 \subsubsection{Tradycyjne systemy SCADA}
 \label{subsubsec:scada}
 
-Systemy SCADA (Supervisory Control and Data Acquisition) to tradycyjne rozwiązania do monitorowania i kontroli procesów przemysłowych \citep{scada}.
+Systemy SCADA (Supervisory Control and Data Acquisition) to tradycyjne rozwiązania do monitorowania i kontroli procesów przemysłowych \cite{scada}.
 Mimo popularności, systemy te mają pewne ograniczenia w kontekście analizy danych w czasie rzeczywistym:
 
 \begin{itemize}
@@ -242,7 +242,7 @@ Mimo popularności, systemy te mają pewne ograniczenia w kontekście analizy da
 \label{subsubsec:cloud_iot}
 
 Platformy IoT w chmurze, takie jak AWS IoT, Azure IoT Hub czy Google Cloud IoT Core, oferują zaawansowane możliwości analizy danych z
-urządzeń IoT \citep{cloud_iot}. Mimo to, mają pewne ograniczenia:
+urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
 
 \begin{itemize}
     \item \textbf{zależność od dostawcy chmury} - trudności w migracji między różnymi dostawcami,
