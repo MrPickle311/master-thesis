@@ -82,7 +82,7 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
     \item \textbf{warstwa przetwarzania} - przetwarza dane z czujników i udostępnia je użytkownikom lub innym systemom.
 \end{itemize}
 
-W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie IoT, takie jak MQTT, AMQP czy OPC UA,
+W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie IoT, takie jak: MQTT, AMQP czy OPC UA,
 a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak Apache Kafka czy Apache Flink.
 
 
@@ -138,7 +138,7 @@ Kubernetes operuje na kilku kluczowych koncepcjach \cite{kubernetes_concepts}:
     \item \textbf{namespace} - mechanizm do izolacji zasobów w klastrze.
 \end{itemize}
 
-\subsubsection{Zalety Kubernetes w kontekście analizy danych w czasie rzeczywistym}
+\subsubsection{Zalety Kubernetes w kontekście analizy danych strumieniowych}
 \label{subsubsec:zalety_kubernetes}
 
 Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kubernetes_benefits}:
@@ -154,7 +154,7 @@ Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kube
 \subsection{Narzędzia Big Data do przetwarzania strumieniowego}
 \label{subsec:narzedzia_big_data}
 
-W kontekście analizy danych w czasie rzeczywistym, szczególnie istotne są narzędzia Big Data do przetwarzania strumieniowego.
+W kontekście analizy danych strumieniowych, szczególnie istotne są narzędzia Big Data do przetwarzania strumieniowego \cite{spark_streaming}.
 Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 
 \subsubsection{Apache Kafka}
@@ -220,7 +220,7 @@ W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystującyc
 
 \textbf{Confluent Schema Registry} to usługa działająca jako centralne repozytorium schematów (m.in. Avro, JSON Schema, Protobuf) \cite{confluent_schema_registry}. Integruje się z klientami Kafka, umożliwiając automatyczną rejestrację, walidację i pobieranie schematów podczas serializacji i deserializacji wiadomości. Schema Registry pomaga w utrzymaniu jakości danych, zapobiega problemom związanym z niekompatybilnością schematów oraz ułatwia zarządzanie zmianami w strukturze danych w dynamicznie rozwijających się systemach. W ramach opisywanego projektu, Confluent Schema Registry zostało wykorzystane do zarządzania schematami Avro dla danych przesyłanych przez Apache Kafka.
 
-\subsection{Istniejące rozwiązania i ich ograniczenia}
+\subsection{Istniejące narzędzia analizy danych i ich ograniczenia}
 \label{subsec:istniejace_rozwiazania}
 
 W literaturze i praktyce przemysłowej istnieje szereg rozwiązań do analizy danych z systemów wieloczujnikowych. Poniżej omówiono kilka z nich, wraz z ich ograniczeniami.
@@ -241,7 +241,7 @@ Mimo popularności, systemy te mają pewne ograniczenia w kontekście analizy da
 \subsubsection{Platformy IoT w chmurze}
 \label{subsubsec:cloud_iot}
 
-Platformy IoT w chmurze, takie jak AWS IoT, Azure IoT Hub czy Google Cloud IoT Core, oferują zaawansowane możliwości analizy danych z
+Platformy IoT w chmurze, takie jak: AWS IoT, Azure IoT Hub czy Google Cloud IoT Core, oferują zaawansowane możliwości analizy danych z
 urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
 
 \begin{itemize}
@@ -251,7 +251,7 @@ urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
     \item \textbf{ograniczone możliwości dostosowania} - platformy chmurowe oferują określony zestaw usług, które mogą nie spełniać wszystkich wymagań.
 \end{itemize}
 
-\subsubsection{Open source rozwiązania do analizy danych w czasie rzeczywistym}
+\subsubsection{Rozwiązania Open Source do analizy danych strumieniowych}
 \label{subsubsec:open_source}
 
 Istnieje szereg open source rozwiązań do analizy danych w czasie rzeczywistym, takich jak Apache NiFi,

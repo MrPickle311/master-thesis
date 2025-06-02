@@ -17,7 +17,7 @@ Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za po
 
 Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, który zawiera plik \texttt{application.yaml} ze specyficznymi ustawieniami Spring Boot, takimi jak adresy URL usług zależnych, konfiguracja połączeń z bazą danych, Kafką, czy Keycloak.
 
-Przykładem jest \texttt{front-service-config}, który definiuje trasy dla bramy API (Spring Cloud Gateway), wskazując na wewnętrzne usługi takie jak \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{kafka-data-processor-config} zawiera szczegółową konfigurację strumieni Kafka Streams, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
+Przykładem jest \texttt{front-service-config}, który definiuje trasy dla bramy API (Spring Cloud Gateway), wskazując na wewnętrzne usługi takie jak: \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{kafka-data-processor-config} zawiera szczegółową konfigurację strumieni Kafka Streams, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
 
 \subsection{Bezpieczeństwo}
 
@@ -57,7 +57,7 @@ Do zarządzania i uruchamiania zadań Apache Spark w klastrze wykorzystywany jes
 Zdefiniowany jest zasób \texttt{SparkApplication} o nazwie \texttt{spark-data-processor}, który uruchamia aplikację Scala (\texttt{com.factory.SparkDataProcessor}) z obrazu Dockera. Aplikacja ta działa w trybie \texttt{cluster} i wykorzystuje zasoby zdefiniowane dla sterownika i dwóch wykonawców (executorów).
 
 \subsubsection{Usługi aplikacyjne}
-Pozostałe usługi, takie jak \texttt{front-service} (brama API), \texttt{cluster-ui} (interfejs użytkownika React), \texttt{data-service}, \texttt{users-service}, \texttt{kafka-db-forwarder} oraz \texttt{sqs-kafka-forwarder} są wdrażane jako standardowe Deploymenty Kubernetes. Każda z nich posiada własną konfigurację (ConfigMap), usługę (Service) oraz, w przypadku usług frontendowych i bramy API, definicję Ingress.
+Pozostałe usługi, takie jak: \texttt{front-service} (brama API), \texttt{cluster-ui} (interfejs użytkownika React), \texttt{data-service}, \texttt{users-service}, \texttt{kafka-db-forwarder} oraz \texttt{sqs-kafka-forwarder} są wdrażane jako standardowe Deploymenty Kubernetes. Każda z nich posiada własną konfigurację (ConfigMap), usługę (Service) oraz, w przypadku usług frontendowych i bramy API, definicję Ingress.
 
 Usługa \texttt{sqs-kafka-forwarder} jest skonfigurowana do integracji z rzeczywistymi kolejkami Amazon SQS i przekazywania wiadomości do odpowiednich tematów Kafka. Konfiguracja zawiera klucze dostępowe AWS, co potwierdza bezpośrednią integrację z infrastrukturą AWS.
 

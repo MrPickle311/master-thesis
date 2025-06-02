@@ -29,7 +29,7 @@ Ekstractor uprawnień \texttt{KeycloakGrantedAuthoritiesConverter} analizuje str
 
 System definiuje dwie podstawowe role użytkowników: \texttt{DATA\_ACCESSOR} oraz \texttt{ADMIN}. Użytkownicy z rolą \texttt{DATA\_ACCESSOR} mają dostęp do funkcji odczytu i analizy danych, obejmujących przeglądanie raportów, dashboardów oraz konfiguracji systemu. Rola \texttt{ADMIN} rozszerza te uprawnienia o możliwość zarządzania użytkownikami, modyfikacji konfiguracji systemu oraz dostępu do funkcji administracyjnych.
 
-Kontrola dostępu jest implementowana na poziomie endpointów API poprzez adnotacje Spring Security. Ścieżki publiczne, takie jak endpointy healthcheck, są dostępne bez uwierzytelnienia, podczas gdy zasoby biznesowe wymagają odpowiednich ról. System automatycznie zwraca kod odpowiedzi HTTP 401 dla żądań bez ważnego tokenu oraz 403 dla żądań z niewystarczającymi uprawnieniami.
+Kontrola dostępu jest implementowana na poziomie endpointów API poprzez adnotacje Spring Security. Ścieżki publiczne, takie jak: endpointy healthcheck, są dostępne bez uwierzytelnienia, podczas gdy zasoby biznesowe wymagają odpowiednich ról. System automatycznie zwraca kod odpowiedzi HTTP 401 dla żądań bez ważnego tokenu oraz 403 dla żądań z niewystarczającymi uprawnieniami.
 
 \subsection{Zarządzanie użytkownikami}
 

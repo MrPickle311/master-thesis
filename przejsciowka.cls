@@ -27,6 +27,7 @@
 \usepackage{sectsty}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage[font=small,labelfont=bf]{caption}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}

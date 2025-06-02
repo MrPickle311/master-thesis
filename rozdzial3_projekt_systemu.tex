@@ -6,7 +6,7 @@ W niniejszym rozdziale przedstawiono projekt systemu do analizy danych w czasie 
 \subsection{Wymagania systemu}
 \label{subsec:wymagania}
 
-Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano następujące wymagania dla projektowanego systemu:
+Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących rozwiązań, zidentyfikowano przedstawione poniżej wymagania dla projektowanego systemu.
 
 \subsubsection{Wymagania funkcjonalne}
 \label{subsubsec:wymagania_funkcjonalne}
@@ -85,10 +85,10 @@ Na podstawie analizy literatury oraz istniejących rozwiązań, zidentyfikowano 
 \subsection{Architektura systemu}
 \label{subsec:architektura}
 
-Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze Kubernetes.
-Architektura składa się z kilku kluczowych warstw, przedstawionych na Rysunku \ref{Architektura systemu do analizy danych w czasie rzeczywistym}.
+Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze Kubernetes \cite{kubernetes_benefits}.
+Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunku \ref{Architektura systemu do analizy danych w czasie rzeczywistym}.
 
-\singlesizedimageforced{images/architektura.png}{Architektura systemu do analizy danych w czasie rzeczywistym}{0.8}
+\singlesizedimageforced{images/architektura.png}{Architektura systemu do analizy danych w czasie rzeczywistym}{1.0}
 
 \subsubsection{Warstwa pozyskiwania danych (symulatory czujników)}
 \label{subsubsec:warstwa_pozyskiwania}
@@ -112,7 +112,7 @@ Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalnoś
 \subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
 
 Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę danych opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
@@ -122,7 +122,7 @@ Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaa
 Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie, warstwa ta składa się z dwóch głównych komponentów:
 
 \begin{itemize}
-    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak odczyty czujników, metadane czy informacje o użytkownikach,
+    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
     \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
@@ -160,7 +160,7 @@ Dashboard jest implementowany jako aplikacja webowa, wykorzystująca React i bib
 \subsection{Model danych}
 \label{subsec:model_danych}
 
-Model danych projektowanego systemu składa się z kilku kluczowych encji, przedstawionych na Rysunku \ref{Model danych systemu}.
+Model danych projektowanego systemu składa się z kilku kluczowych encji, przedstawionych na rysunku \ref{Model danych systemu}.
 
 \singlesizedimageforced{images/datamodel.png}{Model danych systemu}{0.8}
 
@@ -219,7 +219,7 @@ Wszystkie te dane są serializowane do formatu Avro i publikowane na dedykowane 
 \subsection{Przepływ danych w systemie}
 \label{subsec:przeplyw_danych}
 
-Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionych na Rysunku \ref{Przepływ danych w systemie}.
+Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionych na rysunku \ref{Przepływ danych w systemie}.
 
 \singlesizedimageforced{images/data_flow.png}{Przepływ danych w systemie}{0.8}
 
@@ -230,7 +230,7 @@ Proces rozpoczyna się od generowania danych przez symulatory czujników. Symula
 które są wyzwalane periodycznie przez AWS Step Functions. Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
 umieszczonego w określonym miejscu instalacji do syntezy amoniaku.
 
-Dane są generowane w formacie JSON i zawierają informacje takie jak identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i
+Dane są generowane w formacie JSON i zawierają informacje takie jak: identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i
 jednostka. Dane te są następnie publikowane na temat SNS (Simple Notification Service), który działa jako punkt dystrybucji dla wielu subskrybentów.
 
 \subsubsection{Przesyłanie danych do klastra}
@@ -257,7 +257,7 @@ Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane temat
 \subsubsection{Zapisywanie danych do bazy danych}
 \label{subsubsec:zapisywanie_danych}
 
-Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, który zapisuje je do baz danych. Dane strukturalne, takie jak odczyty czujników,
+Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, który zapisuje je do baz danych. Dane strukturalne, takie jak: odczyty czujników,
 agregacje i metadane, są zapisywane do bazy danych PostgreSQL.
 
 Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportowanie i wizualizację, a także zapewnia trwałość danych.
