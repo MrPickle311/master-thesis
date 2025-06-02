@@ -4,7 +4,7 @@
 \subsection{Kontekst i motywacja badań}
 \label{subsec:kontekst}
 
-W dobie czwartej rewolucji przemysłowej (Przemysł 4.0) i Internetu Rzeczy (IoT) \cite{przemysl40_iot_ogolnie}, systemy wieloczujnikowe stają się nieodłącznym 
+W dobie czwartej rewolucji przemysłowej (Przemysł 4.0) \cite{przemysl40_iot_ogolnie} i Internetu Rzeczy (IoT, ang. Internet of Things) \cite{iot_definition_aws}, definiowanego jako sieć połączonych ze sobą urządzeń fizycznych wyposażonych w czujniki i oprogramowanie umożliwiające zbieranie i wymianę danych, systemy wieloczujnikowe stają się nieodłącznym 
 elementem nowoczesnych procesów produkcyjnych. Generują one ogromne ilości danych, które odpowiednio wykorzystane mogą dostarczyć
 cennych informacji na temat stanu i wydajności monitorowanych procesów. Analiza tych danych w czasie rzeczywistym stanowi jednak
 wyzwanie, zarówno pod względem technicznym, jak i organizacyjnym \cite{realtime_challenges}.
@@ -15,7 +15,7 @@ obciążenie może być problematyczne i kosztowne.
 
 Rozproszona architektura, w połączeniu z technologiami konteneryzacji i orkiestracji, takimi jak Kubernetes \cite{kubernetes_benefits},
 oferuje nowe możliwości w zakresie budowy systemów do analizy danych w czasie rzeczywistym. Umożliwia ona elastyczne skalowanie,
-izolację usług i łatwiejsze zarządzanie złożonymi aplikacjami. Jednocześnie narzędzia Big Data, takie jak: Apache Kafka czy Apache Spark \cite{kafka, spark_streaming}, zapewniają
+izolację usług i łatwiejsze zarządzanie złożonymi aplikacjami. Jednocześnie narzędzia Big Data, czyli technologie służące do przetwarzania i analizy dużych, złożonych zbiorów danych, takie jak: Apache Kafka czy Apache Spark \cite{kafka, spark_streaming}, zapewniają
 wydajne mechanizmy do przetwarzania strumieniowego, niezbędne w analizie danych w czasie rzeczywistym.
 
 Motywacją do podjęcia niniejszych badań jest potrzeba sprawdzenia możliwości do opracowania wydajnego i skalowalnego do
@@ -58,7 +58,7 @@ Badania przeprowadzone w ramach niniejszej pracy opierają się na następujące
     \item pomiar przepustowości i opóźnień przetwarzania.
 \end{enumerate}
 
-W badaniach wykorzystano dane symulowane, generowane przez funkcje AWS Lambda.
+W badaniach wykorzystano dane symulowane, generowane przez funkcje AWS Lambda (usługa obliczeniowa firmy Amazon Web Services pozwalająca na uruchamianie kodu bez konieczności zarządzania serwerami) \cite{aws_lambda_docs}.
 
 \subsection{Struktura pracy}
 \label{subsec:struktura}

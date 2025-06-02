@@ -1,26 +1,19 @@
-\section{Przegląd litartury i stan wiedzy}
+\section{Przegląd literatury i stan wiedzy}
 \label{sec:przeglad_literatury}
 
-W niniejszym rozdziale przedstawiono aktualny stan wiedzy w zakresie analizy danych w czasie rzeczywistym, systemów wieloczujnikowych,
-architektury mikroserwisowej, platformy Kubernetes oraz narzędzi Big Data. Omówiono również istniejące rozwiązania i ich ograniczenia.
+Niniejszy rozdział przedstawia przegląd literatury oraz aktualny stan wiedzy w dziedzinach kluczowych dla realizacji celów pracy. Omówione zostaną zagadnienia związane z analizą danych w czasie rzeczywistym, architekturami systemów rozproszonych, ze szczególnym uwzględnieniem mikroserwisów i konteneryzacji, a także narzędziami Big Data wykorzystywanymi do przetwarzania i analizy dużych wolumenów informacji.
 
 \subsection{Analiza danych w czasie rzeczywistym}
 \label{subsec:analiza_danych}
 
-Analiza danych w czasie rzeczywistym to proces przetwarzania i analizy danych natychmiast po ich wygenerowaniu,
-umożliwiający podejmowanie decyzji na podstawie aktualnych informacji \cite{realtime_analytics}. W przeciwieństwie do tradycyjnego przetwarzania
-wsadowego (ang. batch processing), które operuje na dużych zbiorach historycznych danych, analiza w czasie rzeczywistym koncentruje się na przetwarzaniu
-strumieni danych (ang. stream processing) z minimalnymi opóźnieniami.
+Analiza danych w czasie rzeczywistym (ang. Real-Time Analytics) odnosi się do procesów i technologii umożliwiających analizowanie danych natychmiast po ich wygenerowaniu lub zebraniu \cite{realtime_analytics}. Głównym celem jest uzyskanie natychmiastowych wniosków i reakcja na zdarzenia w możliwie najkrótszym czasie. Odróżnia to analizę w czasie rzeczywistym od tradycyjnego przetwarzania wsadowego (ang. batch processing), gdzie dane są gromadzone przez pewien okres i analizowane później \cite{data_processing_models}.
 
-\subsubsection{Modele przetwarzania danych}
-\label{subsubsec:modele_przetwarzania}
-
-W literaturze wyróżnia się trzy główne modele przetwarzania danych \cite{data_processing_models}:
+Kluczowe aspekty analizy danych w czasie rzeczywistym to:
 
 \begin{itemize}
-    \item \textbf{przetwarzanie wsadowe (ang. batch processing)} - dane są gromadzone w pakiety i przetwarzane periodycznie, np. raz dziennie lub raz na tydzień. Model ten charakteryzuje się wysoką przepustowością, ale dużymi opóźnieniami,
-    \item \textbf{przetwarzanie mikrowsadowe (ang. micro-batch processing)} - dane są przetwarzane w małych pakietach, z częstotliwością rzędu sekund lub minut. Jest to kompromis między przetwarzaniem wsadowym a strumieniowym,
-    \item \textbf{przetwarzanie strumieniowe (ang. stream processing)} - dane są przetwarzane natychmiast po ich wygenerowaniu, indywidualnie lub w bardzo małych grupach. Model ten charakteryzuje się niskimi opóźnieniami, ale często niższą przepustowością.
+    \item \textbf{Niskie opóźnienia (ang. Low Latency)}, oznaczające minimalny czas od momentu pojawienia się danych do momentu uzyskania wyników analizy,
+    \item \textbf{Wysoka przepustowość (ang. High Throughput)}, czyli zdolność systemu do przetwarzania dużej liczby zdarzeń lub transakcji w jednostce czasu,
+    \item \textbf{Ciągłe przetwarzanie (ang. Continuous Processing)}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
 \end{itemize}
 
 W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne jest przetwarzanie strumieniowe, które umożliwia szybką reakcję na zmieniające się warunki procesu produkcyjnego.
@@ -83,7 +76,7 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
 \end{itemize}
 
 W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie IoT, takie jak: MQTT, AMQP czy OPC UA,
-a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak Apache Kafka czy Apache Flink.
+a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak Apache Kafka \cite{spark_documentation} czy Apache Flink \cite{flink}.
 
 
 \subsection{Architektura mikroserwisowa}
@@ -122,7 +115,7 @@ Architektura mikroserwisowa stawia również pewne wyzwania \cite{microservice_c
 \label{subsec:kubernetes}
 
 Kubernetes to otwarta platforma do orkiestracji kontenerów, która automatyzuje wdrażanie, skalowanie i zarządzanie aplikacjami
-kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez Cloud Native Computing Foundation (CNCF).
+kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez Cloud Native Computing Foundation (CNCF) \cite{cncf_website}.
 
 \subsubsection{Podstawowe koncepcje Kubernetes}
 \label{subsubsec:podstawy_kubernetes}
@@ -160,8 +153,8 @@ Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 \subsubsection{Apache Kafka}
 \label{subsubsec:apache_kafka}
 
-Apache Kafka to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
-Apache Software Foundation \cite{kafka}. Kafka oferuje następujące funkcjonalności:
+Apache Kafka \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
+Apache Software Foundation. Kafka oferuje następujące funkcjonalności:
 
 \begin{itemize}
     \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
@@ -254,8 +247,8 @@ urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
 \subsubsection{Rozwiązania Open Source do analizy danych strumieniowych}
 \label{subsubsec:open_source}
 
-Istnieje szereg open source rozwiązań do analizy danych w czasie rzeczywistym, takich jak Apache NiFi,
-Apache Druid czy InfluxDB . Mimo ich zalet, mają również pewne ograniczenia:
+Istnieje szereg open source rozwiązań do analizy danych w czasie rzeczywistym, takich jak Apache NiFi \cite{apache_nifi},
+Apache Druid \cite{apache_druid} czy InfluxDB \cite{influxdb}. Mimo ich zalet, mają również pewne ograniczenia:
 
 \begin{itemize}
     \item \textbf{złożoność wdrożenia} - konfiguracja i wdrożenie mogą być skomplikowane,

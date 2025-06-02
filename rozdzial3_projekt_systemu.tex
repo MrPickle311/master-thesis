@@ -94,17 +94,17 @@ Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunku 
 \label{subsubsec:warstwa_pozyskiwania}
 
 Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wstępne przetworzenie.
-W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda.
+W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
 Symulatory te generują dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości JSON i publikowane na tematy SNS, a następnie przenoszone do kolejek SQS,
+Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_documentation} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości),
 które stanowią interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji (Apache Kafka)}
 \label{subsubsec:warstwa_komunikacji}
 
 Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich dostarczanie do warstwy przetwarzania.
-W projektowanym systemie, warstwa ta opiera się na Apache Kafka, rozproszonej platformie do przetwarzania strumieniowego.
+W projektowanym systemie, warstwa ta opiera się na Apache Kafka \cite{kafka}, rozproszonej platformie do przetwarzania strumieniowego.
 
 
 Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście przetwarzania danych w czasie rzeczywistym z wielu czujników.
@@ -112,7 +112,7 @@ Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalnoś
 \subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
 
 Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę danych opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
@@ -123,7 +123,7 @@ Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do
 
 \begin{itemize}
     \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
-    \item \textbf{Elasticsearch} - baza danych NoSQL, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
+    \item \textbf{Elasticsearch} - baza danych NoSQL \cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
 \subsubsection{Warstwa usług i API}
@@ -135,7 +135,7 @@ warstwa ta składa się z kilku mikroserwisów:
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością,
-    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway, który ekspozuje API innych mikroserwisów na zewnątrz klastra.
+    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, który ekspozuje API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
@@ -177,7 +177,7 @@ Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzeni
     \item \textbf{jednostka} - jednostka, w której wyrażona jest wartość.
 \end{itemize}
 
-Dane te są serializowane przy użyciu Apache Avro, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
+Dane te są serializowane przy użyciu Apache Avro \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
 
 \subsubsection{Przetworzone dane}
 \label{subsubsec:przetworzone_dane}
@@ -226,24 +226,25 @@ Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionyc
 \subsubsection{Generowanie danych}
 \label{subsubsec:generowanie_danych}
 
-Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda,
-które są wyzwalane periodycznie przez AWS Step Functions. Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
-umieszczonego w określonym miejscu instalacji do syntezy amoniaku.
+Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs},
+które są wyzwalane periodycznie przez AWS Step Functions \cite{aws_step_functions_docs}.
+Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
+umieszczonego w określonym miejscu instalacji.
 
 Dane są generowane w formacie JSON i zawierają informacje takie jak: identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i
-jednostka. Dane te są następnie publikowane na temat SNS (Simple Notification Service), który działa jako punkt dystrybucji dla wielu subskrybentów.
+jednostka. Dane te są następnie publikowane na temat SNS \cite{sns_docs}, który działa jako punkt dystrybucji dla wielu subskrybentów.
 
 \subsubsection{Przesyłanie danych do klastra}
 \label{subsubsec:przesylanie_danych}
 
-Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS (Simple Queue Service), które są subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
+Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS \cite{sqs_docs}, które są subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
 W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie odpytuje kolejki SQS i pobiera nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie tematy Kafka, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje Apache Spark (Spark Structured Streaming) do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
