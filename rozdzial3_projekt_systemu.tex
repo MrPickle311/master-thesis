@@ -3,7 +3,7 @@
 
 W niniejszym rozdziale przedstawiono projekt systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach Big Data. Omówiono wymagania systemu, architekturę, model danych oraz przepływ danych.
 
-\subsection{Wymagania systemu}
+\subsection{Wymagania systemu osadzonego na klastrze Kubernetes}
 \label{subsec:wymagania}
 
 Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących rozwiązań, zidentyfikowano przedstawione poniżej wymagania dla projektowanego systemu.
@@ -277,7 +277,7 @@ Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje
 
 API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, który korzysta z Keycloak.
 
-\subsubsection{Wizualizacja danych}
+\subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
 Ostatnim etapem przepływu danych jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.

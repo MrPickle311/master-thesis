@@ -1,4 +1,4 @@
-\section{Konfiguracja klastra Kubernetes}
+\section{Konfiguracja i orkiestracja klastra Kubernetes}
 \label{chap:konfiguracja_kubernetes}
 
 System jest wdrożony na dwuwęzłowym klastrze Kubernetes, składającym się z węzła głównego (master) oraz węzła roboczego (worker). Klaster został skonfigurowany w celu zapewnienia wysokiej dostępności, skalowalności oraz bezpieczeństwa. W niniejszym rozdziale przedstawiono kluczowe aspekty tej konfiguracji, koncentrując się na infrastrukturze technicznej, mechanizmach komunikacji oraz wykorzystanych narzędziach i pluginach.
@@ -13,7 +13,7 @@ Definicje Ingress dla poszczególnych usług (np. \texttt{front-service.local}, 
 
 Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za pomocą standardowych usług Kubernetes typu \texttt{ClusterIP}. Dla usług stanowych, takich jak Kafka i Zookeeper, wykorzystywane są usługi typu \texttt{ClusterIP} z ustawieniem \texttt{clusterIP: None} (headless services), co pozwala na bezpośrednią komunikację z poszczególnymi podami.
 
-\subsection{Zarządzanie konfiguracją}
+\subsection{Zarządzanie konfiguracją aplikacji}
 
 Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, który zawiera plik \texttt{application.yaml} ze specyficznymi ustawieniami Spring Boot, takimi jak adresy URL usług zależnych, konfiguracja połączeń z bazą danych, Kafką, czy Keycloak.
 
