@@ -344,9 +344,7 @@ class Pressure(SensorData):
     pressure: PressureData
 \end{lstlisting}
 
-\textbf{Algorytm publikowania danych}
-
-Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu.
+\textbf{Algorytm publikowania danych} : Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu.
 
 \begin{enumerate}
     \item \textbf{Ładowanie metadanych} z S3 w celu określenia dostępnych plików danych
@@ -356,8 +354,6 @@ Funkcja Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja 
     \item \textbf{Generowanie unikalnych kluczy} zdarzeń dla każdego urządzenia
     \item \textbf{Publikowanie danych} do odpowiednich tematów SNS dla każdego sensora
 \end{enumerate}
-
-\textbf{Wyszukanie najbliższego rekordu}
 
 \begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu]
 def _find_closest_record(self, df, target_time):

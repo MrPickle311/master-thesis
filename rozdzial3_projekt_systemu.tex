@@ -97,7 +97,7 @@ Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wst
 W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
 Symulatory te generują dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_documentation} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości),
+Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_schema_org} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości),
 które stanowią interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji (Apache Kafka)}
@@ -187,30 +187,30 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{
 \begin{itemize}
     \item \textbf{agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
     \begin{itemize}
-        \item \textit{sensor_type} - typ sensora (np. "pressure", "temperature"),
+        \item \textit{sensor\_type} - typ sensora (np. "pressure", "temperature"),
         \item \textit{label} - etykieta urządzenia (np. "pump", "compressor"),
-        \item \textit{window_start} - początek okna czasowego,
-        \item \textit{window_end} - koniec okna czasowego,
-        \item \textit{avg_value} - średnia wartość pomiarów w oknie,
+        \item \textit{window\_start} - początek okna czasowego,
+        \item \textit{window\_end} - koniec okna czasowego,
+        \item \textit{avg\_value} - średnia wartość pomiarów w oknie,
         \item \textit{count} - liczba pomiarów w oknie.
     \end{itemize}
     
     \item \textbf{zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
-        \item \textit{event_id} - unikalny identyfikator zdarzenia,
-        \item \textit{sensor_type} - typ sensora, którego dotyczy zdarzenie,
+        \item \textit{event\_id} - unikalny identyfikator zdarzenia,
+        \item \textit{sensor\_type} - typ sensora, którego dotyczy zdarzenie,
         \item \textit{label} - etykieta urządzenia,
         \item \textit{timestamp} - czas wykrycia zdarzenia,
         \item \textit{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia"),
         \item \textit{status} - status alertu (np. "Ostrzeżenie", "Krytyczny"),
-        \item \textit{actual_value} - rzeczywista wartość, która spowodowała zdarzenie.
+        \item \textit{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
     \item \textbf{dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
     \begin{itemize}
-        \item \textit{original_sensor_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
-        \item \textit{predicted_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
-        \item \textit{model_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier}).
+        \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
+        \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
+        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier}).
     \end{itemize}
 \end{itemize}
 
