@@ -79,7 +79,7 @@ W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie I
 a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak Apache Kafka \cite{spark_documentation} czy Apache Flink \cite{flink}.
 
 
-\subsection{Architektura mikroserwisowa}
+\subsection{Przedstawienie architektury mikroserwisowej}
 \label{subsec:architektura_mikroserwisowa}
 
 Architektura mikroserwisowa to podejście do tworzenia aplikacji jako zbioru luźno powiązanych, małych, autonomicznych usług,
@@ -150,7 +150,7 @@ Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kube
 W kontekście analizy danych strumieniowych, szczególnie istotne są narzędzia Big Data do przetwarzania strumieniowego \cite{spark_streaming}.
 Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 
-\subsubsection{Apache Kafka}
+\subsubsection{Przedstawienie Apache Kafka}
 \label{subsubsec:apache_kafka}
 
 Apache Kafka \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
@@ -164,7 +164,7 @@ Apache Software Foundation. Kafka oferuje następujące funkcjonalności:
     \item \textbf{gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz.
 \end{itemize}
 
-\subsubsection{Kafka Streams}
+\subsubsection{Przedstawienie Kafka Streams}
 \label{subsubsec:kafka_streams}
 
 Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \cite{kafka_streams}. Oferuje następujące funkcjonalności:
@@ -177,7 +177,7 @@ Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache 
     \item \textbf{dokładnie raz} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych.
 \end{itemize}
 
-\subsubsection{Apache Flink}
+\subsubsection{Przedstawienie Apache Flink}
 \label{subsubsec:apache_flink}
 
 Apache Flink to framework przetwarzania strumieniowego, oferujący funkcjonalności podobne do Kafka Streams,
@@ -191,7 +191,7 @@ ale jako oddzielna platforma \cite{flink}. Flink charakteryzuje się:
     \item \textbf{obsługą czasu zdarzeń} - możliwość przetwarzania danych na podstawie czasu, w którym zdarzenia zostały wygenerowane.
 \end{itemize}
 
-\subsubsection{Apache Spark Streaming}
+\subsubsection{Przedstawienie Apache Spark Streaming}
 \label{subsubsec:spark_streaming}
 
 Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache Spark \cite{spark_streaming}.
@@ -204,7 +204,7 @@ Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakie
     \item \textbf{łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów.
 \end{itemize}
 
-\subsubsection{Apache Avro i Confluent Schema Registry}
+\subsubsection{Przedstawienie Apache Avro i Confluent Schema Registry}
 \label{subsubsec:avro_schema_registry}
 
 W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących Apache Kafka, kluczowe znaczenie ma efektywna serializacja danych oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
