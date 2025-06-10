@@ -33,8 +33,13 @@ Jako model klasyfikacyjny wykorzystywany jest \\ \texttt{RandomForestClassifier}
 \textbf{Zapis i przygotowanie modelu do inferencji.}
 Po zakończeniu treningu, wytrenowany potok jest zapisywany na dysku. Skrypt treningowy generuje dwie główne struktury modelu. Pierwsza, określana jako "pełny potok deweloperski" (zapisywana w ścieżce \texttt{spark\_model\_path + "\_dev\_full\_pipeline"}), zawiera wszystkie etapy, łącznie ze \texttt{StringIndexer}, i jest używana na potrzeby ewaluacji i dalszych prac deweloperskich w środowisku Python. Druga wersja, kluczowa dla aplikacji \texttt{SparkDataProcessor}, jest zapisywana bezpośrednio pod ścieżką docelową dla modelu inferencyjnego. Ten model inferencyjny jest specjalnie przygotowanym potokiem, który składa się z \texttt{VectorAssembler} (z wytrenowanego pełnego potoku), wytrenowanego modelu \texttt{RandomForestClassifier} oraz, co istotne, transformatora \texttt{IndexToString}. Zadaniem \texttt{IndexToString} jest przekształcenie numerycznych predykcji modelu (kolumna \texttt{prediction}) z powrotem na etykiety tekstowe (kolumna \texttt{predicted\_status}), wykorzystując mapowania (etykiety) nauczone przez \texttt{StringIndexer} podczas treningu i zapisane w pełnym potoku. Dzięki temu aplikacja Scala otrzymuje predykcje w czytelnej, tekstowej formie. Skrypt treningowy posiada również logikę umożliwiającą wczytanie wcześniej zapisanego pełnego potoku deweloperskiego, jeśli jest on dostępny, co przyspiesza iteracyjne uruchomienia i pozwala na ponowne wygenerowanie modelu inferencyjnego bez pełnego treningu.
 
-% TODO
-% DODAJ PORÓWNANIE ORYGINALNEJ CSV-KI I WYGENEROWANEJ PRZEZ MODEL
+\textbf{Wyniki treningu i skuteczność modelu}
+
+Model przetestowano wstępnie na zbiorze testowym w zadanym przedziale czasowym dla poszczególnego urządzenia (w tym przypadku kompresora), wyniki przedstawione są na rysunku \ref{Dane pokazujące prawdziwe stany urządzenia} oraz \ref{Dane pokazujące sklasyfikowane stany urządzenia}. Jak pokazano na porównaniu model wykazał się dobrym poziomem skuteczności. 
+
+\singlesizedimageforced{images/oryginal_klasyfikacja.png}{Wykres pokazujący prawdziwe stany urządzenia}{1.0}
+
+\singlesizedimageforced{images/klasyfikacja.png}{Dane pokazujące sklasyfikowane stany urządzenia}{1.0}
 
 \textbf{Ewaluacja i wyniki.}
 Skuteczność wytrenowanego modelu jest weryfikowana na zbiorach treningowym, walidacyjnym i testowym przy użyciu metryki dokładności (accuracy) za pomocą ewaluatora \texttt{MulticlassClassificationEvaluator}. 
