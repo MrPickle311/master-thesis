@@ -30,7 +30,6 @@
 \usepackage[font=small,labelfont=bf]{caption}
 
 \counterwithin{figure}{subsection}
-\counterwithin{listoffigures}{subsection}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -128,6 +127,21 @@
 % Define the keywords environment for abstracts
 \newenvironment{keywords}
   {\par\vskip\baselineskip\noindent\textbf{Słowa kluczowe:} }
+  {\par}
+
+% Define abstract_pl environment
+\newenvironment{abstract_pl}
+  {}
+  {}
+
+% Define abstract_en environment  
+\newenvironment{abstract_en}
+  {}
+  {}
+
+% Define keywords_en environment
+\newenvironment{keywords_en}
+  {\par\vskip\baselineskip\noindent\textbf{Keywords:} }
   {\par}
 
 \fancyhf{}

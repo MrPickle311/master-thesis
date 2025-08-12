@@ -126,11 +126,11 @@ $$\sigma_{mieszane}(f) = \sigma_{normal} + f \cdot (\sigma_{faulty} - \sigma_{no
 
 gdzie poziom uszkodzenia $f$ jest funkcją stanu i postępu w stanie:
 
-$$f(stan, postęp) = \begin{cases}
+$$f(stan, post\k{e}p) = \begin{cases}
 0.0 & \text{dla stanu normalnego} \\
-0.2 + 0.2 \cdot postęp & \text{dla wczesnego zużycia} \\
-0.4 + 0.3 \cdot postęp & \text{dla stanu podkrytycznego} \\
-0.7 + 0.3 \cdot postęp & \text{dla stanu krytycznego} \\
+0.2 + 0.2 \cdot post\k{e}p & \text{dla wczesnego zu\.{z}ycia} \\
+0.4 + 0.3 \cdot post\k{e}p & \text{dla stanu podkrytycznego} \\
+0.7 + 0.3 \cdot post\k{e}p & \text{dla stanu krytycznego} \\
 1.0 & \text{dla stanu naprawy}
 \end{cases}$$
 
@@ -231,7 +231,7 @@ Naprawa & 2h & 4h & Normalny \\
 
 System wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji hash:
 
-$$t_{stan} = t_{min} + \text{hash}(typ\_urządzenia + stan + timestamp) \bmod (t_{max} - t_{min})$$
+$$t_{stan} = t_{min} + \text{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{max} - t_{min})$$
 
 Zapewnia to powtarzalność generowanych danych przy wykorzystaniu tego samego ziarna losowego.
 
@@ -244,9 +244,9 @@ Generator implementuje algorytm generowania kompletnych szeregów czasowych dany
 
 Każdy typ urządzenia inicjalizowany jest z deterministycznym stanem początkowym:
 
-$$stan_{początkowy} = \begin{cases}
-\text{normalny} & \text{jeśli } h(typ) \bmod 1.0 < 0.5 \\
-\text{wczesne zużycie} & \text{jeśli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
+$$stan_{poczatkowy} = \begin{cases}
+\text{normalny} & \text{je\'sli } h(typ) \bmod 1.0 < 0.5 \\
+\text{wczesne zu\.{z}ycie} & \text{je\'sli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
 \text{podkrytyczny} & \text{w przeciwnym przypadku}
 \end{cases}$$
 
@@ -258,7 +258,7 @@ Dla każdego kroku czasowego $t$ (minuty):
 
 \begin{enumerate}
     \item Aktualizacja czasu w stanie: $t_{stan} = t_{stan} + \Delta t$
-    \item Obliczenie postępu: $postęp = \min(1.0, t_{stan} / t_{trwania})$
+    \item Obliczenie postępu: $progress = \min(1.0, t_{stan} / t_{trwania})$
     \item Sprawdzenie konieczności przejścia stanu
     \item Generowanie wartości docelowych z rozkładu wielowymiarowego
     \item Zastosowanie wygładzania czasowego
@@ -311,7 +311,7 @@ Format metadanych:
 
 Plik metadanych zawiera konfigurację systemu w formacie JSON:
 
-\begin{lstlisting}[language=JSON, caption=Plik metadanych]
+\begin{lstlisting}[caption=Plik metadanych]
 {
   "generated_at": "2023-01-15 14:30:00",
   "start_timestamp": 1672531200,
@@ -381,7 +381,7 @@ Dla każdego typu sensora utworzony jest dedykowany temat SNS:
 
 Format publikowanych wiadomości:
 
-\begin{lstlisting}[language=JSON, caption=Format publikowanych wiadomości]
+\begin{lstlisting}[caption=Format publikowanych wiadomości]
 {
   "label": "pump",
   "timestamp": 1672531200,

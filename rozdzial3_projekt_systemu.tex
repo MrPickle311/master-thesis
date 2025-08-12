@@ -191,7 +191,7 @@ Dane te są serializowane przy użyciu Apache Avro \cite{avro_documentation}, co
 
 Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez API zapytania do DataService, serwis ten wysyła zapytanie do Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}.
 
-\begin{lstlisting}[language=JSON, caption=Model raportów w Elasticsearch]
+\begin{lstlisting}[caption=Model raportów w Elasticsearch]
     {
         "properties": {
                 "id": {
@@ -249,7 +249,7 @@ Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów
     \end{lstlisting}
 
 
-\begin{lstlisting}[language=JSON, caption=Analizatory i normalizatory w Elasticsearch]
+\begin{lstlisting}[caption=Analizatory i normalizatory w Elasticsearch]
     {
         "analysis": {
           "normalizer": {
