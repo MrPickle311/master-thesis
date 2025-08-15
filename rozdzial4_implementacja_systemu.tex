@@ -59,10 +59,10 @@ W stworzonej autorskiej implementacji zastosowane zostały przedstawione poniże
 Architektura symulatora składa się z kilku kluczowych komponentów:
 
 \begin{itemize}
-    \item \textbf{AWS Step Functions} - usługa, która koordynuje wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
-    \item \textbf{AWS Lambda} \cite{aws_lambda_docs} - usługa bezserwerowa, która wykonuje kod symulatora,
-    \item \textbf{AWS SNS} (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień, która działa jako punkt dystrybucji dla wygenerowanych danych,
-    \item \textbf{AWS SQS} (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek, która buforuje wiadomości przed ich przetworzeniem przez system.
+    \item \textbf{AWS Step Functions} - usługa koordynująca wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
+    \item \textbf{AWS Lambda} \cite{aws_lambda_docs} - usługa bezserwerowa wykonująca kod symulatora,
+    \item \textbf{AWS SNS} (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień działająca jako punkt dystrybucji dla wygenerowanych danych,
+    \item \textbf{AWS SQS} (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek buforująca wiadomości przed ich przetworzeniem przez system.
 \end{itemize}
 
 %Schemat architektury symulatora przedstawiono na Rysunku \ref{fig:architektura_symulatora}.

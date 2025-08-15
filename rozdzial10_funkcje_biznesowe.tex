@@ -30,7 +30,7 @@ Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operac
     \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. Temperatura, Ciśnienie, Przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. Przed Kotłem, Za Sprężarką Powrotną) dostępnej dla danego typu sensora.
     \item modyfikować lub usuwać istniejące kafelki z wartościami sensorów.
 \end{itemize}
-Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, co pozwala na dostosowanie interfejsu do jego specyficznych potrzeb i zakresu odpowiedzialności. Dodatkowo, w celu optymalizacji prezentacji, kafelki wyświetlające wartości mogą mieć dynamicznie dostosowywaną szerokość. Dla sensorów oznaczonych w konfiguracji systemowej jako \texttt{wideSensors} – typowo tych, które prezentują wiele powiązanych wartości lub dłuższe opisy tekstowe – kafelek automatycznie zajmuje podwójną standardową szerokość. Zapewnia to lepszą czytelność i przejrzystość prezentowanych informacji, eliminując konieczność przycinania tekstu lub nadmiernego zagęszczania danych.
+Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, co pozwala na dostosowanie interfejsu do jego specyficznych potrzeb i zakresu odpowiedzialności. Dodatkowo, w celu optymalizacji prezentacji, kafelki wyświetlające wartości mogą mieć dynamicznie dostosowywaną szerokość. Dla sensorów oznaczonych w konfiguracji systemowej jako \texttt{wideSensors} – typowo tych, prezentujących wiele powiązanych wartości lub dłuższe opisy tekstowe – kafelek automatycznie zajmuje podwójną standardową szerokość. Zapewnia to lepszą czytelność i przejrzystość prezentowanych informacji, eliminując konieczność przycinania tekstu lub nadmiernego zagęszczania danych.
 
 \subsubsection{Wykresy danych}
 Sekcja \texttt{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych.
@@ -52,7 +52,7 @@ Użytkownik może zdefiniować nowy raport poprzez formularz, w którym określa
 \begin{itemize}
     \item nazwę, etykietę oraz opis raportu,
     \item konfigurację sensorów: wybór jednego lub wielu typów sensorów oraz, dla każdego typu, jednej lub wielu konkretnych etykiet pomiarowych, z których dane mają być uwzględnione w raporcie,
-    \item zakres czasowy: precyzyjny przedział dat (od-do), dla którego dane historyczne zostaną pobrane i zaprezentowane.
+    \item zakres czasowy: precycyzyjny przedział dat (od-do), dla którego dane historyczne zostaną pobrane i zaprezentowane.
 \end{itemize}
 Zdefiniowany raport jest zapisywany w systemie, a jego konfiguracja przechowywana w bazie danych PostgreSQL oraz indeksowana w Elasticsearch w celu umożliwienia szybkiego wyszukiwania.
 

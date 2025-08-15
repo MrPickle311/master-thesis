@@ -138,7 +138,7 @@ Warstwa usług i interfejs API odpowiada za udostępnianie danych i funkcjonalno
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością,
-    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, który wystawia interfejs API innych mikroserwisów na zewnątrz klastra.
+    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
@@ -321,24 +321,24 @@ Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionyc
 \label{subsubsec:generowanie_danych}
 
 Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs},
-które są wyzwalane periodycznie przez funckcje bezpośrednio osadzone na chmurze  \cite{aws_step_functions_docs}.
+wyzwalane periodycznie przez funckcje bezpośrednio osadzone na chmurze  \cite{aws_step_functions_docs}.
 Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
 umieszczonego w określonym miejscu instalacji.
 
 Dane są generowane w formacie JSON i zawierają informacje takie jak: identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i
-jednostka. Dane te są następnie publikowane na temat SNS \cite{sns_docs}, który działa jako punkt dystrybucji dla wielu subskrybentów.
+jednostka. Dane te są następnie publikowane na temat SNS \cite{sns_docs}, działający jako punkt dystrybucji dla wielu subskrybentów.
 
 \subsubsection{Przesyłanie danych do klastra}
 \label{subsubsec:przesylanie_danych}
 
-Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS \cite{sqs_docs}, które są subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
+Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS \cite{sqs_docs}, będących subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
-W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie odpytuje kolejki SQS i pobiera nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. topics) Kafki, w zależności od typu czujnika i lokalizacji.
+W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, regularnie odpytujący kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. topics) Kafki, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
@@ -352,7 +352,7 @@ Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane kana�
 \subsubsection{Zapisywanie danych do bazy danych}
 \label{subsubsec:zapisywanie_danych}
 
-Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, który zapisuje je do baz danych. Dane strukturalne, takie jak: odczyty czujników,
+Przetworzone dane są konsumowane przez mikroserwis Kafka-DB-Forwarder, zapisujący je do baz danych. Dane strukturalne, takie jak: odczyty czujników,
 agregacje i metadane, są zapisywane do bazy danych PostgreSQL.
 
 Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportowanie i wizualizację, a także zapewnia trwałość danych.
@@ -360,7 +360,7 @@ Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportow
 \subsubsection{Udostępnianie danych przez interfejs API}
 \label{subsubsec:udostepnianie_danych}
 
-Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje REST API do tworzenia i pobierania raportów. API umożliwia:
+Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący REST API do tworzenia i pobierania raportów. API umożliwia:
 
 \begin{itemize}
     \item \textbf{pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników,
@@ -369,7 +369,7 @@ Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje
     \item \textbf{pobieranie raportów} - dostęp do wcześniej wygenerowanych raportów.
 \end{itemize}
 
-API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, który korzysta z Keycloak.
+API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, wykorzystujący Keycloak.
 
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
