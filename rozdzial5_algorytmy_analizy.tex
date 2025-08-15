@@ -27,11 +27,11 @@ Model klasyfikacji \texttt{RandomForestClassifier}, wykorzystywany przez moduł 
 
 Źródłem danych treningowych są pliki CSV generowane przez symulator. Zawierają one historyczne odczyty sensorów (temperatura, ciśnienie, wibracje, wilgotność) oraz odpowiadający im rzeczywisty stan urządzenia (np. "Stan normalny", "Wczesne zużycie", itd.). Dane dla różnych typów urządzeń są wczytywane do Spark DataFrame (rozproszona kolekcja danych zorganizowana w nazwane kolumny) \cite{spark_dataframe} , a następnie łączone w jeden zbiór. Przeprowadzane jest czyszczenie danych, obejmujące m.in. usunięcie rekordów ze stanem \texttt{repair}, ponieważ ten stan nie jest przedmiotem klasyfikacji w czasie rzeczywistym, lecz wynikiem działania serwisowego. Kluczowym krokiem jest konwersja kolumny znacznika czasu (np. \texttt{timestamp}) do odpowiedniego formatu Spark TimestampType i sortowanie danych chronologicznie. Cały zbiór danych jest następnie dzielony na zbiory: treningowy (70\% danych), walidacyjny (15\%) oraz testowy (15\%). Podział ten realizowany jest w oparciu o kolejność czasową rekordów, co uzyskuje się przez dodanie kolumny z monotonicznie rosnącym ID po sortowaniu (\texttt{monotonically\_increasing\_id()}) i filtrowanie na podstawie progów wyliczonych z proporcji. Taki sposób podziału ma na celu lepsze symulowanie rzeczywistych warunków predykcji przyszłych stanów na podstawie danych historycznych.
 
- \item \textbf{Inżynieria cech.}
+ \item \textbf{Inżynieria cech}
 
 W tym etapie przygotowywane są cechy wejściowe dla modelu. Kolumny reprezentujące odczyty sensorów (\texttt{temperature}, \texttt{pressure}, \texttt{vibration}, \texttt{humidity}) są rzutowane na typ \texttt{double}. Zmienna docelowa, czyli kolumna \texttt{status} opisująca stan urządzenia, jest konwertowana na wartości numeryczne przy użyciu transformatora \texttt{StringIndexer} (transformator Spark ML konwertujący kolumnę etykiet tekstowych na kolumnę indeksów liczbowych) \cite{spark_string_indexer}, tworząc nową kolumnę \texttt{label}. Etykiety tekstowe, mapowane przez \texttt{StringIndexer} na indeksy, są zapamiętywane na potrzeby późniejszej konwersji predykcji z powrotem na tekst. Następnie, wybrane cechy numeryczne są łączone w jeden wektor cech za pomocą transformatora \texttt{VectorAssembler} (transformator Spark ML łączący wiele kolumn w jedną kolumnę wektorową) \cite{spark_vector_assember} , tworzący kolumnę \texttt{features}.
 
-    \item \textbf{Definicja i trening modelu.}
+    \item \textbf{Definicja i trening modelu}
 
 Jako model klasyfikacyjny wykorzystywany jest \\ \texttt{RandomForestClassifier} z biblioteki Spark MLlib \cite{spark_mllib_reference}, skonfigurowany m.in. z liczbą drzew decyzyjnych ustawioną na 100 (\texttt{numTrees=100}) oraz stałym ziarnem losowości (\texttt{seed=42}) dla zapewnienia reprodukowalności wyników. Cały proces transformacji danych i treningu modelu jest zdefiniowany jako potok (pipeline) Spark ML, składający się z sekwencji kroków: \texttt{StringIndexer} (dla kolumny \texttt{status}), \texttt{VectorAssembler} (dla cech wejściowych) oraz \\ \texttt{RandomForestClassifier}. Model jest trenowany poprzez wywołanie metody \texttt{fit()} na tym potoku, używając przygotowanego wcześniej zbioru treningowego.
 
@@ -50,7 +50,7 @@ Model przetestowano wstępnie na zbiorze testowym w zadanym przedziale czasowym 
 \singlesizedimageforced{images/klasyfikacja.png}{Dane pokazujące sklasyfikowane stany urządzenia}{1.0}
 \label{fig:sklasyfikowane_stany}
 
-    \item \textbf{Ewaluacja i wyniki.}
+    \item \textbf{Ewaluacja i wyniki}
 
 Skuteczność wytrenowanego modelu jest weryfikowana na zbiorach treningowym, walidacyjnym i testowym przy użyciu metryki dokładności (accuracy) za pomocą ewaluatora \texttt{MulticlassClassificationEvaluator}. 
 

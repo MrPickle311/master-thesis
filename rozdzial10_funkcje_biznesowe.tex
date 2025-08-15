@@ -14,8 +14,8 @@ Pulpit główny stanowi spersonalizowane centrum dowodzenia dla każdego użytko
 \subsubsection{Monitorowanie zdarzeń i alertów - Świadomość sytuacyjna}
 Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i prezentuje zdarzenia systemowe w porządku chronologicznym. Mogą to być zarówno standardowe komunikaty operacyjne, jak i krytyczne alerty informujące o przekroczeniach zdefiniowanych progów dla wartości sensorów lub innych istotnych incydentach. Funkcjonalność ta ma kluczowe znaczenie dla utrzymania ciągłości operacyjnej:
 \begin{itemize}
-    \item \textbf{szybka identyfikacja problemów:} możliwość filtrowania listy w celu wyświetlenia \textbf{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
-    \item \textbf{analiza incydentów:} zaawansowane opcje przeszukiwania zdarzeń według słów kluczowych oraz filtrowania ich według zdefiniowanego zakresu dat umożliwiają dogłębną analizę przyczyn źródłowych problemów oraz identyfikację wzorców i trendów w przeszłych zdarzeniach.
+    \item \textbf{szybka identyfikacja problemów} - możliwość filtrowania listy w celu wyświetlenia \textbf{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
+    \item \textbf{analiza incydentów} - zaawansowane opcje przeszukiwania zdarzeń według słów kluczowych oraz filtrowania ich według zdefiniowanego zakresu dat umożliwiają dogłębną analizę przyczyn źródłowych problemów oraz identyfikację wzorców i trendów w przeszłych zdarzeniach.
 \end{itemize}
 Informacje o zdarzeniach są dynamicznie pobierane aplikacji przetwrzającej danej \texttt{data-service}, które prawdopodobnie agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{kafka-data-processor}).
 
@@ -35,9 +35,9 @@ Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, co
 \subsubsection{Wykresy danych}
 Sekcja \texttt{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych.
 \begin{itemize}
-    \item \textbf{Dynamiczna wizualizacja stanu sensora:} Kluczową funkcją jest możliwość wizualizacji \textbf{stanu sensora} bezpośrednio na wykresie. Realizowane jest to poprzez dynamiczną zmianę koloru tła odpowiedniego regionu wykresu, co dostarcza natychmiastowego wizualnego sygnału o kondycji monitorowanego elementu lub procesu. Umożliwia to operatorom szybką ocenę sytuacji bez konieczności analizowania dokładnych wartości liczbowych.
-    \item \textbf{Personalizacja wykresów:} Podobnie jak w przypadku wartości numerycznych, użytkownicy w trybie edycji mogą dodawać nowe wykresy (wybierając typ sensora i etykietę), modyfikować konfigurację istniejących lub je usuwać, dostosowując widok do aktualnych potrzeb analitycznych.
-    \item \textbf{Regulacja zakresu czasowego:} Możliwość zmiany zakresu czasu prezentowanego na wykresach (np. ostatni dzień, ostatnie dwa dni, tydzień) pozwala na analizę zarówno krótkoterminowych fluktuacji, jak i długoterminowych wzorców zachowań systemu.
+    \item \textbf{dynamiczna wizualizacja stanu sensora} - kluczową funkcją jest możliwość wizualizacji \textbf{stanu sensora} bezpośrednio na wykresie. Realizowane jest to poprzez dynamiczną zmianę koloru tła odpowiedniego regionu wykresu, co dostarcza natychmiastowego wizualnego sygnału o kondycji monitorowanego elementu lub procesu. Umożliwia to operatorom szybką ocenę sytuacji bez konieczności analizowania dokładnych wartości liczbowych.
+    \item \textbf{personalizacja wykresów} - podobnie jak w przypadku wartości numerycznych, użytkownicy w trybie edycji mogą dodawać nowe wykresy (wybierając typ sensora i etykietę), modyfikować konfigurację istniejących lub je usuwać, dostosowując widok do aktualnych potrzeb analitycznych.
+    \item \textbf{regulacja zakresu czasowego} - możliwość zmiany zakresu czasu prezentowanego na wykresach (np. ostatni dzień, ostatnie dwa dni, tydzień) pozwala na analizę zarówno krótkoterminowych fluktuacji, jak i długoterminowych wzorców zachowań systemu.
 \end{itemize}
 
 \singlesizedimageforced{images/charts.png}{Wykresy danych}{1.0}
