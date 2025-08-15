@@ -5,7 +5,7 @@ W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rze
 
 System generatora został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem  funkcji AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
-Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z danymi z prawdziwych urządzeń przemysłowych. Na tej podstawie generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
+Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
 
 \singlesizedimageforced{images/generator_schema.png}{Schemat przepływu danych w generatorze}{1.0}
 
@@ -87,7 +87,7 @@ Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci pli
     \item słownik korelacji w formacie JSON.
 \end{itemize}
 
-Powyższe pliki konfiguracyjne stanowią bazę dla generatora danych, zapewniając, że symulowane dane zachowują realistyczne charakterystyki statystyczne i korelacyjne obserwowane w rzeczywistych danych przemysłowych.
+Powyższe pliki konfiguracyjne stanowią bazę dla generatora danych, zapewniając, że ich symulowacja zachowuje realistyczne charakterystyki statystyczne i korelacyjne obserwowane w rzeczywistych informacjach przemysłowych.
 
 Symulator wykorzystuje wielowymiarowe rozkłady normalne do generowania skorelowanych danych sensorycznych, zachowując realistyczne relacje między parametrami. Przejścia między stanami są modelowane probabilistycznie z określonymi czasami trwania dla każdego stanu.
 
@@ -95,7 +95,7 @@ Symulator wykorzystuje wielowymiarowe rozkłady normalne do generowania skorelow
 \subsection{Model matematyczny korelacji}
 \label{subsec:model_korelacji}
 
-Generator wykorzystuje macierze korelacji wyznaczone na podstawie analizy danych historycznych. System automatycznie ładuje macierze korelacji dla różnych kombinacji typów urządzeń i stanów technicznych z plików konfiguracyjnych wygenerowanych przez skrypt analizy.
+Generator wykorzystuje macierze korelacji wyznaczone na podstawie analizy informacji historycznych. System automatycznie ładuje macierze korelacji dla różnych kombinacji typów urządzeń i stanów technicznych z plików konfiguracyjnych wygenerowanych przez skrypt analizy.
 
 Dla każdego typu urządzenia $i$ i stanu $s$ dostępne są dedykowane macierze korelacji $\mathbf{R}_{i,s}$:
 
@@ -243,7 +243,7 @@ Zapewnia to powtarzalność generowanych danych przy wykorzystaniu tego samego z
 \subsection{Algorytm generowania danych historycznych}
 \label{subsec:algorytm_historycznych}
 
-Generator implementuje algorytm generowania kompletnych szeregów czasowych danych historycznych z minutową rozdzielczością.
+Generator implementuje algorytm generowania kompletnych szeregów czasowych historycznych z minutową rozdzielczością.
 
 \subsubsection{Inicjalizacja deterministyczna}
 
@@ -354,7 +354,7 @@ class Pressure(SensorData):
 \textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu. Składa się z następujących kroków:
 
 \begin{enumerate}
-    \item \textbf{ładowanie metadanych} z S3 w celu określenia dostępnych plików danych
+    \item \textbf{ładowanie metadanych} z S3 w celu określenia dostępnych plików z informacjami
     \item \textbf{ładowanie danych} dla każdego typu urządzenia z plików CSV
     \item \textbf{wyznaczenie aktualnego czasu} z zaokrągleniem do pełnej minuty
     \item \textbf{wyszukanie najbliższego rekordu} w danych historycznych dla każdego urządzenia

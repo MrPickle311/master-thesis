@@ -1,7 +1,7 @@
 \section{Projekt systemu przetwarzania danych w czasie rzeczywistym}
 \label{sec:projekt_systemu}
 
-W niniejszym rozdziale przedstawiono projekt systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach Big Data. Omówiono wymagania systemu, architekturę, model danych oraz przepływ danych.
+W niniejszym rozdziale przedstawiono projekt systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach Big Data. Omówiono wymagania systemu, architekturę, model oraz przepływ informacji.
 
 \subsection{Wymagania systemu osadzonego na klastrze Kubernetes}
 \label{subsec:wymagania}
@@ -12,7 +12,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
 \label{subsubsec:wymagania_funkcjonalne}
 
 \begin{itemize}
-    \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników, w tym:
+    \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie informacji z różnych typów czujników, w tym:
    \begin{itemize}
        \item czujników temperatury,
        \item czujników ciśnienia,
@@ -40,7 +40,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
        \item logowanie użytkowników,
        \item różne poziomy uprawnień (admin, operator, gość),
        \item rejestrację użytkowników z poziomu panelu administracyjnego,
-       \item kontrolę dostępu do danych. \newline
+       \item kontrolę dostępu do informacji. \newline
    \end{itemize}
     
 
@@ -70,7 +70,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
     
     \item \textbf{Bezpieczeństwo} - system powinien zapewniać:
     \begin{itemize}
-        \item szyfrowanie danych w spoczynku i w transporcie,
+        \item szyfrowanie informacji w spoczynku i w transporcie,
         \item uwierzytelnianie i autoryzację użytkowników,
         \item audytowanie dostępu do danych.
     \end{itemize}
@@ -109,14 +109,14 @@ Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich 
 W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego Apache Kafka \cite{kafka}.
 
 
-Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście przetwarzania danych w czasie rzeczywistym z wielu czujników.
+Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
 
 \subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę danych opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \singlesizedimageforced{images/spark_operator.png}{Działanie Spark Operatora z Driverami i aplikacją}{1.0}
 
@@ -150,7 +150,7 @@ Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewni
 \label{subsubsec:warstwa_prezentacji}
 
 Warstwa prezentacji odpowiada za wizualizację danych i interakcję z użytkownikami.
-W projektowanym systemie warstwa ta składa się z panelu sterowania, wyświetlający dane w formie wykresów, tabel i widżetów.
+W projektowanym systemie warstwa ta składa się z panelu sterowania, wyświetlającego informacje w formie wykresów, tabel i widżetów.
 
 Główne narzędzia panelu sterowania to:
 
@@ -161,7 +161,7 @@ Główne narzędzia panelu sterowania to:
     \item \textbf{raporty} - generowanie i przeglądanie raportów.
 \end{itemize}
 
-Panel sterowania jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji danych.
+Panel sterowania jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji informacji.
 
 \subsection{Model danych}
 \label{subsec:model_danych}
@@ -302,13 +302,13 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{
     
     \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
     \begin{itemize}
-        \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
+        \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych informacji z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
         \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
         \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \texttt{RandomForestClassifier}).
     \end{itemize}
 \end{itemize}
 
-Wszystkie te dane są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane dane (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak PostgreSQL lub Elasticsearch przez dedykowane serwisy (np. \texttt{Kafka-DB-Forwarder}).
+Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak PostgreSQL lub Elasticsearch przez dedykowane serwisy (np. \texttt{Kafka-DB-Forwarder}).
 
 \subsection{Przepływ danych w systemie}
 \label{subsec:przeplyw_danych}
@@ -343,7 +343,7 @@ Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
     \item \textbf{wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \texttt{EventProcessor}),
-    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych danych z wielu sensorów, przy użyciu modelu \texttt{RandomForestClassifier} (moduł \texttt{EquipmentStateProcessor}),
+    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych informacji z wielu sensorów, przy użyciu modelu \texttt{RandomForestClassifier} (moduł \texttt{EquipmentStateProcessor}),
     \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
@@ -374,8 +374,8 @@ API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowa
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
-Ostatnim etapem przepływu danych jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z interfejs API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+Ostatnim etapem przepływu informacji jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z interfejs API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
 
 Dashboard umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, dashboard może wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
 
-Przepływ danych w projektowanym systemie zapewnia efektywne pozyskiwanie, przetwarzanie i analizę danych w czasie rzeczywistym, co jest kluczowe w kontekście monitorowania i optymalizacji procesu syntezy amoniaku. 
+Przepływ informacji w projektowanym systemie zapewnia efektywne pozyskiwanie, przetwarzanie i analizę danych w czasie rzeczywistym, co jest kluczowe w kontekście monitorowania i optymalizacji procesu syntezy amoniaku. 

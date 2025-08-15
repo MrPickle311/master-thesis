@@ -1,8 +1,8 @@
 \section{Zastosowania praktyczne korzystające z opracowanego systemu}
 \label{sec:zastosowania_praktyczne}
 
-W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego systemu analizy danych z
-systemów wieloczujnikowych w różnych sektorach przemysłu. Omówiono korzyści ekonomiczne i operacyjne wynikające z wdrożenia systemu
+W niniejszym rozdziale przedstawiono praktyczne zastosowania opracowanego rozwiązania analitycznego z
+systemów wieloczujnikowych w różnych sektorach przemysłu. Omówiono korzyści ekonomiczne i operacyjne wynikające z wdrożenia oprogramowania
 oraz wyzwania napotkane podczas implementacji w rzeczywistych środowiskach produkcyjnych. Przedstawiony w pracy system można rozszerzyć o dodatkowe funkcje, które pozwolą na zastosowanie go w różnych sektorach przemysłu.
 
 \subsection{Przypadki użycia w przemyśle}
@@ -13,12 +13,12 @@ Opracowany system znalazł zastosowanie w kilku gałęziach przemysłu, gdzie an
 \subsubsection{Przemysł motoryzacyjny}
 \label{subsubsec:przemysl_motoryzacyjny}
 
-W fabryce produkującej komponenty automotive system mógłby zostać wdrożony do monitorowania i optymalizacji linii produkcyjnej, w szczególności maszyn zawierających elementy takie jak: pompy, sprężarki czy silniki. System mógłby być wykorzystywany do takich zadań jak:
+W fabryce produkującej komponenty automotive system mógłby zostać wdrożony do monitorowania i optymalizacji linii produkcyjnej, w szczególności maszyn zawierających elementy takie jak: pompy, sprężarki czy silniki. Oprogramowanie mogłoby być wykorzystywane do takich zadań jak:
 
 \begin{itemize}
     \item \textbf{monitorowanie stanu maszyn} - system zbierałby dane z czujników zainstalowanych na kluczowych maszynach (np. prasy hydrauliczne, roboty spawalnicze, systemy transportu bliskiego),
     analizując w czasie rzeczywistym parametry takie jak: temperatura, wibracje, ciśnienie i wilgotność, analogicznie do danych generowanych w systemie opisanym w rozdziale \ref{sec:implementacja_generowania},
-    \item \textbf{klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), system przewidywałby zmiany stanu technicznego maszyn,
+    \item \textbf{klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), oprogramowanie przewidywałoby zmiany stanu technicznego maszyn,
     umożliwiając zaplanowanie konserwacji predykcyjnej i minimalizację nieplanowanych przestojów,
     \item \textbf{kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwalałaby na wczesne wykrywanie odchyleń parametrów, mogących prowadzić do defektów
     produktów, system alarmowałby operatorów, gdy parametry procesu zbliżają się do wartości krytycznych.
@@ -27,7 +27,7 @@ W fabryce produkującej komponenty automotive system mógłby zostać wdrożony 
 \subsubsection{Przemysł energetyczny}
 \label{subsubsec:przemysl_energetyczny}
 
-W elektrowniach, zarówno konwencjonalnych, jak i wykorzystujących odnawialne źródła energii, system znalazłby zastosowanie do monitorowania kluczowych komponentów, takich jak: pompy, turbiny czy generatory. W tym przypadku system mógłby być wykorzystywany do takich zadań jak:
+W elektrowniach, zarówno konwencjonalnych, jak i wykorzystujących odnawialne źródła energii, system znalazłby zastosowanie do monitorowania kluczowych komponentów, takich jak: pompy, turbiny czy generatory. W tym przypadku oprogramowanie mogłoby być wykorzystywane do takich zadań jak:
 
 \begin{itemize}
     \item \textbf{optymalizacja pracy urządzeń} - analiza danych z czujników (temperatura łożysk, wibracje, ciśnienie w układach hydraulicznych) pozwalałaby na dynamiczne dostosowanie parametrów pracy urządzeń w celu maksymalizacji ich efektywności i żywotności,
@@ -111,7 +111,7 @@ Potencjalny zwrot z inwestycji w systemy analizy danych przemysłowych jest zale
 \subsubsection{Wyzwania techniczne}
 \label{subsubsec:wyzwania_techniczne}
 
-Wdrożenie systemu w przemyśle wymaga również rozwiązywania określonych wyzwań technicznych.
+Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określonych wyzwań technicznych.
 
 \begin{itemize}
     \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: SCADA, MES, ERP. Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. Kafka) może ułatwić ten proces,
@@ -125,20 +125,20 @@ Wdrożenie systemu w przemyśle wymaga również rozwiązywania określonych wyz
 \subsubsection{Wyzwania organizacyjne}
 \label{subsubsec:wyzwania_organizacyjne}
 
-Wdrożenie systemu w przemyśle wymaga również rozwiązywania określonych wyzwań organizacyjnych:
+Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określonych wyzwań organizacyjnych:
 
 \begin{itemize}
     \item \textbf{Silosy organizacyjne} - efektywne wdrożenie i wykorzystanie systemu analitycznego często wymaga współpracy między działami IT, produkcji, utrzymania ruchu i zarządzania jakością.
     \item \textbf{Kompetencje i umiejętności} - organizacje potrzebują pracowników z umiejętnościami w zakresie analizy danych, uczenia maszynowego oraz znajomością specyfiki procesów przemysłowych. Wskazany jest wówczas rozwój tych kompetencji lub pozyskanie specjalistów w tej dziedzinie.
     \item \textbf{Opór przed zmianą} - wprowadzenie nowych technologii i podejść opartych na danych może napotkać opór ze strony pracowników przyzwyczajonych do tradycyjnych metod pracy. W takich okolicznościach istotne jest zarządzanie zmianą i komunikacja korzyści.
-    \item \textbf{Definiowanie jasnych przypadków użycia i mierzalnych celów} - sukces wdrożenia zależy od dobrze zdefiniowanych problemów, rozwiązywanych przez system oraz od możliwości zmierzenia jego wpływu na operacje będące w toku w danym obszarze działalności.
+    \item \textbf{Definiowanie jasnych przypadków użycia i mierzalnych celów} - sukces wdrożenia zależy od dobrze zdefiniowanych problemów, rozwiązywanych przez oprogramowanie oraz od możliwości zmierzenia jego wpływu na operacje będące w toku w danym obszarze działalności.
     \item \textbf{Zarządzanie zmianą i adaptacja procesów} - wdrożenie systemu analitycznego to nie tylko kwestia technologii, ale również adaptacji istniejących procesów biznesowych i operacyjnych, aby w pełni wykorzystać potencjał płynący z analizy danych.
 \end{itemize}
 
 \subsection{Perspektywy rozwoju zastosowań praktycznych}
 \label{subsec:perspektywy_rozwoju}
 
-Dotychczasowe doświadczenia podczas wdrażania systemu, który jest przedmiotem niniejszej pracy oraz analiza trendów technologicznych i biznesowych pozwalają na zidentyfikowanie kluczowych kierunków rozwoju zastosowań praktycznych w przyszłości.
+Dotychczasowe doświadczenia podczas wdrażania oprogramowania, który jest przedmiotem niniejszej pracy oraz analiza trendów technologicznych i biznesowych pozwalają na zidentyfikowanie kluczowych kierunków rozwoju zastosowań praktycznych w przyszłości.
 
 \subsubsection{Kierunki rozwoju technologicznego}
 \label{subsubsec:kierunki_rozwoju_tech}

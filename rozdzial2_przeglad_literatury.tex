@@ -24,7 +24,7 @@ W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne
 Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed projektantami systemów szereg istotnych wyzwań technicznych - przedstawionych poniżej:
 
 \begin{itemize}
-    \item \textbf{Duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego powinny obsługiwać ogromne ilości danych napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania danych z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami.
+    \item \textbf{Duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego powinny obsługiwać ogromne ilości informacji napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania wolumenów z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami.
     
     \item \textbf{Wymóg niskich opóźnień} - aplikacje czasu rzeczywistego wymagają niemal natychmiastowego przetwarzania danych i generowania odpowiedzi. Opóźnienia mogą prowadzić do dezaktualizacji wyników i nieprawidłowych decyzji. Kluczowe jest zastosowanie przetwarzania w pamięci operacyjnej (zarezerwowanej dla aplikacji), optymalizacji zapytań i minimalizacji operacji wejścia/wyjścia.
     
@@ -38,7 +38,7 @@ Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed proje
     
     \item \textbf{Skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów.
     
-    \item \textbf{Bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy powinny implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony danych.
+    \item \textbf{Bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy powinny implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony informacji.
 \end{itemize}
 
 Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury systemu, doboru odpowiednich technologii oraz uwzględnienia specyficznych wymagań aplikacji. W kolejnych rozdziałach omówione zostaną narzędzia i techniki pozwalające sprostać tym wyzwaniom.
@@ -161,7 +161,7 @@ Apache Software Foundation. Kafka oferuje następujące możliwości:
 
 \begin{itemize}
     \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
-    \item \textbf{trwałość danych} - dane są przechowywane na dysku i replikowane między brokerami,
+    \item \textbf{trwałość danych} - informacje są przechowywane na dysku i replikowane między brokerami,
     \item \textbf{skalowalność} - łatwe skalowanie poziome przez dodawanie nowych brokerów,
     \item \textbf{mechanizm partycjonowania} - umożliwia równoległe przetwarzanie danych,
     \item \textbf{gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz.
@@ -210,7 +210,7 @@ Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakie
 \subsubsection{Apache Avro i Confluent Schema Registry}
 \label{subsubsec:avro_schema_registry}
 
-W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących Apache Kafka, kluczowe znaczenie ma efektywna serializacja danych oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
+W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących Apache Kafka, kluczowe znaczenie ma efektywna ich serializacja oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
 
 \textbf{Apache Avro} to format serializacji danych oparty na schematach, zapewniający kompaktową reprezentację binarną oraz bogate możliwości ewolucji schematów \cite{avro_documentation}. Dzięki temu możliwe jest modyfikowanie struktury danych bez zakłócania pracy istniejących producentów i konsumentów. Avro jest szczególnie popularne w ekosystemie Apache Kafka ze względu na swoją wydajność i elastyczność.
 
