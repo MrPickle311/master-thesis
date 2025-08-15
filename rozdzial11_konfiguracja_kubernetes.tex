@@ -7,38 +7,38 @@ Wszystkie aplikacje oraz usługi systemowe są wdrażane w dedykowanej przestrze
 
 \subsection{Architektura sieciowa i routing}
 
-Routing ruchu zewnętrznego do usług działających w klastrze jest realizowany za pomocą kontrolera Nginx Ingress. Kontroler ten jest skonfigurowany do obsługi zarówno ruchu HTTP/HTTPS, jak i do przekazywania ruchu TCP dla specyficznych usług, takich jak Kafka oraz PostgreSQL. Wszystkie usługi zewnętrzne są udostępniane przez ten sam kontroler Nginx Ingress, który działa jako LoadBalancer, a jego zewnętrzny adres IP jest punktem wejścia do klastra.
+Routing ruchu zewnętrznego do usług działających w klastrze jest realizowany za pomocą kontrolera Nginx Ingress. Kontroler ten jest skonfigurowany do obsługi zarówno ruchu HTTP/HTTPS, jak i do przekazywania ruchu TCP dla specyficznych usług, takich jak: Kafka oraz PostgreSQL. Wszystkie usługi zewnętrzne są udostępniane przez ten sam kontroler Nginx Ingress, działający jako LoadBalancer, a jego zewnętrzny adres IP jest punktem wejścia do klastra.
 
 Definicje Ingress dla poszczególnych usług (np. \texttt{front-service.local}, \texttt{cluster-ui.local}, \texttt{keycloak.local}, \texttt{elasticsearch.local}, \texttt{schema-registry.local}) wykorzystują lokalne nazwy hostów.
 
-Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za pomocą standardowych usług Kubernetes typu \texttt{ClusterIP}. Dla usług stanowych, takich jak Kafka i Zookeeper, wykorzystywane są usługi typu \texttt{ClusterIP} z ustawieniem \texttt{clusterIP: None} (headless services), co pozwala na bezpośrednią komunikację z poszczególnymi podami.
+Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za pomocą standardowych usług Kubernetes typu \texttt{ClusterIP}. Dla usług stanowych, takich jak: Kafka i Zookeeper, wykorzystywane są usługi typu \texttt{ClusterIP} z ustawieniem \texttt{clusterIP: None} (headless services), co pozwala na bezpośrednią komunikację z poszczególnymi podami.
 
 \subsection{Zarządzanie konfiguracją aplikacji}
 
-Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, który zawiera plik \texttt{application.yaml} ze specyficznymi ustawieniami Spring Boot, takimi jak adresy URL usług zależnych, konfiguracja połączeń z bazą danych, Kafką, czy Keycloak.
+Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, który zawiera plik \texttt{application.yaml} ze specyficznymi ustawieniami Spring Boot, takimi jak adresy URL usług zależnych, konfiguracja połączeń z bazą danych, brokerem Kafki, czy serwerem autoryzacyjnym Keycloak.
 
-Przykładem jest \texttt{front-service-config}, który definiuje trasy dla bramy API (Spring Cloud Gateway), wskazując na wewnętrzne usługi takie jak: \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{kafka-data-processor-config} zawiera szczegółową konfigurację strumieni Kafka Streams, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
+Przykładem obiektu mapy konfiguracyjnej (ang. \textit{ConfigMap}) \texttt{front-service-config}, który definiuje trasy dla bramy API (Spring Cloud Gateway), wskazując na wewnętrzne usługi takie jak: \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{kafka-data-processor-config} zawiera szczegółową konfigurację strumieni Kafka Streams, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
 
 \subsection{Bezpieczeństwo}
 
-Bezpieczeństwo klastra jest wzmocnione przez kilka mechanizmów:
+Bezpieczeństwo klastra jest wzmocnione przez przedstawione poniżej mechanizmy:
 
 \subsubsection{Zarządzanie certyfikatami TLS}
-Do automatycznego zarządzania certyfikatami TLS w klastrze wykorzystywany jest \texttt{cert-manager}, instalowany przy pomocy dostarczonych plików \texttt{values.yaml}. Zdefiniowane zasoby Ingress dla usług takich jak \texttt{front-service}, \texttt{cluster-ui} oraz \texttt{keycloak} zawierają sekcje \texttt{tls}, które wskazują na sekrety Kubernetes (np. \texttt{front-service-tls}, \texttt{cluster-ui-tls}) przechowujące certyfikaty i klucze prywatne, zarządzane przez \texttt{cert-manager}.
+Do automatycznego zarządzania certyfikatami TLS w klastrze wykorzystywany jest \texttt{cert-manager}, instalowany przy pomocy dostarczonych plików \texttt{values.yaml}. Zdefiniowane zasoby Ingress dla usług takich jak: \texttt{front-service}, \texttt{cluster-ui} oraz \texttt{keycloak} zawierają sekcje \texttt{tls}, które wskazują na sekrety Kubernetes (np. \texttt{front-service-tls}, \texttt{cluster-ui-tls}) przechowujące certyfikaty i klucze prywatne, zarządzane przez \texttt{cert-manager}.
 
 \subsubsection{Kontrola dostępu oparta na rolach (RBAC)}
 System wykorzystuje mechanizmy RBAC (Role-Based Access Control) do definiowania uprawnień dla poszczególnych komponentów. Przykładem jest \texttt{front-service}, dla którego zdefiniowano \texttt{ServiceAccount} (\texttt{front-service-sa}), \texttt{Role} (\texttt{front-service-role}) oraz \texttt{RoleBinding} \\ (\texttt{front-service-rolebinding}). Rola ta nadaje uprawnienia do odczytu i listowania podów oraz deploymentów, a także do tworzenia podów i ich wykonywania (pods/exec), co jest wykorzystywane w zadaniu (Job) \texttt{add-keycloak-host}.
 
 Operator Spark również posiada własną konfigurację RBAC, definiującą uprawnienia niezbędne do zarządzania aplikacjami Spark w przestrzeniach nazw \texttt{factory} oraz \texttt{default}.
 
-\subsubsection{Keycloak}
+\subsubsection{Serwer autoryzacyjny Keycloak}
 Keycloak jest wdrożony jako centralny serwer uwierzytelniania i autoryzacji. Jego konfiguracja obejmuje połączenie z bazą danych PostgreSQL (\texttt{database-svc}) oraz dane logowania administratora. Dostęp do interfejsu Keycloak jest zapewniony poprzez Ingress na adresie \texttt{keycloak.local}.
 
 \subsection{Platforma danych}
 
-Kluczowe komponenty platformy danych to Kafka, Elasticsearch oraz PostgreSQL. Wszystkie te usługi wykorzystują mechanizmy przechowywania danych bezpośrednio na węzłach klastra.
+Kluczowe komponenty platformy danych to broker Kafki, bazy danych Elasticsearch oraz PostgreSQL. Wszystkie te usługi wykorzystują mechanizmy przechowywania danych bezpośrednio na węzłach klastra.
 
-\subsubsection{Apache Kafka i Schema Registry}
+\subsubsection{Broker Apache Kafka i serwer Schema Registry}
 Klaster Kafka składa się z trzech brokerów oraz instancji Zookeepera. Każdy broker oraz Zookeeper są wdrażane jako \texttt{StatefulSet} i wykorzystują wolumeny typu \texttt{hostPath} do przechowywania danych bezpośrednio na fizycznych węzłach klastra: Zookeeper na węźle master, a brokery Kafka częściowo na węźle roboczym i masterze. Taka konfiguracja przypina konkretne instancje do fizycznych maszyn. Komunikacja z brokerami odbywa się poprzez dedykowane usługi \texttt{ClusterIP} (headless dla komunikacji wewnętrznej i standardowe dla ruchu zewnętrznego poprzez Nginx Ingress z mapowaniem portów TCP).
 
 Confluent Schema Registry jest również wdrożony i połączony z Zookeeperem oraz brokerami Kafka, umożliwiając zarządzanie schematami Avro. Dostęp do Schema Registry jest zapewniony przez Ingress na adresie \texttt{schema-registry.local}. Po uruchomieniu klastra Kafka, uruchamiane jest zadanie (Job) \texttt{create-topics}, które automatycznie tworzy predefiniowaną listę tematów Kafka z odpowiednią liczbą partycji i współczynnikiem replikacji.
@@ -67,4 +67,4 @@ Dodatkowym elementem jest zadanie (Job) \texttt{add-keycloak-host} powiązane z 
 
 Wiele wdrożeń (Deployments) i StatefulSetów definiuje żądania (requests) i limity (limits) zasobów CPU i pamięci, co jest dobrą praktyką zapewniającą stabilność klastra. Przykładowo, \texttt{front-service} ma zdefiniowane limity na 500m CPU i 512Mi pamięci, a \texttt{keycloak} na 1000m CPU i 1Gi pamięci.
 
-Dodatkowo, dla kluczowych usług takich jak \texttt{front-service}, \texttt{cluster-ui} oraz \texttt{keycloak}, zdefiniowane są sondy żywotności (livenessProbe) i gotowości (readinessProbe). Sondy te pozwalają Kubernetes na monitorowanie stanu aplikacji i automatyczne restartowanie kontenerów lub kierowanie ruchu tylko do zdrowych instancji.
+Dodatkowo, dla kluczowych usług takich jak: \texttt{front-service}, \texttt{cluster-ui} oraz \texttt{keycloak}, zdefiniowane są sondy żywotności (livenessProbe) i gotowości (readinessProbe). Sondy te pozwalają klastrowi Kubernetes na monitorowanie stanu aplikacji i automatyczne restartowanie kontenerów lub kierowanie ruchu tylko do zdrowych instancji.

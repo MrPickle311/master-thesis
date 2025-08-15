@@ -12,7 +12,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
 \label{subsubsec:wymagania_funkcjonalne}
 
 \begin{itemize}
-    \item \textbf{pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników, w tym:
+    \item \textbf{Pozyskiwanie danych} - system powinien umożliwiać pozyskiwanie danych z różnych typów czujników, w tym:
    \begin{itemize}
        \item czujników temperatury,
        \item czujników ciśnienia,
@@ -20,7 +20,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
        \item czujników drgań.
    \end{itemize}
     
-    \item \textbf{przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
+    \item \textbf{Przetwarzanie danych} - system powinien umożliwiać przetwarzanie danych w czasie rzeczywistym, w tym:
     \begin{itemize}
         \item filtrację danych,
         \item agregację danych w różnych oknach czasowych,
@@ -28,22 +28,23 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
         \item generowanie zdarzeń.
     \end{itemize}
     
-    \item \textbf{wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
+    \item \textbf{Wizualizacja danych} - system powinien umożliwiać wizualizację danych w czasie rzeczywistym, w tym:
     \begin{itemize}
         \item wykresy liniowe,
         \item wskaźniki i mierniki,
         \item alerty i powiadomienia.
     \end{itemize}
     
-   \item \textbf{zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
+   \item \textbf{Zarządzanie użytkownikami} - system powinien umożliwiać zarządzanie użytkownikami, w tym:
    \begin{itemize}
        \item logowanie użytkowników,
        \item różne poziomy uprawnień (admin, operator, gość),
        \item rejestrację użytkowników z poziomu panelu administracyjnego,
-       \item kontrolę dostępu do danych.
+       \item kontrolę dostępu do danych. \newline
    \end{itemize}
     
-    \item \textbf{raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
+
+    \item \textbf{Raportowanie} - system powinien umożliwiać generowanie raportów, w tym:
    \begin{itemize}
        \item tworzenie raportów dla dowolnej zakresu czasu,
        \item edycję raportów,
@@ -56,25 +57,25 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
 
 \begin{itemize}
     
-    \item \textbf{skalowalność} - system powinien umożliwiać:
+    \item \textbf{Skalowalność} - system powinien umożliwiać:
     \begin{itemize}
         \item skalowanie horyzontalne (dodawanie nowych węzłów),
         \item automatyczne skalowanie w zależności od obciążenia.
     \end{itemize}
     
-    \item \textbf{niezawodność} - system powinien charakteryzować się:
+    \item \textbf{Niezawodność} - system powinien charakteryzować się:
     \begin{itemize}
         \item odpornością na awarie pojedynczych komponentów.
     \end{itemize}
     
-    \item \textbf{bezpieczeństwo} - system powinien zapewniać:
+    \item \textbf{Bezpieczeństwo} - system powinien zapewniać:
     \begin{itemize}
         \item szyfrowanie danych w spoczynku i w transporcie,
         \item uwierzytelnianie i autoryzację użytkowników,
         \item audytowanie dostępu do danych.
     \end{itemize}
     
-    \item \textbf{utrzymywalność} - system powinien charakteryzować się:
+    \item \textbf{Utrzymywalność} - system powinien charakteryzować się:
     \begin{itemize}
         \item modułową architekturą,
         \item dobrą dokumentacją,
@@ -96,17 +97,16 @@ Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunku 
 \label{subsubsec:warstwa_pozyskiwania}
 
 Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wstępne przetworzenie.
-W projektowanym systemie, dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
-Symulatory te generują dane symulujące odczyty z różnych typów czujników.
+W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
+Generują one dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_schema_org} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości),
-które stanowią interfejs między AWS a klastrem Kubernetes.
+Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_schema_org} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości), stanowiących interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji (Apache Kafka)}
 \label{subsubsec:warstwa_komunikacji}
 
 Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich dostarczanie do warstwy przetwarzania.
-W projektowanym systemie, warstwa ta opiera się na Apache Kafka \cite{kafka}, rozproszonej platformie do przetwarzania strumieniowego.
+W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego Apache Kafka \cite{kafka}.
 
 
 Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście przetwarzania danych w czasie rzeczywistym z wielu czujników.
@@ -114,7 +114,7 @@ Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalnoś
 \subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie, warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni danych. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w Rozdziale \ref{sec:algorytmy_analizy}.
 
 Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę danych opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
@@ -123,23 +123,22 @@ Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaa
 \subsubsection{Warstwa składowania danych}
 \label{subsubsec:warstwa_skladowania}
 
-Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie, warstwa ta składa się z dwóch głównych komponentów:
+Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie warstwa ta składa się z dwóch głównych komponentów:
 
 \begin{itemize}
     \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
     \item \textbf{Elasticsearch} - baza danych NoSQL \cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
-\subsubsection{Warstwa usług i API}
+\subsubsection{Warstwa usług i interfejs API}
 \label{subsubsec:warstwa_uslug}
 
-Warstwa usług i API odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie,
-warstwa ta składa się z kilku mikroserwisów:
+Warstwa usług i interfejs API odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie warstwa ta składa się z kilku mikroserwisów:
 
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością,
-    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, który ekspozuje API innych mikroserwisów na zewnątrz klastra.
+    \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, który wystawia interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
@@ -151,9 +150,9 @@ Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewni
 \label{subsubsec:warstwa_prezentacji}
 
 Warstwa prezentacji odpowiada za wizualizację danych i interakcję z użytkownikami.
-W projektowanym systemie, warstwa ta składa się z dashboardu, który wyświetla dane w formie wykresów, tabel i widżetów.
+W projektowanym systemie warstwa ta składa się z panelu sterowania, wyświetlający dane w formie wykresów, tabel i widżetów.
 
-Główne funkcjonalności dashboardu to:
+Główne narzędzia panelu sterowania to:
 
 \begin{itemize}
     \item \textbf{wykresy liniowe} - wizualizacja zmian parametrów w czasie,
@@ -162,7 +161,7 @@ Główne funkcjonalności dashboardu to:
     \item \textbf{raporty} - generowanie i przeglądanie raportów.
 \end{itemize}
 
-Dashboard jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji danych.
+Panel sterowania jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji danych.
 
 \subsection{Model danych}
 \label{subsec:model_danych}
@@ -184,7 +183,7 @@ Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzeni
     \item \textbf{jednostka} - jednostka, w której wyrażona jest wartość.
 \end{itemize}
 
-Dane te są serializowane przy użyciu Apache Avro \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
+Dane te są serializowane przy użyciu serializatora Apache Avro \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
 
 \subsection{Model raportów w Elasticsearch}
 \label{subsec:model_raportow}
@@ -280,7 +279,7 @@ Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów
 Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{SparkDataProcessor} i obejmują:
 
 \begin{itemize}
-    \item \textbf{agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
+    \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \texttt{MeanProcessor} w zdefiniowanych oknach czasowych:
     \begin{itemize}
         \item \textit{sensor\_type} - typ sensora (np. "pressure", "temperature"),
         \item \textit{label} - etykieta urządzenia (np. "pump", "compressor"),
@@ -290,7 +289,7 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{
         \item \textit{count} - liczba pomiarów w oknie.
     \end{itemize}
     
-    \item \textbf{zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
+    \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \texttt{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
         \item \textit{event\_id} - unikalny identyfikator zdarzenia,
         \item \textit{sensor\_type} - typ sensora, którego dotyczy zdarzenie,
@@ -301,7 +300,7 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{
         \item \textit{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
-    \item \textbf{dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
+    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \texttt{EquipmentStateProcessor} z użyciem modelu \texttt{RandomForestClassifier}:
     \begin{itemize}
         \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych danych z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
         \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
@@ -322,7 +321,7 @@ Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionyc
 \label{subsubsec:generowanie_danych}
 
 Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs},
-które są wyzwalane periodycznie przez AWS Step Functions \cite{aws_step_functions_docs}.
+które są wyzwalane periodycznie przez funckcje bezpośrednio osadzone na chmurze  \cite{aws_step_functions_docs}.
 Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
 umieszczonego w określonym miejscu instalacji.
 
@@ -334,12 +333,12 @@ jednostka. Dane te są następnie publikowane na temat SNS \cite{sns_docs}, któ
 
 Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS \cite{sqs_docs}, które są subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
-W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie odpytuje kolejki SQS i pobiera nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie tematy Kafka, w zależności od typu czujnika i lokalizacji.
+W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, który regularnie odpytuje kolejki SQS i pobiera nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. topics) Kafki, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, który wykorzystuje silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
@@ -348,7 +347,7 @@ Dane opublikowane na tematach Kafka są przetwarzane przez mikroserwis \texttt{S
     \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
-Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane tematy Kafka.
+Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane kanały Kafka.
 
 \subsubsection{Zapisywanie danych do bazy danych}
 \label{subsubsec:zapisywanie_danych}
@@ -358,10 +357,10 @@ agregacje i metadane, są zapisywane do bazy danych PostgreSQL.
 
 Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportowanie i wizualizację, a także zapewnia trwałość danych.
 
-\subsubsection{Udostępnianie danych przez API}
+\subsubsection{Udostępnianie danych przez interfejs API}
 \label{subsubsec:udostepnianie_danych}
 
-Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje REST API do tworzenia i pobierania raportów. API to umożliwia:
+Zapisane dane są udostępniane przez mikroserwis Data-Service, który ekspozuje REST API do tworzenia i pobierania raportów. API umożliwia:
 
 \begin{itemize}
     \item \textbf{pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników,
@@ -375,7 +374,7 @@ API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowa
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
-Ostatnim etapem przepływu danych jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+Ostatnim etapem przepływu danych jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z interfejs API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
 
 Dashboard umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, dashboard może wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
 

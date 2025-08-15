@@ -11,9 +11,9 @@ Analiza danych w czasie rzeczywistym (ang. Real-Time Analytics) odnosi się do p
 Kluczowe aspekty analizy danych w czasie rzeczywistym to:
 
 \begin{itemize}
-    \item \textbf{Niskie opóźnienia (ang. Low Latency)}, oznaczające minimalny czas od momentu pojawienia się danych do momentu uzyskania wyników analizy,
-    \item \textbf{Wysoka przepustowość (ang. High Throughput)}, czyli zdolność systemu do przetwarzania dużej liczby zdarzeń lub transakcji w jednostce czasu,
-    \item \textbf{Ciągłe przetwarzanie (ang. Continuous Processing)}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
+    \item \textbf{niskie opóźnienia (ang. Low Latency)}, oznaczające minimalny czas od momentu pojawienia się danych do momentu uzyskania wyników analizy,
+    \item \textbf{wysoka przepustowość (ang. High Throughput)}, czyli zdolność systemu do przetwarzania dużej liczby zdarzeń lub transakcji w jednostce czasu,
+    \item \textbf{ciągłe przetwarzanie (ang. Continuous Processing)}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
 \end{itemize}
 
 W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne jest przetwarzanie strumieniowe, które umożliwia szybką reakcję na zmieniające się warunki procesu produkcyjnego.
@@ -21,39 +21,38 @@ W kontekście analizy danych z systemów wieloczujnikowych, szczególnie istotne
 \subsubsection{Wyzwania w analizie danych strumieniowych}
 \label{subsubsec:wyzwania_analizy_rt}
 
-Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed projektantami systemów szereg istotnych wyzwań technicznych. Kluczowe wyzwania obejmują:
+Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed projektantami systemów szereg istotnych wyzwań technicznych - przedstawionych poniżej:
 
 \begin{itemize}
-    \item \textbf{duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego muszą obsługiwać ogromne ilości danych napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania danych z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami,
+    \item \textbf{Duża objętość i wysoka prędkość danych} - systemy czasu rzeczywistego powinny obsługiwać ogromne ilości danych napływających z wysoką prędkością. Wymaga to wydajnej infrastruktury zdolnej do przetwarzania danych z minimalnym opóźnieniem. Rozwiązaniem jest wykorzystanie systemów rozproszonych, optymalizacja algorytmów oraz efektywne zarządzanie zasobami.
     
-    \item \textbf{wymóg niskich opóźnień} - aplikacje czasu rzeczywistego wymagają niemal natychmiastowego przetwarzania danych i generowania odpowiedzi. Opóźnienia mogą prowadzić do nieaktualnych wyników i nieprawidłowych decyzji. Kluczowe jest zastosowanie przetwarzania w pamięci, optymalizacji zapytań i minimalizacji operacji wejścia/wyjścia,
+    \item \textbf{Wymóg niskich opóźnień} - aplikacje czasu rzeczywistego wymagają niemal natychmiastowego przetwarzania danych i generowania odpowiedzi. Opóźnienia mogą prowadzić do dezaktualizacji wyników i nieprawidłowych decyzji. Kluczowe jest zastosowanie przetwarzania w pamięci operacyjnej (zarezerwowanej dla aplikacji), optymalizacji zapytań i minimalizacji operacji wejścia/wyjścia.
     
-    \item \textbf{spójność i dokładność danych} - utrzymanie spójności danych podczas ich przetwarzania jest krytyczne dla poprawności analizy. Systemy muszą zapewnić dokładną semantykę przetwarzania (exactly-once processing) i obsługę nieporządku czasowego w danych,
+    \item \textbf{Spójność i dokładność danych} - utrzymanie spójności danych podczas ich przetwarzania jest krytyczne dla poprawności analizy. Systemy powinny zapewnić dokładną semantykę przetwarzania (exactly-once processing) i obsługę braku uporządkowania czasowego w danych.
     
-    \item \textbf{odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego muszą działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia,
+    \item \textbf{Odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego powinny działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia.
     
-    \item \textbf{przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (Complex Event Processing) zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym,
+    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (Complex Event Processing) zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
     
-    \item \textbf{integracja z istniejącymi systemami} - nowe rozwiązania muszą współpracować z istniejącą infrastrukturą IT. Wymaga to wykorzystania standardowych interfejsów, brokerów wiadomości i metod transformacji danych,
+    \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania powinny współpracować z istniejącą infrastrukturą IT. Wymaga to wykorzystania standardowych interfejsów, brokerów wiadomości i.
     
-    \item \textbf{skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów,
+    \item \textbf{Skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów.
     
-    \item \textbf{bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy muszą implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony danych.
+    \item \textbf{Bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy powinny implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony danych.
 \end{itemize}
 
-Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury systemu, doboru odpowiednich technologii oraz uwzględnienia specyficznych wymagań aplikacji. W kolejnych rozdziałach omówione zostaną narzędzia i techniki, które pozwalają sprostać tym wyzwaniom.
+Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury systemu, doboru odpowiednich technologii oraz uwzględnienia specyficznych wymagań aplikacji. W kolejnych rozdziałach omówione zostaną narzędzia i techniki pozwalające sprostać tym wyzwaniom.
 
 \subsection{Systemy wieloczujnikowe w przemyśle}
 \label{subsec:systemy_wieloczujnikowe}
 
-Systemy wieloczujnikowe to zbiory urządzeń pomiarowych, które monitorują różne parametry procesów przemysłowych \cite{multisensor_systems}.
-W nowoczesnych zakładach produkcyjnych, systemy te generują ogromne ilości danych, które odpowiednio przetworzone mogą
-dostarczyć cennych informacji na temat stanu procesu.
+Systemy wieloczujnikowe to zbiory urządzeń pomiarowych, monitorujących różne parametry procesów przemysłowych \cite{multisensor_systems}.
+W nowoczesnych zakładach produkcyjnych, systemy te generują ogromne ilości danych, które odpowiednio przetworzone mogą dostarczyć cennych informacji na temat stanu procesu.
 
 \subsubsection{Rodzaje czujników przemysłowych}
 \label{subsubsec:rodzaje_czujnikow}
 
-W przemyśle wykorzystuje się różne rodzaje czujników:
+W przemyśle wykorzystuje się różne rodzaje czujników, odnoszące się do różnych wielkości fizycznych, takich jak:
 
 \begin{itemize}
     \item \textbf{czujniki temperatury} - monitorują temperaturę w różnych punktach instalacji,
@@ -76,8 +75,12 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
 \end{itemize}
 
 W nowoczesnych systemach, warstwa komunikacji często wykorzystuje technologie IoT, takie jak: MQTT, AMQP czy OPC UA,
-a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak Apache Kafka \cite{spark_documentation} czy Apache Flink \cite{flink}.
+a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak:
 
+\begin{itemize}
+    \item Apache Kafka \cite{spark_documentation},
+    \item Apache Flink \cite{flink}.
+\end{itemize}
 
 \subsection{Przedstawienie architektury mikroserwisowej}
 \label{subsec:architektura_mikroserwisowa}
@@ -102,13 +105,13 @@ Architektura mikroserwisowa oferuje szereg zalet w kontekście systemów do anal
 \subsubsection{Wyzwania architektury mikroserwisowej}
 \label{subsubsec:wyzwania_mikroserwisow}
 
-Architektura mikroserwisowa stawia również pewne wyzwania \cite{microservice_challenges}:
+Architektura mikroserwisowa stawia również pewne wyzwania, takie jak \cite{microservice_challenges}:
 
 \begin{itemize}
     \item \textbf{złożoność operacyjna} - zarządzanie wieloma niezależnymi usługami może być skomplikowane,
-    \item \textbf{spójność danych} - trudności w utrzymaniu spójności danych między różnymi mikroserwisami,
+    \item \textbf{spójność danych} - z uwagi na trudności w utrzymaniu spójności danych między różnymi mikroserwisami,
     \item \textbf{koszty komunikacji sieciowej} - komunikacja między mikroserwisami wprowadza dodatkowe opóźnienia,
-    \item \textbf{testowanie end-to-end} - trudności w testowaniu całego systemu złożonego z wielu niezależnych usług.
+    \item \textbf{testowanie end-to-end} - z uwagi na trudności w testowaniu całego systemu złożonego z wielu niezależnych usług.
 \end{itemize}
 
 \subsection{Kubernetes jako platforma orkiestracji kontenerów}
@@ -117,16 +120,16 @@ Architektura mikroserwisowa stawia również pewne wyzwania \cite{microservice_c
 Kubernetes to otwarta platforma do orkiestracji kontenerów, która automatyzuje wdrażanie, skalowanie i zarządzanie aplikacjami
 kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez \cite{cncf_website}.
 
-\subsubsection{Podstawowe koncepcje Kubernetes}
+\subsubsection{Podstawowe koncepcje platformy Kubernetes}
 \label{subsubsec:podstawy_kubernetes}
 
-Kubernetes operuje na kilku kluczowych koncepcjach \cite{kubernetes_concepts}:
+Kubernetes bazuje na kilku kluczowych koncepcjach \cite{kubernetes_concepts}:
 
 \begin{itemize}
     \item \textbf{pod} - najmniejsza jednostka wdrożeniowa w Kubernetes, składająca się z jednego lub więcej kontenerów,
-    \item \textbf{deployment} - określa pożądany stan podów, umożliwiając ich skalowanie i aktualizacje,
-    \item \textbf{service} - abstrakcja, która definiuje logiczny zestaw podów i politykę dostępu do nich,
-    \item \textbf{ingress} - zarządza zewnętrznym dostępem do usług w klastrze,
+    \item \textbf{deployment} - opakowanie na pody określający ich pożądany stan, umożliwiając ich skalowanie i aktualizacje,
+    \item \textbf{service} - abstrakcja definiująca logiczny zestaw podów i politykę dostępu do nich,
+    \item \textbf{ingress} - abstrakcja zarządzająca zewnętrznym dostępem do usług w klastrze,
     \item \textbf{configMap} i \textbf{Secret} - mechanizmy do przechowywania konfiguracji i tajnych danych,
     \item \textbf{namespace} - mechanizm do izolacji zasobów w klastrze.
 \end{itemize}
@@ -134,7 +137,7 @@ Kubernetes operuje na kilku kluczowych koncepcjach \cite{kubernetes_concepts}:
 \subsubsection{Zalety Kubernetes w kontekście analizy danych strumieniowych}
 \label{subsubsec:zalety_kubernetes}
 
-Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kubernetes_benefits}:
+Kubernetes cechuje szereg zalet w kontekście rozproszonych systemów \cite{kubernetes_benefits}:
 
 \begin{itemize}
     \item \textbf{automatyczne skalowanie} - możliwość automatycznego dostosowywania liczby replik usług w zależności od obciążenia,
@@ -150,11 +153,11 @@ Kubernetes oferuje szereg zalet w kontekście rozproszonych systemów \cite{kube
 W kontekście analizy danych strumieniowych, szczególnie istotne są narzędzia Big Data do przetwarzania strumieniowego \cite{spark_streaming}.
 Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 
-\subsubsection{Przedstawienie Apache Kafka}
+\subsubsection{Apache Kafka}
 \label{subsubsec:apache_kafka}
 
 Apache Kafka \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
-Apache Software Foundation. Kafka oferuje następujące funkcjonalności:
+Apache Software Foundation. Kafka oferuje następujące możliwości:
 
 \begin{itemize}
     \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
@@ -164,47 +167,47 @@ Apache Software Foundation. Kafka oferuje następujące funkcjonalności:
     \item \textbf{gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz.
 \end{itemize}
 
-\subsubsection{Przedstawienie Kafka Streams}
+\subsubsection{Kafka Streams}
 \label{subsubsec:kafka_streams}
 
-Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \cite{kafka_streams}. Oferuje następujące funkcjonalności:
+Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z Apache Kafka \cite{kafka_streams}. Oferuje następujące możliwości:
 
 \begin{itemize}
     \item \textbf{przetwarzanie rekord po rekordzie} - minimalne opóźnienia przetwarzania,
     \item \textbf{operacje stanowe i bezstanowe} - możliwość agregacji danych w czasie,
     \item \textbf{okna czasowe} - przetwarzanie danych w zdefiniowanych oknach czasowych,
     \item \textbf{łączenie strumieni} - możliwość łączenia danych z różnych strumieni,
-    \item \textbf{dokładnie raz} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych.
+    \item \textbf{Semantyka "dokładnie raz"} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych.
 \end{itemize}
 
-\subsubsection{Przedstawienie Apache Flink}
+\subsubsection{Apache Flink}
 \label{subsubsec:apache_flink}
 
-Apache Flink to framework przetwarzania strumieniowego, oferujący funkcjonalności podobne do Kafka Streams,
+Apache Flink to framework przetwarzania strumieniowego, oferujący możliwości podobne do Kafka Streams,
 ale jako oddzielna platforma \cite{flink}. Flink charakteryzuje się:
 
 \begin{itemize}
     \item \textbf{niskimi opóźnieniami} - przetwarzanie rekord po rekordzie z minimalnymi opóźnieniami,
     \item \textbf{wysoką przepustowością} - efektywne przetwarzanie dużych wolumenów danych,
-    \item \textbf{dokładnie raz} - gwarancje przetwarzania dokładnie raz,
+    \item \textbf{Semantyka "dokładnie raz"} - gwarancje przetwarzania dokładnie raz,
     \item \textbf{zaawansowanym zarządzaniem stanem} - efektywne przechowywanie i dostęp do stanu przetwarzania,
     \item \textbf{obsługą czasu zdarzeń} - możliwość przetwarzania danych na podstawie czasu, w którym zdarzenia zostały wygenerowane.
 \end{itemize}
 
-\subsubsection{Przedstawienie Apache Spark Streaming}
+\subsubsection{Apache Spark Streaming}
 \label{subsubsec:spark_streaming}
 
 Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache Spark \cite{spark_streaming}.
 Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. Spark Streaming oferuje:
 
 \begin{itemize}
-    \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego. Ekosystem ten obejmuje m.in. Spark SQL do przetwarzania danych strukturalnych oraz Spark ML (Machine Learning Library) do implementacji algorytmów uczenia maszynowego,
+    \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego - ekosystem ten obejmuje m.in. Spark SQL do przetwarzania danych strukturalnych oraz Spark ML (Machine Learning Library) do implementacji algorytmów uczenia maszynowego,
     \item \textbf{wysoką przepustowość} - efektywne przetwarzanie dużych wolumenów danych,
     \item \textbf{odporność na awarie} - automatyczne odtwarzanie stanu po awarii,
     \item \textbf{łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów.
 \end{itemize}
 
-\subsubsection{Przedstawienie Apache Avro i Confluent Schema Registry}
+\subsubsection{Apache Avro i Confluent Schema Registry}
 \label{subsubsec:avro_schema_registry}
 
 W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących Apache Kafka, kluczowe znaczenie ma efektywna serializacja danych oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
@@ -247,7 +250,7 @@ urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
 \subsubsection{Rozwiązania Open Source do analizy danych strumieniowych}
 \label{subsubsec:open_source}
 
-Istnieje szereg open source rozwiązań do analizy danych w czasie rzeczywistym, takich jak Apache NiFi \cite{apache_nifi},
+Istnieje szereg rozwiązań otwarto-źródłowych (open source) do analizy danych w czasie rzeczywistym, takich jak Apache NiFi \cite{apache_nifi},
 Apache Druid \cite{apache_druid} czy InfluxDB \cite{influxdb}. Mimo ich zalet, mają również pewne ograniczenia:
 
 \begin{itemize}
@@ -256,5 +259,4 @@ Apache Druid \cite{apache_druid} czy InfluxDB \cite{influxdb}. Mimo ich zalet, m
     \item \textbf{konieczność integracji wielu narzędzi} - często wymagają integracji wielu narzędzi, co zwiększa złożoność systemu.
 \end{itemize}
 
-Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia,
-które uzasadniają potrzebę opracowania nowego systemu, opartego na architekturze mikroserwisowej, klastrze Kubernetes i narzędziach Big Data.
+Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia uzasadniające potrzebę opracowania nowego systemu, opartego na architekturze mikroserwisowej, klastrze Kubernetes i narzędziach Big Data.
