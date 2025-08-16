@@ -188,9 +188,9 @@ Dane te są serializowane przy użyciu serializatora Apache Avro \cite{avro_docu
 \subsection{Model raportów w Elasticsearch}
 \label{subsec:model_raportow}
 
-Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}.
+Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}. Model raportów został przedstawiony na listingu \ref{lst:model_raportow}.
 
-\begin{lstlisting}[caption=Model raportów w bazie danych Elasticsearch]
+\begin{lstlisting}[caption=Model raportów w bazie danych Elasticsearch, label={lst:model_raportow}]
     {
         "properties": {
                 "id": {
@@ -248,7 +248,9 @@ Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwan
     \end{lstlisting}
 
 
-\begin{lstlisting}[caption=Analizatory i normalizatory w bazie danych Elasticsearch]
+Analizatory i normalizatory używane w modelu raportów zostały przedstawione na listingu \ref{lst:analizatory_i_normalizatory}.
+
+\begin{lstlisting}[caption=Analizatory i normalizatory w bazie danych Elasticsearch, label={lst:analizatory_i_normalizatory}]
     {
         "analysis": {
           "normalizer": {

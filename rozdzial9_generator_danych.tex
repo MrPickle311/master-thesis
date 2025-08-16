@@ -312,9 +312,9 @@ Dane są organizowane w następującej strukturze:
     \item \textbf{metadane}: \texttt{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
-Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON:
+Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}:
 
-\begin{lstlisting}[caption=Plik metadanych]
+\begin{lstlisting}[caption=Plik metadanych, label={lst:plik_metadanych}]
 {
   "generated_at": "2023-01-15 14:30:00",
   "start_timestamp": 1672531200,
@@ -334,9 +334,9 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 \subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
-Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek: boto3, pandas oraz pydantic. System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych.
+Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek: boto3, pandas oraz pydantic. System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
 
-\begin{lstlisting}[language=Python, caption=Klasy modeli danych]
+\begin{lstlisting}[language=Python, caption=Klasy modeli danych, label={lst:klasy_modeli_danych}]
 class SensorData(BaseModel):
     label: str
     timestamp: int
@@ -351,7 +351,7 @@ class Pressure(SensorData):
 
 \newpage
 
-\textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu. Składa się z następujących kroków:
+\textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. Składa się z następujących kroków:
 
 \begin{enumerate}
     \item \textbf{ładowanie metadanych} z usługi S3 w celu określenia dostępnych plików z informacjami
@@ -362,7 +362,7 @@ class Pressure(SensorData):
     \item \textbf{publikowanie danych} do odpowiednich tematów usługi SNS dla każdego sensora
 \end{enumerate}
 
-\begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu]
+\begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu, label={lst:algorytm_wyszukiwania_rekordu}]
 def _find_closest_record(self, df, target_time):
     target_time_dt = pd.to_datetime(target_time)
     df['time_diff'] = abs(df['timestamp'] - target_time_dt)
@@ -384,9 +384,9 @@ Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
     \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
 
-Format publikowanych wiadomości do systemu SNS:
+Format publikowanych wiadomości do systemu SNS został przedstawiony na listingu \ref{lst:format_publikowanych_wiadomosci}.
 
-\begin{lstlisting}[caption=Format publikowanych wiadomości]
+\begin{lstlisting}[caption=Format publikowanych wiadomości, label={lst:format_publikowanych_wiadomosci}]
 {
   "label": "pump",
   "timestamp": 1672531200,
