@@ -17,7 +17,7 @@ Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i
     \item \textbf{szybka identyfikacja problemów} - możliwość filtrowania listy w celu wyświetlenia \textbf{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
     \item \textbf{analiza incydentów} - zaawansowane opcje przeszukiwania zdarzeń według słów kluczowych oraz filtrowania ich według zdefiniowanego zakresu dat umożliwiają dogłębną analizę przyczyn źródłowych problemów oraz identyfikację wzorców i trendów w przeszłych zdarzeniach.
 \end{itemize}
-Informacje o zdarzeniach są dynamicznie pobierane aplikacji przetwrzającej danej \texttt{data-service}, które prawdopodobnie agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{kafka-data-processor}).
+Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej dane \texttt{data-service}, która prawdopodobnie agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{kafka-data-processor}).
 
 \subsubsection{Wizualizacja wartości sensorów - bezpośredni wgląd w parametry}
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
@@ -27,7 +27,7 @@ Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operac
 \end{itemize}
 \textbf{Personalizacja widoku:} - obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
 \begin{itemize}
-    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. Temperatura, Ciśnienie, Przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. Przed Kotłem, Za Sprężarką Powrotną) dostępnej dla danego typu sensora.
+    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. Temperatura, Ciśnienie, Przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. Przed Kotłem, Za Sprężarką Powrotną) dostępnej dla danego typu sensora,
     \item modyfikować lub usuwać istniejące kafelki z wartościami sensorów.
 \end{itemize}
 Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, co pozwala na dostosowanie interfejsu do jego specyficznych potrzeb i zakresu odpowiedzialności. Dodatkowo, w celu optymalizacji prezentacji, kafelki wyświetlające wartości mogą mieć dynamicznie dostosowywaną szerokość. Dla sensorów oznaczonych w konfiguracji systemowej jako \texttt{wideSensors} – typowo tych, prezentujących wiele powiązanych wartości lub dłuższe opisy tekstowe – kafelek automatycznie zajmuje podwójną standardową szerokość. Zapewnia to lepszą czytelność i przejrzystość prezentowanych informacji, eliminując konieczność przycinania tekstu lub nadmiernego zagęszczania danych.

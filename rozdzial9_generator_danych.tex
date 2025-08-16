@@ -155,10 +155,10 @@ gdzie:
 
 Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego:
 
-$$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma})$$
+$$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),$$
 
 gdzie macierz kowariancji obliczana jest jako:
-$$\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R}_{i,s} \mathbf{D}$$
+$$\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R}_{i,s} \mathbf{D},$$
 
 gdzie $\mathbf{D} = \text{diag}(\sigma_1, \sigma_2, \sigma_3, \sigma_4)$ to macierz diagonalna odchyleń standardowych.
 
@@ -171,7 +171,7 @@ Celemem zapewnienia realistycznego przejścia między kolejnymi odczytami, syste
 
 Maksymalna zmiana między kolejnymi odczytami jest ograniczona do:
 
-$$\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan}$$
+$$\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan},$$
 
 gdzie:
 \begin{itemize}
@@ -184,13 +184,13 @@ Rzeczywista zmiana wartości danej wielkości pochodzącej z czujnika jest ogran
 $$\Delta x_{limited} = \begin{cases}
 \Delta x & \text{jeśli } |\Delta x| \leq \Delta x_{max} \\
 \Delta x_{max} \cdot \text{sign}(\Delta x) & \text{w przeciwnym przypadku}
-\end{cases}$$
+\end{cases},$$
 
 \subsubsection{Wygładzanie wykładnicze}
 
 Po przeprowadzeniu ograniczenia szybkości zmian, w kolejnym etapie stosowane jest wygładzanie wykładnicze:
 
-$$x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited}$$
+$$x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited},$$
 
 gdzie $\alpha = 0.8$ to współczynnik wygładzania.
 
@@ -236,7 +236,7 @@ naprawa & 2h & 4h & normalny \\
 
 System wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \textit{hash}:
 
-$$t_{stan} = t_{min} + \text{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{max} - t_{min})$$
+$$t_{stan} = t_{min} + \text{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{max} - t_{min}),$$
 
 Zapewnia to powtarzalność generowanych danych przy wykorzystaniu tego samego ziarna losowego.
 
@@ -253,7 +253,7 @@ $$stan_{poczatkowy} = \begin{cases}
 \text{normalny} & \text{je\'sli } h(typ) \bmod 1.0 < 0.5 \\
 \text{wczesne zu\.{z}ycie} & \text{je\'sli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
 \text{podkrytyczny} & \text{w przeciwnym przypadku}
-\end{cases}$$
+\end{cases},$$
 
 gdzie $h(typ)$ to funkcja hash typu urządzenia.
 
