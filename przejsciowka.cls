@@ -27,7 +27,8 @@
 \usepackage{sectsty}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[font=small,labelfont=bf,labelformat=simple]{caption}
+\renewcommand{\figurename}{Rys.}
 
 \counterwithin{figure}{subsection}
 
