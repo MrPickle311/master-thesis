@@ -13,41 +13,41 @@ W stworzonej autorskiej implementacji zastosowane zostały przedstawione poniże
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}),
-    \item \textbf{Scala} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą Apache Spark,
-    \item \textbf{Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu ML),
-    \item \textbf{TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
+    \item \textbf{język Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}),
+    \item \textbf{język Scala} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą Apache Spark,
+    \item \textbf{język Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu uczenia maszynowego),
+    \item \textbf{język TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Frameworki i biblioteki dla aplikacji}
 \label{subsubsec:frameworki}
 
 \begin{itemize}
-    \item \textbf{Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów Java,
-    \item \textbf{Apache Spark 3.x} \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (Spark Structured Streaming) oraz do zadań uczenia maszynowego (Spark ML) w aplikacji \texttt{SparkDataProcessor},
-    \item \textbf{Spring Cloud} - zestaw narzędzi do budowy aplikacji na chmurze,
-    \item \textbf{React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
+    \item \textbf{framework Spring Boot 3.4} - framework wykorzystany do implementacji mikroserwisów Java,
+    \item \textbf{silnik analityczny Apache Spark 3.x} \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (Spark Structured Streaming) oraz do zadań uczenia maszynowego (Spark ML) w aplikacji \texttt{SparkDataProcessor},
+    \item \textbf{framework Spring Cloud} - zestaw narzędzi do budowy aplikacji na chmurze,
+    \item \textbf{biblioteka React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Bazy danych i systemy magazynowania}
 \label{subsubsec:bazy_danych}
 
 \begin{itemize}
-    \item \textbf{Apache Kafka 3.4} \cite{kafka} - platforma do przetwarzania strumieniowego,
-    \item \textbf{PostgreSQL 15} - relacyjna baza danych,
-    \item \textbf{Elasticsearch 8.7} - baza danych NoSQL \cite{nosql_definition} do wyszukiwania i analizy,
-    \item \textbf{Redis 7.0} - baza danych in-memory wykorzystywana jako cache.
+    \item \textbf{broker Apache Kafka 3.4} \cite{kafka} - platforma do przetwarzania strumieniowego,
+    \item \textbf{baza danych PostgreSQL 15} - relacyjna baza danych,
+    \item \textbf{baza danych Elasticsearch 8.7} - baza danych NoSQL \cite{nosql_definition} do wyszukiwania i analizy,
+    \item \textbf{baza danych Redis 7.0} - pamięciowa baza danych wykorzystywana jako rozproszona pamięć podręczna (ang. distributed cache).
 \end{itemize}
 
 \subsubsection{Infrastruktura i orkiestracja aplikacji}
 \label{subsubsec:infrastruktura}
 
 \begin{itemize}
-    \item \textbf{Kubernetes 1.26} \cite{kubernetes} - platforma do orkiestracji kontenerów,
-    \item \textbf{Docker} - platforma konteneryzacji,
-    \item \textbf{Helm 3} - menedżer pakietów dla Kubernetes,
-    \item \textbf{AWS} (Amazon Web Services) \cite{aws_definition} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
-    \item \textbf{Terraform} - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. Infrastructure as Code) \cite{terraform_docs}.
+    \item \textbf{klaster Kubernetes 1.26} \cite{kubernetes} - platforma do orkiestracji kontenerów,
+    \item \textbf{platforma Docker} - platforma konteneryzacji,
+    \item \textbf{menedżer pakietów Helm 3} - menedżer pakietów dla Kubernetes,
+    \item \textbf{chmura AWS} (Amazon Web Services) \cite{aws_definition} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
+    \item \textbf{narzędzie Terraform} - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. Infrastructure as Code) \cite{terraform_docs}.
 \end{itemize}
 
 \subsection{Implementacja symulatora czujników}
@@ -59,10 +59,10 @@ W stworzonej autorskiej implementacji zastosowane zostały przedstawione poniże
 Architektura symulatora składa się z kilku kluczowych komponentów:
 
 \begin{itemize}
-    \item \textbf{AWS Step Functions} - usługa koordynująca wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
-    \item \textbf{AWS Lambda} \cite{aws_lambda_docs} - usługa bezserwerowa wykonująca kod symulatora,
-    \item \textbf{AWS SNS} (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień działająca jako punkt dystrybucji dla wygenerowanych danych,
-    \item \textbf{AWS SQS} (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek buforująca wiadomości przed ich przetworzeniem przez system.
+    \item \textbf{usługa AWS Step Functions} - usługa koordynująca wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
+    \item \textbf{funkcja AWS Lambda} \cite{aws_lambda_docs} - usługa bezserwerowa wykonująca kod symulatora,
+    \item \textbf{usługa AWS SNS} (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień działająca jako punkt dystrybucji dla wygenerowanych danych,
+    \item \textbf{kolejka AWS SQS} (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek buforująca wiadomości przed ich przetworzeniem przez system.
 \end{itemize}
 
 %Schemat architektury symulatora przedstawiono na Rysunku \ref{fig:architektura_symulatora}.

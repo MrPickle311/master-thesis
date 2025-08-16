@@ -1,7 +1,7 @@
 \section{Prezentacja wizualna danych i funkcje biznesowe systemu}
 \label{chap:prezentacja_wizualna}
 
-Interfejs użytkownika (UI) systemu analitycznego został starannie zaprojektowany, aby umożliwić intuicyjną i efektywną pracę z danymi telemetrycznymi. Zbudowany w oparciu o nowoczesne technologie, takie jak: React oraz biblioteka komponentów Ant Design, zapewnia responsywność i bogaty zestaw interakcji. Dostęp do systemu jest zabezpieczony poprzez integrację z serwerem Keycloak, co gwarantuje, że tylko autoryzowani użytkownicy z przypisanymi rolami \texttt{DATA\_ACCESSOR} lub \texttt{ADMIN} mogą korzystać z jego zasobów. Rola \texttt{ADMIN} dodatkowo rozszerza uprawnienia o możliwość zarządzania kontami użytkowników, co typowo realizowane jest poprzez dedykowany panel administracyjny Keycloak, zapewniając centralne zarządzanie dostępem.
+Interfejs użytkownika (UI, ang. User Interface) systemu analitycznego został starannie zaprojektowany, aby umożliwić intuicyjną i efektywną pracę z danymi telemetrycznymi. Zbudowany w oparciu o nowoczesne technologie, takie jak: biblioteka React oraz biblioteka komponentów Ant Design, zapewnia responsywność i bogaty zestaw interakcji. Dostęp do systemu jest zabezpieczony poprzez integrację z serwerem Keycloak, co gwarantuje, że tylko autoryzowani użytkownicy z przypisanymi rolami \texttt{DATA\_ACCESSOR} lub \texttt{ADMIN} mogą korzystać z jego zasobów. Rola \texttt{ADMIN} dodatkowo rozszerza uprawnienia o możliwość zarządzania kontami użytkowników, co typowo realizowane jest poprzez dedykowany panel administracyjny systemu Keycloak, zapewniając centralne zarządzanie dostępem.
 
 Celem aplikacji jest dostarczenie użytkownikom narzędzi do monitorowania procesów w czasie rzeczywistym, analizy danych historycznych oraz generowania szczegółowych raportów, co przekłada się na lepsze zrozumienie działania systemu, szybsze wykrywanie anomalii i podejmowanie świadomych decyzji biznesowych.
 
@@ -23,7 +23,7 @@ Informacje o zdarzeniach są dynamicznie pobierane aplikacji przetwrzającej dan
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
 \begin{itemize}
     \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. \textit{Temperatura - Przed Kotłem}) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
-    \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez Kafka Streams na podstawie konfiguracji w \texttt{kafka-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
+    \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez bibliotekę Kafka Streams na podstawie konfiguracji w \texttt{kafka-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
 \end{itemize}
 \textbf{Personalizacja widoku:} - obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
 \begin{itemize}
@@ -54,7 +54,7 @@ Użytkownik może zdefiniować nowy raport poprzez formularz, w którym określa
     \item konfigurację sensorów: wybór jednego lub wielu typów sensorów oraz, dla każdego typu, jednej lub wielu konkretnych etykiet pomiarowych, z których dane mają być uwzględnione w raporcie,
     \item zakres czasowy: precycyzyjny przedział dat (od-do), dla którego dane historyczne zostaną pobrane i zaprezentowane.
 \end{itemize}
-Zdefiniowany raport jest zapisywany w systemie, a jego konfiguracja przechowywana w bazie danych PostgreSQL oraz indeksowana w Elasticsearch w celu umożliwienia szybkiego wyszukiwania.
+Zdefiniowany raport jest zapisywany w systemie, a jego konfiguracja przechowywana w bazie danych PostgreSQL oraz indeksowana w bazie danych Elasticsearch w celu umożliwienia szybkiego wyszukiwania.
 
 \singlesizedimageforced{images/create_report.png}{Tworzenie raportu}{1.0}
 

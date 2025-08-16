@@ -100,7 +100,7 @@ Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wst
 W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
 Generują one dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości JSON \cite{json_schema_org} i publikowane na tematy SNS \cite{sns_docs}, a następnie przenoszone do kolejek SQS (Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości), stanowiących interfejs między AWS a klastrem Kubernetes.
+Dane generowane przez symulatory są formatowane jako wiadomości JSON (ang. JavaScript Object Notation) \cite{json_schema_org} i publikowane na tematy SNS (ang. Simple Notification Service) \cite{sns_docs}, a następnie przenoszone do kolejek SQS (ang. Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości), stanowiących interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji (Apache Kafka)}
 \label{subsubsec:warstwa_komunikacji}
@@ -109,14 +109,14 @@ Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich 
 W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego Apache Kafka \cite{kafka}.
 
 
-Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
+Broker Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
 
 \subsubsection{Warstwa przetwarzania (Apache Spark)}
 \label{subsubsec:warstwa_przetwarzania}
 
 Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Silnik Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \singlesizedimageforced{images/spark_operator.png}{Działanie Spark Operatora z Driverami i aplikacją}{1.0}
 
@@ -126,25 +126,25 @@ Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaa
 Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie warstwa ta składa się z dwóch głównych komponentów:
 
 \begin{itemize}
-    \item \textbf{PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
-    \item \textbf{Elasticsearch} - baza danych NoSQL \cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
+    \item \textbf{baza danych PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
+    \item \textbf{baza danych Elasticsearch} - baza danych NoSQL \cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
 \subsubsection{Warstwa usług i interfejs API}
 \label{subsubsec:warstwa_uslug}
 
-Warstwa usług i interfejs API odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie warstwa ta składa się z kilku mikroserwisów:
+Warstwa usług i interfejs API (ang. Application Programming Interface) odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie warstwa ta składa się z kilku mikroserwisów:
 
 \begin{itemize}
-    \item \textbf{Data Service} - mikroserwis udostępniający API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
-    \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący Keycloak jako system zarządzania tożsamością,
+    \item \textbf{Data Service} - mikroserwis udostępniający interfejs API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
+    \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący serwer Keycloak jako system zarządzania tożsamością,
     \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
 
-\singlesizedimageforced{images/home_api.png}{API sekcji Home}{1.0}
-\singlesizedimageforced{images/reports_api.png}{API sekcji Reports}{1.0}
+\singlesizedimageforced{images/home_api.png}{Interfejs API sekcji Home}{1.0}
+\singlesizedimageforced{images/reports_api.png}{Interfejs API sekcji Reports}{1.0}
 
 \subsubsection{Warstwa prezentacji}
 \label{subsubsec:warstwa_prezentacji}
@@ -161,7 +161,7 @@ Główne narzędzia panelu sterowania to:
     \item \textbf{raporty} - generowanie i przeglądanie raportów.
 \end{itemize}
 
-Panel sterowania jest implementowany jako aplikacja webowa, wykorzystująca React i biblioteki wizualizacji informacji.
+Panel sterowania jest implementowany jako aplikacja webowa, wykorzystująca bibliotekę React i biblioteki wizualizacji informacji.
 
 \subsection{Model danych}
 \label{subsec:model_danych}
@@ -188,9 +188,9 @@ Dane te są serializowane przy użyciu serializatora Apache Avro \cite{avro_docu
 \subsection{Model raportów w Elasticsearch}
 \label{subsec:model_raportow}
 
-Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez API zapytania do DataService, serwis ten wysyła zapytanie do Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}.
+Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}.
 
-\begin{lstlisting}[caption=Model raportów w Elasticsearch]
+\begin{lstlisting}[caption=Model raportów w bazie danych Elasticsearch]
     {
         "properties": {
                 "id": {
@@ -248,7 +248,7 @@ Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów
     \end{lstlisting}
 
 
-\begin{lstlisting}[caption=Analizatory i normalizatory w Elasticsearch]
+\begin{lstlisting}[caption=Analizatory i normalizatory w bazie danych Elasticsearch]
     {
         "analysis": {
           "normalizer": {
@@ -326,19 +326,19 @@ Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
 umieszczonego w określonym miejscu instalacji.
 
 Dane są generowane w formacie JSON i zawierają informacje takie jak: identyfikator czujnika, typ, lokalizacja, znacznik czasu, wartość i
-jednostka. Dane te są następnie publikowane na temat SNS \cite{sns_docs}, działający jako punkt dystrybucji dla wielu subskrybentów.
+jednostka. Dane te są następnie publikowane na temat usługi SNS \cite{sns_docs}, działający jako punkt dystrybucji dla wielu subskrybentów.
 
 \subsubsection{Przesyłanie danych do klastra}
 \label{subsubsec:przesylanie_danych}
 
-Dane opublikowane na temacie SNS są automatycznie dostarczane do kolejek SQS \cite{sqs_docs}, będących subskrybentami tematu. Kolejki SQS działają jako bufor między AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
+Dane opublikowane na temacie usługi SNS są automatycznie dostarczane do kolejek kolejkowania SQS \cite{sqs_docs}, będących subskrybentami tematu. Kolejki SQS działają jako bufor między chmurą AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
-W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, regularnie odpytujący kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. topics) Kafki, w zależności od typu czujnika i lokalizacji.
+W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, regularnie odpytujący kolejki kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. topics) brokera Kafki, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
 
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
@@ -347,7 +347,7 @@ Dane opublikowane na kanałach Kafki są przetwarzane przez mikroserwis \texttt{
     \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
-Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane kanały Kafka.
+Wyniki przetwarzania, w formacie Avro, są publikowane na nowe, dedykowane kanały brokera Kafki.
 
 \subsubsection{Zapisywanie danych do bazy danych}
 \label{subsubsec:zapisywanie_danych}
@@ -360,7 +360,7 @@ Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportow
 \subsubsection{Udostępnianie danych przez interfejs API}
 \label{subsubsec:udostepnianie_danych}
 
-Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący REST API do tworzenia i pobierania raportów. API umożliwia:
+Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący interfejs REST API do tworzenia i pobierania raportów. Interfejs API umożliwia:
 
 \begin{itemize}
     \item \textbf{pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników,
@@ -369,12 +369,12 @@ Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący RES
     \item \textbf{pobieranie raportów} - dostęp do wcześniej wygenerowanych raportów.
 \end{itemize}
 
-API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, wykorzystujący Keycloak.
+Interfejs API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, implementowanymi przez mikroserwis Users-Service, wykorzystujący serwer autoryzacyjny Keycloak.
 
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
-Ostatnim etapem przepływu informacji jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z interfejs API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+Ostatnim etapem przepływu informacji jest ich wizualizacja na dashboardzie (ekranie zbiorczym). Dashboard komunikuje się z interfejsem API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
 
 Dashboard umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, dashboard może wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
 

@@ -57,7 +57,7 @@ $$\Delta\mathbf{R} = \mathbf{R}_{faulty} - \mathbf{R}_{normal},$$
 
 pokazująca, jak korelacje między parametrami zmieniają się podczas przejścia ze stanu normalnego do awaryjnego.
 
-    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA w celu:
+    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA (ang. Principal Component Analysis) w celu:
     
 \begin{itemize}
     \item identyfikacji najważniejszych czynników wpływających na stan urządzeń,
@@ -282,25 +282,25 @@ Podczas stanu naprawy system:
 \subsubsection{Integracja z chmurą AWS}
 \label{sec:integracja_aws}
 
-System generatora danych został zaimplementowany jako w pełni bezserwerowa architektura w chmurze AWS, wykorzystująca usługi AWS Lambda, Amazon S3 oraz Amazon SNS. Implementacja zapewnia skalowalność, niezawodność oraz efektywność kosztową przy minimalnych wymaganiach administracyjnych.
+System generatora danych został zaimplementowany jako w pełni bezserwerowa architektura w chmurze AWS, wykorzystująca funkcję AWS Lambda, usługę Amazon S3 oraz usługę Amazon SNS. Implementacja zapewnia skalowalność, niezawodność oraz efektywność kosztową przy minimalnych wymaganiach administracyjnych.
 
-Generator czyta wcześniej wygenerowane pliki CSV z danymi z S3 i generuje dane w odstępach minutowych.
+Generator czyta wcześniej wygenerowane pliki CSV z usługi S3 i generuje dane w odstępach minutowych.
 
 \subsubsection{Architektura bezserwerowa}
 \label{subsec:architektura_bezserwerowa}
 
-System składa się z trzech głównych komponentów AWS:
+System składa się z trzech głównych komponentów chmury AWS:
 
 \begin{itemize}
-    \item \textbf{Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
-    \item \textbf{AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
-    \item \textbf{Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
+    \item \textbf{usługa Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
+    \item \textbf{funkcja AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
+    \item \textbf{usługa Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
 \end{itemize}
 
 \subsubsection{Przechowywanie danych w Amazon S3}
 \label{subsec:amazon_s3}
 
-System wykorzystuje Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
+System wykorzystuje usługę Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
 
 \subsubsection{Struktura danych w S3}
 
@@ -354,12 +354,12 @@ class Pressure(SensorData):
 \textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu. Składa się z następujących kroków:
 
 \begin{enumerate}
-    \item \textbf{ładowanie metadanych} z S3 w celu określenia dostępnych plików z informacjami
+    \item \textbf{ładowanie metadanych} z usługi S3 w celu określenia dostępnych plików z informacjami
     \item \textbf{ładowanie danych} dla każdego typu urządzenia z plików CSV
     \item \textbf{wyznaczenie aktualnego czasu} z zaokrągleniem do pełnej minuty
     \item \textbf{wyszukanie najbliższego rekordu} w danych historycznych dla każdego urządzenia
     \item \textbf{generowanie unikalnych kluczy} zdarzeń dla każdego urządzenia
-    \item \textbf{publikowanie danych} do odpowiednich tematów SNS dla każdego sensora
+    \item \textbf{publikowanie danych} do odpowiednich tematów usługi SNS dla każdego sensora
 \end{enumerate}
 
 \begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu]
@@ -375,7 +375,7 @@ def _find_closest_record(self, df, target_time):
 
 System wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
 
-Dla każdego typu sensora utworzony jest dedykowany temat SNS:
+Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
 
 \begin{itemize}
     \item \texttt{arn:aws:sns:eu-central-1:accountid:temperature-topic},
