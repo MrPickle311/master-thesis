@@ -29,6 +29,7 @@
 \usepackage{xcolor}
 \usepackage[font=small,labelfont=bf,labelformat=simple]{caption}
 \renewcommand{\figurename}{Rys.}
+\renewcommand{\tablename}{Tab.}
 
 \counterwithin{figure}{subsection}
 
