@@ -16,7 +16,7 @@
     \endgroup
 }
 
-\include{utils}
+\input{utils}
 
 \begin{document}
 
@@ -72,7 +72,29 @@
     \listoftables
     \clearpage
 
-    \lstlistoflistings
+    \clearpage
+
+    \begingroup
+    \section*{Spis listingów}
+
+    \vspace{10pt}
+    \noindent\textbf{Rozdział 3}
+    \begin{itemize}
+        \setlength\itemsep{-0.5em}
+        \item[3.4.1] Model raportów w bazie danych Elasticsearch
+        \item[3.4.2] Analizatory i normalizatory w bazie danych Elasticsearch
+    \end{itemize}
+
+    \vspace{10pt}
+    \noindent\textbf{Rozdział 7}
+    \begin{itemize}
+        \setlength\itemsep{-0.5em}
+        \item[7.6.1] Plik metadanych
+        \item[7.6.2] Klasy modeli danych
+        \item[7.6.3] Algorytm wyszukiwania najbliższego rekordu
+        \item[7.6.4] Format publikowanych wiadomości
+    \end{itemize}
+    \endgroup
     \clearpage
 
     \include{bibl}
