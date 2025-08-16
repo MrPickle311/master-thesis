@@ -234,9 +234,9 @@ naprawa & 2h & 4h & normalny \\
 
 \subsubsection{Deterministyczne przejścia stanów}
 
-System wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \textit{hash}:
+System wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \texttt{hash}:
 
-$$t_{stan} = t_{min} + \text{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{max} - t_{min}),$$
+$$t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),$$
 
 Zapewnia to powtarzalność generowanych danych przy wykorzystaniu tego samego ziarna losowego.
 
@@ -255,7 +255,7 @@ $$stan_{poczatkowy} = \begin{cases}
 \text{podkrytyczny} & \text{w przeciwnym przypadku}
 \end{cases},$$
 
-gdzie $h(typ)$ to funkcja hash typu urządzenia.
+gdzie $h(typ)$ to funkcja \texttt{hash} typu urządzenia.
 
 \subsubsection{Iteracyjne generowanie danych}
 
@@ -263,7 +263,7 @@ Dla każdego kroku czasowego $t$ (minuty):
 
 \begin{enumerate}
     \item aktualizacja czasu w stanie: $t_{stan} = t_{stan} + \Delta t,$
-    \item obliczenie postępu: $progress = \min(1.0, t_{stan} / t_{trwania}),$
+    \item obliczenie postępu: $progress = \texttt{min}(1.0, t_{stan} / t_{trwania}),$
     \item sprawdzenie konieczności przejścia stanu,
     \item generowanie wartości docelowych z rozkładu wielowymiarowego,
     \item zastosowanie wygładzania czasowego,
