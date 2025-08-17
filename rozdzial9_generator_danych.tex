@@ -110,6 +110,8 @@ r_{14} & r_{24} & r_{34} & 1
 
 gdzie $r_{jk}$ oznacza współczynnik korelacji między parametrami $j$ i $k$.
 
+\vspace{0.3em}
+
 Generator implementuje adaptacyjny wybór macierzy korelacji na podstawie aktualnego stanu urządzenia:
 \begin{itemize}
     \item dla stanu normalnego: $\mathbf{R}_{i,normal}$,
@@ -353,7 +355,11 @@ class Pressure(SensorData):
 
 \newpage
 
-\textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. Składa się z następujących kroków:
+\textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
+
+\vspace{0.3em}
+
+Składa się z następujących kroków:
 
 \begin{enumerate}
     \item \textbf{ładowanie metadanych} z usługi S3 w celu określenia dostępnych plików z informacjami
@@ -376,6 +382,8 @@ def _find_closest_record(self, df, target_time):
 \label{subsec:amazon_sns}
 
 System wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
+
+\vspace{0.3em}
 
 Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
 

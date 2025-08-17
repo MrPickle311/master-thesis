@@ -153,6 +153,8 @@ Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewni
 Warstwa prezentacji odpowiada za wizualizację danych i interakcję z użytkownikami.
 W projektowanym systemie warstwa ta składa się z panelu sterowania, wyświetlającego informacje w formie wykresów, tabel i widżetów.
 
+\vspace{0.3em}
+
 Główne narzędzia panelu sterowania to:
 
 \begin{itemize}
@@ -341,7 +343,11 @@ W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, regularnie odpytu
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. Przetwarzanie obejmuje:
+Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
+
+\vspace{0.3em}
+
+Przetwarzanie obejmuje:
 
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \texttt{MeanProcessor}),
@@ -363,7 +369,11 @@ Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportow
 \subsubsection{Udostępnianie danych przez interfejs API}
 \label{subsubsec:udostepnianie_danych}
 
-Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący interfejs REST API do tworzenia i pobierania raportów. Interfejs API umożliwia:
+Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący interfejs REST API do tworzenia i pobierania raportów. 
+
+\vspace{0.3em}
+
+Interfejs API umożliwia:
 
 \begin{itemize}
     \item \textbf{pobieranie danych surowych} - dostęp do nieprzetworzonych odczytów czujników,

@@ -9,6 +9,8 @@ Niniejszy rozdział przedstawia przegląd literatury oraz aktualny stan wiedzy w
 
 Analiza danych w czasie rzeczywistym (ang. Real-Time Analytics) odnosi się do procesów i technologii umożliwiających analizowanie danych natychmiast po ich wygenerowaniu lub zebraniu \cite{realtime_analytics}. Głównym celem jest uzyskanie natychmiastowych wniosków i reakcja na zdarzenia w możliwie najkrótszym czasie. Odróżnia to analizę w czasie rzeczywistym od tradycyjnego przetwarzania wsadowego (ang. batch processing), gdzie dane są gromadzone przez pewien okres i analizowane później \cite{data_processing_models}.
 
+\vspace{0.3em}
+
 Kluczowe aspekty analizy danych w czasie rzeczywistym to:
 
 \begin{itemize}
@@ -154,11 +156,15 @@ Platforma Kubernetes cechuje szereg zalet w kontekście rozproszonych systemów 
 W kontekście analizy danych strumieniowych szczególnie istotne są narzędzia Big Data do przetwarzania strumieniowego \cite{spark_streaming}.
 Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 
-\subsubsection{Apache Kafka}
+\subsubsection{Broker Apache Kafka}
 \label{subsubsec:apache_kafka}
 
 Apache Kafka \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn, obecnie rozwijana jako projekt
-organizacji Apache Software Foundation. Platforma Kafka oferuje następujące możliwości:
+organizacji Apache Software Foundation. 
+
+\vspace{0.3em}
+
+Broker Kafki oferuje następujące możliwości:
 
 \begin{itemize}
     \item \textbf{wysoka przepustowość} - możliwość obsługi milionów wiadomości na sekundę,
@@ -168,10 +174,14 @@ organizacji Apache Software Foundation. Platforma Kafka oferuje następujące mo
     \item \textbf{gwarancje dostarczania} - co najmniej raz, co najwyżej raz lub dokładnie raz.
 \end{itemize}
 
-\subsubsection{Kafka Streams}
+\subsubsection{Biblioteka Kafka Streams}
 \label{subsubsec:kafka_streams}
 
-Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z brokerem Apache Kafka \cite{kafka_streams}. Oferuje następujące możliwości:
+Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z brokerem Apache Kafka \cite{kafka_streams}. 
+
+\vspace{0.3em}
+
+Oferuje następujące możliwości:
 
 \begin{itemize}
     \item \textbf{przetwarzanie rekord po rekordzie} - minimalne opóźnienia przetwarzania,
@@ -181,11 +191,15 @@ Kafka Streams to biblioteka przetwarzania strumieniowego, zintegrowana z brokere
     \item \textbf{semantyka "dokładnie raz"} - gwarancje przetwarzania dokładnie raz, eliminujące duplikaty i utratę danych.
 \end{itemize}
 
-\subsubsection{Apache Flink}
+\subsubsection{Technologia Apache Flink}
 \label{subsubsec:apache_flink}
 
 Apache Flink to framework i rozproszony silnik przetwarzania do obliczeń stanowych na nieograniczonych i ograniczonych strumieniach danych, oferujący możliwości podobne do biblioteki Kafka Streams,
-ale jako oddzielna platforma \cite{flink}. Platforma Flink charakteryzuje się:
+ale jako oddzielna platforma \cite{flink}. 
+
+\vspace{0.3em}
+
+Platforma Flink charakteryzuje się:
 
 \begin{itemize}
     \item \textbf{niskimi opóźnieniami} - przetwarzanie rekord po rekordzie z minimalnymi opóźnieniami,
@@ -195,11 +209,15 @@ ale jako oddzielna platforma \cite{flink}. Platforma Flink charakteryzuje się:
     \item \textbf{obsługą czasu zdarzeń} - możliwość przetwarzania danych na podstawie czasu, w którym zdarzenia zostały wygenerowane.
 \end{itemize}
 
-\subsubsection{Apache Spark Streaming}
+\subsubsection{Moduł Apache Spark Streaming}
 \label{subsubsec:spark_streaming}
 
 Apache Spark Streaming to moduł przetwarzania strumieniowego platformy Apache Spark \cite{spark_streaming}.
-Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. Moduł Spark Streaming oferuje:
+Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. 
+
+\vspace{0.3em}
+
+Moduł Spark Streaming oferuje:
 
 \begin{itemize}
     \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego - ekosystem ten obejmuje m.in. Spark SQL do przetwarzania danych strukturalnych oraz Spark ML (Machine Learning Library) do implementacji algorytmów uczenia maszynowego,
@@ -208,7 +226,7 @@ Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakie
     \item \textbf{łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów.
 \end{itemize}
 
-\subsubsection{Apache Avro i Confluent Schema Registry}
+\subsubsection{Platformy Apache Avro i Confluent Schema Registry}
 \label{subsubsec:avro_schema_registry}
 
 W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących platformę Apache Kafka, kluczowe znaczenie ma efektywna ich serializacja oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.

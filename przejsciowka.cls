@@ -27,9 +27,11 @@
 \usepackage{sectsty}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage[font=small,labelfont=bf,labelformat=simple]{caption}
-\renewcommand{\figurename}{Rys.}
-\renewcommand{\tablename}{Tab.}
+\usepackage[font=small,labelfont=bf]{caption}
+
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=-0.1em}
+\setlist[enumerate]{noitemsep, topsep=-0.1em}
 
 \counterwithin{figure}{subsection}
 
