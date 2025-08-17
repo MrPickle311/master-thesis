@@ -1,6 +1,8 @@
 \section{Ewolucja rozwiązania}
 \label{chap:ewolucja_rozwiazania}
 \addcontentsline{lof}{section}{Rozdział \ref{chap:ewolucja_rozwiazania}}
+\addcontentsline{lot}{section}{Rozdział \ref{chap:ewolucja_rozwiazania}}
+
 
 W trakcie realizacji niniejszego projektu będącego tematem niniejszej pracy, system do analizy danych w czasie rzeczywistym przechodził przez kilka kluczowych faz ewolucyjnych. Pierwotne założenia i wybrane technologie były weryfikowane i często zastępowane przez bardziej efektywne rozwiązania. W niniejszym rozdziale przedstawiono najważniejsze zmiany w architekturze i implementacji, uzasadniając podjęte decyzje oraz analizując korzyści i koszty poszczególnych podejść.
 
@@ -254,7 +256,7 @@ Kod ten jest jednak trudny do czytania i utrzymania z kilku powodów:
 
 W kodzie takich klas było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż Kafka Streams operuje w większości na funkcjach anonimowych. Natomiast Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na zwiększenie czytelności kodu. Poniżej przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
 
-\begin{lstlisting}[caption={Implementacja w klasie MeanProcessor za pomocą Apache Spark}, label={lst:mean_processor},language=Scala]
+\begin{lstlisting}[caption={Implementacja w klasie MeanProcessor za pomocą Apache Spark}, label={lst:mean_processor_spark},language=Scala]
 
 class MeanProcessor[T <: SensorReading : Encoder](
                                                    spark: SparkSession,
@@ -367,11 +369,13 @@ Podjęto decyzję o przejściu na \textbf{Apache Spark Structured Streaming}. Mi
     \item \textbf{mechanizm checkpointów} - silnik Spark pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
+\newpage
+
 \subsection{Model bazy danych}
 
 Początkowy projekt relacyjnej bazy danych zakładał tworzenie osobnej tabeli dla każdego typu czujnika (np. temperatura, cisnienie, wibracje). Na listingu \ref{lst:mean_temperature} przedstawiono kilka tabel stosujących się do tego podejścia.
 
-\begin{lstlisting}[caption={Przykładowe tabeli w relacyjnej bazie danych}, label={lst:mean_temperature},language=SQL]
+\begin{lstlisting}[caption={Pierwsza forma tabeli w relacyjnej bazie danych}, label={lst:first_form_table},language=SQL]
 
 
 CREATE TABLE IF NOT EXISTS mean_temperature
@@ -419,9 +423,11 @@ Takie podejście, choć intuicyjne na początku, miało poważne wady:
 
 \vspace{0.3em}
 
+\newpage
+
 Zmieniono podejście na model danych opierający się na jednej tabeli, co przedstawiono na listingu \ref{lst:sensor_data}.
 
-\begin{lstlisting}[caption={Przykładowa tabela w relacyjnej bazie danych}, label={lst:sensor_data},language=SQL]
+\begin{lstlisting}[caption={Druga forma tabeli w relacyjnej bazie danych}, label={lst:second_form_table},language=SQL]
 
 CREATE TABLE IF NOT EXISTS sensor_data
 (

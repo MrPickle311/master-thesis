@@ -335,6 +335,8 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 }
 \end{lstlisting}
 
+\newpage
+
 \subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
@@ -352,8 +354,6 @@ class Temperature(SensorData):
 class Pressure(SensorData):
     pressure: PressureData
 \end{lstlisting}
-
-\newpage
 
 \textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
 
@@ -393,6 +393,8 @@ Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
     \item \texttt{arn:aws:sns:eu-central-1:accountid:vibration-topic},
     \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
+
+\newpage
 
 Format publikowanych wiadomości do systemu SNS został przedstawiony na listingu \ref{lst:format_publikowanych_wiadomosci}.
 
