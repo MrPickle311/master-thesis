@@ -1,4 +1,4 @@
-\section{Prezentacja wizualna danych i funkcje biznesowe systemu}
+\section{Prezentacja wizualna danych i funkcje biznesowe}
 \label{chap:prezentacja_wizualna}
 \addcontentsline{lof}{section}{Rozdział \ref{chap:prezentacja_wizualna}}
 
@@ -6,13 +6,13 @@ Interfejs użytkownika (UI, ang. User Interface) systemu analitycznego będąceg
 
 Celem zaimplementowanej aplikacji jest dostarczenie użytkownikom narzędzi do monitorowania procesów w czasie rzeczywistym, analizy danych historycznych oraz generowania szczegółowych raportów, co przekłada się na lepsze zrozumienie działania systemu, szybsze wykrywanie anomalii i podejmowanie świadomych decyzji biznesowych.
 
-\subsection{Pulpit główny (Home Dashboard) - centrum monitorowania \\ operacyjnego}
+\subsection{Pulpit główny}
 
 Pulpit główny stanowi spersonalizowane centrum dowodzenia dla każdego użytkownika, oferując natychmiastowy przegląd najważniejszych informacji o stanie systemu. Po zalogowaniu, użytkownik jest witany imiennie, co buduje przyjazne środowisko pracy.
 
 \singlesizedimageforced{images/home.png}{Pulpit główny}{1.0}
 
-\subsubsection{Monitorowanie zdarzeń i alertów - świadomość sytuacyjna}
+\subsubsection{Monitorowanie zdarzeń i alertów}
 Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i prezentuje zdarzenia systemowe w porządku chronologicznym. Mogą to być zarówno standardowe komunikaty operacyjne, jak i krytyczne alerty informujące o przekroczeniach zdefiniowanych progów dla wartości sensorów lub innych istotnych incydentach. Funkcjonalność ta ma kluczowe znaczenie dla utrzymania ciągłości operacyjnej:
 \begin{itemize}
     \item \textbf{szybka identyfikacja problemów} - możliwość filtrowania listy w celu wyświetlenia \textbf{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
@@ -20,7 +20,7 @@ Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i
 \end{itemize}
 Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej dane \texttt{data-service}, która prawdopodobnie agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{kafka-data-processor}).
 
-\subsubsection{Wizualizacja wartości sensorów - bezpośredni wgląd w parametry}
+\subsubsection{Wizualizacja wartości sensorów}
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
 \begin{itemize}
     \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. \textit{Temperatura - Przed Kotłem}) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
