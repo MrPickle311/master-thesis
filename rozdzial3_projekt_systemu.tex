@@ -53,6 +53,8 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
    \end{itemize}
 \end{itemize}
 
+\newpage
+
 \subsubsection{Wymagania niefunkcjonalne}
 \label{subsubsec:wymagania_niefunkcjonalne}
 
@@ -147,8 +149,6 @@ Warstwa usług i interfejs API (ang. Application Programming Interface) odpowiad
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący serwer Keycloak jako system zarządzania tożsamością,
     \item \textbf{Front Service} - mikroserwis pełniący rolę API Gateway \cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
-
-Wszystkie mikroserwisy są implementowane jako aplikacje Spring Boot, co zapewnia łatwość rozwoju, testowania i wdrażania.
 
 \singlesizedimageforced{images/home_api.png}{Interfejs API sekcji Home}{1.0}
 \singlesizedimageforced{images/reports_api.png}{Interfejs API sekcji Reports}{1.0}
@@ -284,6 +284,8 @@ Analizatory i normalizatory używane w modelu raportów zostały przedstawione n
       }
 \end{lstlisting}
 
+\newpage
+
 \subsubsection{Przetworzone dane}
 \label{subsubsec:przetworzone_dane}
 
@@ -320,6 +322,8 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \texttt{
 \end{itemize}
 
 Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak PostgreSQL lub Elasticsearch przez dedykowane serwisy (np. \texttt{Kafka-DB-Forwarder}).
+
+\newpage
 
 \subsection{Przepływ danych w systemie}
 \label{subsec:przeplyw_danych}
