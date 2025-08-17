@@ -1,0 +1,478 @@
+\section{Ewolucja rozwiązania}
+\label{chap:ewolucja_rozwiazania}
+\addcontentsline{lof}{section}{Rozdział \ref{chap:ewolucja_rozwiazania}}
+
+W trakcie realizacji niniejszego projektu będącego tematem niniejszej pracy, system do analizy danych w czasie rzeczywistym przechodził przez kilka kluczowych faz ewolucyjnych. Pierwotne założenia i wybrane technologie były weryfikowane i często zastępowane przez bardziej efektywne rozwiązania. W niniejszym rozdziale przedstawiono najważniejsze zmiany w architekturze i implementacji, uzasadniając podjęte decyzje oraz analizując korzyści i koszty poszczególnych podejść.
+
+\subsection{System autoryzacji}
+
+Początkowa wersja systemu opierała się na własnoręcznie zaimplementowanym mechanizmie autoryzacji w ramach dedykowanego mikroserwisu oraz bazy danych. Rozwiązanie to generowało szereg wyzwań. Zarządzanie cyklem życia tokenów JWT, w tym ich odświeżanie (ang. refresh tokens), było skomplikowane i podatne na błędy. Proces tworzenia i zarządzania użytkownikami oraz ich rolami wymagał implementacji dodatkowych endpointów REST API i interfejsów, co zwiększało nakład pracy. Mechanizmy bezpieczeństwa, takie jak ochrona przed atakami siłowymi (ang. brute force) czy zaawansowane polityki haseł, musiałyby być implementowane od podstaw.
+
+Pierwotne rozwiązanie autoryzacji wymagało przechowywania danych użytkowników w bazie danych, następne mikroserwis UserService korzystał z wspomnianej bazy danych w celu tworzenia, logowania i aktualizacji danych użytkowników oraz zarządzania ich rolami. W celu generowania tokenów JWT używano biblioteki JJWT. W celu zarządzania cyklem życia tokenów JWT, w tym ich odświeżania, implementowano własny mechanizm. Problemem tutaj było jednak przymus implementacji mechanizmu bezpieczeństwa oraz wszystkich funkcjonalności, które serwer Keycloak ma wbudowane.
+
+\vspace{0.3em}
+
+W miarę rozwoju projektu podjęto decyzję o migracji na serwer Keycloak, co przyniosło następujące korzyści:
+\begin{itemize}
+    \item \textbf{standaryzacja i bezpieczeństwo} - serwer Keycloak dostarcza gotowe, przetestowane i zgodne ze standardami (np. OAuth 2.0) mechanizmy uwierzytelniania i autoryzacji, co znacząco podnosi poziom bezpieczeństwa systemu,
+    \item \textbf{centralizacja zarządzania tożsamością} - zarządzanie użytkownikami, rolami i uprawnieniami odbywa się w jednym, dedykowanym do tego panelu administracyjnym, co upraszcza administrację oraz ułatwia zarządzanie użytkownikami,
+    \item \textbf{elastyczność i skalowalność} - serwer Keycloak oferuje zaawansowane funkcje, takie jak integracja z zewnętrznymi dostawcami tożsamości (np. LDAP, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
+\end{itemize}
+
+
+Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu pracy na rekonfigurację usług backendowych i frontendu w celu integracji z serwerem Keycloak. Migracja na serwer Keycloak spowodowała przyspieszenie prac deweloperskich i testowych oraz poprawiło wygodę w zarządzaniu użytkownikami dzięki specjalistycznemu panelu administracyjnemu. Co najważniejsze, użyto rozwiazania sprawdzonego na rynku, co poprawiło bezpieczeństwo systemu będącego przedmiotem tej pracy.
+
+\subsection{Infrastruktura klastra}
+
+Pierwotnym założeniem było wdrożenie systemu na zarządzanym przez AWS klastrze Kubernetes, czyli usłudze EKS (Elastic Kubernetes Service). Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
+
+Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 (ang. Amazon Elastic Compute Cloud). To podejście, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i jest choć tańsze niż EKS, to jednak i tak generowało zbyt wiele kosztów. Tutaj wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów AWS CloudFormation w celu zmniejszenia kosztów. AWS CloudFormation jest narzędziem AWS, które pozwala na deklaratywne definiowanie zasobów w postaci szablonów YAML. Jako zasoby można rozumieć tutaj instancje EC2, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz z skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na EC2 wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt AWS CloudFormation do wdrożenia klastra EKS. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
+
+\begin{lstlisting}[caption={Skrypt AWS CloudFormation do wdrożenia klastra EKS}, label={lst:eks_cloudformation}]
+
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  KeyPairName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+    
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where instances will be deployed
+    
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where instances will be deployed
+
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for EC2 instances
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+          Description: SSH access
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: HTTP access
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: HTTPS access
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+          Description: All outbound traffic
+      Tags:
+        - Key: Name
+          Value: Ubuntu-Instances-SG
+
+  Master:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba  # Ubuntu 24.04 LTS 
+      InstanceType: t3.medium
+      KeyName: !Ref KeyPairName
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update
+          apt-get install -y awscli
+          hostnamectl set-hostname ubuntu-instance-1
+      Tags:
+        - Key: Name
+          Value: Ubuntu-Instance-1
+
+  Node:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba  # Ubuntu 24.04 LTS
+      InstanceType: t3.medium
+      KeyName: !Ref KeyPairName
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update
+          apt-get install -y awscli
+          hostnamectl set-hostname ubuntu-instance-2
+      Tags:
+        - Key: Name
+          Value: Ubuntu-Instance-2
+
+\end{lstlisting}
+
+Rozwiązanie oparte na EC2 wymagało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Rozmiar wdrożenia i skala systemu na potrzeby tej pracy jest relatywnie mała (względem chociażby wdrożenia do prawdziwego zakładu przemysłowego).
+
+Poniżej zostały przedstawione koszty w zależności od rozwiązania. Koszty obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty wyrażono w złotych polskich. Koszty dla zasobów AWS zostały oblczone za pomocą tej strony: \url{https://calculator.aws/}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla większych wdrożeń rozwiązania oparte na EC2/EKS mogą być niższe.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|lll}
+    \cline{1-2}
+    Rozwiązanie & Koszt &  &  &  \\ \cline{1-2}
+    EKS         & 476   &  &  &  \\ \cline{1-2}
+    EC2         & 439   &  &  &  \\ \cline{1-2}
+    Lokalne     & 1024  &  &  &  \\ \cline{1-2}
+    \end{tabular}
+    \caption{Koszty rozwiązań wdrożenia}
+    \label{tab:koszty_rozwiazan_wdrazenia}
+\end{table}
+
+\vspace{0.3em}
+
+Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia \textbf{Kubeadm} na własnych maszynach. Pozwoliło to na:
+\begin{itemize}
+    \item \textbf{Znaczącą redukcję kosztów} w porównaniu do EKS.
+    \item \textbf{Uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na EC2.
+    \item \textbf{Pełną kontrolę nad konfiguracją klastra} przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes.
+\end{itemize}
+
+\subsection{Przetwarzanie danych}
+
+W pierwszej iteracji systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę Kafka Streams. Zaletą tego rozwiązania była ścisła integracja z ekosystemem Apache Kafka oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
+\begin{itemize}
+    \item \textbf{Czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu. Kod zawierał dużą liczbę klas, które były trudne do zrozumienia i utrzymania.
+    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki Spark MLlib) w ramach aplikacji Kafka Streams nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+\end{itemize}
+
+Poniżej przedstawiono przykładowy kod implementacji w klasie \texttt{PressureMeanStreamFactory}.
+
+\begin{lstlisting}[caption={Implementacja w klasie PressureMeanStreamFactory}, label={lst:pressure_mean_stream_factory},language=Java]
+
+    public class PressureMeanStreamFactory extends MeanStreamFactory<Pressure, PressureAggregation> {
+
+    @Builder
+    public PressureMeanStreamFactory(final KafkaNativeConfig kafkaNativeConfig, final MeanStreamConfig config) {
+        super(kafkaNativeConfig, config);
+    }
+
+    @Override
+    protected Predicate[] preparePredicates() {
+        return getLabels().stream()
+                .map(label -> (Predicate<String, Pressure>) (key, value) -> 
+                        value.getLabel().toString().equals(label))
+                .toArray(Predicate[]::new);
+    }
+
+    public List<KStream<String, Pressure>> splitToMeanBranches(
+        final KStream<String, Pressure> inputStream) {
+        var result = splitToPredicatedBranches(inputStream);
+
+        for (var pressureStream : result) {
+            pressureStream
+                    .groupBy((key, value) -> value.getLabel().toString(),
+                            Grouped.with(Serdes.String(), getSerde()))
+                    .windowedBy(getWindowing())
+                    .aggregate(
+                            () -> PressureAggregation.newBuilder()
+                                    .setData(Pressure.newBuilder()
+                                            .setTimestamp(ZonedDateTime
+                                                    .now().toEpochSecond())
+                                            .setLabel("")
+                                            .setData(PressureDataRecord
+                                                        .newBuilder()
+                                                    .setPressure(INITIAL_VALUE)
+                                                    .build())
+                                            .build()
+                                    )
+                                    .setCount(0)
+                                    .build(),
+                            (key, value, aggregated) -> PressureAggregation
+                                .newBuilder()
+                                    .setData(Pressure.newBuilder()
+                                            .setTimestamp(ZonedDateTime
+                                                    .now().toEpochSecond())
+                                            .setLabel(value.getLabel())
+                                            .setData(PressureDataRecord
+                                                .newBuilder()
+                                                .setPressure(
+                                                        value.getData()
+                                                        .getPressure() 
+                                                        + 
+                                                        aggregated.getData()
+                                                        .getData()
+                                                        .getPressure())
+                                                .build())
+                                            .build())
+                                    .setCount(aggregated.getCount() + 1)
+                                    .build(),
+                            Materialized.with(Serdes.String(), 
+                                              getAggregateSerdes())
+                    )
+                    .suppress(Suppressed.untilWindowCloses(Suppressed
+                                            .BufferConfig.unbounded()))
+                    .toStream()
+                    .map((key, value) -> KeyValue.pair(key.key(),
+                            Pressure.newBuilder()
+                                    .setTimestamp(ZonedDateTime.now()
+                                                    .toEpochSecond())
+                                    .setLabel(value.getData().getLabel())
+                                    .setData(PressureDataRecord.newBuilder()
+                                            .setPressure(value.getData()
+                                            .getData().getPressure() 
+                                            / 
+                                            value.getCount())
+                                            .build())
+                                    .build())
+                    )
+                    .to((key, value, recordContext) -> value.getLabel().toString() + getOutputTopicsPostfix(),
+                            Produced.with(Serdes.String(), getSerde()));
+
+        }
+
+        return result;
+    }
+}  
+
+\end{lstlisting}
+
+Powyższy kod przedstawia klasę \texttt{PressureMeanStreamFactory}, która dziedziczy po generycznej klasie \texttt{MeanStreamFactory} i służy do przetwarzania strumieni danych ciśnienia za pomocą biblioteki Kafka Streams. Klasa ta implementuje logikę rozdzielania strumienia wejściowego na podstrumienie według typów urządzeń (sprężarka, turbina, kompresor, itp.), a następnie agreguje dane w oknach czasowych, licząc średnie wartości ciśnienia dla każdej etykiety. Wyniki są następnie publikowane na odpowiednie tematy wyjściowe.
+
+\vspace{0.3em}
+
+Kod ten jest jednak trudny do czytania i utrzymania z kilku powodów:
+\begin{itemize}
+    \item zagnieżdżenie wielu wywołań metod sprawia, że pojedyncze operacje są rozciągnięte na wiele poziomów, co utrudnia zrozumienie przepływu danych.
+    \item logika agregacji i mapowania jest rozbudowana i zawiera powtarzające się fragmenty kodu, co zwiększa ryzyko popełnienia błędów i utrudnia wprowadzanie zmian.
+    \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania Kafka Streams.
+    \item brak wyodrębnienia poszczególnych etapów przetwarzania do osobnych metod lub klas powoduje, że cała złożona logika znajduje się w jednym miejscu, co utrudnia testowanie i ponowne wykorzystanie kodu.
+\end{itemize}
+
+W kodzie takich klas było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż Kafka Streams operuje w większości na funkcjach anonimowych. Natomiast Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na zwiększenie czytelności kodu. Poniżej przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
+
+\begin{lstlisting}[caption={Implementacja w klasie MeanProcessor za pomocą Apache Spark}, label={lst:mean_processor},language=Scala]
+
+class MeanProcessor[T <: SensorReading : Encoder](
+                                                   spark: SparkSession,
+                                                   config: SensorConfig,
+                                                   kafkaConfig: KafkaConfig,
+                                                   sensorType: String
+                                                 ) {
+  private val logger = LoggerFactory.getLogger(getClass)
+
+
+  private def addSchemaRegistryHeaderUDF(schemaId: Int) = udf((avroBytes: Array[Byte]) => {
+    val result = new Array[Byte](1 + 4 + avroBytes.length)
+
+    result(0) = 0
+
+    val schemaIdBytes = ByteBuffer.allocate(4).putInt(schemaId).array()
+    System.arraycopy(schemaIdBytes, 0, result, 1, 4)
+
+    System.arraycopy(avroBytes, 0, result, 5, avroBytes.length)
+
+    result
+  })
+
+  def start(): Unit = {
+    import spark.implicits._
+
+    logger.info(s"Starting mean calculation for $sensorType")
+    val restService = new RestService(kafkaConfig.schemaRegistryUrl)
+
+    val inputStream = spark
+      .readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", kafkaConfig.bootstrapServers)
+      .option("subscribe", config.inputTopic)
+      .option("startingOffsets", "latest")
+      .load()
+
+    config.labels.foreach { label =>
+      logger.warn(s"Setting up processing for $sensorType label: $label")
+
+      val outputSchema = restService
+                        .getLatestVersion(sensorType + "Mean" + "-value")
+      val subjectPostfix = sensorType.substring(0, 1).toUpperCase 
+                           + sensorType.substring(1)
+      logger.warn(s"subjectPostfix $subjectPostfix")
+      val jsonFormatSchema = restService
+                .getLatestVersion("com.factory.message." + subjectPostfix)
+
+      val valueDF = inputStream
+        .withColumn("stripped_value", expr("substring(value, 6)"))
+        .select(from_avro(data = $"stripped_value", jsonFormatSchema.getSchema)
+        .as(s"$sensorType"))
+        .filter(col(s"$sensorType.label") === label)
+        .withColumn("event_time", from_unixtime(col(s"$sensorType.timestamp"))
+        .cast("timestamp"))
+
+      val aggregatedDS = valueDF
+        .withWatermark("event_time", s"1 minutes")
+        .groupBy(window(col("event_time"), 
+                        s"2 minutes", s"1 minutes"), $"$sensorType.label")
+        .agg(
+          avg(col(s"$sensorType.data.$sensorType")).cast("float")
+                                                   .as(s"$sensorType"),
+          count("*").cast("int").as("count")
+        )
+        .filter(row => !row.isNullAt(1))
+        .withColumn("label", lit(label))
+        .withColumn("timestamp", unix_timestamp(col("window.end")))
+        .filter(col("count") > 0)
+        .select(
+          struct(
+            struct(
+              col("label"),
+              col("timestamp"),
+              struct(
+                col(s"$sensorType")
+              ).as("data")
+            ).as("data"),
+            col("count")
+          ).as("result"),
+          col("timestamp")
+        )
+        .select(
+          to_avro($"result", outputSchema.getSchema)
+            .as("pre_value"),
+          col("timestamp").cast("string").as("key")
+        )
+        .withColumn("value", addSchemaRegistryHeaderUDF(outputSchema.getId)(col("pre_value")))
+
+      aggregatedDS
+        .writeStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers", kafkaConfig.bootstrapServers)
+        .option("topic", s"${sensorType}Mean")
+        .outputMode("append")
+        .start()
+
+    }
+  }
+} 
+
+\end{lstlisting}
+
+Analizując powyższy kod można zauważyć, że obsługuje on wszystkie typy czujników w ten sam sposób, dzięki czemu nie trzeba tworzyć nowych klas dla każdego typu czujnika.
+
+Podjęto decyzję o przejściu na \textbf{Apache Spark Structured Streaming}. Mimo że działa on w modelu mikrowsadowym, co wprowadza nieco większe opóźnienia, przyniósł on kluczowe korzyści:
+\begin{itemize}
+    \item \textbf{wyższy poziom abstrakcji} - deklaratywne API Sparka, podobne do SQL, znacząco uprościło implementację logiki przetwarzania danych i poprawiło czytelność kodu,
+    \item \textbf{natywna integracja z ML} - silnik Spark oferuje bogaty ekosystem, w tym bibliotekę Spark ML, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
+    \item \textbf{mechanizm checkpointów} - silnik Spark pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
+\end{itemize}
+
+\subsection{Model bazy danych}
+
+Początkowy projekt relacyjnej bazy danych zakładał tworzenie osobnej tabeli dla każdego typu czujnika (np. temperatura, cisnienie, wibracje). Na listingu \ref{lst:mean_temperature} przedstawiono kilka tabel stosujących się do tego podejścia.
+
+\begin{lstlisting}[caption={Przykładowe tabeli w relacyjnej bazie danych}, label={lst:mean_temperature},language=SQL]
+
+
+CREATE TABLE IF NOT EXISTS mean_temperature
+(
+    id        uuid NOT NULL,
+    value     double precision,
+    label     text,
+    event_key text,
+    timestamp timestamp with time zone,
+    PRIMARY KEY (id),
+    UNIQUE (label, event_key)
+);
+
+CREATE TABLE IF NOT EXISTS mean_pressure
+(
+    id        uuid NOT NULL,
+    value     double precision,
+    label     text,
+    event_key text,
+    timestamp timestamp with time zone,
+    PRIMARY KEY (id),
+    UNIQUE (label, event_key)
+);
+
+CREATE TABLE IF NOT EXISTS mean_flow_rate
+(
+    id        uuid NOT NULL,
+    value     double precision,
+    label     text,
+    event_key text,
+    timestamp timestamp with time zone,
+    PRIMARY KEY (id),
+    UNIQUE (label, event_key)
+);
+
+\end{lstlisting}
+
+\vspace{0.3em}
+
+Takie podejście, choć intuicyjne na początku, miało poważne wady:
+\begin{itemize}
+    \item \textbf{brak elastyczności} - dodanie nowego typu czujnika wymagało zmiany schematu bazy danych (dodania nowej tabeli) oraz modyfikacji kodu w serwisach aplikacyjnych,
+    \item \textbf{skomplikowane zapytania} - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) między wieloma tabelami, co było nieefektywne.
+\end{itemize}
+
+\vspace{0.3em}
+
+Zmieniono podejście na model danych opierający się na jednej tabeli, co przedstawiono na listingu \ref{lst:sensor_data}.
+
+\begin{lstlisting}[caption={Przykładowa tabela w relacyjnej bazie danych}, label={lst:sensor_data},language=SQL]
+
+CREATE TABLE IF NOT EXISTS sensor_data
+(
+    id          uuid NOT NULL,
+    sensor_type text NOT NULL,
+    label       text,
+    event_key   text,
+    timestamp   timestamp with time zone,
+    data        jsonb NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (sensor_type, label ,event_key)
+);
+\end{lstlisting}
+
+
+Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli odczyty\_czujnikow, która zawiera kolumny takie jak typ\_czujnika, wartosc, jednostka itp. Ta zmiana przyniosła fundamentalne korzyści:
+\begin{itemize}
+    \item \textbf{elastyczność} - system może teraz obsługiwać dowolną liczbę typów czujników bez jakichkolwiek zmian w strukturze bazy danych,
+    \item \textbf{uproszczenie zapytań} - analiza danych sprowadza się do prostych zapytań do jednej tabeli z odpowiednim filtrowaniem i grupowaniem.
+\end{itemize}
+
+\subsection{Zarządzanie wdrożeniami}
+
+Pierwotnie stosowano ręczne zarządzanie manifestami YAML klastra Kubernetes. Każdy projekt aplikacji miał folder z własnymi manifestami. Skrypt ten, choć automatyzował część procesu, był proceduralny i wymagał implementacji logiki oczekiwania na gotowość poszczególnych zasobów (np. węzłów, usług, a nawet na konkretne zdarzenia z SNS). Na klastrze również istniała specjalna aplikacja, która zarządzała wdrażaniem nowych wersji aplikacji tzw. deployer. Narzędzie to nasłuchiwało kanał SNS. Deweloper musiał najpierw zaaktualizować repozytorium z aplikacją, później wysłać wiadomość na ten kanał SNS, następnie wspomniana aplikacja rozpoczyna proces wdrażania nowej wersji aplikacji. Cały proces pokazano na rysunku \ref{fig:deployer}.
+
+\singlesizedimageforced{images/deployer-flow.png}{Proces wdrażania nowej wersji aplikacji}{1.0}
+
+Jednak to rozwiązanie było mało elastyczne i aplikacja często się zawieszała. W celu poprawy stabilności, użyto menedżera pakietów \textbf{Helm}, który pozwala na deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie osadzono wszystkie szablony w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. repozytorium służyło jako stan klastra Kubernetes.
+
+\vspace{0.3em}
+
+Wprowadzenie menedżera pakietów \textbf{Helm} uprościło proces wdrożenia. Główne zalety to:
+\begin{itemize}
+    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
+    \item \textbf{reużywalność i parametryzacja} - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
+    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
+\end{itemize}
+
+\subsection{Środowisko uruchomieniowe kontenerów}
+
+Początkowo klaster Kubernetes był oparty na środowisku uruchomieniowym Docker. Jednakże, ze względu na zmiany w ekosystemie Kubernetes, podjęto decyzję o przejściu na \textbf{Containerd}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra Kubernetes. Containerd, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika Dockera, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
+
+\subsection{Architektura sieciowa}
+
+Wczesna konfiguracja sieciowa, oparta na usługach typu NodePort i zewnętrznym AWS Application Load Balancer (ALB), była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze AWS, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
+
+Zmienono sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \textbf{MetalLB} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \textbf{Nginx Ingress} do zaawansowanego routingu ruchu HTTP/HTTPS. Balanser \textbf{MetalLB} można zainstalować na klastrach Kubernetesa, które są osadzone na fizycznych maszynach. Pozwoliło to na możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
+
+Ta kombinacja pozwoliła na:
+\begin{itemize}
+    \item \textbf{wyeliminowanie zależności od zewnętrznego load balancera chmurowego}, co obniżyło opóźnienia,
+    \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
+    \item \textbf{centralizację zarządzania certyfikatami TLS} dzięki integracji kontrolera Ingress z narzędziem cert-manager.
+\end{itemize}
