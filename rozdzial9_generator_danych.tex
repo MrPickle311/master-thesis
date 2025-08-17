@@ -3,11 +3,11 @@
 \addcontentsline{lof}{section}{Rozdział \ref{sec:implementacja_generowania}}
 \addcontentsline{lot}{section}{Rozdział \ref{sec:implementacja_generowania}}
 
-W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rzeczywistym oraz zapewnienia ciągłego strumienia danych testowych, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-System generatora został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem  funkcji AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+System generatora, który zaimplementowano, został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem  funkcji AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
-Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
+Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
 
 \singlesizedimageforced{images/generator_schema.png}{Schemat przepływu danych w generatorze}{1.0}
 
