@@ -20,6 +20,10 @@
 
 \begin{document}
 
+    \counterwithin{lstlisting}{subsection}
+    \renewcommand\lstlistingname{Spis listingów}
+    \renewcommand\lstlistlistingname{Spis listingów}
+
     \maketitle
     \tableofcontents
     \clearpage
@@ -75,38 +79,7 @@
     \listoftables
     \clearpage
 
-    \clearpage
-
-    \begingroup
-    \section*{Spis listingów}
-
-    \vspace{10pt}
-    \noindent\textbf{Rozdział 3}
-    \begin{itemize}
-        \item[3.4.1] Model raportów w bazie danych Elasticsearch \dotfill \pageref{lst:model_raportow}
-        \item[3.4.2] Analizatory i normalizatory w bazie danych Elasticsearch \dotfill \pageref{lst:analizatory_i_normalizatory}
-    \end{itemize}
-
-    \vspace{10pt}
-    \noindent\textbf{Rozdział 7}
-    \begin{itemize}
-        \item[7.6.1] Plik metadanych \dotfill \pageref{lst:plik_metadanych}
-        \item[7.6.2] Klasy modeli danych \dotfill \pageref{lst:klasy_modeli_danych}
-        \item[7.6.3] Algorytm wyszukiwania najbliższego rekordu \dotfill \pageref{lst:algorytm_wyszukiwania_rekordu}
-        \item[7.6.4] Format publikowanych wiadomości \dotfill \pageref{lst:format_publikowanych_wiadomosci}
-    \end{itemize}
-
-    \vspace{10pt}
-    \noindent\textbf{Rozdział 13}
-    \begin{itemize}
-        \item[10.1] Skrypt AWS CloudFormation do wdrożenia klastra EKS \dotfill \pageref{lst:eks_cloudformation}
-        \item[10.3] Implementacja w klasie PressureMeanStreamFactory \dotfill \pageref{lst:pressure_mean_stream_factory}
-        \item[10.3] Implementacja w klasie MeanProcessor za pomocą Apache Spark \dotfill \pageref{lst:mean_processor_spark}
-        \item[10.4] Pierwsza forma tabeli w relacyjnej bazie danych \dotfill \pageref{lst:first_form_table}
-        \item[10.4] Druga forma tabeli w relacyjnej bazie danych \dotfill \pageref{lst:second_form_table}
-    \end{itemize}
-
-    \endgroup
+    \lstlistoflistings
     \clearpage
 
     \include{bibl}

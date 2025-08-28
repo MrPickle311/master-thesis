@@ -25,7 +25,8 @@
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{sectsty}
-\usepackage{listings}
+\usepackage{listings,chngcntr}
+\lstset{frame=Trbl,numbers=left}
 \usepackage{xcolor}
 \usepackage[font=small,labelfont=bf]{caption}
 
@@ -34,6 +35,7 @@
 \setlist[enumerate]{noitemsep, topsep=-0.1em}
 
 \counterwithin{figure}{subsection}
+\counterwithin{table}{subsection}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
