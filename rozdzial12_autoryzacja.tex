@@ -5,11 +5,11 @@ System analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm au
 
 \subsection{Architektura systemu autoryzacji}
 
-System Keycloak pełni rolę centralnego serwera uwierzytelnienia, który zarządza procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z systemem Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług backendowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
+System Keycloak pełni rolę centralnego serwera uwierzytelnienia, który zarządza procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z systemem Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
 
-FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług backendowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
+FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług back-endowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
 
-Backend aplikacji został skonfigurowany do pracy w trybie hybrydowym - może działać zarówno z serwerem Keycloak jako zewnętrznym dostawcą uwierzytelnienia, jak i z własnym wewnętrznym systemem JWT (ang. JSON Web Token). Konfiguracja ta jest kontrolowana przez parametr \texttt{app.security.useKeycloak}, co zapewnia elastyczność wdrożenia aplikacji w różnych środowiskach.
+Back-end aplikacji został skonfigurowany do pracy w trybie hybrydowym - może działać zarówno z serwerem Keycloak jako zewnętrznym dostawcą uwierzytelnienia, jak i z własnym wewnętrznym systemem JWT (ang. JSON Web Token). Konfiguracja ta jest kontrolowana przez parametr \texttt{app.security.useKeycloak}, co zapewnia elastyczność wdrożenia aplikacji w różnych środowiskach.
 
 \subsection{Implementacja po stronie frontendu}
 
@@ -19,7 +19,7 @@ Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer d
 
 Interface \texttt{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem Keycloak, ułatwiając integrację z komponentami biblioteki React.
 
-\subsection{Autoryzacja po stronie backendu}
+\subsection{Autoryzacja po stronie back-endu}
 
 Aplikacja FrontService implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę Spring Security WebFlux  w trybie Keycloak. System wykorzystuje mechanizm protokołu OAuth2 Resource Server do walidacji tokenów JWT wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
 

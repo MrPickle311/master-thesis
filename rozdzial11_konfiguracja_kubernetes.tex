@@ -57,7 +57,7 @@ Do zarządzania i uruchamiania zadań silnika analitycznego Apache Spark w klast
 Zdefiniowany jest zasób \texttt{SparkApplication} o nazwie \texttt{spark-data-processor}, który uruchamia aplikację Scala (\texttt{com.factory.SparkDataProcessor}) z obrazu Dockera. Aplikacja ta działa w trybie \texttt{cluster} i wykorzystuje zasoby zdefiniowane dla sterownika i dwóch wykonawców (executorów).
 
 \subsubsection{Usługi aplikacyjne}
-Pozostałe usługi, takie jak: \texttt{front-service} (brama API), \texttt{cluster-ui} (interfejs użytkownika React), \texttt{data-service}, \texttt{users-service}, \texttt{kafka-db-forwarder} oraz \texttt{sqs-kafka-forwarder} są wdrażane jako standardowe Deploymenty klastra Kubernetes. Każda z nich posiada własną konfigurację (ConfigMap), usługę (Service) oraz, w przypadku usług frontendowych i bramy API, definicję Ingress.
+Pozostałe usługi, takie jak: \texttt{front-service} (brama API), \texttt{cluster-ui} (interfejs użytkownika React), \texttt{data-service}, \texttt{users-service}, \texttt{kafka-db-forwarder} oraz \texttt{sqs-kafka-forwarder} są wdrażane jako standardowe Deploymenty klastra Kubernetes. Każda z nich posiada własną konfigurację (ConfigMap), usługę (Service) oraz, w przypadku usług front-endowych i bramy API, definicję Ingress.
 
 Usługa \texttt{sqs-kafka-forwarder} jest skonfigurowana do integracji z rzeczywistymi kolejkami Amazon SQS i przekazywania wiadomości do odpowiednich tematów brokera Kafki. Konfiguracja zawiera klucze dostępowe chmury AWS, co potwierdza bezpośrednią integrację z infrastrukturą chmury AWS.
 
