@@ -9,27 +9,27 @@ W trakcie realizacji niniejszego projektu będącego tematem niniejszej pracy, s
 
 \subsection{System autoryzacji}
 
-Początkowa wersja systemu opierała się na własnoręcznie zaimplementowanym mechanizmie autoryzacji w ramach dedykowanego mikroserwisu oraz bazy danych. Rozwiązanie to generowało szereg wyzwań. Zarządzanie cyklem życia tokenów JWT, w tym ich odświeżanie (ang. refresh tokens), było skomplikowane i podatne na błędy. Proces tworzenia i zarządzania użytkownikami oraz ich rolami wymagał implementacji dodatkowych endpointów REST API i interfejsów, co zwiększało nakład pracy. Mechanizmy bezpieczeństwa, takie jak ochrona przed atakami siłowymi (ang. brute force) czy zaawansowane polityki haseł, musiałyby być implementowane od podstaw.
+Początkowa wersja systemu opierała się na własnoręcznie zaimplementowanym mechanizmie autoryzacji w ramach dedykowanego mikroserwisu oraz bazy danych. Rozwiązanie to generowało szereg wyzwań. Zarządzanie cyklem życia tokenów JWT \cite{jwt_rfc}, w tym ich odświeżanie (ang. refresh tokens), było skomplikowane i podatne na błędy. Proces tworzenia i zarządzania użytkownikami oraz ich rolami wymagał implementacji dodatkowych endpointów REST API i interfejsów, co zwiększało nakład pracy. Mechanizmy bezpieczeństwa, takie jak ochrona przed atakami siłowymi (ang. brute force) czy zaawansowane polityki haseł, musiałyby być implementowane od podstaw.
 
-Pierwotne rozwiązanie autoryzacji wymagało przechowywania danych użytkowników w bazie danych, następne mikroserwis UserService korzystał z wspomnianej bazy danych w celu tworzenia, logowania i aktualizacji danych użytkowników oraz zarządzania ich rolami. W celu generowania tokenów JWT używano biblioteki JJWT. W celu zarządzania cyklem życia tokenów JWT, w tym ich odświeżania, implementowano własny mechanizm. Problemem tutaj był jednak przymus implementacji mechanizmu bezpieczeństwa oraz wszystkich funkcjonalności, które serwer Keycloak ma wbudowane.
+Pierwotne rozwiązanie autoryzacji wymagało przechowywania danych użytkowników w bazie danych, następne mikroserwis UserService korzystał z wspomnianej bazy danych w celu tworzenia, logowania i aktualizacji danych użytkowników oraz zarządzania ich rolami. W celu generowania tokenów JWT \cite{jwt_rfc} używano biblioteki JJWT \cite{jjwt_docs}. W celu zarządzania cyklem życia tokenów JWT \cite{jwt_rfc}, w tym ich odświeżania, implementowano własny mechanizm. Problemem tutaj był jednak przymus implementacji mechanizmu bezpieczeństwa oraz wszystkich funkcjonalności, które serwer Keycloak ma wbudowane.
 
 \vspace{0.3em}
 
-W miarę rozwoju projektu podjęto decyzję o migracji na serwer Keycloak, co przyniosło następujące korzyści:
+W miarę rozwoju projektu podjęto decyzję o migracji na serwer Keycloak \cite{keycloak_docs}, co przyniosło następujące korzyści:
 \begin{itemize}
-    \item \textbf{standaryzacja i bezpieczeństwo} - serwer Keycloak dostarcza gotowe, przetestowane i zgodne ze standardami (np. OAuth 2.0) mechanizmy uwierzytelniania i autoryzacji, co znacząco podnosi poziom bezpieczeństwa systemu,
+    \item \textbf{standaryzacja i bezpieczeństwo} - serwer Keycloak \cite{keycloak_docs} dostarcza gotowe, przetestowane i zgodne ze standardami (np. OAuth 2.0 \cite{oauth2_rfc}) mechanizmy uwierzytelniania i autoryzacji, co znacząco podnosi poziom bezpieczeństwa systemu,
     \item \textbf{centralizacja zarządzania tożsamością} - zarządzanie użytkownikami, rolami i uprawnieniami odbywa się w jednym, dedykowanym do tego panelu administracyjnym, co upraszcza administrację oraz ułatwia zarządzanie użytkownikami,
-    \item \textbf{elastyczność i skalowalność} - serwer Keycloak oferuje zaawansowane funkcje, takie jak integracja z zewnętrznymi dostawcami tożsamości (np. LDAP, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
+    \item \textbf{elastyczność i skalowalność} - serwer Keycloak \cite{keycloak_docs} oferuje zaawansowane funkcje, takie jak integracja z zewnętrznymi dostawcami tożsamości (np. LDAP \cite{ldap_rfc}, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
 \end{itemize}
 
 
-Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu pracy na rekonfigurację usług back-endowych i front-endu w celu integracji z serwerem Keycloak. Migracja na serwer Keycloak spowodowała przyspieszenie prac deweloperskich i testowych oraz poprawiło wygodę w zarządzaniu użytkownikami dzięki specjalistycznemu panelu administracyjnemu. Co najważniejsze, użyto rozwiazania sprawdzonego na rynku, co poprawiło bezpieczeństwo systemu będącego przedmiotem tej pracy.
+Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu pracy na rekonfigurację usług back-endowych i front-endu w celu integracji z serwerem Keycloak \cite{keycloak_docs}. Migracja na serwer Keycloak \cite{keycloak_docs} spowodowała przyspieszenie prac deweloperskich i testowych oraz poprawiło wygodę w zarządzaniu użytkownikami dzięki specjalistycznemu panelu administracyjnemu. Co najważniejsze, użyto rozwiazania sprawdzonego na rynku, co poprawiło bezpieczeństwo systemu będącego przedmiotem tej pracy.
 
 \subsection{Infrastruktura klastra}
 
-Pierwotnym założeniem było wdrożenie systemu na zarządzanym przez AWS klastrze Kubernetes, czyli usłudze EKS (Elastic Kubernetes Service). Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
+Pierwotnym założeniem było wdrożenie systemu na zarządzanym przez AWS \cite{aws_docs} klastrze Kubernetes \cite{kubernetes}, czyli usłudze EKS (Elastic Kubernetes Service) \cite{eks_docs}. Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS \cite{aws_docs}. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS \cite{eks_docs} generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
 
-Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 (ang. Amazon Elastic Compute Cloud). Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż EKS, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów AWS CloudFormation w celu zmniejszenia kosztów. AWS CloudFormation jest narzędziem AWS, powzalającym na deklaratywne definiowanie zasobów w postaci szablonów YAML. Jako zasoby można rozumieć tutaj instancje EC2, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na EC2 wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt AWS CloudFormation do wdrożenia klastra EKS. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
+Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 (ang. Amazon Elastic Compute Cloud) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż EKS \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów AWS CloudFormation \cite{cloudformation_docs} w celu zmniejszenia kosztów. AWS CloudFormation \cite{cloudformation_docs} jest narzędziem AWS \cite{aws_docs}, powzalającym na deklaratywne definiowanie zasobów w postaci szablonów YAML \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje EC2 \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na EC2 \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt AWS CloudFormation \cite{cloudformation_docs} do wdrożenia klastra EKS \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
 
 \begin{lstlisting}[caption={Skrypt AWS CloudFormation do wdrożenia klastra EKS}, label={lst:eks_cloudformation}]
 
@@ -137,19 +137,19 @@ Poniżej \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w za
 
 \vspace{0.3em}
 
-Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia \textbf{Kubeadm} na własnych maszynach. Pozwoliło to na:
+Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia \textbf{Kubeadm} \cite{kubeadm_docs} na własnych maszynach. Pozwoliło to na:
 \begin{itemize}
-    \item \textbf{znaczącą redukcję kosztów} w porównaniu do EKS,
-    \item \textbf{uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na EC2,
-    \item \textbf{pełną kontrolę nad konfiguracją klastra} przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes.
+    \item \textbf{znaczącą redukcję kosztów} w porównaniu do EKS \cite{eks_docs},
+    \item \textbf{uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na EC2 \cite{ec2_docs},
+    \item \textbf{pełną kontrolę nad konfiguracją klastra} przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes \cite{kubernetes}.
 \end{itemize}
 
 \subsection{Przetwarzanie danych}
 
-W pierwszej implementacji systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę Kafka Streams. Zaletą tego rozwiązania była ścisła integracja z ekosystemem Apache Kafka oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
+W pierwszej implementacji systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę Kafka Streams \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem Apache Kafka \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
 \begin{itemize}
     \item \textbf{Czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu. Kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania.
-    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki Spark MLlib) w ramach aplikacji Kafka Streams nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki Spark MLlib \cite{spark_streaming}) w ramach aplikacji Kafka Streams nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
 Poniżej \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \texttt{PressureMeanStreamFactory}.
@@ -251,11 +251,11 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
 \begin{itemize}
     \item zagnieżdżenie wielu wywołań metod sprawia, że pojedyncze operacje są rozciągnięte na wiele poziomów, co utrudnia zrozumienie przepływu danych.
     \item logika agregacji i mapowania jest rozbudowana i zawiera powtarzające się fragmenty kodu, co zwiększa ryzyko popełnienia błędów i utrudnia wprowadzanie zmian.
-    \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania Kafka Streams.
+    \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania Kafka Streams \cite{kafka_streams}.
     \item brak wyodrębnienia poszczególnych etapów przetwarzania do osobnych metod lub klas powoduje, że cała złożona logika znajduje się w jednym miejscu, co utrudnia testowanie i ponowne wykorzystanie kodu.
 \end{itemize}
 
-W rozważanym kodzie klas dziedziczących po klasie \texttt{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
+W rozważanym kodzie klas dziedziczących po klasie \texttt{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
 
 \begin{lstlisting}[caption={Implementacja w klasie MeanProcessor za pomocą Apache Spark}, label={lst:mean_processor_spark},language=Scala]
 
@@ -363,10 +363,10 @@ class MeanProcessor[T <: SensorReading : Encoder](
 
 Analizując powyższy kod można zauważyć, że obsługuje on wszystkie typy czujników w ten sam sposób, dzięki czemu nie trzeba tworzyć nowych klas dla każdego typu czujnika.
 
-Podjęto decyzję o przejściu na bibliotekę \textbf{Apache Spark Structured Streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósła ona kluczowe korzyści:
+Podjęto decyzję o przejściu na bibliotekę \textbf{Apache Spark Structured Streaming} \cite{spark_streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósł ona kluczowe korzyści:
 \begin{itemize}
     \item \textbf{wyższy poziom abstrakcji} - deklaratywny interfejs API silnika Apache Spark, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
-    \item \textbf{natywna integracja z ML} - silnik Spark oferuje bogaty ekosystem, w tym bibliotekę Spark ML, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
+    \item \textbf{natywna integracja z ML} - silnik Spark oferuje bogaty ekosystem, w tym bibliotekę Spark ML \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
     \item \textbf{mechanizm checkpointów} - silnik Spark pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
@@ -452,34 +452,34 @@ Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli \texttt
 
 \subsection{Zarządzanie wdrożeniami}
 
-Pierwotnie stosowano ręczne zarządzanie manifestami YAML klastra Kubernetes. Każdy projekt aplikacji miał folder z własnymi manifestami. Skrypt ten, choć automatyzował część procesu, był proceduralny i wymagał implementacji logiki oczekiwania na gotowość poszczególnych zasobów (np. węzłów, usług, a nawet na konkretne zdarzenia z SNS). Na klastrze również istniała specjalna aplikacja, zarządzająca wdrażaniem nowych wersji aplikacji tzw. deployer. Narzędzie to nasłuchiwało kanał SNS. Programista musiał najpierw zaaktualizować repozytorium z aplikacją, później wysłać wiadomość na niniejszy kanał SNS. Następnie wspomniana aplikacja rozpoczynała proces wdrażania nowej wersji aplikacji. Cały proces pokazano na rysunku \ref{Proces wdrażania starej wersji aplikacji}.
+Pierwotnie stosowano ręczne zarządzanie manifestami YAML \cite{yaml_spec} klastra Kubernetes \cite{kubernetes}. Każdy projekt aplikacji miał folder z własnymi manifestami. Skrypt ten, choć automatyzował część procesu, był proceduralny i wymagał implementacji logiki oczekiwania na gotowość poszczególnych zasobów (np. węzłów, usług, a nawet na konkretne zdarzenia z SNS \cite{sns_docs}). Na klastrze również istniała specjalna aplikacja, zarządzająca wdrażaniem nowych wersji aplikacji tzw. deployer. Narzędzie to nasłuchiwało kanał SNS \cite{sns_docs}. Programista musiał najpierw zaaktualizować repozytorium z aplikacją, później wysłać wiadomość na niniejszy kanał SNS \cite{sns_docs}. Następnie wspomniana aplikacja rozpoczynała proces wdrażania nowej wersji aplikacji. Cały proces pokazano na rysunku \ref{Proces wdrażania starej wersji aplikacji}.
 
 \singlesizedimageforced{images/deployer-flow.png}{Proces wdrażania starej wersji aplikacji}{1.0}
 
-Rozwiązanie to było jednak było mało elastyczne zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textbf{Helm}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes.
+Rozwiązanie to było jednak było mało elastyczne zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textbf{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
 
 \newpage
 
-Wprowadzenie menedżera pakietów \textbf{Helm} uprościło proces wdrożenia. Główne zalety to:
+Wprowadzenie menedżera pakietów \textbf{Helm} \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
 \begin{itemize}
-    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
+    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
     \item \textbf{reużywalność i parametryzacja} - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
-    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
+    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm \cite{helm_docs} ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
 \end{itemize}
 
 \subsection{Środowisko uruchomieniowe kontenerów}
 
-Początkowo klaster Kubernetes był oparty na środowisku kontenerowym Docker. Jednakże, ze względu na zmiany w ekosystemie Kubernetes, podjęto decyzję o przejściu na środowisko kontenerowe \textbf{Containerd}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra Kubernetes. Containerd, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika Dockera, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
+Początkowo klaster Kubernetes \cite{kubernetes} był oparty na środowisku kontenerowym Docker \cite{docker_docs}. Jednakże, ze względu na zmiany w ekosystemie Kubernetes \cite{kubernetes}, podjęto decyzję o przejściu na środowisko kontenerowe \textbf{Containerd} \cite{containerd_docs}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra Kubernetes \cite{kubernetes}. Containerd \cite{containerd_docs}, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika Dockera \cite{docker_docs}, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
 
 \subsection{Architektura sieciowa}
 
-Początkowo stosowana konfiguracja sieciowa, oparta na usługach typu NodePort i zewnętrznym balanserze AWS Application Load Balancer (ALB), była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze AWS, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
+Początkowo stosowana konfiguracja sieciowa, oparta na usługach typu NodePort \cite{nodeport_docs} i zewnętrznym balanserze AWS Application Load Balancer (ALB) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze AWS \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
 
-Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \textbf{MetalLB} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \textbf{Nginx Ingress} do zaawansowanego routingu ruchu HTTP/HTTPS. Balanser \textbf{MetalLB} można zainstalować na klastrach Kubernetesa, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
+Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \textbf{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \textbf{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu HTTP/HTTPS. Balanser \textbf{MetalLB} \cite{metallb_docs} można zainstalować na klastrach Kubernetesa \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
 
 Modyfikacja ta pozwoliła na:
 \begin{itemize}
     \item \textbf{wyeliminowanie zależności od zewnętrznego balansera chmurowego}, co skróciło opóźnienia,
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
-    \item \textbf{centralizację zarządzania certyfikatami TLS} dzięki integracji kontrolera Ingress z narzędziem cert-manager.
+    \item \textbf{centralizację zarządzania certyfikatami TLS} dzięki integracji kontrolera Ingress z narzędziem cert-manager \cite{cert_manager_docs}.
 \end{itemize}
