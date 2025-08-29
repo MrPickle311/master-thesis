@@ -1,11 +1,11 @@
 \section{System autoryzacji i zarządzania użytkownikami}
 \label{chap:autoryzacja}
 
-Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach JWT (ang. JSON Web Token) z wykorzystaniem serwera Keycloak jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
+Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach JWT (ang. JSON Web Token) zaimplementowany z użyciem serwera Keycloak jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
 
 \subsection{Architektura systemu autoryzacji}
 
-System Keycloak pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z systemem Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
+Serwer Keycloak pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z nim w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
 
 FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług back-endowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
 

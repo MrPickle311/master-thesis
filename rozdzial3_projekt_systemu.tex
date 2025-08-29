@@ -122,7 +122,7 @@ Broker Apache Kafka zapewnia trwałość danych, wysoką przepustowość i skalo
 \subsubsection{Warstwa przetwarzania}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie warstwa ta opiera się na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Aplikacja ta zawiera logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku Apache Spark \cite{spark_streaming}, wykorzystując jego moduł Spark Structured Streaming do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \texttt{SparkDataProcessor}, zrealizowana w języku Scala. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \texttt{MeanProcessor} (obliczanie średnich), \texttt{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \texttt{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego RandomForestClassifier). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
 Silnik Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (Spark ML), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
@@ -133,7 +133,7 @@ Silnik Apache Spark umożliwia przetwarzanie danych strumieniowych z wykorzystan
 \subsubsection{Warstwa składowania danych}
 \label{subsubsec:warstwa_skladowania}
 
-Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W projektowanym systemie warstwa ta składa się z dwóch głównych komponentów:
+Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W ramach autorskiego systemu składa się ona z dwóch głównych komponentów:
 
 \begin{itemize}
     \item \textbf{baza danych PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
@@ -143,7 +143,7 @@ Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do
 \subsubsection{Warstwa usług i interfejs API}
 \label{subsubsec:warstwa_uslug}
 
-Warstwa usług i interfejs API (ang. Application Programming Interface) odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W projektowanym systemie warstwa ta składa się z kilku mikroserwisów:
+Warstwa usług i interfejs API (ang. Application Programming Interface) odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W ramach niniejszego opracowania składa się ona z kilku mikroserwisów:
 
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający interfejs API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
@@ -158,7 +158,7 @@ Warstwa usług i interfejs API (ang. Application Programming Interface) odpowiad
 \label{subsubsec:warstwa_prezentacji}
 
 Warstwa prezentacji odpowiada za wizualizację danych i interakcję z użytkownikami.
-W projektowanym systemie warstwa ta składa się z panelu sterowania, wyświetlającego informacje w formie wykresów, tabel i widżetów.
+W projektowanym systemie składa się ona z panelu sterowania, wyświetlającego informacje w formie wykresów, tabel i widżetów.
 
 \vspace{0.3em}
 
@@ -336,7 +336,7 @@ Przepływ danych w projektowanym systemie obejmuje kilka etapów, przedstawionyc
 \subsubsection{Generowanie danych}
 \label{subsubsec:generowanie_danych}
 
-Proces rozpoczyna się od generowania danych przez symulatory czujników. Symulatory te są implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs},
+Proces rozpoczyna się od generowania danych przez symulatory czujników. Zostały one zaimplementowane jako funkcje AWS Lambda \cite{aws_lambda_docs},
 wyzwalane periodycznie przez funckcje bezpośrednio osadzone na chmurze  \cite{aws_step_functions_docs}.
 Każdy symulator generuje dane symulujące odczyty z określonego typu czujnika,
 umieszczonego w określonym miejscu instalacji.
@@ -398,8 +398,8 @@ Interfejs API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, im
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
-Ostatnim etapem przepływu informacji jest ich wizualizacja na ekranie zbiorczym (dashboard). Ekran zbiorczy komunikuje się z interfejsem API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+Ostatnim etapem przepływu informacji jest ich wizualizacja na ekranie zbiorczym (dashboard). Komunikuje się on z interfejsem API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
 
-Ekran zbiorczy umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, ekran zbiorczy może wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
+Ekran zbiorczy umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, może on wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
 
 Przepływ informacji w projektowanym systemie zapewnia efektywne pozyskiwanie, przetwarzanie i analizę danych w czasie rzeczywistym, co jest kluczowe w kontekście monitorowania i optymalizacji procesu syntezy amoniaku. 
