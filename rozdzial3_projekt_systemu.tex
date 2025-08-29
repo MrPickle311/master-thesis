@@ -108,7 +108,7 @@ Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wst
 W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje AWS Lambda \cite{aws_lambda_docs}.
 Generują one dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości JSON (ang. JavaScript Object Notation) \cite{json_schema_org} i publikowane na tematy SNS (ang. Simple Notification Service) \cite{sns_docs}, a następnie przenoszone do kolejek SQS (ang. Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości), stanowiących interfejs między AWS a klastrem Kubernetes.
+Dane generowane przez symulatory są formatowane jako wiadomości JSON (ang. JavaScript Object Notation) \cite{json_schema_org} i publikowane na tematy SNS (ang. Simple Notification Service) \cite{sns_docs}, a następnie przenoszone do kolejek SQS (ang. Amazon Simple Queue Service, zarządzana usługa kolejkowania wiadomości) \cite{sqs_docs}, stanowiących interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji}
 \label{subsubsec:warstwa_komunikacji}
