@@ -15,7 +15,7 @@ Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za po
 
 \subsection{Zarządzanie konfiguracją aplikacji} 
 
-Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, zawierający plik \texttt{application.yaml} ze specyficznymi ustawieniami frameworka Spring Boot, takimi jak adresy URL usług zależnych, konfiguracja połączeń z bazą danych, brokerem brokera Kafki, czy serwerem autoryzacyjnym Keycloak.
+Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, zawierający plik \texttt{application.yaml} ze specyficznymi ustawieniami frameworka Spring Boot, takimi jak: adresy URL usług zależnych, konfiguracja połączeń z bazą danych, brokerem brokera Kafki, czy serwerem autoryzacyjnym Keycloak.
 
 Przykładem obiektu mapy konfiguracyjnej (ang. \textit{ConfigMap}) \texttt{front-service-config}, definiującego trasy dla bramy API (Spring Cloud Gateway), jest wskazanie na wewnętrzne usługi takie jak: \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{kafka-data-processor-config} zawiera szczegółową konfigurację strumieni biblioteki Kafka Streams, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
 
