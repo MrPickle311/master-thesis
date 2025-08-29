@@ -149,7 +149,7 @@ Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu nar
 W pierwszej implementacji systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę Kafka Streams \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem Apache Kafka \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
 \begin{itemize}
     \item \textbf{Czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu. Kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania.
-    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki Spark MLlib \cite{spark_streaming}) w ramach aplikacji Kafka Streams nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki Spark MLlib \cite{spark_mllib_reference}) w ramach aplikacji Kafka Streams nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
 Poniżej \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \texttt{PressureMeanStreamFactory}.
@@ -419,7 +419,7 @@ CREATE TABLE IF NOT EXISTS mean_flow_rate
 Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważne wady:
 \begin{itemize}
     \item \textbf{brak elastyczności} - dodanie nowego typu czujnika wymagało zmiany schematu bazy danych (dodania nowej tabeli) oraz modyfikacji kodu w serwisach aplikacyjnych,
-    \item \textbf{skomplikowane zapytania} - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) między wieloma tabelami, co było nieefektywne.
+    \item \textbf{skomplikowane zapytania} - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) \cite{kleppmann2017designing} między wieloma tabelami, co było nieefektywne.
 \end{itemize}
 
 \vspace{0.3em}
