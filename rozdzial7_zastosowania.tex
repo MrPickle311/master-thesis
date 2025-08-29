@@ -22,7 +22,7 @@ Oprogramowanie mogłoby być wykorzystywane do takich zadań jak:
 \begin{itemize}
     \item \textbf{monitorowanie stanu maszyn} - system zbierałby dane z czujników zainstalowanych na kluczowych maszynach (np. prasy hydrauliczne, roboty spawalnicze, systemy transportu bliskiego),
     analizując w czasie rzeczywistym parametry takie jak: temperatura, wibracje, ciśnienie i wilgotność, analogicznie do danych generowanych w systemie opisanym w rozdziale \ref{sec:implementacja_generowania},
-    \item \textbf{klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), oprogramowanie przewidywałoby zmiany stanu technicznego maszyn,
+    \item \textbf{klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. klasyfikator \textit{RandomForestClassifier}, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), oprogramowanie przewidywałoby zmiany stanu technicznego maszyn,
     umożliwiając zaplanowanie konserwacji predykcyjnej i minimalizację nieplanowanych przestojów,
     \item \textbf{kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwalałaby na wczesne wykrywanie odchyleń parametrów, mogących prowadzić do defektów
     produktów, system alarmowałby operatorów, gdy parametry procesu zbliżają się do wartości krytycznych.
@@ -123,7 +123,7 @@ Potencjalny zwrot z inwestycji w systemy analizy danych przemysłowych jest zale
 Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określonych wyzwań technicznych.
 
 \begin{itemize}
-    \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (ang. Manufacturing Execution System), ERP (ang. Enterprise Resource Planning). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. broker Kafka) może ułatwić ten proces,
+    \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (ang. Manufacturing Execution System), ERP (ang. Enterprise Resource Planning). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. platforma Kafka) może ułatwić ten proces,
     \item \textbf{Jakość, dostępność i heterogeniczność danych} - fundamentalnymi w tym względzie wyzwaniami są:  zapewnienie odpowiedniej jakości danych z czujników, ich kompletności oraz obsługa różnych formatów i protokołów komunikacyjnych. Konieczne może być wdrożenie procesów czyszczenia i transformacji danych,
     \item \textbf{Synchronizacja i kontekstualizacja danych} - celem zapewnienia poprawnej analizy dane z różnych źródeł powinny być odpowiednio zsynchronizowane czasowo i wzbogacone o kontekst (np. informacje o typie maszyny, trybie pracy),
     \item \textbf{Skalowalność i wydajność platformy} - rosnąca liczba czujników i wolumen danych wymagają skalowalnej infrastruktury. Zastosowanie technologii takich jak: klaster Kubernetes i silnik analityczny Apache Spark pozwala rozwiązać wcześnie wymienione wyzwania, ale wymaga odpowiedniej konfiguracji i zarządzania klastrem Kubernetes,
