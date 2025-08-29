@@ -7,7 +7,7 @@ Wszystkie aplikacje oraz usługi systemowe zaimplementowane w ramach tego projek
 
 \subsection{Architektura sieciowa}
 
-W zaimplementowanym systemie przekierowywanie ruchu zewnętrznego do usług działających w klastrze jest realizowane za pomocą kontrolera Nginx Ingress. Został on skonfigurowany do obsługi zarówno ruchu HTTP/HTTPS, jak i do przekazywania ruchu TCP (ang. Transmission Control Protocol) \cite{tanenbaum2011computer} dla specyficznych usług, takich jak: broker Apache Kafka oraz baza danych PostgreSQL. Wszystkie usługi zewnętrzne są udostępniane przez ten sam kontroler Nginx Ingress, działający jako dystrybutor obciążenia (ang. LoadBalancer), a jego zewnętrzny adres IP jest punktem wejścia do klastra.
+W zaimplementowanym systemie przekierowywanie ruchu zewnętrznego do usług działających w klastrze jest realizowane za pomocą kontrolera Nginx Ingress (kontroler ruchu przychodzącego). Został on skonfigurowany do obsługi zarówno ruchu HTTP/HTTPS, jak i do przekazywania ruchu TCP (ang. Transmission Control Protocol) \cite{tanenbaum2011computer} dla specyficznych usług, takich jak: broker Apache Kafka oraz baza danych PostgreSQL. Wszystkie usługi zewnętrzne są udostępniane przez ten sam kontroler Nginx Ingress, działający jako dystrybutor obciążenia (ang. LoadBalancer), a jego zewnętrzny adres IP jest punktem wejścia do klastra.
 
 Definicje Ingress dla poszczególnych usług (np. \texttt{front-service.local}, \texttt{cluster-ui.local}, \texttt{keycloak.local}, \texttt{elasticsearch.local}, \texttt{schema-registry.local}) wykorzystują lokalne nazwy hostów.
 
