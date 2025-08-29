@@ -5,7 +5,7 @@ Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny m
 
 \subsection{Architektura systemu autoryzacji}
 
-System Keycloak pełni rolę centralnego serwera uwierzytelnienia, który zarządza procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z systemem Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
+System Keycloak pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z systemem Keycloak w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację FrontService - bramę API działającą w architekturze mikroserwisowej.
 
 FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług back-endowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
 
@@ -15,7 +15,7 @@ Back-end opracowanej aplikacji został skonfigurowany do pracy w trybie hybrydow
 
 Aplikacja frontendowa wykorzystuje bibliotekę \texttt{keycloak-js} do integracji z serwerem Keycloak. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera Keycloak w przypadku braku ważnego tokenu dostępu.
 
-Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka \texttt{Authorization} wszystkich żądań HTTP (ang. Hypertext Transfer Protocol) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, który sprawdza ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
+Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka \texttt{Authorization} wszystkich żądań HTTP (ang. Hypertext Transfer Protocol) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
 
 Interface \texttt{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem Keycloak, ułatwiając integrację z komponentami biblioteki React.
 
@@ -41,4 +41,4 @@ Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webo
 
 Aplikacja FrontService implementuje dodatkowe mechanizmy bezpieczeństwa, w tym ograniczenie liczby prób logowania z określonego adresu IP za pomocą cache-a biblioteki Caffeine. Konfiguracja ta chroni system przed atakami typu brute force poprzez czasowe blokowanie adresów IP po przekroczeniu limitu nieudanych prób uwierzytelnienia.
 
-Zarządzanie błędami autoryzacji jest zunifikowane przez \texttt{ReactiveExceptionHandler}, który zapewnia spójne komunikaty błędów oraz odpowiednie kody odpowiedzi HTTP niezależnie od źródła błędu uwierzytelnienia czy autoryzacji.
+Zarządzanie błędami autoryzacji jest zunifikowane przez \texttt{ReactiveExceptionHandler}, zapewniając spójne komunikaty błędów oraz odpowiednie kody odpowiedzi HTTP niezależnie od źródła błędu uwierzytelnienia czy autoryzacji.
