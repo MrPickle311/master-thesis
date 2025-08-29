@@ -60,7 +60,7 @@ $$\Delta\mathbf{R} = \mathbf{R}_{faulty} - \mathbf{R}_{normal},$$
 
 pokazująca, jak korelacje między parametrami zmieniają się podczas przejścia ze stanu normalnego do awaryjnego.
 
-    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA (ang. Principal Component Analysis) \cite{pca_jolliffe} w celu:
+    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA (ang. Principal Component Analysis) \cite{jolliffe_pca} w celu:
     
 \begin{itemize}
     \item identyfikacji najważniejszych czynników wpływających na stan urządzeń,
@@ -158,7 +158,7 @@ gdzie:
 
 \subsubsection{Generowanie wartości z rozkładu wielowymiarowego}
 
-Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{multivariate_analysis}:
+Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva}:
 
 $$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),$$
 
@@ -193,7 +193,7 @@ $$\Delta x_{limited} = \begin{cases}
 
 \subsubsection{Wygładzanie wykładnicze}
 
-Po przeprowadzeniu ograniczenia szybkości zmian, w kolejnym etapie stosowane jest wygładzanie wykładnicze \cite{forecasting_hyndman}:
+Po przeprowadzeniu ograniczenia szybkości zmian, w kolejnym etapie stosowane jest wygładzanie wykładnicze \cite{hyndman_forecasting}:
 
 $$x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited},$$
 
