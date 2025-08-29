@@ -6,7 +6,7 @@
 
 W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS (Amazon Web Services) z wykorzystaniem  funkcji AWS Lambda (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
 
@@ -14,7 +14,7 @@ Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej 
 
 \subsection{Przygotowanie danych wstępnych do generatora}
 
-Proces przygotowania danych do generatora rozpoczyna się od analizy rzeczywistego przemysłowego zbioru danych za pomocą skryptu opartego na silniku Apache Spark. Zbiór wejściowy zawiera dane sensoryczne z trzech typów urządzeń przemysłowych (pomp, sprężarek i turbin) rozmieszczonych w różnych lokalizacjach fabrycznych.
+Proces przygotowania danych do generatora rozpoczyna się od analizy rzeczywistego przemysłowego zbioru danych za pomocą skryptu opartego na silniku \mbox{Apache Spark}. Zbiór wejściowy zawiera dane sensoryczne z trzech typów urządzeń przemysłowych (pomp, sprężarek i turbin) rozmieszczonych w różnych lokalizacjach fabrycznych.
 
 \subsubsection{Struktura danych wejściowych}
 
