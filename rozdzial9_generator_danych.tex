@@ -4,9 +4,9 @@
 \addcontentsline{lot}{section}{Rozdział \ref{sec:implementacja_generowania}}
 \addcontentsline{lol}{section}{Rozdział \ref{sec:implementacja_generowania}}
 
-W celu przeprowadzenia kompleksowych testów systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze. Generator ten symuluje pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-System generatora, który zaimplementowano, został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem  funkcji AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+Zaimplementowany system generatora, który zaimplementowano, został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS z wykorzystaniem  funkcji AWS Lambda. Generator produkuje dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
 
@@ -124,7 +124,7 @@ Generator implementuje adaptacyjny wybór macierzy korelacji na podstawie aktual
 \subsection{Algorytm generowania skorelowanych wartości}
 \label{subsec:algorytm_generowania}
 
-System implementuje zaawansowany algorytm generowania skorelowanych wartości sensorycznych wykorzystujący wielowymiarowy rozkład normalny z adaptacyjnym mieszaniem statystyk.
+Generator implementuje zaawansowany algorytm generowania skorelowanych wartości sensorycznych wykorzystujący wielowymiarowy rozkład normalny z adaptacyjnym mieszaniem statystyk.
 
 \subsubsection{Mieszanie statystyk między stanami}
 
@@ -145,7 +145,7 @@ $$f(stan, post\k{e}p) = \begin{cases}
 
 \subsubsection{Komponenty cykliczne}
 
-System uwzględnia naturalne cykle operacyjne poprzez dodanie komponentów cyklicznych:
+Generator uwzględnia naturalne cykle operacyjne poprzez dodanie komponentów cyklicznych:
 
 $$\mu_{cykliczne} = \mu_{mieszane} + A \cdot \sin\left(\frac{2\pi t}{T}\right),$$
 
@@ -170,7 +170,7 @@ gdzie $\mathbf{D} = \text{diag}(\sigma_1, \sigma_2, \sigma_3, \sigma_4)$ to maci
 \subsection{Wygładzanie czasowe i ograniczenia zmian}
 \label{subsec:wygladzanie_czasowe}
 
-Celemem zapewnienia realistycznego przejścia między kolejnymi odczytami, system implementuje dwuetapowe wygładzanie skłądające się z następujących etapów:
+Celemem zapewnienia realistycznego przejścia między kolejnymi odczytami, generator implementuje dwuetapowe wygładzanie skłądające się z następujących etapów:
 
 \subsubsection{Ograniczenie szybkości zmian}
 
@@ -202,7 +202,7 @@ gdzie $\alpha = 0.8$ to współczynnik wygładzania.
 \subsection{Model stanów urządzeń i przejść}
 \label{subsec:model_stanow}
 
-System implementuje deterministyczny model maszyny stanów z probabilistycznymi czasami trwania.
+Generator implementuje deterministyczny model maszyny stanów z probabilistycznymi czasami trwania.
 
 \subsubsection{Stany techniczne urządzeń}
 
@@ -241,7 +241,7 @@ naprawa & 2h & 4h & normalny \\
 
 \subsubsection{Deterministyczne przejścia stanów}
 
-System wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \texttt{hash}:
+Generator wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \texttt{hash}:
 
 $$t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),$$
 
@@ -279,7 +279,7 @@ Dla każdego kroku czasowego $t$ (minuty):
 
 \subsubsection{Obsługa stanu naprawy}
 
-Podczas stanu naprawy system:
+Podczas stanu naprawy generator:
 \begin{itemize}
     \item nie generuje wartości sensorycznych (wartości NULL),
     \item zachowuje informacje o stanie i czasie,
@@ -296,7 +296,7 @@ Generator czyta wcześniej wygenerowane pliki CSV z usługi S3 i generuje dane w
 \subsubsection{Architektura bezserwerowa}
 \label{subsec:architektura_bezserwerowa}
 
-System składa się z trzech głównych komponentów chmury AWS:
+Generator danych składa się z trzech głównych komponentów chmury AWS:
 
 \begin{itemize}
     \item \textbf{usługa Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
@@ -307,7 +307,7 @@ System składa się z trzech głównych komponentów chmury AWS:
 \subsubsection{Przechowywanie danych w Amazon S3}
 \label{subsec:amazon_s3}
 
-System wykorzystuje usługę Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
+Generator wykorzystuje usługę Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
 
 \subsubsection{Struktura danych w S3}
 
@@ -343,7 +343,7 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 \subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
-Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek: boto3, pandas oraz pydantic \cite{pydantic_docs}. System wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
+Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek: boto3, pandas oraz pydantic \cite{pydantic_docs}. Generator wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
 
 \begin{lstlisting}[language=Python, caption=Klasy modeli danych, label={lst:klasy_modeli_danych}]
 class SensorData(BaseModel):
@@ -384,7 +384,7 @@ def _find_closest_record(self, df, target_time):
 \subsubsection{Amazon SNS dla publikowania danych}
 \label{subsec:amazon_sns}
 
-System wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
+Generator wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
 
 \vspace{0.3em}
 
@@ -413,4 +413,4 @@ Format publikowanych wiadomości do systemu SNS został przedstawiony na listing
 \end{lstlisting}
 
 
-System ten stanowi kluczowy element infrastruktury testowej, umożliwiając kompleksową walidację opracowanego systemu analizy danych bez konieczności dostępu do rzeczywistych instalacji przemysłowych oraz zapewniając pełną integrację z ekosystemem chmury AWS.
+Generator ten stanowi kluczowy element infrastruktury testowej, umożliwiając kompleksową walidację opracowanego systemu analizy danych bez konieczności dostępu do rzeczywistych instalacji przemysłowych oraz zapewniając pełną integrację z ekosystemem chmury AWS.
