@@ -31,7 +31,7 @@ Pierwotnym założeniem było wdrożenie opracowanego systemu na zarządzanym pr
 
 Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych \textbf{EC2} \\ (\mbox{Amazon Elastic Compute Cloud} - usługa instancji wirtualnych) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż \textbf{EKS} \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów \textbf{AWS CloudFormation} \cite{cloudformation_docs} w celu zmniejszenia kosztów. \textbf{AWS CloudFormation} \cite{cloudformation_docs} jest narzędziem \textbf{AWS} \cite{aws_docs}, pozwalającym na deklaratywne definiowanie zasobów w postaci szablonów \textbf{YAML} (format plików konfiguracyjnych) \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje \textbf{EC2} \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na \textbf{EC2} \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt \textbf{AWS CloudFormation} \cite{cloudformation_docs} do wdrożenia klastra \textbf{EKS} \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
 
-\begin{lstlisting}[caption={Skrypt AWS CloudFormation do wdrożenia klastra EKS}, label={lst:eks_cloudformation}]
+\begin{lstlisting}[caption=Skrypt AWS CloudFormation do wdrożenia klastra EKS, label={lst:eks_cloudformation}]
 
 AWSTemplateFormatVersion: '2010-09-09'
 
@@ -154,7 +154,7 @@ W pierwszej implementacji autorskiego systemu do przetwarzania danych strumienio
 
 Poniżej \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \texttt{PressureMeanStreamFactory}.
 
-\begin{lstlisting}[caption={Implementacja w klasie PressureMeanStreamFactory}, label={lst:pressure_mean_stream_factory},language=Java]
+\begin{lstlisting}[caption=Implementacja w klasie PressureMeanStreamFactory, label={lst:pressure_mean_stream_factory},language=Java]
 
     public class PressureMeanStreamFactory extends MeanStreamFactory<Pressure, PressureAggregation> {
 
@@ -257,7 +257,7 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
 
 W rozważanym kodzie klas dziedziczących po klasie \texttt{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
 
-\begin{lstlisting}[caption={Implementacja w klasie MeanProcessor za pomocą Apache Spark}, label={lst:mean_processor_spark},language=Scala]
+\begin{lstlisting}[caption=Implementacja w klasie MeanProcessor za pomocą Apache Spark, label={lst:mean_processor_spark},language=Scala]
 
 class MeanProcessor[T <: SensorReading : Encoder](
                                                    spark: SparkSession,
@@ -376,7 +376,7 @@ Podjęto decyzję o przejściu na bibliotekę \textbf{\mbox{Apache Spark Structu
 
 Początkowy projekt relacyjnej bazy danych zakładał tworzenie osobnej tabeli dla każdego typu czujnika (np. temperatura, cisnienie, wibracje). Na listingu \ref{lst:first_form_table} przedstawiono sposób tworzenia kilku przykładowych tabel według takiego podejścia.
 
-\begin{lstlisting}[caption={Pierwsza forma tabeli w relacyjnej bazie danych}, label={lst:first_form_table},language=SQL]
+\begin{lstlisting}[caption=Pierwsza forma tabeli w relacyjnej bazie danych, label={lst:first_form_table},language=SQL]
 
 
 CREATE TABLE IF NOT EXISTS mean_temperature
@@ -428,7 +428,7 @@ Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważ
 
 Wobec powyższego zmienione zostało podejście do zadania tak, że cały model danych oparty został na jednej tabeli. Sposób jej tworzenia został przedstawiony na listingu \ref{lst:second_form_table}.
 
-\begin{lstlisting}[caption={Druga forma tabeli w relacyjnej bazie danych}, label={lst:second_form_table},language=SQL]
+\begin{lstlisting}[caption=Druga forma tabeli w relacyjnej bazie danych, label={lst:second_form_table},language=SQL]
 
 CREATE TABLE IF NOT EXISTS sensor_data
 (

@@ -27,8 +27,11 @@
 \usepackage{sectsty}
 \usepackage{listings,chngcntr}
 \lstset{frame=Trbl,numbers=left}
+\AtBeginDocument{%
+  \captionsetup[lstlisting]{font=footnotesize}%
+}
 \usepackage{xcolor}
-\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
 
 \usepackage{natbib}
 \setcitestyle{numbers}
