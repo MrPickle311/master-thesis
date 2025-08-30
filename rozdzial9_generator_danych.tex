@@ -100,7 +100,7 @@ Symulator wykorzystuje wielowymiarowe rozkłady normalne do generowania skorelow
 
 Generator wykorzystuje macierze korelacji wyznaczone na podstawie analizy informacji historycznych. System automatycznie ładuje macierze korelacji dla różnych kombinacji typów urządzeń i stanów technicznych z plików konfiguracyjnych wygenerowanych przez skrypt analizy.
 
-Dla każdego typu urządzenia $i$ i stanu $s$ dostępne są dedykowane macierze korelacji $\mathbf{R}_{i,s}$:
+Dla każdego typu urządzenia $i$ i stanu $s$ dostępne są dedykowane macierze korelacji $\mathbf{R}_{i,s}$ :
 
 $$\mathbf{R}_{i,s} = \begin{pmatrix}
 1 & r_{12} & r_{13} & r_{14} \\
@@ -115,9 +115,9 @@ gdzie $r_{jk}$ oznacza współczynnik korelacji między parametrami $j$ i $k$.
 
 Generator implementuje adaptacyjny wybór macierzy korelacji na podstawie aktualnego stanu urządzenia:
 \begin{itemize}
-    \item dla stanu normalnego: $\mathbf{R}_{i,normal}$,
-    \item dla stanów degradacji: progresywne przejście od $\mathbf{R}_{i,normal}$ do $\mathbf{R}_{i,faulty}$,
-    \item dla stanu krytycznego: $\mathbf{R}_{i,faulty}$,
+    \item dla stanu normalnego: $\mathbf{R}_{i,normal}$ ,
+    \item dla stanów degradacji: progresywne przejście od $\mathbf{R}_{i,normal}$ do $\mathbf{R}_{i,faulty}$ ,
+    \item dla stanu krytycznego: $\mathbf{R}_{i,faulty}$ ,
     \item dla stanu naprawy: brak generowania danych sensorycznych.
 \end{itemize}
 
@@ -133,7 +133,18 @@ Dla każdego parametru sensorowego obliczane są mieszane statystyki na podstawi
 $$\mu_{mieszane}(f) = \mu_{normal} + f \cdot (\mu_{faulty} - \mu_{normal}),$$
 $$\sigma_{mieszane}(f) = \sigma_{normal} + f \cdot (\sigma_{faulty} - \sigma_{normal}),$$
 
-gdzie poziom uszkodzenia $f$ jest funkcją stanu i postępu w stanie:
+gdzie:
+\begin{itemize}
+    \item $\mu_{mieszane}(f)$ - mieszana średnia wartość parametru dla poziomu uszkodzenia $f$,
+    \item $\mu_{normal}$ - średnia wartość parametru w stanie normalnym,
+    \item $\mu_{faulty}$ - średnia wartość parametru w stanie awaryjnym,
+    \item $\sigma_{mieszane}(f)$ - mieszane odchylenie standardowe parametru dla poziomu uszkodzenia $f$,
+    \item $\sigma_{normal}$ - odchylenie standardowe parametru w stanie normalnym,
+    \item $\sigma_{faulty}$ - odchylenie standardowe parametru w stanie awaryjnym,
+    \item $f$ - poziom uszkodzenia w zakresie $[0, 1]$,
+\end{itemize}
+
+a poziom uszkodzenia $f$ jest funkcją stanu i postępu w stanie:
 
 $$f(stan, post\k{e}p) = \begin{cases}
 0.0 & \text{dla stanu normalnego} \\
@@ -143,6 +154,8 @@ $$f(stan, post\k{e}p) = \begin{cases}
 1.0 & \text{dla stanu naprawy}
 \end{cases},$$
 
+gdzie $post\k{e}p$ oznacza postęp czasowy w danym stanie wyrażony w zakresie $[0, 1]$.
+
 \subsubsection{Komponenty cykliczne}
 
 Generator uwzględnia naturalne cykle operacyjne poprzez dodanie komponentów cyklicznych:
@@ -151,21 +164,35 @@ $$\mu_{cykliczne} = \mu_{mieszane} + A \cdot \sin\left(\frac{2\pi t}{T}\right),$
 
 gdzie:
 \begin{itemize}
+    \item $\mu_{cykliczne}$ - średnia wartość z uwzględnieniem cyklu operacyjnego,
+    \item $\mu_{mieszane}$ - mieszana średnia wartość bez cyklu,
     \item $A = 0.2 \cdot \sigma_{normal}$ - amplituda cyklu dobowego,
+    \item $\sigma_{normal}$ - odchylenie standardowe w stanie normalnym,
     \item $T = 24$ godziny - okres cyklu,
     \item $t$ - aktualny czas w godzinach.
 \end{itemize}
 
 \subsubsection{Generowanie wartości z rozkładu wielowymiarowego}
 
-Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva}:
+Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva} :
 
 $$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),$$
 
-gdzie macierz kowariancji obliczana jest jako:
+gdzie:
+\begin{itemize}
+    \item $\mathbf{x}$ - wektor wartości sensorycznych (temperatura, ciśnienie, wibracje, wilgotność),
+    \item $\boldsymbol{\mu}_{mieszane}$ - wektor mieszanych średnich wartości,
+    \item $\boldsymbol{\Sigma}$ - macierz kowariancji,
+\end{itemize}
+
+a macierz kowariancji obliczana jest jako:
 $$\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R}_{i,s} \mathbf{D},$$
 
-gdzie $\mathbf{D} = \text{diag}(\sigma_1, \sigma_2, \sigma_3, \sigma_4)$ to macierz diagonalna odchyleń standardowych.
+gdzie:
+\begin{itemize}
+    \item $\mathbf{D} = \text{diag}(\sigma_1, \sigma_2, \sigma_3, \sigma_4)$ - macierz diagonalna odchyleń standardowych ($\sigma_1, \sigma_2, \sigma_3, \sigma_4$ to odchylenia standardowe poszczególnych parametrów),
+    \item $\mathbf{R}_{i,s}$ - macierz korelacji dla typu urządzenia $i$ i stanu $s$.
+\end{itemize}
 
 \subsection{Wygładzanie czasowe i ograniczenia zmian}
 \label{subsec:wygladzanie_czasowe}
@@ -180,6 +207,8 @@ $$\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan},$$
 
 gdzie:
 \begin{itemize}
+    \item $\Delta x_{max}$ - maksymalna dozwolona zmiana wartości między kolejnymi odczytami,
+    \item $\sigma_{normal}$ - odchylenie standardowe w stanie normalnym,
     \item $r_{max} = 0.2$ - maksymalny współczynnik zmiany,
     \item $k_{stan}$ - czynnik stanu (1.0 dla normalnego, 1.5 dla podkrytycznego, 2.0 dla krytycznego).
 \end{itemize}
@@ -191,13 +220,27 @@ $$\Delta x_{limited} = \begin{cases}
 \Delta x_{max} \cdot \text{sign}(\Delta x) & \text{w przeciwnym przypadku}
 \end{cases},$$
 
+gdzie:
+\begin{itemize}
+    \item $\Delta x_{limited}$ - ograniczona zmiana wartości,
+    \item $\Delta x$ - pierwotna zmiana wartości,
+    \item $\Delta x_{max}$ - maksymalna dozwolona zmiana,
+    \item $\text{sign}(\Delta x)$ - funkcja signum zwracająca znak zmiany.
+\end{itemize}
+
 \subsubsection{Wygładzanie wykładnicze}
 
 Po przeprowadzeniu ograniczenia szybkości zmian, w kolejnym etapie stosowane jest wygładzanie wykładnicze \cite{hyndman_forecasting}:
 
 $$x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited},$$
 
-gdzie $\alpha = 0.8$ to współczynnik wygładzania.
+gdzie:
+\begin{itemize}
+    \item $x_{t+1}$ - wygładzona wartość w chwili $t+1$,
+    \item $x_t$ - wartość w chwili $t$,
+    \item $\alpha = 0.8$ - współczynnik wygładzania (im wyższa wartość, tym większa waga wartości poprzedniej),
+    \item $\Delta x_{limited}$ - ograniczona zmiana wartości.
+\end{itemize}
 
 \subsection{Model stanów urządzeń i przejść}
 \label{subsec:model_stanow}
@@ -245,6 +288,18 @@ Generator wykorzystuje deterministyczne generowanie czasów trwania stanów na p
 
 $$t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),$$
 
+gdzie:
+\begin{itemize}
+    \item $t_{stan}$ - obliczony czas trwania aktualnego stanu,
+    \item $t_{min}$ - minimalny czas trwania stanu,
+    \item $t_{max}$ - maksymalny czas trwania stanu,
+    \item $\texttt{hash}(\cdot)$ - funkcja haszująca,
+    \item $typ\_urzadzenia$ - typ urządzenia (pump, compressor, turbine),
+    \item $stan$ - aktualny stan urządzenia,
+    \item $timestamp$ - znacznik czasu rozpoczęcia stanu,
+    \item $\bmod$ - operacja modulo.
+\end{itemize}
+
 Zapewnia to powtarzalność generowanych danych przy wykorzystaniu tego samego ziarna losowego.
 
 \subsection{Algorytm generowania danych historycznych}
@@ -262,15 +317,21 @@ $$stan_{poczatkowy} = \begin{cases}
 \text{podkrytyczny} & \text{w przeciwnym przypadku}
 \end{cases},$$
 
-gdzie $h(typ)$ to funkcja \texttt{hash} typu urządzenia.
+gdzie:
+\begin{itemize}
+    \item $stan_{poczatkowy}$ - początkowy stan urządzenia,
+    \item $h(typ)$ - funkcja haszująca typu urządzenia,
+    \item $typ$ - typ urządzenia (pump, compressor, turbine),
+    \item $\bmod$ - operacja modulo.
+\end{itemize}
 
 \subsubsection{Iteracyjne generowanie danych}
 
 Dla każdego kroku czasowego $t$ (minuty):
 
 \begin{enumerate}
-    \item aktualizacja czasu w stanie: $t_{stan} = t_{stan} + \Delta t,$
-    \item obliczenie postępu: $progress = \texttt{min}(1.0, t_{stan} / t_{trwania}),$
+    \item aktualizacja czasu w stanie: $t_{stan} = t_{stan} + \Delta t,$ gdzie $t_{stan}$ to aktualny czas spędzony w stanie, a $\Delta t = 1$ minuta,
+    \item obliczenie postępu: $progress = \texttt{min}(1.0, t_{stan} / t_{trwania}),$ gdzie $t_{trwania}$ to całkowity czas trwania stanu,
     \item sprawdzenie konieczności przejścia stanu,
     \item generowanie wartości docelowych z rozkładu wielowymiarowego,
     \item zastosowanie wygładzania czasowego,
