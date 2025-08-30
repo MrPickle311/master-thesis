@@ -4,9 +4,9 @@
 \addcontentsline{lot}{section}{Rozdział \ref{sec:implementacja_generowania}}
 \addcontentsline{lol}{section}{Rozdział \ref{sec:implementacja_generowania}}
 
-W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze \textbf{AWS}. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze \textbf{AWS} (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
 
@@ -361,14 +361,14 @@ Generator danych składa się z trzech głównych komponentów chmury AWS:
 
 \begin{itemize}
     \item \textbf{usługa Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
-    \item \textbf{funkcja AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
-    \item \textbf{usługa Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
+    \item \textbf{funkcja \mbox{AWS Lambda}} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
+    \item \textbf{usługa \textbf{Amazon SNS}} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
 \end{itemize}
 
 \subsubsection{Przechowywanie danych w Amazon S3}
 \label{subsec:amazon_s3}
 
-Generator wykorzystuje usługę Amazon S3 jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
+Generator wykorzystuje usługę \textbf{Amazon S3} jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
 
 \subsubsection{Struktura danych w S3}
 
