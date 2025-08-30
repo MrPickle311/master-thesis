@@ -30,9 +30,14 @@
 \usepackage{xcolor}
 \usepackage[font=small,labelfont=bf]{caption}
 
+\usepackage{natbib}
+\setcitestyle{numbers}
+
+
 \usepackage{enumitem}
 \setlist[itemize]{noitemsep, topsep=-0.1em}
 \setlist[enumerate]{noitemsep, topsep=-0.1em}
+
 
 \counterwithin{figure}{subsection}
 \counterwithin{table}{subsection}

@@ -37,7 +37,7 @@ Proces zarządzania kontami użytkowników odbywa się centralnie przez panel ad
 
 \subsection{Bezpieczeństwo i zarządzanie sesjami}
 
-Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webowych. Tokeny typu JWT (ang. \textit{\mbox{JSON Web Token}}) mają ograniczony czas życia, co minimalizuje ryzyko w przypadku ich kompromitacji. System automatycznie czyści tokeny z pamięci przeglądarki po wylogowaniu użytkownika oraz implementuje mechanizmy ochrony przed atakami typu CSRF (ang. \mbox{Cross-Site Request Forgery}) poprzez odpowiednią konfigurację nagłówków CORS (ang. \mbox{Cross-Origin Resource Sharing}).
+Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webowych. Tokeny typu JWT (ang. \textit{\mbox{JSON Web Token}}) mają ograniczony czas życia, co minimalizuje ryzyko w przypadku ich kompromitacji. System automatycznie czyści tokeny z pamięci przeglądarki po wylogowaniu użytkownika oraz implementuje mechanizmy ochrony przed atakami typu CSRF (ang.~\mbox{Cross-Site Request Forgery}) poprzez odpowiednią konfigurację nagłówków CORS \\ (ang.~\mbox{Cross-Origin Resource Sharing}).
 
 Aplikacja FrontService implementuje dodatkowe mechanizmy bezpieczeństwa, w tym ograniczenie liczby prób logowania z określonego adresu IP za pomocą cache-a biblioteki Caffeine. Konfiguracja ta chroni system przed atakami typu brute force poprzez czasowe blokowanie adresów IP po przekroczeniu limitu nieudanych prób uwierzytelnienia.
 
