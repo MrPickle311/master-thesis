@@ -118,7 +118,7 @@ Resources:
 
 \end{lstlisting}
 
-Rozwiązanie oparte na EC2 należało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Rozmiar wdrożenia i skala systemu na potrzeby tej pracy jest relatywnie mała (względem chociażby wdrożenia do prawdziwego zakładu przemysłowego).
+Rozwiązanie oparte na EC2 należało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Krytyczna ocena tej decyzji wskazuje, że choć lokalna infrastruktura znacząco zredukowała koszty operacyjne, wprowadziła wyzwania związane z zarządzaniem sprzętem i ograniczoną elastycznością skalowania. W dłuższej perspektywie, rozwiązanie hybrydowe łączące lokalną infrastrukturę z chmurą mogłoby stanowić optymalny kompromis między kosztami a możliwościami skalowania.
 
 Poniżej \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w zależności od rozwiązania. Koszty wyrażone są i obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty dla zasobów AWS zostały obliczone za pomocą tej strony: \url{https://calculator.aws/}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla wdrożeń wielkoskalowych rozwiązania oparte na EC2/EKS mogą być niższe.
 
@@ -483,3 +483,39 @@ Modyfikacja ta pozwoliła na:
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
     \item \textbf{centralizację zarządzania certyfikatami \texttt{TLS}} dzięki integracji kontrolera Ingress z narzędziem \texttt{cert-manager} \cite{cert_manager_docs}.
 \end{itemize}
+
+\newpage
+
+\subsection{Krytyczna analiza decyzji projektowych}
+
+W niniejszej sekcji przedstawiono krytyczną analizę kluczowych decyzji projektowych i technologicznych podjętych w trakcie realizacji systemu. Każda decyzja została uzasadniona przez porównanie z alternatywnymi rozwiązaniami oraz analizę korzyści i kompromisów.
+
+\subsubsection{Architektura systemu}
+
+Wybór architektury mikroserwisowej zamiast tradycyjnej architektury monolitycznej był uzasadniony potrzebą lepszej skalowalności i odporności na awarie w środowiskach przemysłowych o wysokiej dostępności. Architektura monolityczna, choć prostsza w początkowej implementacji, utrudnia niezależne skalowanie poszczególnych komponentów i wprowadza ryzyko pojedynczego punktu awarii, co jest nieakceptowalne w krytycznych aplikacjach przemysłowych. Mikroserwisy umożliwiają niezależne wdrażanie, skalowanie i aktualizację poszczególnych funkcjonalności, co znacząco poprawia niezawodność systemu i umożliwia lepsze wykorzystanie zasobów infrastrukturalnych.
+
+\subsubsection{Platforma orkiestracji}
+
+Wybór klastra Kubernetes jako platformy orkiestracji zamiast alternatywnych rozwiązań jak orkiestratów \textbf{\mbox{Docker Swarm}} czy \textbf{\mbox{Apache Mesos}} był uzasadniony jego dojrzałością ekosystemu, bogatą funkcjonalnością oraz dominującą pozycją na rynku. Klaster Kubernetes oferuje bardziej zaawansowane mechanizmy skalowania, zarządzania zasobami i bezpieczeństwa niż orkiestrator \textbf{\mbox{Docker Swarm}}, choć wprowadza większą złożoność konfiguracyjną. Podobnie, wybór menedżera pakietów \textbf{\mbox{Helm}} \cite{helm_docs} zamiast ręcznego zarządzania manifestami \textbf{YAML} \cite{yaml_spec} znacząco uprościł proces wdrażania i zarządzania cyklem życia aplikacji, umożliwiając deklaratywne definiowanie pożądanego stanu systemu.
+
+\subsubsection{Algorytmy uczenia maszynowego}
+
+Wybór \textbf{\mbox{RandomForestClassifier}} zamiast innych algorytmów uczenia maszynowego, takich jak: sieci neuronowe czy algorytmy liniowe (np. \textbf{\mbox{SVM}}, regresja logistyczna), był uzasadniony jego odpornością na przeuczenie, dobrą interpretowalnością oraz zdolnością do obsługi danych o mieszanej naturze (numeryczne i kategoryczne) bez konieczności wstępnej normalizacji. Algorytmy liniowe, choć szybsze w treningu, gorzej radzą sobie z nieliniowymi zależnościami między parametrami sensorycznymi, podczas gdy sieci neuronowe wymagają większej ilości danych treningowych i są mniej interpretowalne w kontekście diagnostyki przemysłowej.
+
+Krytyczna ocena skuteczności modelu wskazuje, że choć model osiąga akceptowalną skuteczność w warunkach kontrolowanych, jego praktyczna użyteczność wymagałaby dalszej walidacji na rzeczywistych danych przemysłowych oraz potencjalnego rozszerzenia o mechanizmy adaptacyjne, takie jak: uczenie nadzorowane czy uczenie zespołowe z większą liczbą modeli bazowych.
+
+\subsubsection{Frameworki interfejsu użytkownika}
+
+Wybór biblioteki React jako podstawy interfejsu użytkownika zamiast alternatywnych frameworków jak: \textbf{\mbox{Angular}} czy \textbf{\mbox{Vue.js}} był uzasadniony jej komponentowym podejściem, które umożliwia łatwą modularyzację i ponowne wykorzystanie komponentów. React oferuje również bogaty ekosystem bibliotek i narzędzi, co przyspiesza rozwój aplikacji. W porównaniu z frameworkiem \textbf{\mbox{Angular}}, bibliotek \textbf{\mbox{React}} ma niższą krzywą uczenia się i większą elastyczność w integracji z różnymi technologiami back-endowymi.
+
+\subsubsection{Systemy autoryzacji}
+
+Wybór serwera \textbf{\mbox{Keycloak}} zamiast rozwiązań komercyjnych jak: platforma \textbf{\mbox{Auth0}} czy własnych implementacji standardu tokenów \textbf{\mbox{JWT}} \cite{jwt_rfc} był uzasadniony jego otwartoźródłowym charakterem, bogatą funkcjonalnością oraz możliwością samodzielnego hostingu, co zapewnia pełną kontrolę nad bezpieczeństwem danych. W porównaniu z platformą \textbf{\mbox{Auth0}}, serwer \textbf{\mbox{Keycloak}} oferuje podobne możliwości autoryzacji, ale bez kosztów subskrypcji i z większą elastycznością w dostosowaniu do specyficznych wymagań bezpieczeństwa przemysłowego. Alternatywa własnej implementacji standardu tokenów \textbf{\mbox{JWT}}, choć tańsza początkowo, wiązałaby się z koniecznością samodzielnego zarządzania cyklami życia tokenów, obsługą odświeżania tokenów oraz implementacją mechanizmów bezpieczeństwa, co zwiększyłoby ryzyko błędów i podatność na ataki.
+
+\subsubsection{Generowanie danych}
+
+Wybór funkcji \textbf{\mbox{AWS Lambda}} jako środowiska wykonawczego dla symulatorów czujników zamiast tradycyjnych podejść kontenerowych czy maszyn wirtualnych był uzasadniony korzyściami ekonomicznymi i skalowalnością modelu bezserwerowego. Tradycyjne podejścia wymagają stałego utrzymania infrastruktury, natomiast funkcja \textbf{\mbox{AWS Lambda}} skaluje się automatycznie w odpowiedzi na zapotrzebowanie, generując koszty tylko za faktyczne zużycie zasobów obliczeniowych. To podejście jest szczególnie efektywne dla symulacji danych, gdzie obciążenie może być nieregularne i nieprzewidywalne.
+
+\subsubsection{Broker wiadomości}
+
+Wybór brokera \textbf{\mbox{Apache Kafka}} zamiast alternatywnych brokerów wiadomości, takich jak: broker \textbf{\mbox{RabbitMQ}}, był uzasadniony jego natywną orientacją na przetwarzanie strumieniowe dużych wolumenów danych, co czyni go bardziej odpowiednim dla aplikacji czasu rzeczywistego niż broker \textbf{\mbox{RabbitMQ}}, które zostało zaprojektowane przede wszystkim dla routingu wiadomości w architekturach żądanie-odpowiedź.  Broker \textbf{\mbox{Apache Kafka}} oferuje lepsze gwarancje trwałości danych i skalowalności poziomej, co jest krytyczne w środowiskach przemysłowych charakteryzujących się wysoką zmiennością obciążenia i wymaganiami dotyczącymi niezawodności.
