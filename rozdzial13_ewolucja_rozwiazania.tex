@@ -74,9 +74,6 @@ Resources:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
           Description: All outbound traffic
-      Tags:
-        - Key: Name
-          Value: Ubuntu-Instances-SG
 
   Master:
     Type: AWS::EC2::Instance
@@ -117,6 +114,8 @@ Resources:
           Value: Ubuntu-Instance-2
 
 \end{lstlisting}
+
+\newpage
 
 Rozwiązanie oparte na maszynach wirtualnych EC2 należało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Krytyczna ocena tej decyzji wskazuje, że choć lokalna infrastruktura znacząco zredukowała koszty operacyjne, wprowadziła wyzwania związane z zarządzaniem sprzętem i ograniczoną elastycznością skalowania. W dłuższej perspektywie, rozwiązanie hybrydowe łączące lokalną infrastrukturę z chmurą mogłoby stanowić optymalny kompromis między kosztami a możliwościami skalowania.
 
