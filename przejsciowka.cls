@@ -34,7 +34,7 @@
 \usepackage[font=footnotesize,labelfont=bf]{caption}
 
 \usepackage{natbib}
-\setcitestyle{numbers}
+\setcitestyle{authoryear,open={[},close={]}}
 
 
 \usepackage{enumitem}
