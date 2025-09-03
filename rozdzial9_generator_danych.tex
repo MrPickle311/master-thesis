@@ -8,7 +8,7 @@ W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych
 
 Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze \textbf{AWS} (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
-Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych.
+Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych. Schemat przepływu danych w generatorze pokazany jest na rysunku \ref{Schemat przepływu danych w generatorze}.
 
 \singlesizedimageforced{images/generator_schema.png}{Schemat przepływu danych w generatorze}{1.0}
 
@@ -56,7 +56,9 @@ Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co 
 \end{itemize}
 
 Dodatkowo obliczana jest macierz zmian korelacji:
-$$\Delta\mathbf{R} = \mathbf{R}_{faulty} - \mathbf{R}_{normal},$$ 
+\begin{equation}
+\Delta\mathbf{R} = \mathbf{R}_{faulty} - \mathbf{R}_{normal},
+\end{equation}
 
 pokazująca, jak korelacje między parametrami zmieniają się podczas przejścia ze stanu normalnego do awaryjnego.
 
@@ -75,22 +77,28 @@ pokazująca, jak korelacje między parametrami zmieniają się podczas przejści
 
 \subsubsection{Generowane pliki konfiguracyjne}
 
-Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci plików wykorzystywanych przez generator:
+Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci zestawionych poniżej plików wykorzystywanych przez generator.
 
-\paragraph{Pliki statystyk}
+\vspace{0.3em}
+
+Pliki statystyk zawierają:
 \begin{itemize}
     \item statystyki podstawowe dla każdego typu urządzenia,
     \item statystyki dla stanów normalnych i awaryjnych,
     \item statystyki dla kombinacji urządzenie-stan.
 \end{itemize}
 
-\paragraph{Pliki korelacji}
+\vspace{0.3em}
+
+Pliki korelacji zawierają:
 \begin{itemize}
     \item macierz korelacji ogólnej,
     \item macierze specyficzne dla urządzeń i stanów,
     \item macierz zmian korelacji,
     \item słownik korelacji w formacie JSON.
 \end{itemize}
+
+\vspace{0.3em}
 
 Powyższe pliki konfiguracyjne stanowią bazę dla generatora danych, zapewniając, że ich symulowacja zachowuje realistyczne charakterystyki statystyczne i korelacyjne obserwowane w rzeczywistych informacjach przemysłowych.
 
@@ -104,12 +112,14 @@ Generator wykorzystuje macierze korelacji wyznaczone na podstawie analizy inform
 
 Dla każdego typu urządzenia $i$ i stanu $s$ dostępne są dedykowane macierze korelacji $\mathbf{R}_{i,s}$ :
 
-$$\mathbf{R}_{i,s} = \begin{pmatrix}
+\begin{equation}
+\mathbf{R}_{i,s} = \begin{pmatrix}
 1 & r_{12} & r_{13} & r_{14} \\
 r_{12} & 1 & r_{23} & r_{24} \\
 r_{13} & r_{23} & 1 & r_{34} \\
 r_{14} & r_{24} & r_{34} & 1
-\end{pmatrix},$$
+\end{pmatrix},
+\end{equation}
 
 gdzie $r_{jk}$ oznacza współczynnik korelacji między parametrami $j$ i $k$.
 
@@ -132,8 +142,12 @@ Generator implementuje zaawansowany algorytm generowania skorelowanych wartości
 
 Dla każdego parametru sensorowego obliczane są mieszane statystyki na podstawie poziomu uszkodzenia $f \in [0, 1]$:
 
-$$\mu_{mieszane}(f) = \mu_{normal} + f \cdot (\mu_{faulty} - \mu_{normal}),$$
-$$\sigma_{mieszane}(f) = \sigma_{normal} + f \cdot (\sigma_{faulty} - \sigma_{normal}),$$
+\begin{equation}
+\mu_{mieszane}(f) = \mu_{normal} + f \cdot (\mu_{faulty} - \mu_{normal}),
+\end{equation}
+\begin{equation}
+\sigma_{mieszane}(f) = \sigma_{normal} + f \cdot (\sigma_{faulty} - \sigma_{normal}),
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -148,21 +162,24 @@ gdzie:
 
 a poziom uszkodzenia $f$ jest funkcją stanu i postępu w stanie:
 
-$$f(stan, post\k{e}p) = \begin{cases}
+\begin{equation}
+f(stan, post\k{e}p) = \begin{cases}
 0.0 & \text{dla stanu normalnego} \\
 0.2 + 0.2 \cdot post\k{e}p & \text{dla wczesnego zu\.{z}ycia} \\
 0.4 + 0.3 \cdot post\k{e}p & \text{dla stanu podkrytycznego} \\
 0.7 + 0.3 \cdot post\k{e}p & \text{dla stanu krytycznego} \\
 1.0 & \text{dla stanu naprawy}
-\end{cases},$$
-
+\end{cases},
+\end{equation}
 gdzie $post\k{e}p$ oznacza postęp czasowy w danym stanie wyrażony w zakresie $[0, 1]$.
 
 \subsubsection{Komponenty cykliczne}
 
 Generator uwzględnia naturalne cykle operacyjne poprzez dodanie komponentów cyklicznych:
 
-$$\mu_{cykliczne} = \mu_{mieszane} + A \cdot \sin\left(\frac{2\pi t}{T}\right),$$
+\begin{equation}
+\mu_{cykliczne} = \mu_{mieszane} + A \cdot \sin\left(\frac{2\pi t}{T}\right),
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -180,7 +197,9 @@ gdzie:
 
 Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva} :
 
-$$\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),$$
+\begin{equation}
+\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -190,7 +209,9 @@ gdzie:
 \end{itemize}
 
 a macierz kowariancji obliczana jest jako:
-$$\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R}_{i,s} \mathbf{D},$$
+\begin{equation}
+\boldsymbol{\Sigma} = \mathbf{D} \mathbf{R}_{i,s} \mathbf{D},
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -207,7 +228,9 @@ Celemem zapewnienia realistycznego przejścia między kolejnymi odczytami, gener
 
 Maksymalna zmiana między kolejnymi odczytami jest ograniczona do:
 
-$$\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan},$$
+\begin{equation}
+\Delta x_{max} = \sigma_{normal} \cdot r_{max} \cdot k_{stan},
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -217,12 +240,14 @@ gdzie:
     \item $k_{stan}$ - czynnik stanu (1.0 dla normalnego, 1.5 dla podkrytycznego, 2.0 dla krytycznego).
 \end{itemize}
 
-Rzeczywista zmiana wartości danej wielkości pochodzącej z czujnika jest ograniczana zgodnie z:
+Rzeczywista zmiana wartości danej wielkości pochodzącej z czujnika jest ograniczana zgodnie z regułą:
 
-$$\Delta x_{limited} = \begin{cases}
+\begin{equation}
+\Delta x_{limited} = \begin{cases}
 \Delta x & \text{jeśli } |\Delta x| \leq \Delta x_{max} \\
 \Delta x_{max} \cdot \text{sign}(\Delta x) & \text{w przeciwnym przypadku}
-\end{cases},$$
+\end{cases},
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -236,7 +261,9 @@ gdzie:
 
 Po przeprowadzeniu ograniczenia szybkości zmian, w kolejnym etapie stosowane jest wygładzanie wykładnicze \cite{hyndman_forecasting}:
 
-$$x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited},$$
+\begin{equation}
+x_{t+1} = x_t + (1-\alpha) \cdot \Delta x_{limited},
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -290,7 +317,9 @@ naprawa & 2h & 4h & normalny \\
 
 Generator wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \texttt{hash}:
 
-$$t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),$$
+\begin{equation}
+t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -315,11 +344,13 @@ Generator implementuje algorytm generowania kompletnych szeregów czasowych hist
 
 Każdy typ urządzenia inicjalizowany jest z deterministycznym stanem początkowym:
 
-$$stan_{poczatkowy} = \begin{cases}
+\begin{equation}
+stan_{poczatkowy} = \begin{cases}
 \text{normalny} & \text{je\'sli } h(typ) \bmod 1.0 < 0.5 \\
 \text{wczesne zu\.{z}ycie} & \text{je\'sli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
 \text{podkrytyczny} & \text{w przeciwnym przypadku}
-\end{cases},$$
+\end{cases},
+\end{equation}
 
 gdzie:
 \begin{itemize}
@@ -386,21 +417,17 @@ Dane są organizowane w następującej strukturze:
 
 Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}:
 
-\begin{lstlisting}[caption=Plik metadanych, label={lst:plik_metadanych}]
+\begin{lstlisting}[caption=Przykładowy plik metadanych, label={lst:plik_metadanych}]
 {
-  "generated_at": "2023-01-15 14:30:00",
   "start_timestamp": 1672531200,
   "end_timestamp": 1675123199,
   "minute_resolution": 1,
-  "equipment_types": ["Pump", "Compressor", "Turbine"],
+  "equipment_types": ["Pump", "Compressor"],
   "sensor_types": ["temperature", "pressure", "vibration", "humidity"],
   "seed": 42,
   "files": {
     "Pump": "pump_20230101.csv",
-    "Compressor": "compressor_20230101.csv", 
-    "Turbine": "turbine_20230101.csv"
-  }
-}
+    "Compressor": "compressor_20230101.csv" }}
 \end{lstlisting}
 
 \newpage

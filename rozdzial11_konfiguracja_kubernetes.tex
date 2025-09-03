@@ -16,12 +16,12 @@ Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za po
 \subsection{Zarządzanie konfiguracją aplikacji} 
 
 Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów \texttt{ConfigMap}. Każda usługa (np. \texttt{front-service}, \texttt{data-service}, \texttt{kafka-db-forwarder}) posiada dedykowany \texttt{ConfigMap}, zawierający plik \texttt{application.yaml} ze specyficznymi ustawieniami frameworka \mbox{Spring Boot}, takimi jak: adresy URL usług zależnych, konfiguracja połączeń z bazą danych, brokerem \mbox{Apache Kafka}, czy serwerem autoryzacyjnym \textbf{Keycloak}.
-
+\newpage
 Przykładem obiektu mapy konfiguracyjnej (ang. \textit{ConfigMap}) \texttt{front-service-config}, definiującego trasy dla bramy API (\mbox{Spring Cloud Gateway}), jest wskazanie na wewnętrzne usługi takie jak: \texttt{data-service-svc} czy \texttt{users-service-svc}. Podobnie, \texttt{spark-data-processor-config} zawiera szczegółową konfigurację strumieni biblioteki \mbox{Apache Spark Streaming}, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
 
 \subsection{Bezpieczeństwo}
 
-Bezpieczeństwo klastra jest wzmocnione przez przedstawione poniżej mechanizmy:
+Bezpieczeństwo klastra jest wzmocnione przez przedstawione poniżej mechanizmy.
 
 \subsubsection{Zarządzanie certyfikatami TLS}
 Do automatycznego zarządzania certyfikatami TLS (ang. Transport Layer Security) w klastrze wykorzystywany jest \texttt{cert-manager}, instalowany przy pomocy dostarczonych plików \texttt{values.yaml}. Zdefiniowane zasoby Ingress dla usług takich jak: \texttt{front-service}, \texttt{cluster-ui} oraz \texttt{keycloak} zawierają sekcje \texttt{tls}, które wskazują na sekrety klastra Kubernetes (np. \texttt{front-service-tls}, \texttt{cluster-ui-tls}) przechowujące certyfikaty i klucze prywatne, zarządzane przez \texttt{cert-manager}.

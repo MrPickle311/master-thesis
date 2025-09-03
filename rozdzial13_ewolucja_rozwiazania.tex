@@ -119,7 +119,7 @@ Resources:
 
 Rozwiązanie oparte na maszynach wirtualnych EC2 należało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Krytyczna ocena tej decyzji wskazuje, że choć lokalna infrastruktura znacząco zredukowała koszty operacyjne, wprowadziła wyzwania związane z zarządzaniem sprzętem i ograniczoną elastycznością skalowania. W dłuższej perspektywie, rozwiązanie hybrydowe łączące lokalną infrastrukturę z chmurą mogłoby stanowić optymalny kompromis między kosztami a możliwościami skalowania.
 
-Poniżej \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w zależności od rozwiązania. Koszty wyrażone są i obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty dla zasobów AWS zostały obliczone za pomocą tej strony: \url{https://calculator.aws/}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla wdrożeń wielkoskalowych rozwiązania oparte na EC2/EKS mogą być niższe.
+W tabeli \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w zależności od rozwiązania. Koszty wyrażone są i obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty dla zasobów AWS zostały obliczone za pomocą tej strony: \url{https://calculator.aws/}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla wdrożeń wielkoskalowych rozwiązania oparte na EC2/EKS mogą być niższe.
 
 \begin{table}[h]
     \centering
@@ -147,13 +147,15 @@ Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu nar
 
 W pierwszej implementacji autorskiego systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę \mbox{Kafka Streams} \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem \mbox{Apache Kafka} \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
 \begin{itemize}
-    \item \textbf{Czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu. Kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania.
-    \item \textbf{Integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+    \item \textbf{czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu: kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania,
+    \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
-Poniżej \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \texttt{PressureMeanStreamFactory}.
+W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \\ \mbox{\texttt{PressureMeanStreamFactory}}.
 
-\begin{lstlisting}[caption=Implementacja w klasie PressureMeanStreamFactory, label={lst:pressure_mean_stream_factory},language=Java]
+\newpage
+
+\begin{lstlisting}[caption=Poprzednia implementacja przetwarzająca strumienie danych, label={lst:pressure_mean_stream_factory},language=Java]
 
     public class PressureMeanStreamFactory extends MeanStreamFactory<Pressure, PressureAggregation> {
 
@@ -256,7 +258,7 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
 
 W rozważanym kodzie klas dziedziczących po klasie \texttt{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
 
-\begin{lstlisting}[caption=Implementacja w klasie MeanProcessor za pomocą Apache Spark, label={lst:mean_processor_spark},language=Scala]
+\begin{lstlisting}[caption=Nowa implementacja przetwarzająca strumienie danych, label={lst:mean_processor_spark},language=Scala]
 
 class MeanProcessor[T <: SensorReading : Encoder](
                                                    spark: SparkSession,
@@ -369,8 +371,6 @@ Podjęto decyzję o przejściu na bibliotekę \textbf{\mbox{Apache Spark Structu
     \item \textbf{mechanizm checkpointów} - silnik \mbox{Apache Spark} pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
-\newpage
-
 \subsection{Model bazy danych}
 
 Początkowy projekt relacyjnej bazy danych zakładał tworzenie osobnej tabeli dla każdego typu czujnika (np. temperatura, cisnienie, wibracje). Na listingu \ref{lst:first_form_table} przedstawiono sposób tworzenia kilku przykładowych tabel według takiego podejścia.
@@ -423,8 +423,6 @@ Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważ
 
 \vspace{0.3em}
 
-\newpage
-
 Wobec powyższego zmienione zostało podejście do zadania tak, że cały model danych oparty został na jednej tabeli. Sposób jej tworzenia został przedstawiony na listingu \ref{lst:second_form_table}.
 
 \begin{lstlisting}[caption=Druga forma tabeli w relacyjnej bazie danych, label={lst:second_form_table},language=SQL]
@@ -455,9 +453,7 @@ Pierwotnie stosowano ręczne zarządzanie manifestami YAML \cite{yaml_spec} klas
 
 \singlesizedimageforced{images/deployer-flow.png}{Proces wdrażania starej wersji aplikacji}{1.0}
 
-Rozwiązanie to było jednak było mało elastyczne zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textbf{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
-
-\newpage
+Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textbf{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
 
 Wprowadzenie menedżera pakietów \textbf{Helm} \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
 \begin{itemize}
@@ -472,9 +468,11 @@ Początkowo klaster \textbf{Kubernetes} \cite{kubernetes} był oparty na środow
 
 \subsection{Architektura sieciowa}
 
-Początkowo stosowana konfiguracja sieciowa, oparta na usługach typu \texttt{NodePort} \cite{nodeport_docs} i zewnętrznym balanserze \textbf{AWS Application Load Balancer} (\textbf{ALB}) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze \textbf{AWS} \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
+Stosowana na wcześniejszym etapie pracy konfiguracja sieciowa, oparta na usługach typu \texttt{NodePort} \cite{nodeport_docs} i zewnętrznym balanserze \textbf{AWS Application Load Balancer} (\textbf{ALB}) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze \textbf{AWS} \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
 
 Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \texttt{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \texttt{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu \texttt{HTTP}/\texttt{HTTPS}. Balanser \texttt{MetalLB} \cite{metallb_docs} można zainstalować na klastrach \textbf{Kubernetes} \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
+
+\newpage
 
 Modyfikacja ta pozwoliła na:
 \begin{itemize}
@@ -482,8 +480,6 @@ Modyfikacja ta pozwoliła na:
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
     \item \textbf{centralizację zarządzania certyfikatami \texttt{TLS}} dzięki integracji kontrolera Ingress z narzędziem \texttt{cert-manager} \cite{cert_manager_docs}.
 \end{itemize}
-
-\newpage
 
 \subsection{Krytyczna analiza decyzji projektowych}
 

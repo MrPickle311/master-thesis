@@ -127,7 +127,7 @@ Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wyko
 
 \newpage
 
-\singlesizedimageforced{images/spark_operator.png}{Działanie Spark Operatora z Driverami i aplikacją}{1.0}
+\singlesizedimageforced{images/spark_operator.png}{Działanie operatora dla silnika Spark z podami}{1.0}
 
 \subsubsection{Warstwa składowania danych}
 \label{subsubsec:warstwa_skladowania}
@@ -194,7 +194,7 @@ Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzeni
 
 Dane te są serializowane przy użyciu formatu \mbox{Apache Avro} \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
 
-\subsection{Model raportów w Elasticsearch}
+\subsection{Model raportów w bazie Elasticsearch}
 \label{subsec:model_raportow}
 
 Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \texttt{lower\_case\_normalizer} oraz analizatora \texttt{lower\_case\_analyzer}. Model raportów został przedstawiony na listingu \ref{lst:model_raportow}.
@@ -251,9 +251,7 @@ Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwan
                             "normalizer": "lower_case_normalizer"
                         }
                     }
-            }
-        }
-    }
+            }}}
     \end{lstlisting}
 
 
@@ -353,7 +351,7 @@ W klastrze Kubernetes działa mikroserwis SQS-Kafka-Forwarder, regularnie odpytu
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark (Spark Structured Streaming) \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
+Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \\ \texttt{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark \mbox{(Spark Structured Streaming)} \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
 
 \vspace{0.3em}
 
@@ -397,7 +395,7 @@ Interfejs API jest zabezpieczone mechanizmami uwierzytelniania i autoryzacji, im
 \subsubsection{Wizualizacja analizowanych danych}
 \label{subsubsec:wizualizacja_danych}
 
-Ostatnim etapem przepływu informacji jest ich wizualizacja na ekranie zbiorczym (dashboard). Komunikuje się on z interfejsem API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
+Ostatnim etapem przepływu informacji jest ich wizualizacja na ekranie zbiorczym (dashboard). Ekran zbiorczy komunikuje się z interfejsem API, pobierając dane do wyświetlenia, a następnie prezentuje je w formie wykresów, tabel i widżetów.
 
 Ekran zbiorczy umożliwia interaktywną eksplorację danych, filtrowanie, sortowanie i eksport wyników. Ponadto, może on wyświetlać alerty i powiadomienia o wykrytych anomaliach i potencjalnych awariach.
 

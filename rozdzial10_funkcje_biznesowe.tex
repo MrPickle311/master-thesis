@@ -8,9 +8,9 @@ Celem stworzonej aplikacji jest dostarczenie użytkownikom narzędzi do monitoro
 
 \subsection{Pulpit główny}
 
-Pulpit główny stanowi spersonalizowane centrum dowodzenia dla każdego użytkownika, oferując natychmiastowy przegląd najważniejszych informacji o stanie systemu. Po zalogowaniu, użytkownik jest witany imiennie, co buduje przyjazne środowisko pracy.
+Pulpit główny pokazany na rysunku \ref{Pulpit główny} stanowi spersonalizowane centrum nadzoru dla każdego użytkownika, oferując natychmiastowy przegląd najważniejszych informacji o stanie systemu. Po zalogowaniu, użytkownik jest witany imiennie, co buduje przyjazne środowisko pracy.
 
-\singlesizedimageforced{images/home.png}{Pulpit główny}{1.0}
+\singlesizedimageforced{images/home.png}{Wygląd pulpitu głównego}{1.0}
 
 \subsubsection{Monitorowanie zdarzeń i alertów}
 Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i prezentuje zdarzenia systemowe w porządku chronologicznym. Mogą to być zarówno standardowe komunikaty operacyjne, jak i krytyczne alerty informujące o przekroczeniach zdefiniowanych progów dla wartości sensorów lub innych istotnych incydentach. Funkcjonalność ta ma kluczowe znaczenie dla utrzymania ciągłości operacyjnej:
@@ -18,7 +18,7 @@ Kluczowym elementem pulpitu jest sekcja \texttt{Events \& alerts}, agregująca i
     \item \textbf{szybka identyfikacja problemów} - możliwość filtrowania listy w celu wyświetlenia \textbf{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
     \item \textbf{analiza incydentów} - zaawansowane opcje przeszukiwania zdarzeń według słów kluczowych oraz filtrowania ich według zdefiniowanego zakresu dat umożliwiają dogłębną analizę przyczyn źródłowych problemów oraz identyfikację wzorców i trendów w przeszłych zdarzeniach.
 \end{itemize}
-Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej dane \texttt{data-service}, która prawdopodobnie agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{spark-data-processor}).
+Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej dane \texttt{data-service}, która agreguje je z różnych źródeł, w tym z systemu przetwarzania strumieniowego (np. na podstawie logiki zaimplementowanej w aplikacji przetwarzającej dane w okienkach czasowych \texttt{spark-data-processor}).
 
 \subsubsection{Wizualizacja wartości sensorów}
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
@@ -26,27 +26,27 @@ Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operac
     \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. \textit{Temperatura - Przed Kotłem}) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
     \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez bibliotekę \mbox{Apache Spark Streaming} na podstawie konfiguracji w \texttt{spark-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
 \end{itemize}
-\textbf{Personalizacja widoku:} - obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
+\textbf{Personalizacja widoku:} obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
 \begin{itemize}
-    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. Temperatura, Ciśnienie, Przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. Przed Kotłem, Za Sprężarką Powrotną) dostępnej dla danego typu sensora,
+    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. temperatura, ciśnienie, przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. przed otłom, za sprężarką powrotną) dostępnej dla danego typu sensora,
     \item modyfikować lub usuwać istniejące kafelki z wartościami sensorów.
 \end{itemize}
 Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, co pozwala na dostosowanie interfejsu do jego specyficznych potrzeb i zakresu odpowiedzialności. Dodatkowo, w celu optymalizacji prezentacji, kafelki wyświetlające wartości mogą mieć dynamicznie dostosowywaną szerokość. Dla sensorów oznaczonych w konfiguracji systemowej jako \texttt{wideSensors} – typowo tych, prezentujących wiele powiązanych wartości lub dłuższe opisy tekstowe – kafelek automatycznie zajmuje podwójną standardową szerokość. Zapewnia to lepszą czytelność i przejrzystość prezentowanych informacji, eliminując konieczność przycinania tekstu lub nadmiernego zagęszczania danych.
 
 \subsubsection{Wykresy danych}
-Sekcja \texttt{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych. 
+Sekcja \texttt{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych. Przykładowe wykresy zebranych danych pokazane są na rysunku \ref{Przykładowe wykresy zebranych danych}.
 
 \vspace{0.3em}
 
 Wykresy danych oferują na ekranie zbiorczym oferują następujące funkcje:
 
 \begin{itemize}
-    \item \textbf{dynamiczna wizualizacja stanu sensora} - kluczową funkcją jest możliwość wizualizacji \textbf{stanu sensora} bezpośrednio na wykresie. Realizowane jest to poprzez dynamiczną zmianę koloru tła odpowiedniego regionu wykresu, co dostarcza natychmiastowego wizualnego sygnału o kondycji monitorowanego elementu lub procesu. Umożliwia to operatorom szybką ocenę sytuacji bez konieczności analizowania dokładnych wartości liczbowych.
-    \item \textbf{personalizacja wykresów} - podobnie jak w przypadku wartości numerycznych, użytkownicy w trybie edycji mogą dodawać nowe wykresy (wybierając typ sensora i etykietę), modyfikować konfigurację istniejących lub je usuwać, dostosowując widok do aktualnych potrzeb analitycznych.
-    \item \textbf{regulacja zakresu czasowego} - możliwość zmiany zakresu czasu prezentowanego na wykresach (np. ostatni dzień, ostatnie dwa dni, tydzień) pozwala na analizę zarówno krótkoterminowych fluktuacji, jak i długoterminowych wzorców zachowań systemu.
+    \item \textbf{Dynamiczna wizualizacja stanu sensora} - kluczową funkcją jest możliwość wizualizacji \textbf{stanu sensora} bezpośrednio na wykresie. Realizowane jest to poprzez dynamiczną zmianę koloru tła odpowiedniego regionu wykresu, co dostarcza natychmiastowego wizualnego sygnału o kondycji monitorowanego elementu lub procesu. Umożliwia to operatorom szybką ocenę sytuacji bez konieczności analizowania dokładnych wartości liczbowych.
+    \item \textbf{Personalizacja wykresów} - podobnie jak w przypadku wartości numerycznych, użytkownicy w trybie edycji mogą dodawać nowe wykresy (wybierając typ sensora i etykietę), modyfikować konfigurację istniejących lub je usuwać, dostosowując widok do aktualnych potrzeb analitycznych.
+    \item \textbf{Regulacja zakresu czasowego} - możliwość zmiany zakresu czasu prezentowanego na wykresach (np. ostatni dzień, ostatnie dwa dni, tydzień) pozwala na analizę zarówno krótkoterminowych fluktuacji, jak i długoterminowych wzorców zachowań systemu.
 \end{itemize}
 
-\singlesizedimageforced{images/charts.png}{Wykresy danych}{1.0}
+\singlesizedimageforced{images/charts.png}{Przykładowe wykresy zebranych danych}{1.0}
 
 \newpage
 
@@ -60,15 +60,15 @@ Użytkownik może zdefiniować nowy raport poprzez formularz, w którym określa
     \item konfigurację sensorów: wybór jednego lub wielu typów sensorów oraz, dla każdego typu, jednej lub wielu konkretnych etykiet pomiarowych, z których dane mają być uwzględnione w raporcie,
     \item zakres czasowy: precycyzyjny przedział dat (od-do), dla którego dane historyczne zostaną pobrane i zaprezentowane.
 \end{itemize}
-Zdefiniowany raport jest zapisywany w systemie, a jego konfiguracja przechowywana w bazie danych PostgreSQL oraz indeksowana w bazie danych Elasticsearch w celu umożliwienia szybkiego wyszukiwania.
+Zdefiniowany raport jest zapisywany w systemie, a jego konfiguracja przechowywana w bazie danych PostgreSQL oraz indeksowana w bazie danych Elasticsearch w celu umożliwienia szybkiego wyszukiwania. Przykład formularza tworzenia raportu pokazany jest na rysunku \ref{Przykład formularza tworzenia raportu}.
 
-\singlesizedimageforced{images/create_report.png}{Tworzenie raportu}{1.0}
+\singlesizedimageforced{images/create_report.png}{Przykład formularza tworzenia raportu}{1.0}
 
 \newpage
 
 \subsubsection{Przeglądanie i zarządzanie raportami}
 
-Lista zdefiniowanych raportów jest prezentowana w formie tabelarycznej, z możliwością paginacji. 
+Lista zdefiniowanych raportów jest prezentowana w formie tabelarycznej, z możliwością stronnicowania raportów. Przykładowy widok wyszukiwarki raportów pokazany jest na rysunku \ref{Przykładowy widok wyszukiwarki raportów}.
 
 \vspace{0.3em}
 
@@ -83,16 +83,16 @@ Użytkownik może:
 Kliknięcie na raport z listy otwiera jego szczegółowy widok.
 
 
-\singlesizedimageforced{images/reports_list.png}{Wyszukiwarka raportów}{0.90}
+\singlesizedimageforced{images/reports_list.png}{Przykładowy widok wyszukiwarki raportów}{0.90}
 
 \subsubsection{Szczegóły raportu}
-Widok szczegółowy raportu prezentuje wszystkie zdefiniowane metadane (nazwa, opis, zakres czasowy, wybrane sensory) oraz, co najważniejsze, wykresy historyczne dla każdej skonfigurowanej kombinacji sensor-etykieta w zadanym przedziale czasowym. Umożliwia to dogłębną analizę przeszłych zdarzeń i trendów. Z tego poziomu użytkownik może również przejść do edycji definicji raportu lub go usunąć.
+Widok szczegółowy raportu prezentuje wszystkie zdefiniowane metadane (nazwa, opis, zakres czasowy, wybrane sensory) oraz, co najważniejsze, wykresy historyczne dla każdej skonfigurowanej kombinacji sensor-etykieta w zadanym przedziale czasowym. Umożliwia to dogłębną analizę przeszłych zdarzeń i trendów. Z tego poziomu użytkownik może również przejść do edycji definicji raportu lub go usunąć. Przykładowy widok szczegółów raportu pokazany jest na rysunku \ref{Przykładowy widok szczegółów raportu}.
 
-\singlesizedimageforced{images/details.png}{Szczegóły raportu}{0.8}
+\singlesizedimageforced{images/details.png}{Przykładowy widok szczegółów raportu}{0.8}
 
 \subsection{Dostosowywanie interfejsu i konfiguracja}
 Interfejs użytkownika jest dynamicznie konfigurowany na podstawie danych pobieranych z klastra (\texttt{data-service} poprzez \texttt{front-service}). Dotyczy to m.in. listy dostępnych typów sensorów, ich etykiet, jednostek miar, opcji filtrowania czasu itp. Zapewnia to spójność i elastyczność systemu.
 
-Choć interfejs użytkownika pozwala na edycję konfiguracji pulpitu i raportów, szczegółowe różnice w uprawnieniach między rolami \texttt{DATA\_ACCESSOR} a \texttt{ADMIN} (np. kto może zapisywać zmiany) są prawdopodobnie egzekwowane po stronie klastra, poza wspomnianym już zarządzaniem użytkownikami przez administratorów. 
+Choć interfejs użytkownika pozwala na edycję konfiguracji pulpitu i raportów, szczegółowe różnice w uprawnieniach między rolami \texttt{DATA\_ACCESSOR} a \texttt{ADMIN} (np. kto może zapisywać zmiany) są prawdopodobnie egzekwowane po stronie klastra, poza wspomnianym już zarządzaniem użytkownikami przez administratorów. Przykładowy widok modyfikacji pulpitu pokazany jest na rysunku \ref{Przykładowy widok modyfikacji pulpitu}.
 
-\singlesizedimageforced{images/home_edit.png}{Modyfikacja pulpitu}{1.0}
+\singlesizedimageforced{images/home_edit.png}{Przykładowy widok modyfikacji pulpitu}{1.0}
