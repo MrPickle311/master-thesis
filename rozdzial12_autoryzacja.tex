@@ -5,7 +5,7 @@ Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny m
 
 \subsection{Architektura systemu autoryzacji}
 
-Serwer \textbf{Keycloak} pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja frontendowa komunikuje się bezpośrednio z nim w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację \texttt{FrontService} - bramę API działającą w architekturze mikroserwisowej.
+Serwer \textbf{Keycloak} pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja front-endowa komunikuje się bezpośrednio z nim w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację \texttt{FrontService} - bramę API działającą w architekturze mikroserwisowej.
 
 FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług back-endowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
 
@@ -13,7 +13,7 @@ Back-end opracowanej aplikacji został skonfigurowany do pracy w trybie hybrydow
 
 \subsection{Implementacja po stronie front-endu}
 
-Aplikacja frontendowa wykorzystuje bibliotekę \texttt{keycloak-js} do integracji z serwerem \textbf{Keycloak}. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera \textbf{Keycloak} w przypadku braku ważnego tokenu dostępu.
+Aplikacja front-endowa wykorzystuje bibliotekę \texttt{keycloak-js} do integracji z serwerem \textbf{Keycloak}. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera \textbf{Keycloak} w przypadku braku ważnego tokenu dostępu.
 
 Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka \texttt{Authorization} wszystkich żądań \texttt{HTTP} (ang. \mbox{Hypertext Transfer Protocol}) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
 
