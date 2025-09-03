@@ -92,7 +92,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
 \label{subsec:architektura}
 
 Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze \textbf{Kubernetes} \cite{kubernetes_benefits}.
-Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunku \ref{Architektura systemu do analizy danych w czasie rzeczywistym}.
+Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunkach \ref{Architektura systemu do analizy danych w czasie rzeczywistym} oraz \ref{Architektura systemu do analizy danych w czasie rzeczywistym}.
 
 \singlesizedimageforced{images/architektura.png}{Uproszczona architektura systemu do analizy danych w czasie rzeczywistym}{1.0}
 
@@ -142,7 +142,7 @@ Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do
 \subsubsection{Warstwa usług i interfejs API}
 \label{subsubsec:warstwa_uslug}
 
-Warstwa usług i interfejs API (interfejs programowania aplikacji) odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. W ramach niniejszego opracowania składa się ona z kilku mikroserwisów:
+Warstwa usług i interfejs API (interfejs programowania aplikacji) odpowiada za udostępnianie danych i funkcjonalności systemu zewnętrznym aplikacjom i użytkownikom. Na rysunkach \ref{Interfejs API sekcji Home} oraz \ref{Interfejs API sekcji Reports} przedstawiono interfejs API sekcji Home oraz Reports. W ramach niniejszego opracowania składa się ona z kilku mikroserwisów:
 
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający interfejs API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
