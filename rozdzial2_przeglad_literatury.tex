@@ -18,6 +18,8 @@ Kluczowe aspekty analizy danych w czasie rzeczywistym to:
     \item \textbf{ciągłe przetwarzanie (ang. Continuous Processing)}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
 \end{itemize}
 
+\vspace{0.3em}
+
 W kontekście analizy danych z systemów wieloczujnikowych szczególnie istotne jest przetwarzanie strumieniowe, umożliwiające szybką reakcję na zmieniające się warunki procesu produkcyjnego.
 
 \subsubsection{Wyzwania w analizie danych strumieniowych}
@@ -44,6 +46,8 @@ Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed proje
     
     \item \textbf{Bezpieczeństwo i prywatność} - ochrona wrażliwych danych podczas przetwarzania w czasie rzeczywistym stanowi istotne wyzwanie. Systemy powinny implementować szyfrowanie, kontrolę dostępu oraz mechanizmy audytu, zapewniając jednocześnie zgodność z przepisami dotyczącymi ochrony informacji.
 \end{itemize}
+
+\vspace{0.3em}
 
 Skuteczne rozwiązanie tych wyzwań wymaga starannego projektowania architektury systemu, doboru odpowiednich technologii oraz uwzględnienia specyficznych wymagań aplikacji. W kolejnych rozdziałach omówione zostaną narzędzia i techniki pozwalające sprostać tym wyzwaniom.
 
@@ -78,6 +82,8 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
     \item \textbf{warstwa komunikacji} - odpowiada za przesyłanie danych z czujników do warstwy przetwarzania,
     \item \textbf{warstwa przetwarzania} - przetwarza dane z czujników i udostępnia je użytkownikom lub innym systemom.
 \end{itemize}
+
+\vspace{0.3em}
 
 W nowoczesnych systemach warstwa komunikacji często wykorzystuje technologie IoT, takie jak: technologia MQTT (protokół komunikacyjny dla urządzeń IoT) \cite{ietf_mqtt_v5}, AMQP (protokół kolejkowania wiadomości) \cite{amqp_v1} czy OPC UA (standard komunikacji przemysłowej) \cite{opc_ua_spec},
 a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak:
@@ -283,5 +289,7 @@ rozwiązanie \mbox{Apache Druid} (baza danych do analizy danych) \cite{apache_dr
     \item \textbf{ograniczone wsparcie} - wsparcie techniczne może być ograniczone w porównaniu do rozwiązań komercyjnych,
     \item \textbf{konieczność integracji wielu narzędzi} - często wymagają integracji wielu narzędzi, co zwiększa złożoność systemu.
 \end{itemize}
+
+\vspace{0.3em}
 
 Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia uzasadniające potrzebę opracowania nowego, autorskiego systemu, opartego na architekturze mikroserwisowej, klastrze Kubernetes i narzędziach \mbox{Big Data}.

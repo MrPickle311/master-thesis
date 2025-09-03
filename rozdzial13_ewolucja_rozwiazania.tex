@@ -151,7 +151,7 @@ W pierwszej implementacji autorskiego systemu do przetwarzania danych strumienio
     \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
-W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \\ \mbox{\texttt{PressureMeanStreamFactory}}.
+W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \\ \mbox{\textit{PressureMeanStreamFactory}}.
 
 \newpage
 
@@ -244,7 +244,7 @@ W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy
 
 \end{lstlisting}
 
-Powyższy kod przedstawia klasę \texttt{PressureMeanStreamFactory}, dziedziczącą po generycznej klasie \texttt{MeanStreamFactory} i służącą do przetwarzania strumieni danych ciśnienia za pomocą biblioteki Kafka Streams. Klasa ta implementuje logikę rozdzielania strumienia wejściowego na podstrumienie według typów urządzeń (sprężarka, turbina, kompresor, itp.), a następnie agreguje dane w oknach czasowych, licząc średnie wartości ciśnienia dla każdej etykiety. Wyniki są następnie publikowane z podziałem na odpowiednie tematy wyjściowe.
+Powyższy kod przedstawia klasę \textit{PressureMeanStreamFactory}, dziedziczącą po generycznej klasie \textit{MeanStreamFactory} i służącą do przetwarzania strumieni danych ciśnienia za pomocą biblioteki Kafka Streams. Klasa ta implementuje logikę rozdzielania strumienia wejściowego na podstrumienie według typów urządzeń (sprężarka, turbina, kompresor, itp.), a następnie agreguje dane w oknach czasowych, licząc średnie wartości ciśnienia dla każdej etykiety. Wyniki są następnie publikowane z podziałem na odpowiednie tematy wyjściowe.
 
 \vspace{0.3em}
 
@@ -256,7 +256,7 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
     \item brak wyodrębnienia poszczególnych etapów przetwarzania do osobnych metod lub klas powoduje, że cała złożona logika znajduje się w jednym miejscu, co utrudnia testowanie i ponowne wykorzystanie kodu.
 \end{itemize}
 
-W rozważanym kodzie klas dziedziczących po klasie \texttt{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \texttt{MeanProcessor}.
+W rozważanym kodzie klas dziedziczących po klasie \textit{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \textit{MeanProcessor}.
 
 \begin{lstlisting}[caption=Nowa implementacja przetwarzająca strumienie danych, label={lst:mean_processor_spark},language=Scala]
 
@@ -367,7 +367,7 @@ Analizując powyższy kod można zauważyć, że obsługuje on wszystkie typy cz
 Podjęto decyzję o przejściu na bibliotekę \textbf{\mbox{Apache Spark Structured Streaming}} \cite{spark_streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósł ona kluczowe korzyści:
 \begin{itemize}
     \item \textbf{wyższy poziom abstrakcji} - deklaratywny interfejs API silnika \mbox{Apache Spark}, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
-    \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu \texttt{RandomForestClassifier} bezpośrednio do potoku przetwarzania strumieniowego,
+    \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu \textit{RandomForestClassifier} bezpośrednio do potoku przetwarzania strumieniowego,
     \item \textbf{mechanizm checkpointów} - silnik \mbox{Apache Spark} pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
@@ -441,7 +441,7 @@ CREATE TABLE IF NOT EXISTS sensor_data
 \end{lstlisting}
 
 
-Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli \texttt{sensor\_data}, zawierającej kolumny takie jak: \texttt{sensor\_type}, \texttt{label}, \texttt{event\_key}, \texttt{timestamp}, \texttt{data}. Ta zmiana przyniosła fundamentalne korzyści:
+Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli \textit{sensor\_data}, zawierającej kolumny takie jak: \textit{sensor\_type}, \textit{label}, \textit{event\_key}, \textit{timestamp}, \textit{data}. Ta zmiana przyniosła fundamentalne korzyści:
 \begin{itemize}
     \item \textbf{elastyczność} - system może teraz obsługiwać dowolną liczbę typów czujników bez jakichkolwiek zmian w strukturze bazy danych,
     \item \textbf{uproszczenie zapytań} - analiza danych sprowadza się do prostych zapytań zawartych w jednej tabeli z odpowiednim filtrowaniem i grupowaniem.
@@ -464,13 +464,13 @@ Wprowadzenie menedżera pakietów \textbf{Helm} \cite{helm_docs} uprościło pro
 
 \subsection{Środowisko uruchomieniowe kontenerów}
 
-Początkowo klaster \textbf{Kubernetes} \cite{kubernetes} był oparty na środowisku kontenerowym \texttt{Docker} \cite{docker_docs}. Jednakże, ze względu na zmiany w ekosystemie \textbf{Kubernetes} \cite{kubernetes}, podjęto decyzję o przejściu na środowisko kontenerowe \texttt{Containerd} \cite{containerd_docs}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra \textbf{Kubernetes} \cite{kubernetes}. \texttt{Containerd} \cite{containerd_docs}, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika \texttt{Docker} \cite{docker_docs}, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
+Początkowo klaster \textbf{Kubernetes} \cite{kubernetes} był oparty na środowisku kontenerowym \textit{Docker} \cite{docker_docs}. Jednakże, ze względu na zmiany w ekosystemie \textbf{Kubernetes} \cite{kubernetes}, podjęto decyzję o przejściu na środowisko kontenerowe \textit{Containerd} \cite{containerd_docs}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra \textbf{Kubernetes} \cite{kubernetes}. \textit{Containerd} \cite{containerd_docs}, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika \textit{Docker} \cite{docker_docs}, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
 
 \subsection{Architektura sieciowa}
 
-Stosowana na wcześniejszym etapie pracy konfiguracja sieciowa, oparta na usługach typu \texttt{NodePort} \cite{nodeport_docs} i zewnętrznym balanserze \textbf{AWS Application Load Balancer} (\textbf{ALB}) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze \textbf{AWS} \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
+Stosowana na wcześniejszym etapie pracy konfiguracja sieciowa, oparta na usługach typu \textit{NodePort} \cite{nodeport_docs} i zewnętrznym balanserze \textbf{AWS Application Load Balancer} (\textbf{ALB}) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze \textbf{AWS} \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
 
-Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \texttt{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \texttt{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu \texttt{HTTP}/\texttt{HTTPS}. Balanser \texttt{MetalLB} \cite{metallb_docs} można zainstalować na klastrach \textbf{Kubernetes} \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
+Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \textit{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \textit{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu \textit{HTTP}/\textit{HTTPS}. Balanser \textit{MetalLB} \cite{metallb_docs} można zainstalować na klastrach \textbf{Kubernetes} \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
 
 \newpage
 
@@ -478,7 +478,7 @@ Modyfikacja ta pozwoliła na:
 \begin{itemize}
     \item \textbf{wyeliminowanie zależności od zewnętrznego balansera chmurowego}, co skróciło opóźnienia,
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
-    \item \textbf{centralizację zarządzania certyfikatami \texttt{TLS}} dzięki integracji kontrolera Ingress z narzędziem \texttt{cert-manager} \cite{cert_manager_docs}.
+    \item \textbf{centralizację zarządzania certyfikatami \textit{TLS}} dzięki integracji kontrolera Ingress z narzędziem \textit{cert-manager} \cite{cert_manager_docs}.
 \end{itemize}
 
 \subsection{Krytyczna analiza decyzji projektowych}

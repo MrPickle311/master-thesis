@@ -13,10 +13,10 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{język \texttt{Java 21}} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \texttt{FrontService}, \texttt{DataService}),
-    \item \textbf{język \texttt{Scala}} - język programowania wykorzystany do implementacji aplikacji \texttt{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą \mbox{Apache Spark},
-    \item \textbf{język \texttt{Python 3.9}} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu uczenia maszynowego),
-    \item \textbf{język \texttt{TypeScript}} - język wykorzystany do implementacji interfejsu użytkownika.
+    \item \textbf{język \textit{Java 21}} - główny język programowania wykorzystany do implementacji mikroserwisów (np. \textit{FrontService}, \textit{DataService}),
+    \item \textbf{język \textit{Scala}} - język programowania wykorzystany do implementacji aplikacji \textit{SparkDataProcessor} służącej do przetwarzania strumieni danych za pomocą \mbox{Apache Spark},
+    \item \textbf{język \textit{Python 3.9}} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu uczenia maszynowego),
+    \item \textbf{język \textit{TypeScript}} - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Frameworki i biblioteki dla aplikacji}
@@ -24,9 +24,9 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 
 \begin{itemize}
     \item \textbf{framework \mbox{Spring Boot} 3.4} - framework wykorzystany do implementacji mikroserwisów języku Java,
-    \item \textbf{silnik analityczny \mbox{Apache Spark} 3.x} \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (\mbox{Spark Structured Streaming}) \cite{chambers2018spark} oraz do zadań uczenia maszynowego (\mbox{Spark ML}) w aplikacji \texttt{SparkDataProcessor},
+    \item \textbf{silnik analityczny \mbox{Apache Spark} 3.x} \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (\mbox{Spark Structured Streaming}) \cite{chambers2018spark} oraz do zadań uczenia maszynowego (\mbox{Spark ML}) w aplikacji \textit{SparkDataProcessor},
     \item \textbf{framework \mbox{Spring Cloud}} - zestaw narzędzi do budowy aplikacji na chmurze,
-    \item \textbf{biblioteka \texttt{React 18}} - biblioteka \texttt{JavaScript} wykorzystana do budowy interfejsu użytkownika.
+    \item \textbf{biblioteka \textit{React 18}} - biblioteka \textit{JavaScript} wykorzystana do budowy interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Bazy danych i systemy magazynowania}
@@ -34,9 +34,9 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 
 \begin{itemize}
     \item \textbf{broker \mbox{Apache Kafka} 3.4} \cite{kafka} - platforma do przetwarzania strumieniowego,
-    \item \textbf{baza danych \texttt{PostgreSQL 15}} - relacyjna baza danych,
-    \item \textbf{baza danych \texttt{Elasticsearch 8.7}} - baza danych \mbox{NoSQL} \cite{nosql_definition} do wyszukiwania i analizy,
-    \item \textbf{baza danych \texttt{Redis 7.0}} - pamięciowa baza danych wykorzystywana jako rozproszona pamięć podręczna (ang. distributed cache).
+    \item \textbf{baza danych \textit{PostgreSQL 15}} - relacyjna baza danych,
+    \item \textbf{baza danych \textit{Elasticsearch 8.7}} - baza danych \mbox{NoSQL} \cite{nosql_definition} do wyszukiwania i analizy,
+    \item \textbf{baza danych \textit{Redis 7.0}} - pamięciowa baza danych wykorzystywana jako rozproszona pamięć podręczna (ang. distributed cache).
 \end{itemize}
 
 \subsubsection{Infrastruktura i orkiestracja aplikacji}
@@ -44,10 +44,10 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 
 \begin{itemize}
     \item \textbf{klaster \textbf{Kubernetes} 1.26} \cite{kubernetes} - platforma do orkiestracji kontenerów,
-    \item \textbf{platforma \texttt{Docker}} - platforma konteneryzacji,
-    \item \textbf{menedżer pakietów \texttt{Helm 3}} - menedżer pakietów dla \textbf{Kubernetes},
+    \item \textbf{platforma \textit{Docker}} - platforma konteneryzacji,
+    \item \textbf{menedżer pakietów \textit{Helm 3}} - menedżer pakietów dla \textbf{Kubernetes},
     \item \textbf{chmura \textbf{AWS}} (Amazon Web Services) \cite{aws_definition} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
-    \item \textbf{narzędzie \texttt{Terraform}} - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. Infrastructure as Code) \cite{terraform_docs}.
+    \item \textbf{narzędzie \textit{Terraform}} - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. Infrastructure as Code) \cite{terraform_docs}.
 \end{itemize}
 
 \subsection{Implementacja symulatora czujników}

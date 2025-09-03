@@ -79,7 +79,7 @@ pokazująca, jak korelacje między parametrami zmieniają się podczas przejści
 
 \subsubsection{Generowane pliki konfiguracyjne}
 
-Wyniki analizy są zapisywane w katalogu \texttt{analysis\_output} w postaci zestawionych poniżej plików wykorzystywanych przez generator.
+Wyniki analizy są zapisywane w katalogu \textit{analysis\_output} w postaci zestawionych poniżej plików wykorzystywanych przez generator.
 
 \vspace{0.3em}
 
@@ -317,10 +317,10 @@ naprawa & 2h & 4h & normalny \\
 
 \subsubsection{Deterministyczne przejścia stanów}
 
-Generator wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \texttt{hash}:
+Generator wykorzystuje deterministyczne generowanie czasów trwania stanów na podstawie funkcji \textit{hash}:
 
 \begin{equation}
-t_{stan} = t_{min} + \texttt{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),
+t_{stan} = t_{min} + \textit{hash}(typ\_urzadzenia + stan + timestamp) \bmod (t_{\text{max}} - t_{min}),
 \end{equation}
 
 gdzie:
@@ -328,7 +328,7 @@ gdzie:
     \item $t_{stan}$ - obliczony czas trwania aktualnego stanu,
     \item $t_{min}$ - minimalny czas trwania stanu,
     \item $t_{max}$ - maksymalny czas trwania stanu,
-    \item $\texttt{hash}(\cdot)$ - funkcja haszująca,
+    \item $\textit{hash}(\cdot)$ - funkcja haszująca,
     \item $typ\_urzadzenia$ - typ urządzenia (pump, compressor, turbine),
     \item $stan$ - aktualny stan urządzenia,
     \item $timestamp$ - znacznik czasu rozpoczęcia stanu,
@@ -368,7 +368,7 @@ Dla każdego kroku czasowego $t$ (minuty):
 
 \begin{enumerate}
     \item aktualizacja czasu w stanie: $t_{stan} = t_{stan} + \Delta t,$ gdzie $t_{stan}$ to aktualny czas spędzony w stanie, a $\Delta t = 1$ minuta,
-    \item obliczenie postępu: $progress = \texttt{min}(1.0, t_{stan} / t_{trwania}),$ gdzie $t_{trwania}$ to całkowity czas trwania stanu,
+    \item obliczenie postępu: $progress = \textit{min}(1.0, t_{stan} / t_{trwania}),$ gdzie $t_{trwania}$ to całkowity czas trwania stanu,
     \item sprawdzenie konieczności przejścia stanu,
     \item generowanie wartości docelowych z rozkładu wielowymiarowego,
     \item zastosowanie wygładzania czasowego,
@@ -412,9 +412,9 @@ Generator wykorzystuje usługę \textbf{Amazon S3} jako centralne repozytorium d
 Dane są organizowane w następującej strukturze:
 
 \begin{itemize}
-    \item \textbf{prefiks danych}: \texttt{prod\_data/},
-    \item \textbf{pliki CSV}: \texttt{pump\_YYYYMMDD.csv}, \texttt{compressor\_YYYYMMDD.csv}, \texttt{turbine\_YYYYMMDD.csv},
-    \item \textbf{metadane}: \texttt{prod\_data/historical\_metadata.json}.
+    \item \textbf{prefiks danych}: \textit{prod\_data/},
+    \item \textbf{pliki CSV}: \textit{pump\_YYYYMMDD.csv}, \textit{compressor\_YYYYMMDD.csv}, \textit{turbine\_YYYYMMDD.csv},
+    \item \textbf{metadane}: \textit{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
 Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}:
@@ -485,10 +485,10 @@ Generator wykorzystuje system transportowania danych Amazon Simple Notification 
 Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
 
 \begin{itemize}
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:temperature-topic},
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:pressure-topic},
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:vibration-topic},
-    \item \texttt{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
+    \item \textit{arn:aws:sns:eu-central-1:accountid:temperature-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:pressure-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:vibration-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
 
 \newpage
