@@ -42,8 +42,8 @@
 \setlist[enumerate]{noitemsep, topsep=-0.1em}
 
 
-\counterwithin{figure}{subsection}
-\counterwithin{table}{subsection}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
