@@ -36,8 +36,11 @@ Dane wejściowe składają się z następujących kolumn:
 Skrypt wykonuje wieloetapową analizę danych w następujących krokach:
 
 \begin{itemize}
+    \setlength\itemsep{0.5em}
 
     \item \textbf{Analiza podstawowych statystyk} - obliczane są podstawowe metryki statystyczne dla każdego typu urządzenia i stanu technicznego:
+
+\vspace{0.3em}
 
 \begin{itemize}
     \item średnie wartości,
@@ -45,6 +48,8 @@ Skrypt wykonuje wieloetapową analizę danych w następujących krokach:
     \item wartości minimalne i maksymalne,
     \item liczebności obserwacji.
 \end{itemize}
+
+\vspace{0.3em}
 
 Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co pozwala na wyznaczenie charakterystycznych zakresów parametrów dla stanów normalnych i awaryjnych każdego typu urządzenia.
 
@@ -56,6 +61,8 @@ Wyniki są grupowane według kombinacji typu urządzenia i stanu awaryjnego, co 
     \item \textbf{korelacja specyficzna dla stanów} - oddzielnie dla stanów normalnych i awaryjnych,
     \item \textbf{korelacja kombinowana} - dla każdej kombinacji typu urządzenia i stanu.
 \end{itemize}
+
+\vspace{0.3em}
 
 Dodatkowo obliczana jest macierz zmian korelacji:
 \begin{equation}
@@ -241,6 +248,8 @@ gdzie:
     \item $r_{max} = 0.2$ - maksymalny współczynnik zmiany,
     \item $k_{stan}$ - czynnik stanu (1.0 dla normalnego, 1.5 dla podkrytycznego, 2.0 dla krytycznego).
 \end{itemize}
+    
+\vspace{0.3em}
 
 Rzeczywista zmiana wartości danej wielkości pochodzącej z czujnika jest ograniczana zgodnie z regułą:
 
@@ -417,6 +426,8 @@ Dane są organizowane w następującej strukturze:
     \item \textbf{metadane}: \textit{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
+\vspace{0.3em}
+
 Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}:
 
 \begin{lstlisting}[caption=Przykładowy plik metadanych, label={lst:plik_metadanych}]
@@ -466,6 +477,8 @@ Składa się z następujących kroków:
     \item \textbf{generowanie unikalnych kluczy} zdarzeń dla każdego urządzenia
     \item \textbf{publikowanie danych} do odpowiednich tematów usługi SNS dla każdego sensora
 \end{enumerate}
+
+\vspace{0.3em}
 
 \begin{lstlisting}[language=Python, caption=Algorytm wyszukiwania najbliższego rekordu, label={lst:algorytm_wyszukiwania_rekordu}]
 def _find_closest_record(self, df, target_time):

@@ -5,7 +5,8 @@
 \addcontentsline{lol}{section}{Rozdział \ref{chap:ewolucja_rozwiazania}}
 
 
-W trakcie realizacji niniejszego projektu będącego tematem niniejszej pracy, opracowywany system do analizy danych w czasie rzeczywistym przechodził przez kilka kluczowych faz ewolucyjnych. Pierwotne założenia i wybrane technologie były weryfikowane i często zastępowane przez bardziej efektywne rozwiązania. W niniejszym rozdziale przedstawiono najważniejsze zmiany w architekturze i implementacji, uzasadniając podjęte decyzje oraz analizując korzyści i koszty poszczególnych podejść.
+W trakcie realizacji niniejszego projektu będącego tematem niniejszej pracy, opracowywany system do analizy danych w czasie rzeczywistym przechodził przez kilka kluczowych faz ewolucyjnych. 
+Pierwotne założenia i wybrane technologie były weryfikowane i często zastępowane przez bardziej efektywne rozwiązania.
 
 \subsection{System autoryzacji}
 
@@ -22,6 +23,7 @@ W miarę rozwoju projektu podjęto decyzję o migracji na serwer Keycloak \cite{
     \item \textbf{elastyczność i skalowalność} - serwer Keycloak \cite{keycloak_docs} oferuje zaawansowane funkcje, takie jak: integracja z zewnętrznymi dostawcami tożsamości (np. LDAP \cite{ldap_rfc}, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
 \end{itemize}
 
+\vspace{0.3em}
 
 Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu pracy na rekonfigurację usług back-endowych i front-endu w celu integracji z serwerem Keycloak \cite{keycloak_docs}. Migracja na serwer Keycloak \cite{keycloak_docs} spowodowała przyspieszenie prac deweloperskich i testowych oraz poprawiło wygodę w zarządzaniu użytkownikami dzięki specjalistycznemu panelu administracyjnemu. Co najważniejsze, użyto rozwiazania sprawdzonego na rynku, co poprawiło bezpieczeństwo systemu będącego przedmiotem tej pracy.
 
@@ -146,10 +148,15 @@ Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu nar
 \subsection{Przetwarzanie danych}
 
 W pierwszej implementacji autorskiego systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę \mbox{Kafka Streams} \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem \mbox{Apache Kafka} \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu: kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania,
     \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
+
+\vspace{0.3em}
 
 W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy kod implementacji w klasie \\ \mbox{\textit{PressureMeanStreamFactory}}.
 
@@ -255,6 +262,8 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
     \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania Kafka Streams \cite{kafka_streams},
     \item brak wyodrębnienia poszczególnych etapów przetwarzania do osobnych metod lub klas powoduje, że cała złożona logika znajduje się w jednym miejscu, co utrudnia testowanie i ponowne wykorzystanie kodu.
 \end{itemize}
+
+\newpage
 
 W rozważanym kodzie klas dziedziczących po klasie \textit{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \textit{MeanProcessor}.
 
@@ -365,6 +374,9 @@ class MeanProcessor[T <: SensorReading : Encoder](
 Analizując powyższy kod można zauważyć, że obsługuje on wszystkie typy czujników w ten sam sposób, dzięki czemu nie trzeba tworzyć nowych klas dla każdego typu czujnika.
 
 Podjęto decyzję o przejściu na bibliotekę \textbf{\mbox{Apache Spark Structured Streaming}} \cite{spark_streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósł ona kluczowe korzyści:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{wyższy poziom abstrakcji} - deklaratywny interfejs API silnika \mbox{Apache Spark}, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
     \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu \textit{RandomForestClassifier} bezpośrednio do potoku przetwarzania strumieniowego,
@@ -416,6 +428,9 @@ CREATE TABLE IF NOT EXISTS mean_flow_rate
 \vspace{0.3em}
 
 Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważne wady:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{brak elastyczności} - dodanie nowego typu czujnika wymagało zmiany schematu bazy danych (dodania nowej tabeli) oraz modyfikacji kodu w serwisach aplikacyjnych,
     \item \textbf{skomplikowane zapytania} - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) \cite{kleppmann2017designing} między wieloma tabelami, co było nieefektywne.
@@ -424,6 +439,9 @@ Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważ
 \vspace{0.3em}
 
 Wobec powyższego zmienione zostało podejście do zadania tak, że cały model danych oparty został na jednej tabeli. Sposób jej tworzenia został przedstawiony na listingu \ref{lst:second_form_table}.
+
+\vspace{0.3em}
+
 
 \begin{lstlisting}[caption=Druga forma tabeli w relacyjnej bazie danych, label={lst:second_form_table},language=SQL]
 
@@ -442,6 +460,9 @@ CREATE TABLE IF NOT EXISTS sensor_data
 
 
 Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli \textit{sensor\_data}, zawierającej kolumny takie jak: \textit{sensor\_type}, \textit{label}, \textit{event\_key}, \textit{timestamp}, \textit{data}. Ta zmiana przyniosła fundamentalne korzyści:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{elastyczność} - system może teraz obsługiwać dowolną liczbę typów czujników bez jakichkolwiek zmian w strukturze bazy danych,
     \item \textbf{uproszczenie zapytań} - analiza danych sprowadza się do prostych zapytań zawartych w jednej tabeli z odpowiednim filtrowaniem i grupowaniem.
@@ -456,6 +477,9 @@ Pierwotnie stosowano ręczne zarządzanie manifestami YAML \cite{yaml_spec} klas
 Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textbf{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
 
 Wprowadzenie menedżera pakietów \textbf{Helm} \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
     \item \textbf{reużywalność i parametryzacja} - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
@@ -475,6 +499,9 @@ Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obci�
 \newpage
 
 Modyfikacja ta pozwoliła na:
+
+\vspace{0.3em}
+
 \begin{itemize}
     \item \textbf{wyeliminowanie zależności od zewnętrznego balansera chmurowego}, co skróciło opóźnienia,
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
