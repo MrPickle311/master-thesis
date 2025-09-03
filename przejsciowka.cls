@@ -34,7 +34,7 @@
 \usepackage[font=footnotesize,labelfont=bf]{caption}
 
 \usepackage{natbib}
-\setcitestyle{authoryear,open={[},close={]}}
+\setcitestyle{numbers,open={[},close={]}}
 
 
 \usepackage{enumitem}
@@ -81,6 +81,8 @@
 \DeclareOption{red}{\renewcommand{\headlinecolor}{\color{slcolor}}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
 
 \newcommand{\class}[1]{\gdef\@class{#1}}
 \newcommand{\@class}{\@latex@warning@no@line{No \noexpand\class given}}
