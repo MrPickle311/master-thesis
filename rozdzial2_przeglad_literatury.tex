@@ -38,7 +38,7 @@ Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed proje
 
     \item \textbf{Odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego powinny działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia.
     
-    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (ang. Complex Event Processing) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
+    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów \textit{CEP} (ang. Complex Event Processing) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
     
     \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania powinny współpracować z istniejącą infrastrukturą IT (ang. Information Technology) \cite{tanenbaum2011computer}. Wymaga to wykorzystania standardowych interfejsów i brokerów wiadomości.
     
@@ -85,7 +85,7 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
 
 \vspace{0.3em}
 
-W nowoczesnych systemach warstwa komunikacji często wykorzystuje technologie IoT, takie jak: technologia MQTT (protokół komunikacyjny dla urządzeń IoT) \cite{ietf_mqtt_v5}, AMQP (protokół kolejkowania wiadomości) \cite{amqp_v1} czy OPC UA (standard komunikacji przemysłowej) \cite{opc_ua_spec},
+W nowoczesnych systemach warstwa komunikacji często wykorzystuje technologie IoT, takie jak: technologia \textit{MQTT} (protokół komunikacyjny dla urządzeń IoT) \cite{ietf_mqtt_v5}, \textit{AMQP} (protokół kolejkowania wiadomości) \cite{amqp_v1} czy \textit{OPC UA} (standard komunikacji przemysłowej) \cite{opc_ua_spec},
 a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak:
 
 \begin{itemize}
@@ -129,7 +129,7 @@ Architektura mikroserwisowa stawia również pewne wyzwania, takie jak: \cite{mi
 \label{subsec:kubernetes}
 
 Kubernetes to otwarta platforma do orkiestracji kontenerów, automatyzująca wdrażanie, skalowanie i zarządzanie aplikacjami
-kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez Cloud Native Computing Foundation \cite{cncf_website}.
+kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez \textit{Cloud Native Computing Foundation} \cite{cncf_website}.
 
 \subsubsection{Podstawowe koncepcje platformy Kubernetes}
 \label{subsubsec:podstawy_kubernetes}
@@ -167,7 +167,7 @@ Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 \subsubsection{Broker \mbox{Apache Kafka}}
 \label{subsubsec:apache_kafka}
 
-\mbox{Apache Kafka} \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez LinkedIn (portal społecznościowy), obecnie rozwijana jako projekt
+\mbox{Apache Kafka} \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez \textit{LinkedIn} (portal społecznościowy), obecnie rozwijana jako projekt
 organizacji \\ \mbox{Apache Software Foundation} (fundacja rozwijająca oprogramowanie open source). 
 
 \vspace{0.3em}

@@ -448,7 +448,7 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 \subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
-Główna logika systemu jest zaimplementowana jako funkcja AWS Lambda napisana w języku Python z wykorzystaniem bibliotek: boto3, pandas oraz pydantic \cite{pydantic_docs}. Generator wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
+Główna logika systemu jest zaimplementowana jako funkcja \textit{AWS Lambda} napisana w języku Python z wykorzystaniem bibliotek: \textit{boto3}, \textit{pandas} oraz pydantic \cite{pydantic_docs}. Generator wykorzystuje bibliotekę \textit{Pydantic} do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
 
 \begin{lstlisting}[language=Python, caption=Klasy modeli danych, label={lst:klasy_modeli_danych}]
 class SensorData(BaseModel):
