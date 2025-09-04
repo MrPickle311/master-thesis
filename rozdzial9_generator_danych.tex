@@ -6,9 +6,9 @@
 
 \numberwithin{equation}{section}
 
-W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze \textbf{AWS}. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze \textit{AWS}. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze \textbf{AWS} (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze \textit{AWS} (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych. Schemat przepływu danych w generatorze pokazany jest na rysunku \ref{Schemat przepływu danych w generatorze}.
 
@@ -463,7 +463,7 @@ class Pressure(SensorData):
     pressure: PressureData
 \end{lstlisting}
 
-\textbf{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
+\textit{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
 
 \vspace{0.3em}
 

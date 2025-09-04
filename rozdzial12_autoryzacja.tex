@@ -1,29 +1,29 @@
 \section{System autoryzacji i zarządzania użytkownikami}
 \label{chap:autoryzacja}
 
-Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach \mbox{JWT} (\mbox{JSON Web Token} - standard bezpiecznego przekazywania informacji) zaimplementowany z użyciem serwera \textbf{Keycloak} jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
+Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach \mbox{JWT} (\mbox{JSON Web Token} - standard bezpiecznego przekazywania informacji) zaimplementowany z użyciem serwera \textit{Keycloak} jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
 
 \subsection{Architektura systemu autoryzacji}
 
-Serwer \textbf{Keycloak} pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja front-endowa komunikuje się bezpośrednio z nim w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację \textit{FrontService} - bramę API działającą w architekturze mikroserwisowej.
+Serwer \textit{Keycloak} pełni rolę centralnego serwera uwierzytelnienia, zarządzając procesami logowania, wydawania tokenów oraz kontroli dostępu. Aplikacja front-endowa komunikuje się bezpośrednio z nim w celu uzyskania tokenów dostępu, które następnie są wykorzystywane do autoryzacji żądań kierowanych do usług back-endowych poprzez aplikację \textit{FrontService} - bramę API działającą w architekturze mikroserwisowej.
 
 FrontService stanowi centralny punkt dostępu do całego klastra mikroserwisów, implementując jednolity system autoryzacji dla wszystkich usług back-endowych. Dzięki tej architekturze, każdy mikroserwis w klastrze może polegać na walidacji tokenów przeprowadzonej przez bramę, co upraszcza implementację autoryzacji w poszczególnych serwisach oraz zapewnia spójność mechanizmów bezpieczeństwa w całym systemie.
 
-Back-end opracowanej aplikacji został skonfigurowany do pracy w trybie hybrydowym - może działać zarówno z serwerem \textbf{Keycloak} jako zewnętrznym dostawcą uwierzytelnienia, jak i z własnym wewnętrznym systemem \mbox{JWT} (ang. \mbox{JSON Web Token}). Konfiguracja ta jest kontrolowana przez parametr \textit{app.security.useKeycloak}, co zapewnia elastyczność wdrożenia aplikacji w różnych środowiskach.
+Back-end opracowanej aplikacji został skonfigurowany do pracy w trybie hybrydowym - może działać zarówno z serwerem \textit{Keycloak} jako zewnętrznym dostawcą uwierzytelnienia, jak i z własnym wewnętrznym systemem \mbox{JWT} (ang. \mbox{JSON Web Token}). Konfiguracja ta jest kontrolowana przez parametr \textit{app.security.useKeycloak}, co zapewnia elastyczność wdrożenia aplikacji w różnych środowiskach.
 
 \subsection{Implementacja po stronie front-endu}
 
-Aplikacja front-endowa wykorzystuje bibliotekę \textit{keycloak-js} do integracji z serwerem \textbf{Keycloak}. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera \textbf{Keycloak} w przypadku braku ważnego tokenu dostępu.
+Aplikacja front-endowa wykorzystuje bibliotekę \textit{keycloak-js} do integracji z serwerem \textit{Keycloak}. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera \textit{Keycloak} w przypadku braku ważnego tokenu dostępu.
 
 Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka \textit{Authorization} wszystkich żądań \textit{HTTP} (ang. \mbox{Hypertext Transfer Protocol}) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
 
-Interface \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem \textbf{Keycloak}, ułatwiając integrację z komentami biblioteki \textit{React}.
+Interface \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem \textit{Keycloak}, ułatwiając integrację z komentami biblioteki \textit{React}.
 
 \subsection{Autoryzacja po stronie back-endu}
 
-Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} w trybie \textbf{Keycloak}. System wykorzystuje mechanizm protokołu \textbf{OAuth2 Resource Server} do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
+Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} w trybie \textit{Keycloak}. System wykorzystuje mechanizm protokołu \textit{OAuth2 Resource Server} do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
 
-Ekstraktor uprawnień \textit{KeycloakGrantedAuthoritiesConverter} analizuje strukturę tokenu \mbox{JWT} w celu pobrania ról zarówno z poziomu grupy, jak i klienta. Umożliwia to precyzyjne mapowanie uprawnień serwera \textbf{Keycloak} na role używane wewnętrznie przez aplikację. Opracowany system rozpoznaje hierarchię uprawnień, gdzie role grupy mają wyższy priorytet niż role specyficzne dla klienta.
+Ekstraktor uprawnień \textit{KeycloakGrantedAuthoritiesConverter} analizuje strukturę tokenu \mbox{JWT} w celu pobrania ról zarówno z poziomu grupy, jak i klienta. Umożliwia to precyzyjne mapowanie uprawnień serwera \textit{Keycloak} na role używane wewnętrznie przez aplikację. Opracowany system rozpoznaje hierarchię uprawnień, gdzie role grupy mają wyższy priorytet niż role specyficzne dla klienta.
 
 \subsection{Model uprawnień}
 
