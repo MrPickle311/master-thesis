@@ -6,16 +6,16 @@ Niniejszy rozdział przedstawia przegląd literatury oraz aktualny stan wiedzy w
 \subsection{Analiza danych w czasie rzeczywistym}
 \label{subsec:analiza_danych}
 
-Analiza danych w czasie rzeczywistym (ang. \mbox{\textit{Real-Time Analytics}}) odnosi się do procesów i technologii umożliwiających analizowanie danych natychmiast po ich wygenerowaniu lub zebraniu \cite{realtime_analytics}. Głównym celem jest uzyskanie natychmiastowych wniosków i reakcja na zdarzenia w możliwie najkrótszym czasie. Odróżnia to analizę w czasie rzeczywistym od tradycyjnego przetwarzania wsadowego (ang. batch processing), gdzie dane są gromadzone przez pewien okres i analizowane później \cite{data_processing_models}.
+Analiza danych w czasie rzeczywistym (ang. \mbox{\textit{Real-Time Analytics}}) odnosi się do procesów i technologii umożliwiających analizowanie danych natychmiast po ich wygenerowaniu lub zebraniu \cite{realtime_analytics}. Głównym celem jest uzyskanie natychmiastowych wniosków i reakcja na zdarzenia w możliwie najkrótszym czasie. Odróżnia to analizę w czasie rzeczywistym od tradycyjnego przetwarzania wsadowego (ang. \textit{batch processing}), gdzie dane są gromadzone przez pewien okres i analizowane później \cite{data_processing_models}.
 
 \vspace{0.3em}
 
 Kluczowe aspekty analizy danych w czasie rzeczywistym to:
 
 \begin{itemize}
-    \item \textbf{niskie opóźnienia (ang. Low Latency)}, oznaczające minimalny czas od momentu pojawienia się danych do momentu uzyskania wyników analizy,
-    \item \textbf{wysoka przepustowość (ang. High Throughput)}, czyli zdolność systemu do przetwarzania dużej liczby zdarzeń lub transakcji w jednostce czasu,
-    \item \textbf{ciągłe przetwarzanie (ang. Continuous Processing)}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
+    \item \textbf{niskie opóźnienia (ang. \textit{Low Latency})}, oznaczające minimalny czas od momentu pojawienia się danych do momentu uzyskania wyników analizy,
+    \item \textbf{wysoka przepustowość (ang. \textit{High Throughput})}, czyli zdolność systemu do przetwarzania dużej liczby zdarzeń lub transakcji w jednostce czasu,
+    \item \textbf{ciągłe przetwarzanie (ang. \textit{Continuous Processing})}, gdzie dane są analizowane w sposób ciągły, a nie w odizolowanych partiach.
 \end{itemize}
 
 \vspace{0.3em}
@@ -38,9 +38,9 @@ Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed proje
 
     \item \textbf{Odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego powinny działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia.
     
-    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów \textit{CEP} (ang. Complex Event Processing) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
+    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów \textit{CEP} (ang. \textit{Complex Event Processing}) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
     
-    \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania powinny współpracować z istniejącą infrastrukturą IT (ang. Information Technology) \cite{tanenbaum2011computer}. Wymaga to wykorzystania standardowych interfejsów i brokerów wiadomości.
+    \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania powinny współpracować z istniejącą infrastrukturą IT (ang. \textit{Information Technology}) \cite{tanenbaum2011computer}. Wymaga to wykorzystania standardowych interfejsów i brokerów wiadomości.
     
     \item \textbf{Skalowalność} - systemy powinny płynnie dostosowywać się do zmieniających się wolumenów danych i wzorców ruchu. Kluczowe jest projektowanie architektury umożliwiającej poziome skalowanie oraz elastyczne przydzielanie zasobów.
     
@@ -97,7 +97,7 @@ a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego
 \label{subsec:architektura_mikroserwisowa}
 
 Architektura mikroserwisowa to podejście do tworzenia aplikacji jako zbioru luźno powiązanych, małych, autonomicznych usług,
-komunikujących się ze sobą za pomocą mechanizmów, takich jak: protokół HTTP (ang. Hypertext Transfer Protocol) \cite{rfc_http1_1, microservice_architecture}.
+komunikujących się ze sobą za pomocą mechanizmów, takich jak: protokół HTTP (ang. \textit{Hypertext Transfer Protocol}) \cite{rfc_http1_1, microservice_architecture}.
 Każdy mikroserwis realizuje określoną funkcjonalność biznesową i może być rozwijany, wdrażany i skalowany niezależnie od innych usług.
 
 \subsubsection{Zalety architektury mikroserwisowej}

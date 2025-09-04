@@ -10,7 +10,7 @@ Pierwotne założenia i wybrane technologie były weryfikowane i często zastęp
 
 \subsection{System autoryzacji}
 
-Początkowa wersja opracowanego systemu opierała się na własnoręcznie zaimplementowanym mechanizmie autoryzacji w ramach dedykowanego mikroserwisu oraz bazy danych. Rozwiązanie to generowało szereg wyzwań. Zarządzanie cyklem życia tokenów JWT \cite{jwt_rfc}, w tym ich odświeżanie (ang. refresh tokens), było skomplikowane i podatne na błędy. Proces tworzenia i zarządzania użytkownikami oraz ich rolami wymagał implementacji dodatkowych endpointów REST API i interfejsów, co zwiększało nakład pracy. Mechanizmy bezpieczeństwa, takie jak ochrona przed atakami siłowymi (ang. brute force) czy zaawansowane polityki haseł, musiałyby być implementowane od podstaw.
+Początkowa wersja opracowanego systemu opierała się na własnoręcznie zaimplementowanym mechanizmie autoryzacji w ramach dedykowanego mikroserwisu oraz bazy danych. Rozwiązanie to generowało szereg wyzwań. Zarządzanie cyklem życia tokenów JWT \cite{jwt_rfc}, w tym ich odświeżanie (ang. \textit{refresh tokens}), było skomplikowane i podatne na błędy. Proces tworzenia i zarządzania użytkownikami oraz ich rolami wymagał implementacji dodatkowych endpointów REST API i interfejsów, co zwiększało nakład pracy. Mechanizmy bezpieczeństwa, takie jak ochrona przed atakami siłowymi (ang. \textit{brute force}) czy zaawansowane polityki haseł, musiałyby być implementowane od podstaw.
 
 Pierwotne rozwiązanie autoryzacji wymagało przechowywania danych użytkowników w bazie danych, następne mikroserwis UserService korzystał z wspomnianej bazy danych w celu tworzenia, logowania i aktualizacji danych użytkowników oraz zarządzania ich rolami. W celu generowania tokenów JWT \cite{jwt_rfc} używano biblioteki JJWT \cite{jjwt_docs}. W celu zarządzania cyklem życia tokenów JWT \cite{jwt_rfc}, w tym ich odświeżania, implementowano własny mechanizm. Problemem tutaj był jednak przymus implementacji mechanizmu bezpieczeństwa oraz wszystkich funkcjonalności, które serwer Keycloak ma wbudowane.
 
@@ -474,16 +474,16 @@ Pierwotnie stosowano ręczne zarządzanie manifestami YAML \cite{yaml_spec} klas
 
 \singlesizedimageforced{images/deployer-flow.png}{Proces wdrażania starej wersji aplikacji}{1.0}
 
-Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textit{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
+Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textit{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. \textit{charts}). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
 
 Wprowadzenie menedżera pakietów \textit{Helm} \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
 
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
+    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. \textit{charts}), a sam zarządza procesem osiągnięcia tego stanu,
     \item \textbf{reużywalność i parametryzacja} - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
-    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm \cite{helm_docs} ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
+    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm \cite{helm_docs} ułatwia procesy aktualizacji, wycofywania zmian (ang. \textit{rollback}) oraz usuwania aplikacji z klastra.
 \end{itemize}
 
 \subsection{Środowisko uruchomieniowe kontenerów}
