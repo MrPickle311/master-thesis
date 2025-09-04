@@ -3,7 +3,7 @@
 \addcontentsline{lof}{section}{Rozdział \ref{sec:projekt_systemu}}
 \addcontentsline{lol}{section}{Rozdział \ref{sec:projekt_systemu}}
 
-W niniejszym rozdziale przedstawiono projekt autorskiego systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach \mbox{Big Data}. Omówiono wymagania systemu, architekturę, model oraz przepływ informacji.
+W niniejszym rozdziale przedstawiono projekt autorskiego systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach \mbox{\textit{Big Data}}. Omówiono wymagania systemu, architekturę, model oraz przepływ informacji.
 
 \subsection{Wymagania systemu osadzonego na klastrze Kubernetes}
 \label{subsec:wymagania}
@@ -114,17 +114,17 @@ Dane generowane przez symulatory są formatowane jako wiadomości w formacie \te
 \label{subsubsec:warstwa_komunikacji}
 
 Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich dostarczanie do warstwy przetwarzania.
-W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego \mbox{Apache Kafka} \cite{kafka}.
+W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego \mbox{\textit{Apache Kafka}} \cite{kafka}.
 
 
-Broker \mbox{Apache Kafka} zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
+Broker \mbox{\textit{Apache Kafka}} zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
 
 \subsubsection{Warstwa przetwarzania}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{Spark Structured Streaming} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{SparkDataProcessor}, zrealizowana w języku \textit{Scala}. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \textit{MeanProcessor} (obliczanie średnich), \textit{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \textit{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \textit{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{\textit{Apache Spark}} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{\textit{Spark Structured Streaming}} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{SparkDataProcessor}, zrealizowana w języku \textit{Scala}. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \textit{MeanProcessor} (obliczanie średnich), \textit{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \textit{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \textit{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (\textit{watermarks}), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{Spark ML}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Silnik \mbox{\textit{Apache Spark}} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (\textit{watermarks}), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{\textit{Spark ML}}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \newpage
 
@@ -137,7 +137,7 @@ Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do
 
 \begin{itemize}
     \item \textbf{baza danych \textit{PostgreSQL}} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
-    \item \textbf{baza danych \textit{Elasticsearch}} - baza danych \mbox{NoSQL} (nierelacyjna)~\cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
+    \item \textbf{baza danych \textit{Elasticsearch}} - baza danych \mbox{\textit{NoSQL}} (nierelacyjna)~\cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
 \end{itemize}
 
 \subsubsection{Warstwa usług i interfejs API}
@@ -148,7 +148,7 @@ Warstwa usług i interfejs API (interfejs programowania aplikacji) odpowiada za 
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający interfejs API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący serwer Keycloak jako system zarządzania tożsamością,
-    \item \textbf{Front Service} - mikroserwis pełniący rolę \mbox{API Gateway} (bramy API)~\cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
+    \item \textbf{Front Service} - mikroserwis pełniący rolę \mbox{\textit{API Gateway}} (bramy API)~\cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 \singlesizedimageforced{images/home_api.png}{Interfejs API sekcji Home}{1.0}
@@ -197,7 +197,7 @@ Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzeni
 
 \vspace{0.3em}
 
-Dane te są serializowane przy użyciu formatu \mbox{Apache Avro} \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
+Dane te są serializowane przy użyciu formatu \mbox{\textit{Apache Avro}} \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
 
 \subsection{Model raportów w bazie Elasticsearch}
 \label{subsec:model_raportow}
@@ -359,7 +359,7 @@ W klastrze Kubernetes działa mikroserwis \textit{SQS-Kafka-Forwarder}, regularn
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \\ \textit{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark \mbox{(Spark Structured Streaming)} \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
+Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \\ \textit{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark \mbox{(\textit{Spark Structured Streaming})} \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
 
 \vspace{0.3em}
 
