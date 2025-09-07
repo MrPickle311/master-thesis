@@ -122,7 +122,7 @@ Broker \mbox{Apache Kafka} zapewnia trwałość danych, wysoką przepustowość 
 \subsubsection{Warstwa przetwarzania}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{Spark Structured Streaming} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{\mbox{SparkDataProcessor}}, zrealizowana w języku Scala. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: moduł \mbox{\textit{MeanProcessor}} (obliczanie średnich), moduł \textit{\mbox{EventProcessor}} (wykrywanie zdarzeń na podstawie progów) oraz moduł \textit{\mbox{EquipmentStateProcessor}} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \mbox{\textit{RandomForestClassifier}} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{Spark Structured Streaming} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{\mbox{SparkDataProcessor}}, zrealizowana w języku Scala. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: moduł \mbox{\textit{MeanProcessor}} (obliczanie średnich), moduł \textit{\mbox{EventProcessor}} (wykrywanie zdarzeń na podstawie progów) oraz moduł \textit{\mbox{EquipmentStateProcessor}} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \mbox{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
 Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{Spark ML}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
@@ -317,11 +317,11 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{
         \item \textit{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
-    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \textit{\mbox{EquipmentStateProcessor}} z użyciem modelu \textit{\mbox{RandomForestClassifier}}:
+    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \textit{\mbox{EquipmentStateProcessor}} z użyciem modelu \mbox{RandomForestClassifier}:
     \begin{itemize}
         \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych informacji z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
         \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
-        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \textit{\mbox{RandomForestClassifier}}).
+        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \mbox{RandomForestClassifier}).
     \end{itemize}
 \end{itemize}
 
@@ -368,7 +368,7 @@ Przetwarzanie obejmuje:
 \begin{itemize}
     \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \textit{\mbox{MeanProcessor}}),
     \item \textbf{wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \textit{\mbox{EventProcessor}}),
-    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych informacji z wielu sensorów, przy użyciu modelu \textit{\mbox{RandomForestClassifier}} (moduł \textit{\mbox{EquipmentStateProcessor}}),
+    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych informacji z wielu sensorów, przy użyciu modelu \mbox{RandomForestClassifier} (moduł \textit{\mbox{EquipmentStateProcessor}}),
     \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
