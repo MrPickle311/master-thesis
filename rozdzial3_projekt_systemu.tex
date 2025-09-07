@@ -92,7 +92,7 @@ Na podstawie analizy literatury \ref{sec:przeglad_literatury} oraz istniejących
 \subsection{Architektura systemu}
 \label{subsec:architektura}
 
-Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze \textit{Kubernetes} \cite{kubernetes_benefits}.
+Projektowany system opiera się na architekturze mikroserwisowej, wdrożonej na klastrze Kubernetes \cite{kubernetes_benefits}.
 Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunkach \ref{Architektura systemu do analizy danych w czasie rzeczywistym} oraz \ref{Architektura systemu do analizy danych w czasie rzeczywistym}.
 
 \singlesizedimageforced{images/architektura.png}{Uproszczona architektura systemu do analizy danych w czasie rzeczywistym}{1.0}
@@ -108,23 +108,23 @@ Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wst
 W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje \textit{AWS Lambda} (usługa obliczeń bezserwerowych firmy Amazon) \cite{aws_lambda_docs}.
 Generują one dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości w formacie \textit{JSON} (format wymiany danych) \cite{json_schema_org} i publikowane na tematy usługi \textit{SNS} (usługa powiadomień firmy Amazon) \cite{sns_docs}, a następnie przenoszone do kolejek usługi \textit{SQS} (usługa kolejkowania wiadomości firmy Amazon) \cite{sqs_docs}, stanowiących interfejs między \textit{AWS} a klastrem \textit{Kubernetes}.
+Dane generowane przez symulatory są formatowane jako wiadomości w formacie \textit{JSON} (format wymiany danych) \cite{json_schema_org} i publikowane na tematy usługi \textit{SNS} (usługa powiadomień firmy Amazon) \cite{sns_docs}, a następnie przenoszone do kolejek usługi \textit{SQS} (usługa kolejkowania wiadomości firmy Amazon) \cite{sqs_docs}, stanowiących interfejs między \textit{AWS} a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji}
 \label{subsubsec:warstwa_komunikacji}
 
 Warstwa komunikacji odpowiada za odbieranie danych z warstwy pozyskiwania i ich dostarczanie do warstwy przetwarzania.
-W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego \mbox{\textit{Apache Kafka}} \cite{kafka}.
+W projektowanym systemie warstwa ta opiera się na rozproszonej platformie do przetwarzania strumieniowego \mbox{Apache Kafka} \cite{kafka}.
 
 
-Broker \mbox{\textit{Apache Kafka}} zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
+Broker \mbox{Apache Kafka} zapewnia trwałość danych, wysoką przepustowość i skalowalność, co jest kluczowe w kontekście analizy danych w czasie rzeczywistym z wielu czujników.
 
 \subsubsection{Warstwa przetwarzania}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{\textit{Apache Spark}} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{\textit{Spark Structured Streaming}} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{SparkDataProcessor}, zrealizowana w języku \textit{Scala}. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \textit{MeanProcessor} (obliczanie średnich), \textit{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \textit{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \textit{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{\textit{Spark Structured Streaming}} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{SparkDataProcessor}, zrealizowana w języku \textit{Scala}. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \textit{MeanProcessor} (obliczanie średnich), \textit{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \textit{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \textit{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Silnik \mbox{\textit{Apache Spark}} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (\textit{watermarks}), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{\textit{Spark ML}}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (\textit{watermarks}), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{\textit{Spark ML}}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \newpage
 
@@ -197,7 +197,7 @@ Dane z czujników są modelowane jako strumienie zdarzeń, gdzie każde zdarzeni
 
 \vspace{0.3em}
 
-Dane te są serializowane przy użyciu formatu \mbox{\textit{Apache Avro}} \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
+Dane te są serializowane przy użyciu formatu \mbox{Apache Avro} \cite{avro_documentation}, co zapewnia efektywne kodowanie i dekodowanie wiadomości.
 
 \subsection{Model raportów w bazie Elasticsearch}
 \label{subsec:model_raportow}

@@ -38,7 +38,7 @@ Analiza danych strumieniowych, choć oferuje wiele korzyści, stawia przed proje
 
     \item \textbf{Odporność na awarie i niezawodność} - systemy analizy czasu rzeczywistego powinny działać nieprzerwanie, nawet w przypadku awarii poszczególnych komponentów. Wymagane są mechanizmy automatycznego odzyskiwania po awarii, replikacji danych i równoważenia obciążenia.
     
-    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów \textit{CEP} (ang. \mbox{Complex Event Processing}) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
+    \item \textbf{Przetwarzanie złożonych zdarzeń} - wykrywanie wzorców i korelacji w strumieniach danych wymaga zaawansowanych technik przetwarzania zdarzeń. Konieczne jest zastosowanie algorytmów CEP (ang. \mbox{Complex Event Processing}) \cite{luckham2002power} zdolnych do identyfikacji istotnych wzorców w czasie rzeczywistym.
     
     \item \textbf{Integracja z istniejącymi systemami} - nowe rozwiązania powinny współpracować z istniejącą infrastrukturą IT (ang. \mbox{Information Technology}) \cite{tanenbaum2011computer}. Wymaga to wykorzystania standardowych interfejsów i brokerów wiadomości.
     
@@ -85,12 +85,12 @@ Tradycyjne systemy wieloczujnikowe opierają się na architekturze trójwarstwow
 
 \vspace{0.3em}
 
-W nowoczesnych systemach warstwa komunikacji często wykorzystuje technologie IoT, takie jak: technologia \textit{MQTT} (protokół komunikacyjny dla urządzeń IoT) \cite{ietf_mqtt_v5}, \textit{AMQP} (protokół kolejkowania wiadomości) \cite{amqp_v1} czy \textit{OPC UA} (standard komunikacji przemysłowej) \cite{opc_ua_spec},
+W nowoczesnych systemach warstwa komunikacji często wykorzystuje technologie IoT, takie jak: technologia MQTT (protokół komunikacyjny dla urządzeń IoT) \cite{ietf_mqtt_v5}, AMQP (protokół kolejkowania wiadomości) \cite{amqp_v1} czy \mbox{OPC UA} (standard komunikacji przemysłowej) \cite{opc_ua_spec},
 a warstwa przetwarzania opiera się na mechanizmach przetwarzania strumieniowego, takich jak:
 
 \begin{itemize}
-    \item broker \mbox{\textit{Apache Kafka}} \cite{kafka},
-    \item platforma \mbox{\textit{Apache Flink}} (środowisko do obliczeń strumieniowych) \cite{flink}.
+    \item broker \mbox{Apache Kafka} \cite{kafka},
+    \item platforma \mbox{Apache Flink} (środowisko do obliczeń strumieniowych) \cite{flink}.
 \end{itemize}
 
 \subsection{Przedstawienie architektury mikroserwisowej}
@@ -129,7 +129,7 @@ Architektura mikroserwisowa stawia również pewne wyzwania, takie jak: \cite{mi
 \label{subsec:kubernetes}
 
 Kubernetes to otwarta platforma do orkiestracji kontenerów, automatyzująca wdrażanie, skalowanie i zarządzanie aplikacjami
-kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez \textit{Cloud Native Computing Foundation} \cite{cncf_website}.
+kontenerowymi \cite{kubernetes}. Powstała jako projekt Google, obecnie rozwijana przez \mbox{Cloud Native Computing Foundation} \cite{cncf_website}.
 
 \subsubsection{Podstawowe koncepcje platformy Kubernetes}
 \label{subsubsec:podstawy_kubernetes}
@@ -161,14 +161,14 @@ Platforma Kubernetes cechuje szereg zalet w kontekście rozproszonych systemów 
 \subsection{Narzędzia \mbox{Big Data} do przetwarzania strumieniowego}
 \label{subsec:narzedzia_big_data}
 
-W kontekście analizy danych strumieniowych szczególnie istotne są narzędzia \mbox{\textit{Big Data}} do przetwarzania strumieniowego \cite{spark_streaming}.
+W kontekście analizy danych strumieniowych szczególnie istotne są narzędzia \mbox{Big Data} do przetwarzania strumieniowego \cite{spark_streaming}.
 Poniżej omówiono kilka kluczowych technologii wykorzystywanych w tym obszarze.
 
 \subsubsection{Broker \mbox{Apache Kafka}}
 \label{subsubsec:apache_kafka}
 
-\mbox{\textit{Apache Kafka}} \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez \textit{LinkedIn} (portal społecznościowy), obecnie rozwijana jako projekt
-organizacji \\ \mbox{\textit{Apache Software Foundation}} (fundacja rozwijająca oprogramowanie open source). 
+\mbox{Apache Kafka} \cite{kafka} to rozproszona platforma do przetwarzania strumieniowego, opracowana przez \mbox{LinkedIn} (portal społecznościowy), obecnie rozwijana jako projekt
+organizacji \\ \mbox{Apache Software Foundation} (fundacja rozwijająca oprogramowanie open source). 
 
 \vspace{0.3em}
 
@@ -185,7 +185,7 @@ Broker Kafki oferuje następujące możliwości:
 \subsubsection{Biblioteka \mbox{Kafka Streams}}
 \label{subsubsec:kafka_streams}
 
-\mbox{\textit{Kafka Streams}} to biblioteka przetwarzania strumieniowego, zintegrowana z brokerem \\ \mbox{\textit{Apache Kafka}} \cite{kafka_streams}. 
+\mbox{Kafka Streams} to biblioteka przetwarzania strumieniowego, zintegrowana z brokerem \\ \mbox{Apache Kafka} \cite{kafka_streams}. 
 
 \vspace{0.3em}
 
@@ -202,7 +202,7 @@ Oferuje następujące możliwości:
 \subsubsection{Technologia \mbox{Apache Flink}}
 \label{subsubsec:apache_flink}
 
-\mbox{\textit{Apache Flink}} to framework i rozproszony silnik przetwarzania do obliczeń stanowych na nieograniczonych i ograniczonych strumieniach danych, oferujący możliwości podobne do biblioteki \mbox{\textit{Kafka Streams}},
+\mbox{Apache Flink} to framework i rozproszony silnik przetwarzania do obliczeń stanowych na nieograniczonych i ograniczonych strumieniach danych, oferujący możliwości podobne do biblioteki \mbox{Kafka Streams},
 ale jako oddzielna platforma \cite{flink}. 
 
 \vspace{0.3em}
@@ -220,7 +220,7 @@ Platforma Flink charakteryzuje się:
 \subsubsection{Moduł \mbox{Apache Spark Streaming}}
 \label{subsubsec:spark_streaming}
 
-\mbox{\textit{Apache Spark Streaming}} to moduł przetwarzania strumieniowego platformy \mbox{\textit{Apache Spark}} \cite{spark_streaming}.
+\mbox{Apache Spark Streaming} to moduł przetwarzania strumieniowego platformy \mbox{Apache Spark} \cite{spark_streaming}.
 Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakietach. 
 
 \vspace{0.3em}
@@ -228,7 +228,7 @@ Opiera się na modelu mikrowsadowym, gdzie dane są przetwarzane w małych pakie
 Moduł Spark Streaming oferuje:
 
 \begin{itemize}
-    \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego - ekosystem ten obejmuje m.in. \mbox{\textit{Spark SQL}} do przetwarzania danych strukturalnych \cite{chambers2018spark} oraz \mbox{\textit{Spark ML}} (\mbox{\textit{Machine Learning Library}}) do implementacji algorytmów uczenia maszynowego \cite{chambers2018spark},
+    \item \textbf{integrację z ekosystemem Spark} - możliwość wykorzystania bibliotek Spark do analizy danych i uczenia maszynowego - ekosystem ten obejmuje m.in. \mbox{Spark SQL} do przetwarzania danych strukturalnych \cite{chambers2018spark} oraz \mbox{Spark ML} (\mbox{Machine Learning Library}) do implementacji algorytmów uczenia maszynowego \cite{chambers2018spark},
     \item \textbf{wysoką przepustowość} - efektywne przetwarzanie dużych wolumenów danych,
     \item \textbf{odporność na awarie} - automatyczne odtwarzanie stanu po awarii,
     \item \textbf{łatwe skalowanie} - możliwość łatwego skalowania przetwarzania przez dodawanie węzłów.
@@ -237,13 +237,13 @@ Moduł Spark Streaming oferuje:
 \subsubsection{Platformy \mbox{Apache Avro} i \mbox{Confluent Schema Registry}}
 \label{subsubsec:avro_schema_registry}
 
-W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących platformę \mbox{\textit{Apache Kafka}}, kluczowe znaczenie ma efektywna ich serializacja oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
+W rozproszonych systemach przetwarzania danych, zwłaszcza tych wykorzystujących platformę \mbox{Apache Kafka}, kluczowe znaczenie ma efektywna ich serializacja oraz zarządzanie ich schematami. Pozwala to na minimalizację narzutu komunikacyjnego oraz zapewnienie spójności i kompatybilności danych między różnymi komponentami systemu.
 
-\textit{\mbox{\textit{Apache Avro}}} to format serializacji danych oparty na schematach, zapewniający kompaktową reprezentację binarną oraz bogate możliwości ewolucji schematów \cite{avro_documentation}. Dzięki temu możliwe jest modyfikowanie struktury danych bez zakłócania pracy istniejących producentów i konsumentów. Format \mbox{\textit{Apache Avro}} jest szczególnie popularne w ekosystemie \mbox{\textit{Apache Kafka}} ze względu na swoją wydajność i elastyczność.
+\mbox{Apache Avro} to format serializacji danych oparty na schematach, zapewniający kompaktową reprezentację binarną oraz bogate możliwości ewolucji schematów \cite{avro_documentation}. Dzięki temu możliwe jest modyfikowanie struktury danych bez zakłócania pracy istniejących producentów i konsumentów. Format \mbox{Apache Avro} jest szczególnie popularne w ekosystemie \mbox{Apache Kafka} ze względu na swoją wydajność i elastyczność.
 
-\textit{\mbox{\textit{Confluent Schema Registry}}} to usługa działająca jako centralne repozytorium schematów (m.in. Avro, \mbox{\textit{JSON Schema}} (standard schematów JSON) \cite{json_schema_spec}, \mbox{\textit{Protobuf}} (format serializacji protokołów) \cite{protobuf_docs}) \cite{confluent_schema_registry}. Integruje się z klientami Kafka, umożliwiając automatyczną rejestrację, walidację i pobieranie schematów podczas serializacji i deserializacji wiadomości. 
+\mbox{Confluent Schema Registry} to usługa działająca jako centralne repozytorium schematów (m.in. Avro, \mbox{JSON Schema} (standard schematów JSON) \cite{json_schema_spec}, \mbox{Protobuf} (format serializacji protokołów) \cite{protobuf_docs}) \cite{confluent_schema_registry}. Integruje się z klientami Kafka, umożliwiając automatyczną rejestrację, walidację i pobieranie schematów podczas serializacji i deserializacji wiadomości. 
 
-Usługa \mbox{\textit{Confluent Schema Registry}} pomaga w utrzymaniu jakości danych, zapobiega problemom związanym z niekompatybilnością schematów oraz ułatwia zarządzanie zmianami w strukturze danych w dynamicznie rozwijających się systemach. W ramach opisywanego projektu, usługa \mbox{\textit{Confluent Schema Registry}} zostało wykorzystane do zarządzania schematami Avro dla danych przesyłanych przez broker \mbox{\textit{Apache Kafka}}.
+Usługa \mbox{Confluent Schema Registry} pomaga w utrzymaniu jakości danych, zapobiega problemom związanym z niekompatybilnością schematów oraz ułatwia zarządzanie zmianami w strukturze danych w dynamicznie rozwijających się systemach. W ramach opisywanego projektu, usługa \mbox{Confluent Schema Registry} zostało wykorzystane do zarządzania schematami Avro dla danych przesyłanych przez broker \mbox{Apache Kafka}.
 
 \subsection{Istniejące narzędzia analizy danych i ich ograniczenia}
 \label{subsec:istniejace_rozwiazania}
@@ -281,8 +281,8 @@ urządzeń IoT \cite{cloud_iot}. Mimo to, mają pewne ograniczenia:
 \subsubsection{Rozwiązania open source do analizy danych strumieniowych}
 \label{subsubsec:open_source}
 
-Istnieje szereg rozwiązań otwarto-źródłowych (oprogramowanie o otwartym kodzie źródłowym) do analizy danych w czasie rzeczywistym, takich jak: rozwiązanie \mbox{\textit{Apache NiFi}} (narzędzie do przetwarzania danych) \cite{apache_nifi},
-rozwiązanie \mbox{\textit{Apache Druid}} (baza danych do analizy danych) \cite{apache_druid} czy baza danych \mbox{\textit{InfluxDB}} (specjalistyczna baza danych szeregów czasowych) \cite{influxdb}. Mimo ich zalet, mają również pewne ograniczenia:
+Istnieje szereg rozwiązań otwarto-źródłowych (oprogramowanie o otwartym kodzie źródłowym) do analizy danych w czasie rzeczywistym, takich jak: rozwiązanie \mbox{Apache NiFi} (narzędzie do przetwarzania danych) \cite{apache_nifi},
+rozwiązanie \mbox{Apache Druid} (baza danych do analizy danych) \cite{apache_druid} czy baza danych \mbox{InfluxDB} (specjalistyczna baza danych szeregów czasowych) \cite{influxdb}. Mimo ich zalet, mają również pewne ograniczenia:
 
 \begin{itemize}
     \item \textbf{złożoność wdrożenia} - konfiguracja i wdrożenie mogą być skomplikowane,
@@ -292,4 +292,4 @@ rozwiązanie \mbox{\textit{Apache Druid}} (baza danych do analizy danych) \cite{
 
 \vspace{0.3em}
 
-Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia uzasadniające potrzebę opracowania nowego, autorskiego systemu, opartego na architekturze mikroserwisowej, klastrze Kubernetes i narzędziach \mbox{\textit{Big Data}}.
+Podsumowując, istniejące rozwiązania do analizy danych z systemów wieloczujnikowych mają pewne ograniczenia uzasadniające potrzebę opracowania nowego, autorskiego systemu, opartego na architekturze mikroserwisowej, klastrze Kubernetes i narzędziach \mbox{Big Data}.
