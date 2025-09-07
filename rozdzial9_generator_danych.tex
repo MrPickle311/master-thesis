@@ -6,9 +6,9 @@
 
 \numberwithin{equation}{section}
 
-W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze \textit{AWS}. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze AWS. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
-Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze \textit{AWS} (\mbox{\textit{Amazon Web Services}}) z wykorzystaniem funkcji \mbox{\textit{AWS Lambda}} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
+Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
 Wartości symulowanych danych są generowane w oparciu o dostarczony wcześniej zbiór z prawdziwych urządzeń przemysłowych. Na tej podstawie w zaimplementowanym rozwiązaniu generowane są przebiegi czasowe dla każdego z czterech parametrów sensorycznych. Schemat przepływu danych w generatorze pokazany jest na rysunku \ref{Schemat przepływu danych w generatorze}.
 
@@ -406,9 +406,9 @@ Generator czyta wcześniej wygenerowane pliki CSV z usługi S3 i generuje dane w
 Generator danych składa się z trzech głównych komponentów chmury AWS:
 
 \begin{itemize}
-    \item \textbf{usługa \textit{Amazon S3}} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
-    \item \textbf{funkcja \mbox{\textit{AWS Lambda}}} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
-    \item \textbf{usługa \textit{Amazon SNS}} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
+    \item \textbf{usługa Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
+    \item \textbf{funkcja \mbox{AWS Lambda}} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
+    \item \textbf{usługa Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
 \end{itemize}
 
 \subsubsection{Przechowywanie danych w Amazon S3}
@@ -447,7 +447,7 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 \subsubsection{Funkcja AWS Lambda}
 \label{subsec:aws_lambda}
 
-Główna logika systemu jest zaimplementowana jako funkcja \textit{AWS Lambda} napisana w języku Python z wykorzystaniem bibliotek: \textit{boto3}, \textit{pandas} oraz pydantic \cite{pydantic_docs}. Generator wykorzystuje bibliotekę \textit{Pydantic} do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
+Główna logika systemu jest zaimplementowana jako funkcja \mbox{AWS Lambda} napisana w języku Python z wykorzystaniem bibliotek: \textit{boto3}, \textit{pandas} oraz pydantic \cite{pydantic_docs}. Generator wykorzystuje bibliotekę Pydantic do walidacji i serializacji danych, co zostało przedstawione na listingu \ref{lst:klasy_modeli_danych}.
 
 \begin{lstlisting}[language=Python, caption=Klasy modeli danych, label={lst:klasy_modeli_danych}]
 class SensorData(BaseModel):
@@ -462,7 +462,7 @@ class Pressure(SensorData):
     pressure: PressureData
 \end{lstlisting}
 
-\textit{Algorytm publikowania danych} - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
+Algorytm publikowania danych - funkcja AWS Lambda wykonuje następujący algorytm przy każdym wywołaniu. Funkcja implementuje algorytm wyszukiwania najbliższego czasowo rekordu, co zostało przedstawione na listingu \ref{lst:algorytm_wyszukiwania_rekordu}. 
 
 \vspace{0.3em}
 
