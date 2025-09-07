@@ -21,7 +21,7 @@ Interfejs \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarz
 
 \subsection{Autoryzacja po stronie back-endu}
 
-Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} w trybie Keycloak. System wykorzystuje mechanizm protokołu \mbox{OAuth2 Resource Server} do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
+Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} w trybie Keycloak. System wykorzystuje mechanizm protokołu \mbox{OAuth2 Resource Server} (standard autoryzacji w aplikacjach sieciowych) do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
 
 Ekstraktor uprawnień \textit{KeycloakGrantedAuthoritiesConverter} analizuje strukturę tokenu \mbox{JWT} w celu pobrania ról zarówno z poziomu grupy, jak i klienta. Umożliwia to precyzyjne mapowanie uprawnień serwera Keycloak na role używane wewnętrznie przez aplikację. Opracowany system rozpoznaje hierarchię uprawnień, gdzie role grupy mają wyższy priorytet niż role specyficzne dla klienta.
 
