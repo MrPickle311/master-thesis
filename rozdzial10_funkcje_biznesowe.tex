@@ -2,7 +2,7 @@
 \label{chap:prezentacja_wizualna}
 \addcontentsline{lof}{section}{Rozdział \ref{chap:prezentacja_wizualna}}
 
-Interfejs użytkownika (UI, ang. \mbox{User Interface}) opracowanego systemu analitycznego będącego przedmiotem niniejszej pracy został starannie zaprojektowany, w celu umożliwienia intuicyjnej i efektywnej pracy z danymi telemetrycznymi. Zbudowany w oparciu o nowoczesne technologie, takie jak: biblioteka \textit{React} oraz biblioteka komponentów \textit{Ant Design}, zapewnia responsywność i bogaty zestaw interakcji. Dostęp do opracowanego systemu jest zabezpieczony poprzez integrację z serwerem \textit{Keycloak}, co gwarantuje, że tylko autoryzowani użytkownicy z przypisanymi rolami \textit{DATA\_ACCESSOR} lub \textit{ADMIN} mogą korzystać z jego zasobów. Rola \textit{ADMIN} dodatkowo rozszerza uprawnienia o możliwość zarządzania kontami użytkowników, co typowo realizowane jest poprzez dedykowany panel administracyjny systemu \textit{Keycloak}, zapewniając centralne zarządzanie dostępem.
+Interfejs użytkownika (UI, ang. \mbox{User Interface}) opracowanego systemu analitycznego będącego przedmiotem niniejszej pracy został starannie zaprojektowany, w celu umożliwienia intuicyjnej i efektywnej pracy z danymi telemetrycznymi. Zbudowany w oparciu o nowoczesne technologie, takie jak: biblioteka React oraz biblioteka komponentów \mbox{Ant Design}, zapewnia responsywność i bogaty zestaw interakcji. Dostęp do opracowanego systemu jest zabezpieczony poprzez integrację z serwerem Keycloak, co gwarantuje, że tylko autoryzowani użytkownicy z przypisanymi rolami \textit{DATA\_ACCESSOR} lub ADMIN mogą korzystać z jego zasobów. Rola \textit{ADMIN} dodatkowo rozszerza uprawnienia o możliwość zarządzania kontami użytkowników, co typowo realizowane jest poprzez dedykowany panel administracyjny systemu Keycloak, zapewniając centralne zarządzanie dostępem.
 
 Celem stworzonej aplikacji jest dostarczenie użytkownikom narzędzi do monitorowania procesów w czasie rzeczywistym, analizy danych historycznych oraz generowania szczegółowych raportów, co przekłada się na lepsze zrozumienie działania systemu, szybsze wykrywanie anomalii i podejmowanie świadomych decyzji biznesowych.
 
@@ -13,7 +13,7 @@ Pulpit główny pokazany na rysunku \ref{Wygląd pulpitu głównego} stanowi spe
 \singlesizedimageforced{images/home.png}{Wygląd pulpitu głównego}{1.0}
 
 \subsubsection{Monitorowanie zdarzeń i alertów}
-Kluczowym elementem pulpitu jest sekcja \textit{Events and alerts}, agregująca i prezentuje zdarzenia systemowe w porządku chronologicznym. Mogą to być zarówno standardowe komunikaty operacyjne, jak i krytyczne alerty informujące o przekroczeniach zdefiniowanych progów dla wartości sensorów lub innych istotnych incydentach. Funkcjonalność ta ma kluczowe znaczenie dla utrzymania ciągłości operacyjnej:
+Kluczowym elementem pulpitu jest sekcja \textbf{Events and alerts}, agregująca i prezentuje zdarzenia systemowe w porządku chronologicznym. Mogą to być zarówno standardowe komunikaty operacyjne, jak i krytyczne alerty informujące o przekroczeniach zdefiniowanych progów dla wartości sensorów lub innych istotnych incydentach. Funkcjonalność ta ma kluczowe znaczenie dla utrzymania ciągłości operacyjnej:
 \vspace{0.3em}
 \begin{itemize}
     \item \textbf{szybka identyfikacja problemów} - możliwość filtrowania listy w celu wyświetlenia \textit{tylko alertów} pozwala operatorom na natychmiastowe skupienie uwagi na sytuacjach wymagających interwencji,
@@ -26,11 +26,11 @@ Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej 
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
 \vspace{0.3em}
 \begin{itemize}
-    \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. \textit{Temperatura - Przed Kotłem}) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
-    \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez bibliotekę \mbox{\textit{Apache Spark Streaming}} na podstawie konfiguracji w \textit{spark-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
+    \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. Temperatura - Przed Kotłem) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
+    \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez bibliotekę \mbox{Apache Spark Streaming} na podstawie konfiguracji w \textit{spark-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
 \end{itemize}
 \vspace{0.3em}
-\textit{Personalizacja widoku:} obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
+Personalizacja widoku: obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
 \vspace{0.3em}
 \begin{itemize}
     \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. temperatura, ciśnienie, przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. przed otłom, za sprężarką powrotną) dostępnej dla danego typu sensora,
@@ -40,7 +40,7 @@ Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operac
 Konfiguracja pulpitu jest zapisywana indywidualnie dla każdego użytkownika, pozwalając na dostosowanie interfejsu do jego specyficznych potrzeb i zakresu odpowiedzialności. Dodatkowo, w celu optymalizacji prezentacji, kafelki wyświetlające wartości mogą mieć dynamicznie dostosowywaną szerokość. Dla sensorów oznaczonych w konfiguracji systemowej jako \textit{wideSensors} – typowo tych, prezentujących wiele powiązanych wartości lub dłuższe opisy tekstowe – kafelek automatycznie zajmuje podwójną standardową szerokość. Zapewnia to lepszą czytelność i przejrzystość prezentowanych informacji, eliminując konieczność przycinania tekstu.
 
 \subsubsection{Wykresy danych}
-Sekcja \textit{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych. Przykładowe wykresy zebranych danych pokazane są na rysunku \ref{Przykładowe wykresy zebranych danych}.
+Sekcja \textbf{Realtime data charts} jest narzędziem do wizualizacji dynamiki zmian wartości sensorów. Wykresy liniowe aktualizują się w czasie zbliżonym do rzeczywistego, co pozwala na proaktywne monitorowanie i wczesne wykrywanie odchyleń od normalnych warunków operacyjnych. Przykładowe wykresy zebranych danych pokazane są na rysunku \ref{Przykładowe wykresy zebranych danych}.
 
 \vspace{0.3em}
 
@@ -57,7 +57,7 @@ Wykresy danych oferują na ekranie zbiorczym oferują następujące funkcje:
 \newpage
 
 \subsection{System raportowania}
-Sekcja \textit{Reports} umożliwia użytkownikom tworzenie, przeglądanie i zarządzanie raportami opartymi na danych historycznych.
+Sekcja \textbf{Reports} umożliwia użytkownikom tworzenie, przeglądanie i zarządzanie raportami opartymi na danych historycznych.
 
 \subsubsection{Definiowanie raportów}
 Użytkownik może zdefiniować nowy raport poprzez formularz, w którym określa:
