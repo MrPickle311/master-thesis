@@ -3,7 +3,7 @@
 
 Opracowany system, będący przedmiotem niniejszej pracy, jest wdrożony na dwuwęzłowym klastrze Kubernetes, składającym się z węzła głównego (master) oraz węzła roboczego (worker). Został on skonfigurowany w celu zapewnienia wysokiej dostępności, skalowalności oraz bezpieczeństwa. W niniejszym rozdziale przedstawiono kluczowe aspekty tej konfiguracji, koncentrując się na infrastrukturze technicznej, mechanizmach komunikacji oraz wykorzystanych narzędziach i wtyczkach.
 
-Wszystkie aplikacje oraz usługi systemowe zaimplementowane w ramach tego projektu są wdrażane w dedykowanej przestrzeni nazw (namespace) o nazwie \textit{factory}. Zarządzanie manifestami klastra Kubernetes oraz procesem wdrożenia poszczególnych komponentów jest zautomatyzowane przy użyciu narzędzia Helm. Wykorzystano wspólny, reużywalny szablon narzędzia Helm (common chart), zlokalizowany w repozytorium projektu, do standaryzacji definicji zasobów klastra Kubernetes. Ten wspólny chart dostarcza szablonów dla większości typów zasobów, w tym \mbox{Deployment}, \mbox{StatefulSet}, \mbox{Service}, \mbox{ConfigMap}, \mbox{Ingress}, \mbox{PersistentVolume},  \mbox{ServiceAccount}, \\ \mbox{PersistentVolumeClaim},  \mbox{Role}, \mbox{RoleBinding}, \mbox{ClusterRole},  \mbox{ClusterRoleBinding}, \mbox{Job} oraz \\ \mbox{HorizontalPodAutoscaler}, co znacząco upraszcza zarządzanie i zapewnia spójność konfiguracji w całym systemie.
+Wszystkie aplikacje oraz usługi systemowe zaimplementowane w ramach tego projektu są wdrażane w dedykowanej przestrzeni nazw (namespace) o nazwie \textit{factory}. Zarządzanie manifestami klastra Kubernetes oraz procesem wdrożenia poszczególnych komponentów jest zautomatyzowane przy użyciu narzędzia Helm. Wykorzystano wspólny, reużywalny szablon narzędzia Helm (common chart), zlokalizowany w repozytorium projektu, do standaryzacji definicji zasobów klastra Kubernetes. Ten wspólny chart dostarcza szablonów dla większości typów zasobów, w tym \mbox{Deployment}, \mbox{StatefulSet}, \mbox{Service}, \mbox{ConfigMap}, \mbox{Ingress}, \mbox{PersistentVolume},  \mbox{ServiceAccount}, \mbox{ClusterRole},  \mbox{Role}, \mbox{PersistentVolumeClaim},   \mbox{RoleBinding},   \mbox{ClusterRoleBinding}, \mbox{Job} oraz \mbox{HorizontalPodAutoscaler}, co znacząco upraszcza zarządzanie i zapewnia spójność konfiguracji w całym systemie.
 
 \subsection{Architektura sieciowa}
 
@@ -16,7 +16,7 @@ Komunikacja wewnętrzna między serwisami w klastrze odbywa się głównie za po
 \subsection{Zarządzanie konfiguracją aplikacji} 
 
 Konfiguracja poszczególnych aplikacji jest zarządzana za pomocą zasobów ConfigMap. Każda usługa (np. \textit{front-service}, \textit{data-service}, \textit{kafka-db-forwarder}) posiada dedykowany zasób \mbox{ConfigMap}, zawierający plik \textit{application.yaml} ze specyficznymi ustawieniami frameworka \mbox{Spring Boot}, takimi jak: adresy URL usług zależnych, konfiguracja połączeń z bazą danych, brokerem \mbox{Apache Kafka}, czy serwerem autoryzacyjnym Keycloak.
-\newpage
+
 Przykładem obiektu mapy konfiguracyjnej (ang. \mbox{ConfigMap}) \textit{front-service-config}, definiującego trasy dla bramy API (\mbox{Spring Cloud Gateway}), jest wskazanie na wewnętrzne usługi takie jak: \textit{data-service-svc} czy \textit{users-service-svc}. Podobnie, \textit{spark-data-processor-config} zawiera szczegółową konfigurację strumieni biblioteki \mbox{Apache Spark Streaming}, w tym definicje okien czasowych, tematów wejściowych i wyjściowych oraz progów dla generowania zdarzeń.
 
 \subsection{Bezpieczeństwo}
@@ -41,7 +41,7 @@ Kluczowe komponenty platformy danych to broker brokera Kafki, bazy danych Elasti
 
 \subsubsection{Broker Apache Kafka i serwer Schema Registry}
 Klaster Apache Kafka składa się z trzech brokerów oraz instancji Zookeeper. Każdy z nich jest wdrażany jako zasób StatefulSet i wykorzystuje wolumeny typu hostPath do przechowywania danych bezpośrednio na fizycznych węzłach klastra: Zookeeper na węźle master, a brokery Apache Kafka częściowo na węźle roboczym i masterze. Taka konfiguracja przypina konkretne instancje do fizycznych maszyn. Komunikacja z brokerami odbywa się poprzez dedykowane usługi \mbox{ClusterIP} (usługi headless dla komunikacji wewnętrznej i standardowe dla ruchu zewnętrznego poprzez kontroler Nginx Ingress z mapowaniem portów TCP).
-
+\newpage
 Usługa Confluent Schema Registry jest również wdrożona i połączona z serwerem Zookeeper oraz brokerami Kafki, umożliwiając zarządzanie schematami Avro. Dostęp do usługi Schema Registry jest zapewniony przez kontroler Ingress na adresie \textit{schema-registry.local}. Po uruchomieniu klastra Kafki, uruchamiane jest zadanie (Job) \textit{create-topics}, które automatycznie tworzy predefiniowaną listę tematów z odpowiednią liczbą partycji i współczynnikiem replikacji.
 
 \subsubsection{Elasticsearch}
@@ -61,8 +61,8 @@ Zdefiniowany jest zasób SparkApplication o nazwie \textit{spark-data-processor}
 Pozostałe usługi, takie jak: \textit{front-service} (brama API), \textit{cluster-ui} (interfejs użytkownika React), \textit{data-service}, \textit{users-service}, \textit{kafka-db-forwarder} oraz \textit{sqs-kafka-forwarder} są wdrażane jako standardowe Deploymenty klastra Kubernetes. Każda z nich posiada własną konfigurację (ConfigMap), usługę (Service) oraz, w przypadku usług front-endowych i bramy API, definicję Ingress.
 
 Usługa \textit{sqs-kafka-forwarder} jest skonfigurowana do integracji z rzeczywistymi kolejkami Amazon SQS i przekazywania wiadomości do odpowiednich tematów brokera Kafki. Konfiguracja zawiera klucze dostępowe chmury AWS, co potwierdza bezpośrednią integrację z infrastrukturą chmury AWS.
-
-Dodatkowym elementem jest zadanie (Job) \textit{add-keycloak-host} powiązane z \textit{front-service}. Zadanie to, po udanym wdrożeniu \textit{front-service}, modyfikuje plik \textit{/etc/hosts} w podach \\ \textit{front-service}, dodając wpis mapujący \textit{keycloak.local} na adres IP kontrolera Ingress. Jest to obejście problemów z rozwiązywaniem nazw DNS dla serwera Keycloak z poziomu tej usługi, zapewniając bezpośrednią komunikację po adresie IP kontrolera Ingress.
+\newpage
+Dodatkowym elementem jest zadanie (ang. Job) \textit{add-keycloak-host} powiązane z \textit{front-service}. Zadanie to, po udanym wdrożeniu \textit{front-service}, modyfikuje plik \textit{/etc/hosts} w podach \\ \textit{front-service}, dodając wpis mapujący \textit{keycloak.local} na adres IP kontrolera Ingress. Jest to obejście problemów z rozwiązywaniem nazw DNS dla serwera Keycloak z poziomu tej usługi, zapewniając bezpośrednią komunikację po adresie IP kontrolera Ingress.
 
 \subsection{Zarządzanie zasobami i sondy}
 \label{sub:zasoby_sondy}
