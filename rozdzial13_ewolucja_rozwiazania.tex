@@ -29,9 +29,9 @@ Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu 
 
 \subsection{Infrastruktura klastra}
 
-Pierwotnym założeniem było wdrożenie opracowanego systemu na zarządzanym przez \textit{AWS} \cite{aws_docs} klastrze Kubernetes \cite{kubernetes}, czyli usłudze \textit{EKS} (\mbox{\textit{Elastic Kubernetes Service}}) \cite{eks_docs}. Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami \textit{AWS} \cite{aws_docs}. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra \textit{EKS} \cite{eks_docs} generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
+Pierwotnym założeniem było wdrożenie opracowanego systemu na zarządzanym przez AWS \cite{aws_docs} klastrze Kubernetes \cite{kubernetes}, czyli usłudze EKS (\mbox{Elastic Kubernetes Service}) \cite{eks_docs}. Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS \cite{aws_docs}. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS \cite{eks_docs} generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
 
-Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych \textit{EC2} \\ (\mbox{\textit{Amazon Elastic Compute Cloud}} - usługa instancji wirtualnych) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż \textit{EKS} \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów \textit{AWS CloudFormation} \cite{cloudformation_docs} w celu zmniejszenia kosztów. \textit{AWS CloudFormation} \cite{cloudformation_docs} jest narzędziem \textit{AWS} \cite{aws_docs}, pozwalającym na deklaratywne definiowanie zasobów w postaci szablonów \textit{YAML} (format plików konfiguracyjnych) \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje \textit{EC2} \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na maszynach wirtualnych \textit{EC2} \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt \textit{AWS CloudFormation} \cite{cloudformation_docs} do wdrożenia klastra \textit{EKS} \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
+Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 \\ (\mbox{Amazon Elastic Compute Cloud} - usługa instancji wirtualnych) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż EKS \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów \mbox{AWS CloudFormation} \cite{cloudformation_docs} w celu zmniejszenia kosztów. \mbox{AWS CloudFormation} \cite{cloudformation_docs} jest narzędziem AWS \cite{aws_docs}, pozwalającym na deklaratywne definiowanie zasobów w postaci szablonów YAML (format plików konfiguracyjnych) \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje EC2 \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na maszynach wirtualnych EC2 \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt \mbox{AWS CloudFormation} \cite{cloudformation_docs} do wdrożenia klastra EKS \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
 
 \begin{lstlisting}[caption=Skrypt AWS CloudFormation do wdrożenia klastra EKS, label={lst:eks_cloudformation}]
 
@@ -138,22 +138,22 @@ W tabeli \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w za
 
 \vspace{0.3em}
 
-Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia \textit{Kubeadm} \cite{kubeadm_docs} na własnych maszynach. Pozwoliło to na:
+Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia Kubeadm (aplikacji tworzącej klastry Kubernetes na własnych maszynach) \cite{kubeadm_docs} na własnych maszynach. Pozwoliło to na:
 \begin{itemize}
-    \item \textbf{znaczącą redukcję kosztów} w porównaniu do \textit{EKS} \cite{eks_docs},
-    \item \textbf{uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na \textit{EC2} \cite{ec2_docs},
+    \item \textbf{znaczącą redukcję kosztów} w porównaniu do EKS \cite{eks_docs},
+    \item \textbf{uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na EC2 \cite{ec2_docs},
     \item \textbf{pełną kontrolę nad konfiguracją klastra} przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes \cite{kubernetes}.
 \end{itemize}
 
 \subsection{Przetwarzanie danych}
 
-W pierwszej implementacji autorskiego systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę \mbox{\textit{Kafka Streams}} \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem \mbox{Apache Kafka} \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
+W pierwszej implementacji autorskiego systemu do przetwarzania danych strumieniowych wykorzystano bibliotekę \mbox{Kafka Streams} \cite{kafka_streams}. Zaletą tego rozwiązania była ścisła integracja z ekosystemem \mbox{Apache Kafka} \cite{kafka} oraz niskie opóźnienia dzięki przetwarzaniu rekord po rekordzie. Jednak w trakcie rozwoju pojawiły się następujące ograniczenia:
 
 \vspace{0.3em}
 
 \begin{itemize}
     \item \textbf{czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu: kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania,
-    \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{\textit{Spark MLlib}} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{\textit{Kafka Streams}} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+    \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
 \vspace{0.3em}
@@ -251,7 +251,7 @@ W przykładzie \ref{lst:pressure_mean_stream_factory} przedstawiono przykładowy
 
 \end{lstlisting}
 
-Powyższy kod przedstawia klasę \textit{PressureMeanStreamFactory}, dziedziczącą po generycznej klasie \textit{MeanStreamFactory} i służącą do przetwarzania strumieni danych ciśnienia za pomocą biblioteki Kafka Streams. Klasa ta implementuje logikę rozdzielania strumienia wejściowego na podstrumienie według typów urządzeń (sprężarka, turbina, kompresor, itp.), a następnie agreguje dane w oknach czasowych, licząc średnie wartości ciśnienia dla każdej etykiety. Wyniki są następnie publikowane z podziałem na odpowiednie tematy wyjściowe.
+Powyższy kod przedstawia klasę \textit{PressureMeanStreamFactory}, dziedziczącą po generycznej klasie \textit{\mbox{MeanStreamFactory}} i służącą do przetwarzania strumieni danych ciśnienia za pomocą biblioteki Kafka Streams. Klasa ta implementuje logikę rozdzielania strumienia wejściowego na podstrumienie według typów urządzeń (sprężarka, turbina, kompresor, itp.), a następnie agreguje dane w oknach czasowych, licząc średnie wartości ciśnienia dla każdej etykiety. Wyniki są następnie publikowane z podziałem na odpowiednie tematy wyjściowe.
 
 \vspace{0.3em}
 
@@ -265,7 +265,7 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
 
 \newpage
 
-W rozważanym kodzie klas dziedziczących po klasie \textit{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \textit{MeanProcessor}.
+W rozważanym kodzie klas dziedziczących po klasie \textit{MeanStreamFactory} było kilka. Jego refaktoryzacja nie zwiększyła czytelności kodu, gdyż biblioteka Kafka Streams \cite{kafka_streams} operuje w większości na funkcjach anonimowych. Natomiast silnik Apache Spark oferuje bardziej czytelny i zrozumiały interfejs API, co pozwoliło na poprawę czytelności kodu. Na listingu \ref{lst:mean_processor_spark} przedstawiono przykładowy kod implementacji w klasie \textit{\mbox{MeanProcessor}}.
 
 \begin{lstlisting}[caption=Nowa implementacja przetwarzająca strumienie danych, label={lst:mean_processor_spark},language=Scala]
 
@@ -373,13 +373,13 @@ class MeanProcessor[T <: SensorReading : Encoder](
 
 Analizując powyższy kod można zauważyć, że obsługuje on wszystkie typy czujników w ten sam sposób, dzięki czemu nie trzeba tworzyć nowych klas dla każdego typu czujnika.
 
-Podjęto decyzję o przejściu na bibliotekę \textit{\mbox{\textit{Apache Spark Structured Streaming}}} \cite{spark_streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósł ona kluczowe korzyści:
+Podjęto decyzję o przejściu na bibliotekę {\mbox{Apache Spark Structured Streaming} \cite{spark_streaming}. Mimo że działa ona w modelu mikrowsadowym, wprowadzającym nieco większe opóźnienia, przyniósł ona kluczowe korzyści:
 
 \vspace{0.3em}
 
 \begin{itemize}
     \item \textbf{wyższy poziom abstrakcji} - deklaratywny interfejs API silnika \mbox{Apache Spark}, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
-    \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{\textit{Spark ML}} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu \textit{RandomForestClassifier} bezpośrednio do potoku przetwarzania strumieniowego,
+    \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
     \item \textbf{mechanizm checkpointów} - silnik \mbox{Apache Spark} pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
@@ -474,9 +474,9 @@ Pierwotnie stosowano ręczne zarządzanie manifestami YAML \cite{yaml_spec} klas
 
 \singlesizedimageforced{images/deployer-flow.png}{Proces wdrażania starej wersji aplikacji}{1.0}
 
-Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów \textit{Helm} \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. \mbox{charts}). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
+Rozwiązanie to jednak okazało się mało elastyczne, zaś aplikacja często się zawieszała. W celu poprawy stabilności użyto menedżera pakietów Helm \cite{helm_docs}, umożliwiającego deklaratywne definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. \mbox{charts}). Następnie wszystkie szablony osadzono w jednym repozytorium, co pozwoliło na automatyczne wdrażanie nowych wersji aplikacji za pomocą jednej komendy. Stan repozytorium odzwierciedlał stan klastra Kubernetes \cite{kubernetes}.
 
-Wprowadzenie menedżera pakietów \textit{Helm} \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
+Wprowadzenie menedżera pakietów Helm \cite{helm_docs} uprościło proces wdrożenia. Główne zalety to:
 
 \vspace{0.3em}
 
@@ -488,13 +488,13 @@ Wprowadzenie menedżera pakietów \textit{Helm} \cite{helm_docs} uprościło pro
 
 \subsection{Środowisko uruchomieniowe kontenerów}
 
-Początkowo klaster Kubernetes \cite{kubernetes} był oparty na środowisku kontenerowym \textit{Docker} \cite{docker_docs}. Jednakże, ze względu na zmiany w ekosystemie Kubernetes \cite{kubernetes}, podjęto decyzję o przejściu na środowisko kontenerowe \textit{Containerd} \cite{containerd_docs}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra Kubernetes \cite{kubernetes}. \textit{Containerd} \cite{containerd_docs}, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika \textit{Docker} \cite{docker_docs}, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
+Początkowo klaster Kubernetes \cite{kubernetes} był oparty na środowisku kontenerowym Docker \cite{docker_docs}. Jednakże, ze względu na zmiany w ekosystemie Kubernetes \cite{kubernetes}, podjęto decyzję o przejściu na środowisko kontenerowe Containerd \cite{containerd_docs}. Jest to zgodne z obecnymi standardami i rekomendacjami dla klastra Kubernetes \cite{kubernetes}. Containerd \cite{containerd_docs}, będący lżejszym i bardziej wyspecjalizowanym środowiskiem uruchomieniowym, oferuje lepszą wydajność i mniejszy narzut zasobów w porównaniu do pełnego silnika Docker \cite{docker_docs}, co jest kluczowe w kontekście efektywnego zarządzania zasobami klastra.
 
 \subsection{Architektura sieciowa}
 
-Stosowana na wcześniejszym etapie pracy konfiguracja sieciowa, oparta na usługach typu \textit{NodePort} \cite{nodeport_docs} i zewnętrznym balanserze \textit{AWS Application Load Balancer} (\textit{ALB}) \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze \textit{AWS} \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
+Stosowana na wcześniejszym etapie pracy konfiguracja sieciowa, oparta na usługach typu NodePort \cite{nodeport_docs} i zewnętrznym balanserze \mbox{AWS Application Load Balancer (ALB)} \cite{alb_docs}, była prosta w implementacji, ale miała istotne wady. Ruch musiał przechodzić przez dodatkową warstwę w chmurze AWS \cite{aws_docs}, co generowało duże opóźnienia. Co więcej, takie podejście utrudniało zarządzanie ruchem wewnątrz klastra i nie pozwalało na elastyczne wykorzystanie nazw DNS dla poszczególnych usług.
 
-Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \textit{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \textit{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu \textit{HTTP}/\textit{HTTPS}. Balanser \textit{MetalLB} \cite{metallb_docs} można zainstalować na klastrach Kubernetes \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
+Zmienono więc sposób dostępu do aplikacji na klastrze. Użyto balansera obciążenia ruchu sieciowego \mbox{MetalLB} \cite{metallb_docs} w trybie L2 do udostępniania zewnętrznych adresów IP w lokalnej sieci oraz kontroler \mbox{Nginx Ingress} \cite{nginx_ingress_docs} do zaawansowanego routingu ruchu \mbox{HTTP/HTTPS}. Balanser \mbox{MetalLB} \cite{metallb_docs} można zainstalować na klastrach Kubernetes \cite{kubernetes}, osadzonych na fizycznych maszynach. Dało to możliwość lokalnego rozwiązywania nazw DNS dla poszczególnych usług oraz sprawiło, że odpowiedź z klastra była szybsza.
 
 \newpage
 
@@ -505,7 +505,7 @@ Modyfikacja ta pozwoliła na:
 \begin{itemize}
     \item \textbf{wyeliminowanie zależności od zewnętrznego balansera chmurowego}, co skróciło opóźnienia,
     \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
-    \item \textbf{centralizację zarządzania certyfikatami \textit{TLS}} dzięki integracji kontrolera Ingress z narzędziem \textit{cert-manager} \cite{cert_manager_docs}.
+    \item \textbf{centralizację zarządzania certyfikatami TLS} dzięki integracji kontrolera Ingress z narzędziem \textit{cert-manager} \cite{cert_manager_docs}.
 \end{itemize}
 
 \subsection{Krytyczna analiza decyzji projektowych}
@@ -518,7 +518,7 @@ Wybór architektury mikroserwisowej zamiast tradycyjnej architektury monolityczn
 
 \subsubsection{Platforma orkiestracji}
 
-Wybór klastra Kubernetes jako platformy orkiestracji zamiast alternatywnych rozwiązań jak orkiestratów \textit{\mbox{Docker Swarm}} czy \textit{\mbox{Apache Mesos}} był uzasadniony jego dojrzałością ekosystemu, bogatą funkcjonalnością oraz dominującą pozycją na rynku \cite{kubernetes_benefits}. Klaster Kubernetes oferuje bardziej zaawansowane mechanizmy skalowania, zarządzania zasobami i bezpieczeństwa niż orkiestrator \textit{\mbox{Docker Swarm}}, choć wprowadza większą złożoność konfiguracyjną. Podobnie, wybór menedżera pakietów \textit{\mbox{Helm}} \cite{helm_docs} zamiast ręcznego zarządzania manifestami \textit{YAML} \cite{yaml_spec} znacząco uprościł proces wdrażania i zarządzania cyklem życia aplikacji, umożliwiając deklaratywne definiowanie pożądanego stanu systemu.
+Wybór klastra Kubernetes jako platformy orkiestracji zamiast alternatywnych rozwiązań jak orkiestratorów \mbox{Docker Swarm} czy \mbox{Apache Mesos} był uzasadniony jego dojrzałością ekosystemu, bogatą funkcjonalnością oraz dominującą pozycją na rynku \cite{kubernetes_benefits}. Klaster Kubernetes oferuje bardziej zaawansowane mechanizmy skalowania, zarządzania zasobami i bezpieczeństwa niż orkiestrator \mbox{Docker Swarm}, choć wprowadza większą złożoność konfiguracyjną. Podobnie, wybór menedżera pakietów \mbox{Helm} \cite{helm_docs} zamiast ręcznego zarządzania manifestami YAML \cite{yaml_spec} znacząco uprościł proces wdrażania i zarządzania cyklem życia aplikacji, umożliwiając deklaratywne definiowanie pożądanego stanu systemu.
 
 \subsubsection{Algorytmy uczenia maszynowego}
 
