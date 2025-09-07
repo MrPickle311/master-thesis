@@ -3,7 +3,7 @@
 \addcontentsline{lof}{section}{Rozdział \ref{sec:projekt_systemu}}
 \addcontentsline{lol}{section}{Rozdział \ref{sec:projekt_systemu}}
 
-W niniejszym rozdziale przedstawiono projekt autorskiego systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach \mbox{\textit{Big Data}}. Omówiono wymagania systemu, architekturę, model oraz przepływ informacji.
+W niniejszym rozdziale przedstawiono projekt autorskiego systemu do analizy danych w czasie rzeczywistym z systemów wieloczujnikowych, opartego na klastrze Kubernetes oraz narzędziach \mbox{Big Data}. Omówiono wymagania systemu, architekturę, model oraz przepływ informacji.
 
 \subsection{Wymagania systemu osadzonego na klastrze Kubernetes}
 \label{subsec:wymagania}
@@ -105,10 +105,10 @@ Architektura składa się z kilku kluczowych warstw, przedstawionych na rysunkac
 \label{subsubsec:warstwa_pozyskiwania}
 
 Warstwa pozyskiwania danych odpowiada za zbieranie danych z czujników i ich wstępne przetworzenie.
-W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje \textit{AWS Lambda} (usługa obliczeń bezserwerowych firmy Amazon) \cite{aws_lambda_docs}.
+W projektowanym systemie dane są generowane przez symulatory czujników implementowane jako funkcje \mbox{AWS Lambda} (usługa obliczeń bezserwerowych firmy Amazon) \cite{aws_lambda_docs}.
 Generują one dane symulujące odczyty z różnych typów czujników.
 
-Dane generowane przez symulatory są formatowane jako wiadomości w formacie \textit{JSON} (format wymiany danych) \cite{json_schema_org} i publikowane na tematy usługi \textit{SNS} (usługa powiadomień firmy Amazon) \cite{sns_docs}, a następnie przenoszone do kolejek usługi \textit{SQS} (usługa kolejkowania wiadomości firmy Amazon) \cite{sqs_docs}, stanowiących interfejs między \textit{AWS} a klastrem Kubernetes.
+Dane generowane przez symulatory są formatowane jako wiadomości w formacie JSON (format wymiany danych) \cite{json_schema_org} i publikowane na tematy usługi SNS (usługa powiadomień firmy Amazon) \cite{sns_docs}, a następnie przenoszone do kolejek usługi SQS (usługa kolejkowania wiadomości firmy Amazon) \cite{sqs_docs}, stanowiących interfejs między AWS a klastrem Kubernetes.
 
 \subsubsection{Warstwa komunikacji}
 \label{subsubsec:warstwa_komunikacji}
@@ -122,9 +122,9 @@ Broker \mbox{Apache Kafka} zapewnia trwałość danych, wysoką przepustowość 
 \subsubsection{Warstwa przetwarzania}
 \label{subsubsec:warstwa_przetwarzania}
 
-Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{\textit{Spark Structured Streaming}} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{SparkDataProcessor}, zrealizowana w języku \textit{Scala}. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: \textit{MeanProcessor} (obliczanie średnich), \textit{EventProcessor} (wykrywanie zdarzeń na podstawie progów) oraz \textit{EquipmentStateProcessor} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \textit{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
+Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{Spark Structured Streaming} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{\mbox{SparkDataProcessor}}, zrealizowana w języku Scala. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: moduł \mbox{\textit{MeanProcessor}} (obliczanie średnich), moduł \textit{\mbox{EventProcessor}} (wykrywanie zdarzeń na podstawie progów) oraz moduł \textit{\mbox{EquipmentStateProcessor}} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \mbox{\textit{RandomForestClassifier}} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (\textit{watermarks}), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{\textit{Spark ML}}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{Spark ML}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \newpage
 
@@ -136,8 +136,8 @@ Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wyko
 Warstwa składowania danych odpowiada za przechowywanie przetworzonych danych do dalszej analizy i wizualizacji. W ramach autorskiego systemu składa się ona z dwóch głównych komponentów:
 
 \begin{itemize}
-    \item \textbf{baza danych \textit{PostgreSQL}} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
-    \item \textbf{baza danych \textit{Elasticsearch}} - baza danych \mbox{\textit{NoSQL}} (nierelacyjna)~\cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych, szczególnie przydatna w kontekście wykrywania anomalii i analizy trendów.
+    \item \textbf{baza danych PostgreSQL} - relacyjna baza danych, przechowująca ustrukturyzowane dane, takie jak: odczyty czujników, metadane czy informacje o użytkownikach,
+    \item \textbf{baza danych Elasticsearch} - baza danych \mbox{NoSQL} (nierelacyjna)~\cite{nosql_definition}, umożliwiająca szybkie wyszukiwanie i analizę danych tekstowych.
 \end{itemize}
 
 \subsubsection{Warstwa usług i interfejs API}
@@ -148,7 +148,7 @@ Warstwa usług i interfejs API (interfejs programowania aplikacji) odpowiada za 
 \begin{itemize}
     \item \textbf{Data Service} - mikroserwis udostępniający interfejs API do dostępu do danych z czujników, umożliwiający tworzenie i pobieranie raportów,
     \item \textbf{Users Service} - mikroserwis zarządzający użytkownikami i uwierzytelnianiem, wykorzystujący serwer Keycloak jako system zarządzania tożsamością,
-    \item \textbf{Front Service} - mikroserwis pełniący rolę \mbox{\textit{API Gateway}} (bramy API)~\cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
+    \item \textbf{Front Service} - mikroserwis pełniący rolę \mbox{API Gateway} (bramy API)~\cite{api_gateway_definition}, wystawiający interfejs API innych mikroserwisów na zewnątrz klastra.
 \end{itemize}
 
 \singlesizedimageforced{images/home_api.png}{Interfejs API sekcji Home}{1.0}
@@ -292,11 +292,11 @@ Analizatory i normalizatory używane w modelu raportów zostały przedstawione n
 \subsubsection{Przetworzone dane}
 \label{subsubsec:przetworzone_dane}
 
-Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{SparkDataProcessor} i obejmują:
+Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{\mbox{SparkDataProcessor}} i obejmują:
 
 \begin{itemize}
     \setlength\itemsep{0.5em}
-    \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \textit{MeanProcessor} w zdefiniowanych oknach czasowych:
+    \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \textit{\mbox{MeanProcessor}} w zdefiniowanych oknach czasowych:
     \begin{itemize}
         \item \textit{sensor\_type} - typ sensora (np. "pressure", "temperature"),
         \item \textit{label} - etykieta urządzenia (np. "pump", "compressor"),
@@ -306,7 +306,7 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{
         \item \textit{count} - liczba pomiarów w oknie.
     \end{itemize}
     
-    \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \textit{EventProcessor} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
+    \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \textit{\mbox{EventProcessor}} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
         \item \textit{event\_id} - unikalny identyfikator zdarzenia,
         \item \textit{sensor\_type} - typ sensora, którego dotyczy zdarzenie,
@@ -317,17 +317,17 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{
         \item \textit{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
-    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \textit{EquipmentStateProcessor} z użyciem modelu \textit{RandomForestClassifier}:
+    \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \textit{\mbox{EquipmentStateProcessor}} z użyciem modelu \textit{\mbox{RandomForestClassifier}}:
     \begin{itemize}
         \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych informacji z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
         \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
-        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \textit{RandomForestClassifier}).
+        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \textit{\mbox{RandomForestClassifier}}).
     \end{itemize}
 \end{itemize}
 
 \vspace{0.3em}
 
-Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak: PostgreSQL lub Elasticsearch przez dedykowane serwisy (np. \textit{Kafka-DB-Forwarder}).
+Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak: PostgreSQL lub Elasticsearch przez dedykowane serwisy.
 
 \newpage
 
@@ -354,21 +354,21 @@ jednostka. Dane te są następnie publikowane na temat usługi SNS \cite{sns_doc
 
 Dane opublikowane na temacie usługi SNS są automatycznie dostarczane do kolejek kolejkowania SQS \cite{sqs_docs}, będących subskrybentami tematu. Kolejki SQS działają jako bufor między chmurą AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
-W klastrze Kubernetes działa mikroserwis \textit{SQS-Kafka-Forwarder}, regularnie odpytujący kolejki kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. \mbox{topics}) brokera Kafki, w zależności od typu czujnika i lokalizacji.
+W klastrze Kubernetes działa mikroserwis \textit{\mbox{SQS-Kafka-Forwarder}}, regularnie odpytujący kolejki kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. \mbox{topics}) brokera Kafki, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}
 
-Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \\ \textit{SparkDataProcessor}, wykorzystujący silnik analityczny Apache Spark \mbox{(\textit{Spark Structured Streaming})} \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
+Dane opublikowane na kanałach brokera Kafki są przetwarzane przez mikroserwis \\ \textit{\mbox{SparkDataProcessor}}, wykorzystujący silnik analityczny \mbox{Apache Spark} \mbox{(Spark Structured Streaming)} \cite{spark_streaming} do analizy danych w czasie rzeczywistym. 
 
 \vspace{0.3em}
 
 Przetwarzanie obejmuje:
 
 \begin{itemize}
-    \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \textit{MeanProcessor}),
-    \item \textbf{wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \textit{EventProcessor}),
-    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych informacji z wielu sensorów, przy użyciu modelu \textit{RandomForestClassifier} (moduł \textit{EquipmentStateProcessor}),
+    \item \textbf{obliczanie średnich wartości} dla poszczególnych typów sensorów w zdefiniowanych oknach czasowych (moduł \textit{\mbox{MeanProcessor}}),
+    \item \textbf{wykrywanie zdarzeń} na podstawie przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych (moduł \textit{\mbox{EventProcessor}}),
+    \item \textbf{predykcję ogólnego stanu technicznego} monitorowanego urządzenia na podstawie połączonych informacji z wielu sensorów, przy użyciu modelu \textit{\mbox{RandomForestClassifier}} (moduł \textit{\mbox{EquipmentStateProcessor}}),
     \item \textbf{wzbogacanie oryginalnych danych} sensorycznych o przewidzianą etykietę stanu.
 \end{itemize}
 
@@ -387,7 +387,7 @@ Zapisywanie danych do baz danych umożliwia ich późniejszą analizę, raportow
 \subsubsection{Udostępnianie danych przez interfejs API}
 \label{subsubsec:udostepnianie_danych}
 
-Zapisane dane są udostępniane przez mikroserwis Data-Service, eksponujący interfejs \textit{REST API} do tworzenia i pobierania raportów. 
+Zapisane dane są udostępniane przez mikroserwis \textit{\mbox{Data-Service}}, eksponujący interfejs REST API do tworzenia i pobierania raportów. 
 
 \vspace{0.3em}
 
