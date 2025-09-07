@@ -421,9 +421,9 @@ Generator wykorzystuje usługę \textbf{Amazon S3} jako centralne repozytorium d
 Dane są organizowane w następującej strukturze:
 
 \begin{itemize}
-    \item \textbf{prefiks danych}: \textit{prod\_data/},
-    \item \textbf{pliki CSV}: \textit{pump\_YYYYMMDD.csv}, \textit{compressor\_YYYYMMDD.csv},
-    \item \textbf{metadane}: \textit{prod\_data/historical\_metadata.json}.
+    \item \textbf{prefiks danych}: prod\_data/,
+    \item \textbf{pliki CSV}: pump\_YYYYMMDD.csv, compressor\_YYYYMMDD.csv,
+    \item \textbf{metadane}: prod\_data/historical\_metadata.json.
 \end{itemize}
 
 \vspace{0.3em}
@@ -497,10 +497,10 @@ Generator wykorzystuje system transportowania danych Amazon Simple Notification 
 Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
 
 \begin{itemize}
-    \item \textit{arn:aws:sns:eu-central-1:accountid:temperature-topic},
-    \item \textit{arn:aws:sns:eu-central-1:accountid:pressure-topic},
-    \item \textit{arn:aws:sns:eu-central-1:accountid:vibration-topic},
-    \item \textit{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
+    \item \textbf{arn:aws:sns:eu-central-1:accountid:temperature-topic},
+    \item \textbf{arn:aws:sns:eu-central-1:accountid:pressure-topic},
+    \item \textbf{arn:aws:sns:eu-central-1:accountid:vibration-topic},
+    \item \textbf{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
 
 \newpage

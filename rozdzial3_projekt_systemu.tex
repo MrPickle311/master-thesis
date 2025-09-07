@@ -202,7 +202,7 @@ Dane te są serializowane przy użyciu formatu \mbox{Apache Avro} \cite{avro_doc
 \subsection{Model raportów w bazie Elasticsearch}
 \label{subsec:model_raportow}
 
-Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \textit{lower\_case\_normalizer} oraz analizatora \textit{lower\_case\_analyzer}. Model raportów został przedstawiony na listingu \ref{lst:model_raportow}.
+Baza danych Elasticsearch jest używany do przechowywania i szybkiego wyszukiwania raportów. Używa on algorytmów przeszukiwwania pełnotekstowego, które umożliwiają szybkie wyszukiwanie raportów po różnych parametrach. Po wysłaniu przez interfejs API zapytania do DataService, serwis ten wysyła zapytanie do bazy danych Elasticsearch, które zwraca raporty spełniające kryteria wyszukiwania. Reporty są przechowywane w bazie danych Elasticsearch w formacie JSON i są w specjalny sposób zindeksowane tak, by dane dało się bardzo szybko wyszukać. Raporty oraz zapytania są normalizowane do małych liter za pomocą normalizatora \textit{\mbox{lower\_case\_normalizer}} oraz analizatora \textit{\mbox{lower\_case\_analyzer}}. Model raportów został przedstawiony na listingu \ref{lst:model_raportow}.
 
 \begin{lstlisting}[caption=Model raportów w bazie danych Elasticsearch, label={lst:model_raportow}]
     {
@@ -298,30 +298,30 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{
     \setlength\itemsep{0.5em}
     \item \textbf{Agregacje (Aggregations)} - średnie wartości oraz liczba odczytów dla poszczególnych typów sensorów, obliczane przez moduł \textit{\mbox{MeanProcessor}} w zdefiniowanych oknach czasowych:
     \begin{itemize}
-        \item \textit{sensor\_type} - typ sensora (np. "pressure", "temperature"),
-        \item \textit{label} - etykieta urządzenia (np. "pump", "compressor"),
-        \item \textit{window\_start} - początek okna czasowego,
-        \item \textit{window\_end} - koniec okna czasowego,
-        \item \textit{avg\_value} - średnia wartość pomiarów w oknie,
-        \item \textit{count} - liczba pomiarów w oknie.
+        \item \textbf{sensor\_type} - typ sensora (np. "pressure", "temperature"),
+        \item \textbf{label} - etykieta urządzenia (np. "pump", "compressor"),
+        \item \textbf{window\_start} - początek okna czasowego,
+        \item \textbf{window\_end} - koniec okna czasowego,
+        \item \textbf{avg\_value} - średnia wartość pomiarów w oknie,
+        \item \textbf{count} - liczba pomiarów w oknie.
     \end{itemize}
     
     \item \textbf{Zdarzenia (Events)} - wykryte przez moduł \textit{\mbox{EventProcessor}} przekroczenia zdefiniowanych progów ostrzegawczych i krytycznych dla danych sensorycznych:
     \begin{itemize}
-        \item \textit{event\_id} - unikalny identyfikator zdarzenia,
-        \item \textit{sensor\_type} - typ sensora, którego dotyczy zdarzenie,
-        \item \textit{label} - etykieta urządzenia,
-        \item \textit{timestamp} - czas wykrycia zdarzenia,
-        \item \textit{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia"),
-        \item \textit{status} - status alertu (np. "Ostrzeżenie", "Krytyczny"),
-        \item \textit{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
+        \item \textbf{event\_id} - unikalny identyfikator zdarzenia,
+        \item \textbf{sensor\_type} - typ sensora, którego dotyczy zdarzenie,
+        \item \textbf{label} - etykieta urządzenia,
+        \item \textbf{timestamp} - czas wykrycia zdarzenia,
+        \item \textbf{title} - tytuł zdarzenia (np. "Przekroczenie progu krytycznego dla ciśnienia"),
+        \item \textbf{status} - status alertu (np. "Ostrzeżenie", "Krytyczny"),
+        \item \textbf{actual\_value} - rzeczywista wartość, która spowodowała zdarzenie.
     \end{itemize}
     
     \item \textbf{Dane wzbogacone o predykcję stanu (Augmented Data with Predicted Status)} - oryginalne dane sensoryczne wzbogacone o sklasyfikowany stan urządzenia, generowane przez moduł \textit{\mbox{EquipmentStateProcessor}} z użyciem modelu \mbox{RandomForestClassifier}:
     \begin{itemize}
-        \item \textit{original\_sensor\_data} - pełny zestaw oryginalnych informacji z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
-        \item \textit{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
-        \item \textit{model\_type} - typ modelu użytego do predykcji (tutaj: \mbox{RandomForestClassifier}).
+        \item \textbf{original\_sensor\_data} - pełny zestaw oryginalnych informacji z sensora (np. ciśnienie, temperatura wraz ze znacznikiem czasu, typem urządzenia itp.),
+        \item \textbf{predicted\_status} - przewidziany stan urządzenia (np. "Stan normalny", "Wczesne zużycie", "Stan podkrytyczny", "Stan krytyczny", "Naprawa"),
+        \item \textbf{model\_type} - typ modelu użytego do predykcji (tutaj: \mbox{RandomForestClassifier}).
     \end{itemize}
 \end{itemize}
 

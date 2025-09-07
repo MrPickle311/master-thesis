@@ -17,7 +17,7 @@ Aplikacja front-endowa wykorzystuje bibliotekę \textit{keycloak-js} do integrac
 
 Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka Authorization wszystkich żądań HTTP (ang. \mbox{Hypertext Transfer Protocol}) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
 
-Interface \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem Keycloak, ułatwiając integrację z komentami biblioteki React.
+Interfejs \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem Keycloak, ułatwiając integrację z komentami biblioteki React.
 
 \subsection{Autoryzacja po stronie back-endu}
 

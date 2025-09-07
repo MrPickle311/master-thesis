@@ -24,7 +24,7 @@ Przykładem obiektu mapy konfiguracyjnej (ang. \mbox{ConfigMap}) \textit{front-s
 Bezpieczeństwo klastra jest wzmocnione przez przedstawione poniżej mechanizmy.
 
 \subsubsection{Zarządzanie certyfikatami TLS}
-Do automatycznego zarządzania certyfikatami TLS (ang. \mbox{Transport Layer Security}) w klastrze wykorzystywany jest \textit{cert-manager}, instalowany przy pomocy dostarczonych plików \textit{values.yaml}. Zdefiniowane zasoby Ingress dla usług takich jak: \textit{front-service}, \textit{cluster-ui} oraz \textit{keycloak} zawierają sekcje \textit{tls}, które wskazują na sekrety klastra Kubernetes (np. \textit{front-service-tls}, \textit{cluster-ui-tls}) przechowujące certyfikaty i klucze prywatne, zarządzane przez \textit{cert-manager}.
+Do automatycznego zarządzania certyfikatami TLS (ang. \mbox{Transport Layer Security}) w klastrze wykorzystywany jest \textit{cert-manager}, instalowany przy pomocy dostarczonych plików \textit{values.yaml}. Zdefiniowane zasoby Ingress dla usług takich jak: \textit{front-service}, \textit{cluster-ui} oraz serwera Keycloak zawierają sekcje \textit{tls}, które wskazują na sekrety klastra Kubernetes (np. \textit{front-service-tls}, \textit{cluster-ui-tls}) przechowujące certyfikaty i klucze prywatne, zarządzane przez \textit{cert-manager}.
 
 \subsubsection{Kontrola dostępu oparta na rolach (RBAC)}
 \label{subsubsec:RBAC}
@@ -40,7 +40,7 @@ Serwer Keycloak jest wdrożony jako centralny serwer uwierzytelniania i autoryza
 Kluczowe komponenty platformy danych to broker brokera Kafki, bazy danych Elasticsearch oraz PostgreSQL. Wszystkie te usługi wykorzystują mechanizmy przechowywania danych bezpośrednio na węzłach klastra.
 
 \subsubsection{Broker Apache Kafka i serwer Schema Registry}
-Klaster Apache Kafka składa się z trzech brokerów oraz instancji Zookeeper. Każdy z nich jest wdrażany jako zasób StatefulSet i wykorzystuje wolumeny typu hostPath do przechowywania danych bezpośrednio na fizycznych węzłach klastra: Zookeeper na węźle master, a brokery platformy Kafka częściowo na węźle roboczym i masterze. Taka konfiguracja przypina konkretne instancje do fizycznych maszyn. Komunikacja z brokerami odbywa się poprzez dedykowane usługi \textit{\mbox{ClusterIP}} (usługi headless dla komunikacji wewnętrznej i standardowe dla ruchu zewnętrznego poprzez kontroler Nginx Ingress z mapowaniem portów TCP).
+Klaster Apache Kafka składa się z trzech brokerów oraz instancji Zookeeper. Każdy z nich jest wdrażany jako zasób StatefulSet i wykorzystuje wolumeny typu hostPath do przechowywania danych bezpośrednio na fizycznych węzłach klastra: Zookeeper na węźle master, a brokery platformy Kafka częściowo na węźle roboczym i masterze. Taka konfiguracja przypina konkretne instancje do fizycznych maszyn. Komunikacja z brokerami odbywa się poprzez dedykowane usługi \mbox{ClusterIP} (usługi headless dla komunikacji wewnętrznej i standardowe dla ruchu zewnętrznego poprzez kontroler Nginx Ingress z mapowaniem portów TCP).
 
 Usługa Confluent Schema Registry jest również wdrożona i połączona z serwerem Zookeeper oraz brokerami Kafki, umożliwiając zarządzanie schematami Avro. Dostęp do usługi Schema Registry jest zapewniony przez kontroler Ingress na adresie \textit{schema-registry.local}. Po uruchomieniu klastra Kafki, uruchamiane jest zadanie (Job) \textit{create-topics}, które automatycznie tworzy predefiniowaną listę tematów z odpowiednią liczbą partycji i współczynnikiem replikacji.
 
@@ -66,6 +66,6 @@ Dodatkowym elementem jest zadanie (Job) \textit{add-keycloak-host} powiązane z 
 
 \subsection{Zarządzanie zasobami i sondy}
 \label{sub:zasoby_sondy}
-Wiele wdrożeń (Deployments) i StatefulSetów definiuje żądania (requests) i limity (limits) zasobów CPU i pamięci, co jest dobrą praktyką zapewniającą stabilność klastra. Przykładowo, \textit{front-service} ma zdefiniowane limity na 500m CPU i 512Mi pamięci, a \textit{keycloak} na 1000m CPU i 1Gi pamięci.
+Wiele wdrożeń (Deployments) i StatefulSetów definiuje żądania (requests) i limity (limits) zasobów CPU i pamięci, co jest dobrą praktyką zapewniającą stabilność klastra. Przykładowo, \textit{front-service} ma zdefiniowane limity na 500m CPU i 512Mi pamięci, a serwer Keycloak na 1000m CPU i 1Gi pamięci.
 
-Dodatkowo, dla kluczowych usług takich jak: \textit{front-service}, \textit{cluster-ui} oraz \textit{keycloak}, zdefiniowane są sondy żywotności (livenessProbe) i gotowości (readinessProbe). Sondy te pozwalają klastrowi Kubernetes na monitorowanie stanu aplikacji i automatyczne restartowanie kontenerów lub kierowanie ruchu tylko do zdrowych instancji.
+Dodatkowo, dla kluczowych usług takich jak: \textit{front-service}, \textit{cluster-ui} oraz serwer Keycloak, zdefiniowane są sondy żywotności (livenessProbe) i gotowości (readinessProbe). Sondy te pozwalają klastrowi Kubernetes na monitorowanie stanu aplikacji i automatyczne restartowanie kontenerów lub kierowanie ruchu tylko do zdrowych instancji.
