@@ -133,7 +133,7 @@ Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określon
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (ang. \mbox{Manufacturing Execution System}), ERP (ang. \mbox{Enterprise Resource Planning}). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. platforma Kafka) może ułatwić ten proces.
+    \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (ang. \mbox{Manufacturing Execution System}), ERP (ang. \mbox{Enterprise Resource Planning}). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. broker Kafka) może ułatwić ten proces.
     \item \textbf{Jakość, dostępność i heterogeniczność danych} - fundamentalnymi w tym względzie wyzwaniami są:  zapewnienie odpowiedniej jakości danych z czujników, ich kompletności oraz obsługa różnych formatów i protokołów komunikacyjnych. Konieczne może być wdrożenie procesów czyszczenia i transformacji danych.
     \item \textbf{Synchronizacja i kontekstualizacja danych} - celem zapewnienia poprawnej analizy dane z różnych źródeł powinny być odpowiednio zsynchronizowane czasowo i wzbogacone o kontekst (np. informacje o typie maszyny, trybie pracy).
     \item \textbf{Skalowalność i wydajność platformy} - rosnąca liczba czujników i wolumen danych wymagają skalowalnej infrastruktury. Zastosowanie technologii takich jak: klaster Kubernetes i silnik analityczny \mbox{Apache Spark} pozwala rozwiązać wcześnie wymienione wyzwania, ale wymaga odpowiedniej konfiguracji i zarządzania klastrem Kubernetes.

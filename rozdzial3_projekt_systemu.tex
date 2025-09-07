@@ -124,7 +124,7 @@ Broker \mbox{Apache Kafka} zapewnia trwałość danych, wysoką przepustowość 
 
 Warstwa przetwarzania odpowiada za analizę danych w czasie rzeczywistym. W projektowanym systemie opiera się ona na frameworku \mbox{Apache Spark} (środowisko do obliczeń rozproszonych) \cite{spark_streaming}, wykorzystując jego moduł \mbox{Spark Structured Streaming} do przetwarzania strumieni. Głównym komponentem tej warstwy jest aplikacja \textit{\mbox{SparkDataProcessor}}, zrealizowana w języku Scala. Zawiera ona logikę przetwarzania danych, podzieloną na wyspecjalizowane moduły takie jak: moduł \mbox{\textit{MeanProcessor}} (obliczanie średnich), moduł \textit{\mbox{EventProcessor}} (wykrywanie zdarzeń na podstawie progów) oraz moduł \textit{\mbox{EquipmentStateProcessor}} (predykcja stanu urządzenia przy użyciu modelu uczenia maszynowego \mbox{RandomForestClassifier} (algorytm klasyfikacji uczenia maszynowego)). Szczegółowy opis tych modułów oraz ich działania znajduje się w rozdziale \ref{sec:algorytmy_analizy}.
 
-Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (\mbox{Spark ML}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
+Silnik \mbox{Apache Spark} umożliwia przetwarzanie danych strumieniowych z wykorzystaniem zaawansowanych operacji, obsługę informacji opóźnionych (watermarks), zarządzanie stanem oraz integrację z bibliotekami uczenia maszynowego (biblioteka \mbox{Spark ML}), co jest kluczowe w kontekście kompleksowej analizy danych z systemów wieloczujnikowych.
 
 \newpage
 
@@ -327,7 +327,7 @@ Przetworzone dane są wynikiem analizy danych surowych przez aplikację \textit{
 
 \vspace{0.3em}
 
-Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy Kafka. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak: PostgreSQL lub Elasticsearch przez dedykowane serwisy.
+Wszystkie te informacje są serializowane do formatu Avro i publikowane na dedykowane tematy brokera Kafki. Następnie, wybrane wolumeny (np. zdarzenia, zagregowane dane do wizualizacji) mogą być zapisywane w bazach danych takich jak: PostgreSQL lub Elasticsearch przez dedykowane serwisy.
 
 \newpage
 

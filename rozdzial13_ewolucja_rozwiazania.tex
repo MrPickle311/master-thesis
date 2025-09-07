@@ -259,7 +259,7 @@ Kod przedstawiony na listingu \ref{lst:pressure_mean_stream_factory} jest jednak
 \begin{itemize}
     \item zagnieżdżenie wielu wywołań metod sprawia, że pojedyncze operacje są rozciągnięte na wiele poziomów, co utrudnia zrozumienie przepływu danych,
     \item logika agregacji i mapowania jest rozbudowana i zawiera powtarzające się fragmenty kodu, co zwiększa ryzyko popełnienia błędów i utrudnia wprowadzanie zmian,
-    \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania Kafka Streams \cite{kafka_streams},
+    \item użycie wielu anonimowych funkcji lambda oraz typów generycznych powoduje, że kod jest mało przejrzysty, szczególnie dla osób nieznających szczegółów działania biblioteki Kafka Streams \cite{kafka_streams},
     \item brak wyodrębnienia poszczególnych etapów przetwarzania do osobnych metod lub klas powoduje, że cała złożona logika znajduje się w jednym miejscu, co utrudnia testowanie i ponowne wykorzystanie kodu.
 \end{itemize}
 
