@@ -26,14 +26,14 @@ Informacje o zdarzeniach są dynamicznie pobierane z aplikacji przetwarzającej 
 Panel sterowania umożliwia ciągłe monitorowanie kluczowych parametrów operacyjnych poprzez wyświetlanie wartości z wybranych przez użytkownika sensorów. Prezentacja danych jest podzielona na dwie kategorie, każda dostarczająca innego rodzaju informacji:
 \vspace{0.3em}
 \begin{itemize}
-    \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. Temperatura - Przed Kotłem) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
+    \item \textbf{Current Sensor Values (bieżące wartości sensorów)} - sekcja prezentuje najnowsze, surowe odczyty bezpośrednio z sensorów. Użytkownik widzi etykietę identyfikującą konkretny punkt pomiarowy (np. temperatura przed Kotłem) oraz jego aktualną wartość wraz z odpowiednią jednostką miary (np. °C, hPa, \%, m/s). Jednostki te są dynamicznie pobierane z centralnej konfiguracji systemu, co zapewnia spójność prezentacji. Funkcja ta jest nieoceniona dla natychmiastowej oceny stanu poszczególnych komponentów systemu i umożliwia szybkie podjęcie decyzji w przypadku wykrycia nieoczekiwanych odchyleń.
     \item \textbf{Average Sensor Values (uśrednione wartości sensorów)} - w odróżnieniu od wartości bieżących, ta sekcja pokazuje uśrednione wartości dla wybranych sensorów z określonego, niedawnego przedziału czasu. Te wartości są prawdopodobnie wynikiem agregacji danych strumieniowych (np. realizowanej przez bibliotekę \mbox{Apache Spark Streaming} na podstawie konfiguracji w \textit{spark-data-processor-config}), co pozwala na wygładzenie chwilowych fluktuacji i obserwację bardziej stabilnych trendów. Jest to przydatne do oceny ogólnej wydajności i stabilności procesów w średnim okresie.
 \end{itemize}
 \vspace{0.3em}
 Personalizacja widoku: obie sekcje wyświetlające wartości sensorów są w pełni konfigurowalne. W trybie edycji, dostępnym z paska bocznego interfejsu, użytkownik może dynamicznie modyfikować swój pulpit:
 \vspace{0.3em}
 \begin{itemize}
-    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. temperatura, ciśnienie, przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. przed otłom, za sprężarką powrotną) dostępnej dla danego typu sensora,
+    \item dodawać nowe sensory do monitorowania poprzez wybór typu sensora (np. temperatura, ciśnienie, przepływ) z predefiniowanej listy, a następnie wybór konkretnej etykiety pomiarowej (np. przed kotłem, za sprężarką powrotną) dostępnej dla danego typu sensora,
     \item modyfikować lub usuwać istniejące kafelki z wartościami sensorów.
 \end{itemize}
 \vspace{0.3em}
