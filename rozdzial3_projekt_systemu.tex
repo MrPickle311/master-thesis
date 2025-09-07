@@ -354,7 +354,7 @@ jednostka. Dane te są następnie publikowane na temat usługi SNS \cite{sns_doc
 
 Dane opublikowane na temacie usługi SNS są automatycznie dostarczane do kolejek kolejkowania SQS \cite{sqs_docs}, będących subskrybentami tematu. Kolejki SQS działają jako bufor między chmurą AWS a klastrem Kubernetes, zapewniając niezawodne dostarczanie wiadomości, nawet w przypadku tymczasowej niedostępności klastra.
 
-W klastrze Kubernetes działa mikroserwis \textit{SQS-Kafka-Forwarder}, regularnie odpytujący kolejki kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. \textit{topics}) brokera Kafki, w zależności od typu czujnika i lokalizacji.
+W klastrze Kubernetes działa mikroserwis \textit{SQS-Kafka-Forwarder}, regularnie odpytujący kolejki kolejki SQS i pobierający nowe wiadomości. Wiadomości te są następnie deserializowane i publikowane na odpowiednie kanały (ang. \mbox{topics}) brokera Kafki, w zależności od typu czujnika i lokalizacji.
 
 \subsubsection{Przetwarzanie strumieni danych}
 \label{subsubsec:przetwarzanie_strumieni}

@@ -71,7 +71,7 @@ Dodatkowo obliczana jest macierz zmian korelacji:
 
 pokazująca, jak korelacje między parametrami zmieniają się podczas przejścia ze stanu normalnego do awaryjnego.
 
-    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA (ang. \textit{Principal Component Analysis}) \cite{jolliffe_pca} w celu:
+    \item \textbf{Analiza głównych składowych (PCA)} - wykonywana jest analiza PCA (ang. \mbox{Principal Component Analysis}) \cite{jolliffe_pca} w celu:
     
 \begin{itemize}
     \item identyfikacji najważniejszych czynników wpływających na stan urządzeń,
@@ -422,7 +422,7 @@ Dane są organizowane w następującej strukturze:
 
 \begin{itemize}
     \item \textbf{prefiks danych}: \textit{prod\_data/},
-    \item \textbf{pliki CSV}: \textit{pump\_YYYYMMDD.csv}, \textit{compressor\_YYYYMMDD.csv}, \\ \textit{turbine\_YYYYMMDD.csv},
+    \item \textbf{pliki CSV}: \textit{pump\_YYYYMMDD.csv}, \textit{compressor\_YYYYMMDD.csv},
     \item \textbf{metadane}: \textit{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
@@ -432,8 +432,7 @@ Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu
 
 \begin{lstlisting}[caption=Przykładowy plik metadanych, label={lst:plik_metadanych}]
 {
-  "start_timestamp": 1672531200,
-  "end_timestamp": 1675123199,
+  "start_timestamp": 1672531200, "end_timestamp": 1675123199,
   "minute_resolution": 1,
   "equipment_types": ["Pump", "Compressor"],
   "sensor_types": ["temperature", "pressure", "vibration", "humidity"],
