@@ -487,7 +487,7 @@ def _find_closest_record(self, df, target_time):
     return closest_record
 \end{lstlisting}
 
-\subsubsection{FunkcjaAmazon SNS dla publikowania danych}
+\subsubsection{Usługa Amazon SNS dla publikowania danych}
 \label{subsec:amazon_sns}
 
 Generator wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
