@@ -6,7 +6,7 @@
 
 \numberwithin{equation}{section}
 
-W celu przeprowadzenia kompleksowych testów opracowanego systemu analizy danych w czasie rzeczywistym, będącego przedmiotem tej pracy, opracowano dedykowany generator danych w chmurze AWS. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
+W celu przeprowadzenia komplesowej analizy danych (w tym testów) w czasie rzeczywistym dla systemu będącego przedmiotem niniejszej pracy, opracowano dedykowany generator danych w chmurze AWS. Symuluje on pracę rzeczywistych urządzeń przemysłowych, generując realistyczne dane sensoryczne z uwzględnieniem korelacji między parametrami oraz ewolucji stanów technicznych urządzeń.
 
 Zaimplementowany generator został zbudowany w oparciu o architekturę bezserwerową (serverless) w chmurze AWS (\mbox{Amazon Web Services}) z wykorzystaniem funkcji \mbox{AWS Lambda} (usługa obliczeń bezserwerowych). Produkuje on dane dla trzech typów urządzeń przemysłowych: pomp, sprężarek i turbin, symulując cztery rodzaje parametrów sensorycznych: temperaturę, ciśnienie, wibracje oraz wilgotność.
 
@@ -22,13 +22,13 @@ Proces przygotowania danych do generatora rozpoczyna się od analizy rzeczywiste
 
 Dane wejściowe składają się z następujących kolumn:
 \begin{itemize}
-    \item \textbf{temperature} - temperatura urządzenia w stopniach Celsjusza,
-    \item \textbf{pressure} - ciśnienie w barach,
-    \item \textbf{vibration} - poziom wibracji w jednostkach przyspieszenia,
-    \item \textbf{humidity} - wilgotność względna w procentach,
-    \item \textbf{equipment} - typ urządzenia (Pump, Compressor, Turbine),
-    \item \textbf{location} - lokalizacja fabryczna (Atlanta, Chicago, San Francisco, New York, Houston),
-    \item \textbf{faulty} - wskaźnik stanu awaryjnego (0.0 = normalny, 1.0 = awaryjny).
+    \item \textit{temperature} - temperatura urządzenia w stopniach Celsjusza,
+    \item \textit{pressure} - ciśnienie w barach,
+    \item \textit{vibration} - poziom wibracji w jednostkach przyspieszenia,
+    \item \textit{humidity} - wilgotność względna w procentach,
+    \item \textit{equipment} - typ urządzenia (\textit{Pump}, \textit{Compressor}, \textit{Turbine}),
+    \item \textit{location} - lokalizacja fabryczna (\textit{Atlanta}, \textit{Chicago}, \textit{San Francisco}, \textit{New York}, \textit{Houston}),
+    \item \textit{faulty} - wskaźnik stanu awaryjnego (0.0 = normalny, 1.0 = awaryjny).
 \end{itemize}
 
 \subsubsection{Proces analizy statystycznej}
@@ -204,7 +204,7 @@ gdzie:
 
 \subsubsection{Generowanie wartości z rozkładu wielowymiarowego}
 
-Skorelowane wartości sensoryczne są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva} :
+Skorelowane wartości czujników są generowane z wielowymiarowego rozkładu normalnego \cite{anderson_mva}:
 
 \begin{equation}
 \mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}_{mieszane}, \boldsymbol{\Sigma}),
@@ -311,11 +311,11 @@ Każdy stan techniczny charakteryzuje się losowym czasem trwania z zakresu $[t_
 \hline
 \textbf{Stan} & \textbf{Min. czas} & \textbf{Max. czas} & \textbf{Następny stan} \\
 \hline
-normalny & 24h & 7 dni & wczesne zużycie \\
-wczesne zużycie & 12h & 48h & podkrytyczny \\
-podkrytyczny & 6h & 24h & krytyczny \\
-krytyczny & 1h & 6h & naprawa \\
-naprawa & 2h & 4h & normalny \\
+\textit{normalny} & 24h & 7 dni & \textit{wczesne zużycie} \\
+\textit{wczesne zużycie} & 12h & 48h & \textit{podkrytyczny} \\
+\textit{podkrytyczny} & 6h & 24h & \textit{krytyczny} \\
+\textit{krytyczny} & 1h & 6h & \textit{naprawa} \\
+\textit{naprawa} & 2h & 4h & \textit{normalny} \\
 \hline
 \end{tabular}
 \caption{Parametry czasowe stanów urządzeń w symulatorze}
@@ -357,9 +357,9 @@ Każdy typ urządzenia inicjalizowany jest z deterministycznym stanem początkow
 
 \begin{equation}
 stan_{poczatkowy} = \begin{cases}
-\text{normalny} & \text{je\'sli } h(typ) \bmod 1.0 < 0.5 \\
-\text{wczesne zu\.{z}ycie} & \text{je\'sli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
-\text{podkrytyczny} & \text{w przeciwnym przypadku}
+\textit{normalny} & \text{je\'sli } h(typ) \bmod 1.0 < 0.5 \\
+\textit{wczesne zu\.{z}ycie} & \text{je\'sli } 0.5 \leq h(typ) \bmod 1.0 < 0.8 \\
+\textit{podkrytyczny} & \text{w przeciwnym przypadku}
 \end{cases},
 \end{equation}
 
@@ -367,7 +367,7 @@ gdzie:
 \begin{itemize}
     \item $stan_{poczatkowy}$ - początkowy stan urządzenia,
     \item $h(typ)$ - funkcja haszująca typu urządzenia,
-    \item $typ$ - typ urządzenia (pump, compressor, turbine),
+    \item $typ$ - typ urządzenia (\textit{pump}, \textit{compressor}, \textit{turbine}),
     \item $\bmod$ - operacja modulo.
 \end{itemize}
 
@@ -406,29 +406,29 @@ Generator czyta wcześniej wygenerowane pliki CSV z usługi S3 i generuje dane w
 Generator danych składa się z trzech głównych komponentów chmury AWS:
 
 \begin{itemize}
-    \item \textbf{usługa Amazon S3} - przechowywanie danych historycznych i metadanych konfiguracyjnych,
-    \item \textbf{funkcja \mbox{AWS Lambda}} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
-    \item \textbf{usługa Amazon SNS} - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
+    \item usługa Amazon S3 - przechowywanie danych historycznych i metadanych konfiguracyjnych,
+    \item funkcja \mbox{AWS Lambda} - funkcja wykonująca logikę publikowania danych w czasie rzeczywistym,
+    \item usługa Amazon SNS - tematy publikacyjno-subskrypcyjne dla każdego typu sensora.
 \end{itemize}
 
-\subsubsection{Przechowywanie danych w Amazon S3}
+\subsubsection{Przechowywanie danych z wykorzystaniem usługi Amazon S3}
 \label{subsec:amazon_s3}
 
 Generator wykorzystuje usługę \textbf{Amazon S3} jako centralne repozytorium dla danych historycznych wygenerowanych przez symulator lokalny.
 
-\subsubsection{Struktura danych w S3}
+\subsubsection{Struktura danych w usłudze Amazon S3}
 
 Dane są organizowane w następującej strukturze:
 
 \begin{itemize}
-    \item \textbf{prefiks danych}: prod\_data/,
-    \item \textbf{pliki CSV}: pump\_YYYYMMDD.csv, compressor\_YYYYMMDD.csv,
-    \item \textbf{metadane}: prod\_data/historical\_metadata.json.
+    \item prefiks danych: \textit{prod\_data/},
+    \item pliki CSV: \textit{pump\_YYYYMMDD.csv}, \textit{compressor\_YYYYMMDD.csv},
+    \item metadane: \textit{prod\_data/historical\_metadata.json}.
 \end{itemize}
 
 \vspace{0.3em}
 
-Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}:
+Poniższy plik reprezentuje format metadanych zawierający konfigurację systemu w formacie JSON, co zostało przedstawione na listingu \ref{lst:plik_metadanych}.
 
 \begin{lstlisting}[caption=Przykładowy plik metadanych, label={lst:plik_metadanych}]
 {
@@ -487,7 +487,7 @@ def _find_closest_record(self, df, target_time):
     return closest_record
 \end{lstlisting}
 
-\subsubsection{Amazon SNS dla publikowania danych}
+\subsubsection{FunkcjaAmazon SNS dla publikowania danych}
 \label{subsec:amazon_sns}
 
 Generator wykorzystuje system transportowania danych Amazon Simple Notification Service (SNS) do asynchronicznego publikowania danych sensorycznych w architekturze publish-subscribe. Każda wiadomość jest publikowana w formacie JSON zgodnym z modelem Pydantic.
@@ -497,10 +497,10 @@ Generator wykorzystuje system transportowania danych Amazon Simple Notification 
 Dla każdego typu sensora utworzony jest dedykowany temat w usłudze SNS:
 
 \begin{itemize}
-    \item \textbf{arn:aws:sns:eu-central-1:accountid:temperature-topic},
-    \item \textbf{arn:aws:sns:eu-central-1:accountid:pressure-topic},
-    \item \textbf{arn:aws:sns:eu-central-1:accountid:vibration-topic},
-    \item \textbf{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
+    \item \textit{arn:aws:sns:eu-central-1:accountid:temperature-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:pressure-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:vibration-topic},
+    \item \textit{arn:aws:sns:eu-central-1:accountid:humidity-topic}.
 \end{itemize}
 
 \newpage

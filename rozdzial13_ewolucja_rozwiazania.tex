@@ -18,9 +18,9 @@ Pierwotne rozwiązanie autoryzacji wymagało przechowywania danych użytkownikó
 
 W miarę rozwoju projektu podjęto decyzję o migracji na serwer Keycloak \cite{keycloak_docs}, co przyniosło następujące korzyści:
 \begin{itemize}
-    \item \textbf{standaryzacja i bezpieczeństwo} - serwer Keycloak \cite{keycloak_docs} dostarcza gotowe, przetestowane i zgodne ze standardami (np. OAuth 2.0 \cite{oauth2_rfc}) mechanizmy uwierzytelniania i autoryzacji, co znacząco podnosi poziom bezpieczeństwa systemu,
-    \item \textbf{centralizacja zarządzania tożsamością} - zarządzanie użytkownikami, rolami i uprawnieniami odbywa się w jednym, dedykowanym do tego panelu administracyjnym, co upraszcza administrację oraz ułatwia zarządzanie użytkownikami,
-    \item \textbf{elastyczność i skalowalność} - serwer Keycloak \cite{keycloak_docs} oferuje zaawansowane funkcje, takie jak: integracja z zewnętrznymi dostawcami tożsamości (np. LDAP \cite{ldap_rfc}, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
+    \item standaryzacja i bezpieczeństwo - serwer Keycloak \cite{keycloak_docs} dostarcza gotowe, przetestowane i zgodne ze standardami (np. OAuth 2.0 \cite{oauth2_rfc}) mechanizmy uwierzytelniania i autoryzacji, co znacząco podnosi poziom bezpieczeństwa systemu,
+    \item centralizacja zarządzania tożsamością - zarządzanie użytkownikami, rolami i uprawnieniami odbywa się w jednym, dedykowanym do tego panelu administracyjnym, co upraszcza administrację oraz ułatwia zarządzanie użytkownikami,
+    \item elastyczność i skalowalność - serwer Keycloak \cite{keycloak_docs} oferuje zaawansowane funkcje, takie jak: integracja z zewnętrznymi dostawcami tożsamości (np. LDAP \cite{ldap_rfc}, media społecznościowe), co otwiera system na przyszłe rozszerzenia.
 \end{itemize}
 
 \vspace{0.3em}
@@ -29,9 +29,9 @@ Koszt tej zmiany był relatywnie niski i sprowadzał się głównie do nakładu 
 
 \subsection{Infrastruktura klastra}
 
-Pierwotnym założeniem było wdrożenie opracowanego systemu na zarządzanym przez AWS \cite{aws_docs} klastrze Kubernetes \cite{kubernetes}, czyli usłudze EKS (\mbox{Elastic Kubernetes Service}) \cite{eks_docs}. Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS \cite{aws_docs}. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS \cite{eks_docs} generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
+Pierwotnym założeniem było wdrożenie opracowanego systemu na zarządzanym przez chmurę AWS \cite{aws_docs} klastrze Kubernetes \cite{kubernetes}, czyli usłudze EKS (\mbox{Elastic Kubernetes Service}) \cite{eks_docs}. Główne zalety tego podejścia to uproszczone zarządzanie oraz łatwa integracja z innymi usługami AWS \cite{aws_docs}. Jednakże, analiza kosztów wykazała, że utrzymanie nawet minimalnego klastra EKS \cite{eks_docs} generuje stałe, znaczące opłaty, co w przypadku projektu badawczo-rozwojowego było nieuzasadnione ekonomicznie.
 
-Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 \\ (\mbox{Amazon Elastic Compute Cloud} - usługa instancji wirtualnych) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż EKS \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów \mbox{AWS CloudFormation} \cite{cloudformation_docs} w celu zmniejszenia kosztów. \mbox{AWS CloudFormation} \cite{cloudformation_docs} jest narzędziem AWS \cite{aws_docs}, pozwalającym na deklaratywne definiowanie zasobów w postaci szablonów YAML (format plików konfiguracyjnych) \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje EC2 \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na maszynach wirtualnych EC2 \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt \mbox{AWS CloudFormation} \cite{cloudformation_docs} do wdrożenia klastra EKS \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
+Alternatywną próbą było ręczne postawienie klastra na maszynach wirtualnych EC2 \\ (\mbox{Amazon Elastic Compute Cloud} - usługa instancji wirtualnych) \cite{ec2_docs}. Podejście to, choć tańsze, wiązało się z ogromną złożonością konfiguracyjną, długim czasem wdrażania i choć jest tańsze niż EKS \cite{eks_docs}, to jednak i tak generowało zbyt wiele kosztów. W tym przypadku wymagane jest wdrażanie całego klastra oraz aplikacji za pomocą skryptów \mbox{AWS CloudFormation} \cite{cloudformation_docs} w celu zmniejszenia kosztów. Usługa \mbox{AWS CloudFormation} \cite{cloudformation_docs} jest narzędziem AWS \cite{aws_docs}, pozwalającym na deklaratywne definiowanie zasobów w postaci szablonów YAML (format plików konfiguracyjnych) \cite{yaml_spec}. Jako zasoby można rozumieć tutaj instancje EC2 \cite{ec2_docs}, sieci VPC, konfiguracje zapory ogniowej, itp. Proces ten jednak trwa długo i jednorazowo zajmuje około 10 minut wraz ze skryptami inicjalizującymi instancje oraz instalującymi wymagane aplikacje na systemach Linux. Rozwiązanie oparte na maszynach wirtualnych EC2 \cite{ec2_docs} wymagało nadzoru od strony administratora klastra w celu redukcji kosztów lub automatyzacji włączania i wyłączania maszyn wirtualnych w zależności od potrzeb. Jednak klaster by pełnić swoją rolę nie może mieć przerw operacyjnych. Na listingu \ref{lst:eks_cloudformation} przedstawiono przykładowy skrypt \mbox{AWS CloudFormation} \cite{cloudformation_docs} do wdrożenia klastra EKS \cite{eks_docs}. Oryginalny skrypt jest dużo bardziej skomplikowany, dlatego przedstawiono jego uproszczoną wersję.
 
 \begin{lstlisting}[caption=Skrypt AWS CloudFormation do wdrożenia klastra EKS, label={lst:eks_cloudformation}]
 
@@ -121,7 +121,7 @@ Resources:
 
 Rozwiązanie oparte na maszynach wirtualnych EC2 należało zmienić. Koszty oraz elastyczność wdrażania zmian w klastrze wymagały poprawy. Dlatego zakupiono dwa komputery serwerowe fizyczne i zainstalowano na nich klaster ręcznie. Krytyczna ocena tej decyzji wskazuje, że choć lokalna infrastruktura znacząco zredukowała koszty operacyjne, wprowadziła wyzwania związane z zarządzaniem sprzętem i ograniczoną elastycznością skalowania. W dłuższej perspektywie, rozwiązanie hybrydowe łączące lokalną infrastrukturę z chmurą mogłoby stanowić optymalny kompromis między kosztami a możliwościami skalowania.
 
-W tabeli \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w zależności od rozwiązania. Koszty wyrażone są i obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty dla zasobów AWS zostały obliczone za pomocą tej strony: \url{https://calculator.aws/}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla wdrożeń wielkoskalowych rozwiązania oparte na EC2/EKS mogą być niższe.
+W tabeli \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w zależności od rozwiązania. Koszty wyrażone są i obejmują tylko zasoby obliczeniowe, nie sieciowe. Koszty dla zasobów AWS zostały obliczone za pomocą tej strony: \textit{\url{https://calculator.aws/}}. Koszty związane z zasobami AWS są comiesięczne, a koszt zakupu infrastruktury lokalnej jest jednorazowy. Należy jednak zastrzec, że stosunki kosztów będą się różnić od skali wdrożenia i dla wdrożeń wielkoskalowych rozwiązania oparte na EC2/EKS mogą być niższe.
 
 \begin{table}[h]
     \centering
@@ -140,9 +140,9 @@ W tabeli \ref{tab:koszty_rozwiazan_wdrazenia} zostały przedstawione koszty w za
 
 Ostatecznie wybrano rozwiązanie lokalne – stworzenie klastra przy użyciu narzędzia Kubeadm (aplikacji tworzącej klastry Kubernetes na własnych maszynach) \cite{kubeadm_docs} na własnych maszynach. Pozwoliło to na:
 \begin{itemize}
-    \item \textbf{znaczącą redukcję kosztów} w porównaniu do EKS \cite{eks_docs},
-    \item \textbf{uproszczenie i automatyzację procesu tworzenia klastra} w porównaniu do w pełni manualnej konfiguracji na EC2 \cite{ec2_docs},
-    \item \textbf{pełną kontrolę nad konfiguracją klastra} przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes \cite{kubernetes}.
+    \item znaczącą redukcję kosztów w porównaniu do EKS \cite{eks_docs},
+    \item uproszczenie i automatyzację procesu tworzenia klastra w porównaniu do w pełni manualnej konfiguracji na EC2 \cite{ec2_docs},
+    \item pełną kontrolę nad konfiguracją klastra przy jednoczesnym zachowaniu zgodności ze standardami Kubernetes \cite{kubernetes}.
 \end{itemize}
 
 \subsection{Przetwarzanie danych}
@@ -152,8 +152,8 @@ W pierwszej implementacji autorskiego systemu do przetwarzania danych strumienio
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{czytelność kodu} - Implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu: kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania,
-    \item \textbf{integracja z uczeniem maszynowym} - Bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
+    \item czytelność kodu - implementacja bardziej złożonej logiki biznesowej, zwłaszcza operacji stanowych i łączenia wielu strumieni, prowadziła do skomplikowanego i trudnego w utrzymaniu kodu: kod zawierał dużą liczbę klas, trudnych do zrozumienia i utrzymania,
+    \item integracja z uczeniem maszynowym - bezpośrednia integracja modeli uczenia maszynowego (np. z biblioteki \mbox{Spark MLlib} \cite{spark_mllib_reference}) w ramach aplikacji \mbox{Kafka Streams} nie jest możliwa w bezpośredni sposób i wymagałaby implementacji dodatkowych warstw komunikacji.
 \end{itemize}
 
 \vspace{0.3em}
@@ -378,9 +378,9 @@ Podjęto decyzję o przejściu na bibliotekę \mbox{Apache Spark Structured Stre
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{wyższy poziom abstrakcji} - deklaratywny interfejs API silnika \mbox{Apache Spark}, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
-    \item \textbf{natywna integracja z ML} - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
-    \item \textbf{mechanizm checkpointów} - silnik \mbox{Apache Spark} pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
+    \item wyższy poziom abstrakcji - deklaratywny interfejs API silnika \mbox{Apache Spark}, podobny do SQL, znacząco uprościł implementację logiki przetwarzania danych i poprawił czytelność kodu,
+    \item natywna integracja z ML - silnik \mbox{Apache Spark} oferuje bogaty ekosystem, w tym bibliotekę \mbox{Spark ML} \cite{spark_streaming}, co umożliwiło bezproblemowe włączenie wytrenowanego modelu RandomForestClassifier bezpośrednio do potoku przetwarzania strumieniowego,
+    \item mechanizm checkpointów - silnik \mbox{Apache Spark} pozwala na zapisanie stanu przetwarzania do dysku, co pozwala na kontynuowanie pracy w przypadku awarii.
 \end{itemize}
 
 \subsection{Model bazy danych}
@@ -432,8 +432,8 @@ Podejście to, choć z początku wyglądające dość intuicyjnie, miało poważ
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{brak elastyczności} - dodanie nowego typu czujnika wymagało zmiany schematu bazy danych (dodania nowej tabeli) oraz modyfikacji kodu w serwisach aplikacyjnych,
-    \item \textbf{skomplikowane zapytania} - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) \cite{kleppmann2017designing} między wieloma tabelami, co było nieefektywne.
+    \item brak elastyczności - dodanie nowego typu czujnika wymagało zmiany schematu bazy danych (dodania nowej tabeli) oraz modyfikacji kodu w serwisach aplikacyjnych,
+    \item skomplikowane zapytania - analiza danych z wielu typów czujników jednocześnie wymagała skomplikowanych złączeń (operacji JOIN) \cite{kleppmann2017designing} między wieloma tabelami, co było nieefektywne.
 \end{itemize}
 
 \vspace{0.3em}
@@ -464,8 +464,8 @@ Nowy, zunifikowany model danych opiera się na jednej, centralnej tabeli \textit
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{elastyczność} - system może teraz obsługiwać dowolną liczbę typów czujników bez jakichkolwiek zmian w strukturze bazy danych,
-    \item \textbf{uproszczenie zapytań} - analiza danych sprowadza się do prostych zapytań zawartych w jednej tabeli z odpowiednim filtrowaniem i grupowaniem.
+    \item elastyczność - system może teraz obsługiwać dowolną liczbę typów czujników bez jakichkolwiek zmian w strukturze bazy danych,
+    \item uproszczenie zapytań - analiza danych sprowadza się do prostych zapytań zawartych w jednej tabeli z odpowiednim filtrowaniem i grupowaniem.
 \end{itemize}
 
 \subsection{Zarządzanie wdrożeniami}
@@ -481,9 +481,9 @@ Wprowadzenie menedżera pakietów Helm \cite{helm_docs} uprościło proces wdro�
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{deklaratywne zarządzanie} - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
-    \item \textbf{reużywalność i parametryzacja} - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
-    \item \textbf{zarządzanie cyklem życia aplikacji} - menedżer pakietów Helm \cite{helm_docs} ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
+    \item deklaratywne zarządzanie - menedżer pakietów Helm \cite{helm_docs} pozwala na definiowanie pożądanego stanu aplikacji w postaci szablonów (ang. charts), a sam zarządza procesem osiągnięcia tego stanu,
+    \item reużywalność i parametryzacja - stworzenie wspólnego, reużywalnego szablonu wdrożenia dla wszystkich mikroserwisów znacząco uprościło konfigurację i zapewniło spójność wdrożeń w całym systemie,
+    \item zarządzanie cyklem życia aplikacji - menedżer pakietów Helm \cite{helm_docs} ułatwia procesy aktualizacji, wycofywania zmian (ang. rollback) oraz usuwania aplikacji z klastra.
 \end{itemize}
 
 \subsection{Środowisko uruchomieniowe kontenerów}
@@ -503,9 +503,9 @@ Modyfikacja ta pozwoliła na:
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{wyeliminowanie zależności od zewnętrznego balansera chmurowego}, co skróciło opóźnienia,
-    \item \textbf{elastyczne zarządzanie routingiem} na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
-    \item \textbf{centralizację zarządzania certyfikatami TLS} dzięki integracji kontrolera Ingress z narzędziem \textit{cert-manager} \cite{cert_manager_docs}.
+    \item wyeliminowanie zależności od zewnętrznego balansera chmurowego, co skróciło opóźnienia,
+    \item elastyczne zarządzanie routingiem na podstawie nazw hostów (DNS), co umożliwiło łatwe udostępnianie wielu usług (np. front-service.local, keycloak.local) pod jednym adresem IP,
+    \item centralizację zarządzania certyfikatami TLS dzięki integracji kontrolera Ingress z narzędziem \textit{cert-manager} \cite{cert_manager_docs}.
 \end{itemize}
 
 \subsection{Krytyczna analiza decyzji projektowych}

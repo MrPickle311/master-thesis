@@ -20,11 +20,11 @@ W fabryce produkującej komponenty automotive opracowany system mógłby zostać
 Oprogramowanie może być wykorzystywane do takich zadań jak:
 
 \begin{itemize}
-    \item \textbf{monitorowanie stanu maszyn} - system zbiera dane z czujników zainstalowanych na kluczowych maszynach (np. prasy hydrauliczne, roboty spawalnicze, systemy transportu bliskiego),
+    \item monitorowanie stanu maszyn - system zbiera dane z czujników zainstalowanych na kluczowych maszynach (np. prasy hydrauliczne, roboty spawalnicze, systemy transportu bliskiego),
     analizując w czasie rzeczywistym parametry takie jak: temperatura, wibracje, ciśnienie i wilgotność, analogicznie do danych generowanych w systemie opisanym w rozdziale \ref{sec:implementacja_generowania},
-    \item \textbf{klasyfikacja stanu technicznego} - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. klasyfikator RandomForestClassifier, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), oprogramowanie przewiduje zmiany stanu technicznego maszyn,
+    \item klasyfikacja stanu technicznego - na podstawie historycznych danych oraz wzorców identyfikowanych przez modele uczenia maszynowego (np. klasyfikator RandomForestClassifier, jak opisano w rozdziale \ref{sec:algorytmy_analizy}), oprogramowanie przewiduje zmiany stanu technicznego maszyn,
     umożliwiając zaplanowanie konserwacji predykcyjnej i minimalizację nieplanowanych przestojów,
-    \item \textbf{kontrola jakości} - analiza danych z czujników w procesie produkcyjnym pozwala na wczesne wykrywanie odchyleń parametrów, mogących prowadzić do defektów
+    \item kontrola jakości - analiza danych z czujników w procesie produkcyjnym pozwala na wczesne wykrywanie odchyleń parametrów, mogących prowadzić do defektów
     produktów, system alarmuje operatorów, gdy parametry procesu zbliżają się do wartości krytycznych.
 \end{itemize}
 
@@ -38,9 +38,9 @@ W elektrowniach, zarówno konwencjonalnych, jak i wykorzystujących odnawialne �
 W tym przypadku oprogramowanie może być wykorzystywane do takich zadań jak:
 
 \begin{itemize}
-    \item \textbf{optymalizacja pracy urządzeń} - analiza danych z czujników (temperatura łożysk, wibracje, ciśnienie w układach hydraulicznych) pozwala na dynamiczne dostosowanie parametrów pracy urządzeń w celu maksymalizacji ich efektywności i żywotności,
-    \item \textbf{predykcja zapotrzebowania na konserwację} - na podstawie danych historycznych oraz prognoz stanu technicznego komponentów (np. z wykorzystaniem modeli uczenia maszynowego), system wspiera planowanie działań konserwacyjnych, minimalizując ryzyko awarii,
-    \item \textbf{wczesne wykrywanie usterek} - system monitoruje parametry pracy każdego kluczowego urządzenia, wykrywając nietypowe wzorce i anomalie wskazujące na rozwijające się usterki (np. zużycie łożysk w pompach czy problemy z uszczelnieniami w turbinach).
+    \item optymalizacja pracy urządzeń - analiza danych z czujników (temperatura łożysk, wibracje, ciśnienie w układach hydraulicznych) pozwala na dynamiczne dostosowanie parametrów pracy urządzeń w celu maksymalizacji ich efektywności i żywotności,
+    \item predykcja zapotrzebowania na konserwację - na podstawie danych historycznych oraz prognoz stanu technicznego komponentów (np. z wykorzystaniem modeli uczenia maszynowego), system wspiera planowanie działań konserwacyjnych, minimalizując ryzyko awarii,
+    \item wczesne wykrywanie usterek - system monitoruje parametry pracy każdego kluczowego urządzenia, wykrywając nietypowe wzorce i anomalie wskazujące na rozwijające się usterki (np. zużycie łożysk w pompach czy problemy z uszczelnieniami w turbinach).
 \end{itemize}
 
 \subsubsection{Przemysł spożywczy}
@@ -51,9 +51,9 @@ W zakładzie przetwórstwa spożywczego system może być wykorzystywany do:
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{monitorowania krytycznych urządzeń procesowych} - czujniki temperatury, ciśnienia i wibracji na pompach, mieszadłach, systemach transportujących surowce dostarczają danych do analizy, zapewniając stabilność procesów,
-    \item \textbf{kontroli parametrów procesów produkcyjnych} - w procesach takich jak: pasteryzacja, fermentacja czy homogenizacja system monitoruje parametry kluczowe dla jakości i bezpieczeństwa produktów, natychmiast alarmując o odchyleniach,
-    \item \textbf{optymalizacji zużycia mediów} - analiza korelacji między zużyciem energii, wody a parametrami pracy urządzeń (np. pomp, sprężarek w systemach chłodzenia) pozwala na identyfikację nieefektywności.
+    \item monitorowania krytycznych urządzeń procesowych - czujniki temperatury, ciśnienia i wibracji na pompach, mieszadłach, systemach transportujących surowce dostarczają danych do analizy, zapewniając stabilność procesów,
+    \item kontroli parametrów procesów produkcyjnych - w procesach takich jak: pasteryzacja, fermentacja czy homogenizacja system monitoruje parametry kluczowe dla jakości i bezpieczeństwa produktów, natychmiast alarmując o odchyleniach,
+    \item optymalizacji zużycia mediów - analiza korelacji między zużyciem energii, wody a parametrami pracy urządzeń (np. pomp, sprężarek w systemach chłodzenia) pozwala na identyfikację nieefektywności.
 \end{itemize}
 
 \subsection{Korzyści ekonomiczne i operacyjne}
@@ -69,10 +69,10 @@ Zaimplementowany system pozwala na szereg korzyści ekonomicznych, takich jak:
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{zmniejszenie liczby nieplanowanych przestojów} - wczesne wykrywanie symptomów potencjalnych awarii urządzeń (np. pomp, sprężarek, turbin) pozwala na zaplanowanie działań naprawczych przed wystąpieniem krytycznej usterki, co bezpośrednio przekłada się na zwiększenie dostępności i produktywności maszyn,
-    \item \textbf{optymalizacja procesów produkcyjnych} - analiza danych strumieniowych o parametrach pracy urządzeń i przebiegu procesów może pozwolić na identyfikację nieefektywności i obszarów do optymalizacji, prowadząc do oszczędności surowców i energii,
-    \item \textbf{wydłużenie żywotności urządzeń} - dzięki monitorowaniu stanu technicznego i wczesnemu reagowaniu na nieprawidłowości, możliwe jest zapobieganie poważniejszym uszkodzeniom, co może wydłużyć średni czas życia kluczowych aktywów produkcyjnych,
-    \item \textbf{poprawa jakości produktów} - stabilniejsze i lepiej kontrolowane procesy produkcyjne, wynikające z ciągłego monitoringu, mogą prowadzić do zmniejszenia liczby wadliwych produktów.
+    \item zmniejszenie liczby nieplanowanych przestojów - wczesne wykrywanie symptomów potencjalnych awarii urządzeń (np. pomp, sprężarek, turbin) pozwala na zaplanowanie działań naprawczych przed wystąpieniem krytycznej usterki, co bezpośrednio przekłada się na zwiększenie dostępności i produktywności maszyn,
+    \item optymalizacja procesów produkcyjnych - analiza danych strumieniowych o parametrach pracy urządzeń i przebiegu procesów może pozwolić na identyfikację nieefektywności i obszarów do optymalizacji, prowadząc do oszczędności surowców i energii,
+    \item wydłużenie żywotności urządzeń - dzięki monitorowaniu stanu technicznego i wczesnemu reagowaniu na nieprawidłowości, możliwe jest zapobieganie poważniejszym uszkodzeniom, co może wydłużyć średni czas życia kluczowych aktywów produkcyjnych,
+    \item poprawa jakości produktów - stabilniejsze i lepiej kontrolowane procesy produkcyjne, wynikające z ciągłego monitoringu, mogą prowadzić do zmniejszenia liczby wadliwych produktów.
 \end{itemize}
 
 \subsubsection{Korzyści operacyjne}
@@ -81,10 +81,10 @@ Zaimplementowany system pozwala na szereg korzyści ekonomicznych, takich jak:
 Wdrożenie systemu w przemyśle wymaga również rozwiązywania określonych wyzwań organizacyjnych, takich jak:
 
 \begin{itemize}
-    \item \textbf{zwiększenie świadomości sytuacyjnej} - system dostarcza szczegółowych informacji o stanie monitorowanych urządzeń i procesów w czasie rzeczywistym, co umożliwia operatorom i kadrze zarządzającej podejmowanie decyzji w oparciu o dane,
-    \item \textbf{wsparcie dla operatorów i personelu utrzymania ruchu} - automatyczne alarmy, diagnostyka i prognozy stanu technicznego odciążają personel, pozwalając skupić się na strategicznych zadaniach,
-    \item \textbf{automatyzacja detekcji problemów} - algorytmy analizy danych mogą automatycznie identyfikować anomalie i odchylenia od normy, mogące zostać przeoczone przez człowieka,
-    \item \textbf{wsparcie dla ciągłego doskonalenia} - zgromadzone dane i wyniki analiz stanowią cenną bazę wiedzy dla inicjatyw ciągłego doskonalenia procesów produkcyjnych i strategii utrzymania ruchu.
+    \item zwiększenie świadomości sytuacyjnej - system dostarcza szczegółowych informacji o stanie monitorowanych urządzeń i procesów w czasie rzeczywistym, co umożliwia operatorom i kadrze zarządzającej podejmowanie decyzji w oparciu o dane,
+    \item wsparcie dla operatorów i personelu utrzymania ruchu - automatyczne alarmy, diagnostyka i prognozy stanu technicznego odciążają personel, pozwalając skupić się na strategicznych zadaniach,
+    \item automatyzacja detekcji problemów - algorytmy analizy danych mogą automatycznie identyfikować anomalie i odchylenia od normy, mogące zostać przeoczone przez człowieka,
+    \item wsparcie dla ciągłego doskonalenia - zgromadzone dane i wyniki analiz stanowią cenną bazę wiedzy dla inicjatyw ciągłego doskonalenia procesów produkcyjnych i strategii utrzymania ruchu.
 \end{itemize}
 
 \subsection{Analiza ekonomiczna systemów}
@@ -93,16 +93,16 @@ Wdrożenie systemu w przemyśle wymaga również rozwiązywania określonych wyz
 \subsubsection{Struktura kosztów wdrożenia}
 \label{subsubsec:struktura_kosztow}
 
-Typowe koszty wdrożenia systemów jak ten opisany w niniejszej pracy mogą obejmować:
+Typowe koszty wdrożenia systemów jak ten opisany w niniejszej pracy obejmują głównie:
 
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{infrastrukturę sprzętową i programową} - serwery (w przypadku wdrożeń on-premise) lub koszty usług chmurowych (np. dla platformy Kubernetes, baz danych), czujniki, urządzenia brzegowe (edge devices),
-    \item \textbf{oprogramowanie} - licencje na komercyjne komponenty platformy,
-    \item \textbf{wdrożenie i konfigurację} - instalacja infrastruktury, konfiguracja oprogramowania (np. klastra Kubernetes, usług danych), integracja z istniejącymi systemami (np. SCADA, MES, ERP),
-    \item \textbf{rozwój i dostosowanie modeli analitycznych} - tworzenie i trenowanie modeli uczenia maszynowego, implementacja algorytmów detekcji anomalii, dostosowanie do specyficznych typów danych i urządzeń,
-    \item \textbf{szkolenia i wsparcie} - przygotowanie personelu do obsługi i wykorzystania systemu, wsparcie techniczne.
+    \item infrastrukturę sprzętową i programową - serwery (w przypadku wdrożeń on-premise) lub koszty usług chmurowych (np. dla platformy Kubernetes, baz danych), czujniki, urządzenia brzegowe (edge devices),
+    \item oprogramowanie - licencje na komercyjne komponenty platformy,
+    \item wdrożenie i konfigurację - instalacja infrastruktury, konfiguracja oprogramowania (np. klastra Kubernetes, usług danych), integracja z istniejącymi systemami (np. SCADA, MES, ERP),
+    \item rozwój i dostosowanie modeli analitycznych - tworzenie i trenowanie modeli uczenia maszynowego, implementacja algorytmów detekcji anomalii, dostosowanie do specyficznych typów danych i urządzeń,
+    \item szkolenia i wsparcie - przygotowanie personelu do obsługi i wykorzystania systemu, wsparcie techniczne.
 \end{itemize}
 
 \subsubsection{Czynniki wpływające na zwrot z inwestycji}
@@ -113,11 +113,11 @@ Potencjalny zwrot z inwestycji w systemy analizy danych przemysłowych jest zale
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{skala wdrożenia} - liczba monitorowanych maszyn, punktów pomiarowych i złożoność procesów,
-    \item \textbf{krytyczność monitorowanych aktywów} - im wyższe koszty przestojów lub awarii, tym większe potencjalne oszczędności,
-    \item \textbf{koszty operacyjne systemu} - utrzymanie infrastruktury, aktualizacja modeli, zarządzanie platformą,
-    \item \textbf{stopień integracji z procesami biznesowymi} - zdolność organizacji do wykorzystania informacji z systemu do podejmowania decyzji i modyfikacji działań operacyjnych,
-    \item \textbf{istniejący poziom dojrzałości cyfrowej} - firmy z już istniejącą infrastrukturą do zbierania danych mogą osiągnąć ROI (ang. \mbox{Return on Investment}) szybciej.
+    \item skala wdrożenia - liczba monitorowanych maszyn, punktów pomiarowych i złożoność procesów,
+    \item krytyczność monitorowanych aktywów - im wyższe koszty przestojów lub awarii, tym większe potencjalne oszczędności,
+    \item koszty operacyjne systemu - utrzymanie infrastruktury, aktualizacja modeli, zarządzanie platformą,
+    \item stopień integracji z procesami biznesowymi - zdolność organizacji do wykorzystania informacji z systemu do podejmowania decyzji i modyfikacji działań operacyjnych,
+    \item istniejący poziom dojrzałości cyfrowej - firmy z już istniejącą infrastrukturą do zbierania danych mogą osiągnąć ROI (ang. \mbox{Return on Investment}) szybciej.
 \end{itemize}
 
 \newpage
@@ -133,12 +133,12 @@ Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określon
 \vspace{0.3em}
 
 \begin{itemize}
-    \item \textbf{Integracja z istniejącymi systemami OT/IT} - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (\mbox{Manufacturing Execution System}), ERP (ang. \mbox{Enterprise Resource Planning}). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. broker Kafka) może ułatwić ten proces.
-    \item \textbf{Jakość, dostępność i heterogeniczność danych} - fundamentalnymi w tym względzie wyzwaniami są:  zapewnienie odpowiedniej jakości danych z czujników, ich kompletności oraz obsługa różnych formatów i protokołów komunikacyjnych. Konieczne może być wdrożenie procesów czyszczenia i transformacji danych.
-    \item \textbf{Synchronizacja i kontekstualizacja danych} - celem zapewnienia poprawnej analizy dane z różnych źródeł powinny być odpowiednio zsynchronizowane czasowo i wzbogacone o kontekst (np. informacje o typie maszyny, trybie pracy).
-    \item \textbf{Skalowalność i wydajność platformy} - rosnąca liczba czujników i wolumen danych wymagają skalowalnej infrastruktury. Zastosowanie technologii takich jak: klaster Kubernetes i silnik analityczny \mbox{Apache Spark} pozwala rozwiązać wcześnie wymienione wyzwania, ale wymaga odpowiedniej konfiguracji i zarządzania klastrem Kubernetes.
-    \item \textbf{Bezpieczeństwo systemów} - systemy Przemysłowego \mbox{Internetu Rzeczy} \\ (\mbox{IIoT} ang. \mbox{Industrial Internet of Things}) i analityki danych są potencjalnym celem ataków. Zabezpieczenie komunikacji, danych oraz dostępu do systemu (np. z wykorzystaniem serwera autoryzacji Keycloak) w takiej sytuacji staje się krytyczne.
-    \item \textbf{Rozwój i utrzymanie modeli ML} - modele uczenia maszynowego mogą wymagać regularnego retrenowania i walidacji, celem utrzymania w zmieniających się warunkach operacyjnych.
+    \item Integracja z istniejącymi systemami OT/IT - przedsiębiorstwa często posiadają złożone środowiska z systemami takimi jak: system SCADA, MES (\mbox{Manufacturing Execution System}), ERP (ang. \mbox{Enterprise Resource Planning}). Wykorzystanie platformy opartej na mikrousługach i kolejkach komunikatów (np. broker Kafka) może ułatwić ten proces.
+    \item Jakość, dostępność i heterogeniczność danych - fundamentalnymi w tym względzie wyzwaniami są:  zapewnienie odpowiedniej jakości danych z czujników, ich kompletności oraz obsługa różnych formatów i protokołów komunikacyjnych. Konieczne może być wdrożenie procesów czyszczenia i transformacji danych.
+    \item Synchronizacja i kontekstualizacja danych - celem zapewnienia poprawnej analizy dane z różnych źródeł powinny być odpowiednio zsynchronizowane czasowo i wzbogacone o kontekst (np. informacje o typie maszyny, trybie pracy).
+    \item Skalowalność i wydajność platformy - rosnąca liczba czujników i wolumen danych wymagają skalowalnej infrastruktury. Zastosowanie technologii takich jak: klaster Kubernetes i silnik analityczny \mbox{Apache Spark} pozwala rozwiązać wcześnie wymienione wyzwania, ale wymaga odpowiedniej konfiguracji i zarządzania klastrem Kubernetes.
+    \item Bezpieczeństwo systemów - systemy Przemysłowego \mbox{Internetu Rzeczy} \\ (\mbox{IIoT} ang. \mbox{Industrial Internet of Things}) i analityki danych są potencjalnym celem ataków. Zabezpieczenie komunikacji, danych oraz dostępu do systemu (np. z wykorzystaniem serwera autoryzacji Keycloak) w takiej sytuacji staje się krytyczne.
+    \item Rozwój i utrzymanie modeli ML - modele uczenia maszynowego mogą wymagać regularnego retrenowania i walidacji, celem utrzymania w zmieniających się warunkach operacyjnych.
 \end{itemize}
 
 \subsubsection{Wyzwania organizacyjne}
@@ -147,12 +147,12 @@ Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określon
 Wdrożenie oprogramowania w przemyśle wymaga również rozwiązywania określonych wyzwań organizacyjnych.
 
 \begin{itemize}
-    \item \textbf{Silosy organizacyjne} - efektywne wdrożenie i wykorzystanie systemu analitycznego często wymaga współpracy między działami IT, produkcji, utrzymania ruchu i zarządzania jakością.
-    \item \textbf{Kompetencje i umiejętności} - organizacje potrzebują pracowników z umiejętnościami w zakresie analizy danych, uczenia maszynowego oraz znajomością specyfiki procesów przemysłowych. Wskazany jest wówczas rozwój tych kompetencji lub pozyskanie specjalistów w tej dziedzinie.
-    \item \textbf{Opór przed zmianą} - wprowadzenie nowych technologii i podejść opartych na danych może napotkać opór ze strony pracowników przyzwyczajonych do tradycyjnych metod pracy. W takich okolicznościach istotne jest zarządzanie zmianą i komunikacja korzyści.
-    \item \textbf{Definiowanie jasnych przypadków użycia i mierzalnych celów} - sukces wdrożenia zależy od dobrze zdefiniowanych problemów, rozwiązywanych przez oprogramowanie oraz od możliwości zmierzenia jego wpływu na operacje będące w toku w danym obszarze działalności.
+    \item Silosy organizacyjne - efektywne wdrożenie i wykorzystanie systemu analitycznego często wymaga współpracy między działami IT, produkcji, utrzymania ruchu i zarządzania jakością.
+    \item Kompetencje i umiejętności - organizacje potrzebują pracowników z umiejętnościami w zakresie analizy danych, uczenia maszynowego oraz znajomością specyfiki procesów przemysłowych. Wskazany jest wówczas rozwój tych kompetencji lub pozyskanie specjalistów w tej dziedzinie.
+    \item Opór przed zmianą - wprowadzenie nowych technologii i podejść opartych na danych może napotkać opór ze strony pracowników przyzwyczajonych do tradycyjnych metod pracy. W takich okolicznościach istotne jest zarządzanie zmianą i komunikacja korzyści.
+    \item Definiowanie jasnych przypadków użycia i mierzalnych celów - sukces wdrożenia zależy od dobrze zdefiniowanych problemów, rozwiązywanych przez oprogramowanie oraz od możliwości zmierzenia jego wpływu na operacje będące w toku w danym obszarze działalności.
     \newpage
-    \item \textbf{Zarządzanie zmianą i adaptacja procesów} - wdrożenie systemu analitycznego to nie tylko kwestia technologii, ale również adaptacji istniejących procesów biznesowych i operacyjnych, celem pełnego wykorzystania potencjału płynącego z analizy danych.
+    \item Zarządzanie zmianą i adaptacja procesów - wdrożenie systemu analitycznego to nie tylko kwestia technologii, ale również adaptacji istniejących procesów biznesowych i operacyjnych, celem pełnego wykorzystania potencjału płynącego z analizy danych.
 \end{itemize}
 
 \subsection{Perspektywy rozwoju zastosowań praktycznych}
@@ -166,8 +166,8 @@ Dotychczasowe doświadczenia zdobyte podczas wdrażania oprogramowania, będące
 Zaprezentowane w pracy rozwiązanie nie jest pozbawione mankamentów. Jego zastosowanie w przemyśle wymaga dalszego udoskonalenia, w tym także dalszych badań i testów, w celu zapewnienia skuteczności i skalowalności w różnych środowiskach produkcyjnych. Dotyczy ono następujących aspektów:
 
 \begin{itemize}
-    \item \textbf{metodologia edge computing} - przetwarzanie danych bliżej źródła ich powstawania, co zmniejsza opóźnienia i obciążenie sieci, szczególnie istotne dla aplikacji wymagających bardzo szybkiej reakcji,
-    \item \textbf{zaawansowane algorytmy AI/ML} - rozwój i implementacja bardziej zaawansowanych technik, takich jak: głębokie uczenie (np. LSTM (ang. \mbox{Long Short-Term Memory}) do analizy szeregów czasowych), systemy uczące się w trybie online, czy bardziej zaawansowane metody detekcji anomalii,
-    \item \textbf{Digital Twin (Cyfrowy Bliźniak)} - integracja systemu analitycznego z cyfrowymi reprezentacjami fizycznych aktywów i procesów, umożliwiająca symulacje, testowanie scenariuszy "what-if" i optymalizację w środowisku wirtualnym,
-    \item \textbf{integracja z siecią 5G i rozszerzonym IoT} - wykorzystanie nowych standardów komunikacji do obsługi jeszcze większej liczby rozproszonych czujników i urządzeń mobilnych.
+    \item metodologia edge computing - przetwarzanie danych bliżej źródła ich powstawania, co zmniejsza opóźnienia i obciążenie sieci, szczególnie istotne dla aplikacji wymagających bardzo szybkiej reakcji,
+    \item zaawansowane algorytmy AI/ML - rozwój i implementacja bardziej zaawansowanych technik, takich jak: głębokie uczenie (np. LSTM (ang. \mbox{Long Short-Term Memory}) do analizy szeregów czasowych), systemy uczące się w trybie online, czy bardziej zaawansowane metody detekcji anomalii,
+    \item Digital Twin (Cyfrowy Bliźniak) - integracja systemu analitycznego z cyfrowymi reprezentacjami fizycznych aktywów i procesów, umożliwiająca symulacje, testowanie scenariuszy "what-if" i optymalizację w środowisku wirtualnym,
+    \item integracja z siecią 5G i rozszerzonym IoT - wykorzystanie nowych standardów komunikacji do obsługi jeszcze większej liczby rozproszonych czujników i urządzeń mobilnych.
 \end{itemize}

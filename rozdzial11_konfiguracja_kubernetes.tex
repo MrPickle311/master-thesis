@@ -1,9 +1,9 @@
 \section{Konfiguracja i orkiestracja klastra Kubernetes}
 \label{chap:konfiguracja_kubernetes}
 
-Opracowany system, będący przedmiotem niniejszej pracy, jest wdrożony na dwuwęzłowym klastrze Kubernetes, składającym się z węzła głównego (master) oraz węzła roboczego (worker). Został on skonfigurowany w celu zapewnienia wysokiej dostępności, skalowalności oraz bezpieczeństwa. W niniejszym rozdziale przedstawiono kluczowe aspekty tej konfiguracji, koncentrując się na infrastrukturze technicznej, mechanizmach komunikacji oraz wykorzystanych narzędziach i wtyczkach.
+Opracowany system, będący przedmiotem niniejszej pracy, jest wdrożony na dwuwęzłowym klastrze Kubernetes, składającym się z węzła głównego (ang. \mbox{master}) oraz węzła roboczego (ang. \mbox{worker}). Został on skonfigurowany w celu zapewnienia wysokiej dostępności, skalowalności oraz bezpieczeństwa. W niniejszym rozdziale przedstawiono kluczowe aspekty tej konfiguracji, koncentrując się na infrastrukturze technicznej, mechanizmach komunikacji oraz wykorzystanych narzędziach i wtyczkach.
 
-Wszystkie aplikacje oraz usługi systemowe zaimplementowane w ramach tego projektu są wdrażane w dedykowanej przestrzeni nazw (namespace) o nazwie \textit{factory}. Zarządzanie manifestami klastra Kubernetes oraz procesem wdrożenia poszczególnych komponentów jest zautomatyzowane przy użyciu narzędzia Helm. Wykorzystano wspólny, reużywalny szablon narzędzia Helm (common chart), zlokalizowany w repozytorium projektu, do standaryzacji definicji zasobów klastra Kubernetes. Ten wspólny chart dostarcza szablonów dla większości typów zasobów, w tym \mbox{Deployment}, \mbox{StatefulSet}, \mbox{Service}, \mbox{ConfigMap}, \mbox{Ingress}, \mbox{PersistentVolume},  \mbox{ServiceAccount}, \mbox{ClusterRole},  \mbox{Role}, \mbox{PersistentVolumeClaim},   \mbox{RoleBinding},   \mbox{ClusterRoleBinding}, \mbox{Job} oraz \mbox{HorizontalPodAutoscaler}, co znacząco upraszcza zarządzanie i zapewnia spójność konfiguracji w całym systemie.
+Wszystkie aplikacje oraz usługi systemowe zaimplementowane w ramach tego projektu są wdrażane w dedykowanej przestrzeni nazw (ang. \mbox{namespace}) o nazwie \textit{factory}. Zarządzanie manifestami klastra Kubernetes oraz procesem wdrożenia poszczególnych komponentów jest zautomatyzowane przy użyciu narzędzia Helm. Wykorzystano wspólny, reużywalny szablon narzędzia Helm (ang. \mbox{common chart}), zlokalizowany w repozytorium projektu, do standaryzacji definicji zasobów klastra Kubernetes. Ten wspólny chart dostarcza szablonów dla większości typów zasobów, w tym \mbox{Deployment}, \mbox{StatefulSet}, \mbox{Service}, \mbox{ConfigMap}, \mbox{Ingress}, \mbox{PersistentVolume},  \mbox{ServiceAccount}, \mbox{ClusterRole},  \mbox{Role}, \mbox{PersistentVolumeClaim},   \mbox{RoleBinding},   \mbox{ClusterRoleBinding}, \mbox{Job} oraz \mbox{HorizontalPodAutoscaler}, co znacząco upraszcza zarządzanie i zapewnia spójność konfiguracji w całym systemie.
 
 \subsection{Architektura sieciowa}
 
@@ -44,15 +44,15 @@ Klaster Apache Kafka składa się z trzech brokerów oraz instancji Zookeeper. K
 \newpage
 Usługa Confluent Schema Registry jest również wdrożona i połączona z serwerem Zookeeper oraz brokerami Kafki, umożliwiając zarządzanie schematami Avro. Dostęp do usługi Schema Registry jest zapewniony przez kontroler Ingress na adresie \textit{schema-registry.local}. Po uruchomieniu klastra Kafki, uruchamiane jest zadanie (Job) \textit{create-topics}, które automatycznie tworzy predefiniowaną listę tematów z odpowiednią liczbą partycji i współczynnikiem replikacji.
 
-\subsubsection{Elasticsearch}
+\subsubsection{Baza danych Elasticsearch}
 Baza danych Elasticsearch jest wdrażany jako zasób StatefulSet z jedną repliką, skonfigurowana do pracy w trybie \textit{single-node}. Dane bazy danych Elasticsearch są przechowywane na wolumenie trwałym (PersistentVolume) typu \textit{local-storage}, zmapowanym do konkretnej ścieżki na węźle roboczym. Dostęp do bazy danych Elasticsearch jest możliwy poprzez usługę ClusterIP oraz Ingress na adresie \textit{elasticsearch.local}.
 
-\subsubsection{PostgreSQL}
+\subsubsection{Baza danych PostgreSQL}
 Baza danych PostgreSQL (wersja 16) jest wdrażana jako zasób StatefulSet. Podobnie jak baza danych Elasticsearch, wykorzystuje wolumen trwały typu \textit{local-storage} zmapowany do ścieżki na węźle roboczym do przechowywania danych. Konfiguracja bazy, w tym dane logowania, jest dostarczana poprzez zasób \mbox{ConfigMap} o nazwie \textit{db-credentials}. Baza danych jest wykorzystywana przez serwer Keycloak oraz inne usługi aplikacyjne (np. \textit{data-service}, \textit{users-service}, \textit{kafka-db-forwarder}). Dostęp do bazy danych wewnątrz klastra zapewnia usługa \textit{database-svc}, a ruch zewnętrzny jest możliwy dzięki mapowaniu portu TCP w konfiguracji kontrolera \mbox{Nginx Ingress}.
 
 \subsection{Przetwarzanie danych i logika aplikacyjna}
 
-\subsubsection{Spark Operator}
+\subsubsection{Zasób Spark Operator}
 Do zarządzania i uruchamiania zadań silnika analitycznego \mbox{Apache Spark} w klastrze wykorzystywany jest zasób \mbox{Spark Operator}. Jego konfiguracja obejmuje definicję kontrolera, webhooka oraz odpowiednich ról RBAC. Operator monitoruje zasoby \mbox{SparkApplication} i zarządza cyklem życia sterowników (ang. driver) i wykonawców (ang. executor) silnika Spark.
 
 Zdefiniowany jest zasób SparkApplication o nazwie \textit{spark-data-processor}, uruchamiający aplikację Scala (\textit{com.factory.SparkDataProcessor}) z obrazu Dockera. Aplikacja ta działa w trybie \textit{cluster} i wykorzystuje zasoby zdefiniowane dla sterownika i dwóch wykonawców (executorów).
@@ -64,7 +64,7 @@ Usługa \textit{sqs-kafka-forwarder} jest skonfigurowana do integracji z rzeczyw
 \newpage
 Dodatkowym elementem jest zadanie (ang. Job) \textit{add-keycloak-host} powiązane z \textit{front-service}. Zadanie to, po udanym wdrożeniu \textit{front-service}, modyfikuje plik \textit{/etc/hosts} w podach \\ \textit{front-service}, dodając wpis mapujący \textit{keycloak.local} na adres IP kontrolera Ingress. Jest to obejście problemów z rozwiązywaniem nazw DNS dla serwera Keycloak z poziomu tej usługi, zapewniając bezpośrednią komunikację po adresie IP kontrolera Ingress.
 
-\subsection{Zarządzanie zasobami i sondy}
+\subsection{Zarządzanie zasobami i sondy żywotności}
 \label{sub:zasoby_sondy}
 Wiele wdrożeń (Deployments) i StatefulSetów definiuje żądania (requests) i limity (limits) zasobów CPU i pamięci, co jest dobrą praktyką zapewniającą stabilność klastra. Przykładowo, \textit{front-service} ma zdefiniowane limity na 500m CPU i 512Mi pamięci, a serwer Keycloak na 1000m CPU i 1Gi pamięci.
 

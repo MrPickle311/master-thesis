@@ -13,41 +13,41 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 \label{subsubsec:jezyki_programowania}
 
 \begin{itemize}
-    \item \textbf{język Java 21} - główny język programowania wykorzystany do implementacji mikroserwisów (np. FrontService, DataService),
-    \item \textbf{język Scala} - język programowania wykorzystany do implementacji aplikacji \\ \textit{\mbox{SparkDataProcessor}} służącej do przetwarzania strumieni danych za pomocą \mbox{Apache Spark},
-    \item \textbf{język Python 3.9} - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu uczenia maszynowego),
-    \item \textbf{język TypeScript} - język wykorzystany do implementacji interfejsu użytkownika.
+    \item język Java 21 - główny język programowania wykorzystany do implementacji mikroserwisów (np. FrontService, DataService),
+    \item język Scala - język programowania wykorzystany do implementacji aplikacji \\ \textit{\mbox{SparkDataProcessor}} służącej do przetwarzania strumieni danych za pomocą \mbox{Apache Spark},
+    \item język Python 3.9 - język wykorzystany do implementacji symulatorów czujników i skryptów pomocniczych (np. do trenowania modelu uczenia maszynowego),
+    \item język TypeScript - język wykorzystany do implementacji interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Frameworki i biblioteki dla aplikacji}
 \label{subsubsec:frameworki}
 
 \begin{itemize}
-    \item \textbf{framework \mbox{Spring Boot} 3.4} - framework wykorzystany do implementacji mikroserwisów języku Java,
-    \item \textbf{silnik analityczny \mbox{Apache Spark} 3.x} \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (biblioteka \mbox{Spark Structured Streaming}) \cite{chambers2018spark} oraz do zadań uczenia maszynowego (biblioteka \mbox{Spark ML}) w aplikacji \mbox{\textit{SparkDataProcessor}},
-    \item \textbf{framework \mbox{Spring Cloud}} - zestaw narzędzi do budowy aplikacji na chmurze,
-    \item \textbf{biblioteka React 18} - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
+    \item framework \mbox{Spring Boot} 3.4 - framework wykorzystany do implementacji mikroserwisów języku Java,
+    \item silnik analityczny \mbox{Apache Spark} 3.x \cite{spark_streaming} - framework wykorzystany do przetwarzania strumieniowego danych (biblioteka \mbox{Spark Structured Streaming}) \cite{chambers2018spark} oraz do zadań uczenia maszynowego (biblioteka \mbox{Spark ML}) w aplikacji \mbox{\textit{SparkDataProcessor}},
+    \item framework \mbox{Spring Cloud} - zestaw narzędzi do budowy aplikacji na chmurze,
+    \item biblioteka React 18 - biblioteka JavaScript wykorzystana do budowy interfejsu użytkownika.
 \end{itemize}
 
 \subsubsection{Bazy danych i systemy magazynowania}
 \label{subsubsec:bazy_danych}
 
 \begin{itemize}
-    \item \textbf{broker \mbox{Apache Kafka} 3.4} \cite{kafka} - platforma do przetwarzania strumieniowego,
-    \item \textbf{baza danych PostgreSQL 15} - relacyjna baza danych,
-    \item \textbf{baza danych Elasticsearch 8.7} - baza danych \mbox{NoSQL} \cite{nosql_definition} do wyszukiwania i analizy,
-    \item \textbf{baza danych Redis 7.0} - pamięciowa baza danych wykorzystywana jako rozproszona pamięć podręczna (ang. \mbox{distributed cache}).
+    \item broker \mbox{Apache Kafka} 3.4 \cite{kafka} - platforma do przetwarzania strumieniowego,
+    \item baza danych PostgreSQL 15 - relacyjna baza danych,
+    \item baza danych Elasticsearch 8.7 - baza danych \mbox{NoSQL} \cite{nosql_definition} do wyszukiwania i analizy,
+    \item baza danych Redis 7.0 - pamięciowa baza danych wykorzystywana jako rozproszona pamięć podręczna (ang. \mbox{distributed cache}).
 \end{itemize}
 
 \subsubsection{Infrastruktura i orkiestracja aplikacji}
 \label{subsubsec:infrastruktura}
 
 \begin{itemize}
-    \item \textbf{klaster Kubernetes 1.26} \cite{kubernetes} - platforma do orkiestracji kontenerów,
-    \item \textbf{platforma Docker} - platforma konteneryzacji,
-    \item \textbf{menedżer pakietów Helm 3} - menedżer pakietów dla Kubernetes,
-    \item \textbf{chmura AWS} (\mbox{Amazon Web Services}) \cite{aws_definition} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
-    \item \textbf{narzędzie Terraform} - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. \\ \mbox{Infrastructure as Code}) \cite{terraform_docs}.
+    \item klaster Kubernetes 1.26 \cite{kubernetes} - platforma do orkiestracji kontenerów,
+    \item platforma Docker - platforma konteneryzacji,
+    \item menedżer pakietów Helm 3 - menedżer pakietów dla Kubernetes,
+    \item chmura AWS (\mbox{Amazon Web Services}) \cite{aws_definition} - chmura obliczeniowa wykorzystana do hostowania usług zewnętrznych,
+    \item narzędzie Terraform - narzędzie do zarządzania infrastrukturą jako kod (IaC, ang. \\ \mbox{Infrastructure as Code}) \cite{terraform_docs}.
 \end{itemize}
 
 \subsection{Implementacja symulatora czujników}
@@ -59,10 +59,10 @@ W stworzonej implementacji zastosowane zostały przedstawione poniżej kluczowe 
 Architektura symulatora, stworzonego na potrzeby niniejszej pracy, składa się z kilku kluczowych komponentów:
 
 \begin{itemize}
-    \item \textbf{usługa AWS Step Functions} - usługa koordynująca wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
-    \item \textbf{funkcja AWS Lambda} \cite{aws_lambda_docs} - usługa bezserwerowa wykonująca kod symulatora,
-    \item \textbf{usługa AWS SNS} (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień działająca jako punkt dystrybucji dla wygenerowanych danych,
-    \item \textbf{kolejka AWS SQS} (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek buforująca wiadomości przed ich przetworzeniem przez system.
+    \item usługa AWS Step Functions - usługa koordynująca wykonywanie funkcji Lambda, zarządzając przepływem pracy i częstotliwością generowania danych,
+    \item funkcja AWS Lambda \cite{aws_lambda_docs} - usługa bezserwerowa wykonująca kod symulatora,
+    \item usługa AWS SNS (Amazon Simple Notification Service) \cite{sns_docs} - usługa powiadomień działająca jako punkt dystrybucji dla wygenerowanych danych,
+    \item kolejka AWS SQS (Amazon Simple Queue Service) \cite{sqs_docs} - usługa kolejek buforująca wiadomości przed ich przetworzeniem przez system.
 \end{itemize}
 
 %Schemat architektury symulatora przedstawiono na Rysunku \ref{fig:architektura_symulatora}.
