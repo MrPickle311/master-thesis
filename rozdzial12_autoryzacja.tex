@@ -1,7 +1,7 @@
 \section{System autoryzacji i zarządzania użytkownikami}
 \label{chap:autoryzacja}
 
-Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach \mbox{JWT} (\mbox{JSON Web Token} - standard bezpiecznego przekazywania informacji) zaimplementowany z użyciem serwera Keycloak jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
+Opracowany system analizy danych w czasie rzeczywistym wykorzystuje nowoczesny mechanizm autoryzacji oparty na tokenach \mbox{JWT} (\mbox{JSON Web Token} - standard bezpiecznego przekazywania informacji) \cite{jwt_rfc} zaimplementowany z użyciem serwera Keycloak \cite{keycloak_docs} jako dostawcy tożsamości. Takie rozwiązanie zapewnia bezpieczny dostęp do zasobów systemu oraz umożliwia skalowalne zarządzanie użytkownikami i rolami.
 
 \subsection{Architektura systemu autoryzacji}
 
@@ -15,13 +15,13 @@ Back-end opracowanej aplikacji został skonfigurowany do pracy w trybie hybrydow
 
 Aplikacja front-endowa wykorzystuje bibliotekę \textit{keycloak-js} do integracji z serwerem Keycloak. Konfiguracja połączenia jest realizowana przez zmienne środowiskowe określające URL serwera, nazwę grupy oraz identyfikator klienta. System automatycznie przekierowuje użytkowników do strony logowania serwera Keycloak w przypadku braku ważnego tokenu dostępu.
 
-Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka Authorization wszystkich żądań HTTP (ang. \mbox{Hypertext Transfer Protocol}) kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
+Po pomyślnym uwierzytelnieniu, aplikacja automatycznie dołącza token Bearer do nagłówka Authorization wszystkich żądań HTTP (ang. \mbox{Hypertext Transfer Protocol}) \cite{rfc_http1_1} kierowanych do interfejsu API. Implementacja obejmuje mechanizm automatycznego odświeżania tokenów, sprawdzający ważność tokenu przed każdym żądaniem i w razie potrzeby odnawia go w sposób przezroczysty dla użytkownika.
 
 Interfejs \textit{KeycloakInterface} zapewnia zunifikowany interfejs API do zarządzania sesją użytkownika, sprawdzania ról oraz wykonywania operacji logowania i wylogowania. Implementacja ta abstrahuje szczegóły komunikacji z serwerem Keycloak, ułatwiając integrację z komentami biblioteki React.
 
 \subsection{Autoryzacja po stronie back-endu}
 
-Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} w trybie Keycloak. System wykorzystuje mechanizm protokołu \mbox{OAuth2 Resource Server} (standard autoryzacji w aplikacjach sieciowych) do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
+Aplikacja \textit{FrontService} implementuje wielowarstwowy system autoryzacji wykorzystujący bibliotekę \mbox{Spring Security WebFlux} \cite{spring_security_docs} w trybie Keycloak. System wykorzystuje mechanizm protokołu \mbox{OAuth2 Resource Server} (standard autoryzacji w aplikacjach sieciowych) \cite{oauth2_rfc} do walidacji tokenów \mbox{JWT} wydanych przez serwer uwierzytelnienia. Tokeny są weryfikowane pod kątem poprawności podpisu, ważności czasowej oraz uprawnień użytkownika.
 
 Ekstraktor uprawnień \textit{KeycloakGrantedAuthoritiesConverter} analizuje strukturę tokenu \mbox{JWT} w celu pobrania ról zarówno z poziomu grupy, jak i klienta. Umożliwia to precyzyjne mapowanie uprawnień serwera Keycloak na role używane wewnętrznie przez aplikację. Opracowany system rozpoznaje hierarchię uprawnień, gdzie role grupy mają wyższy priorytet niż role specyficzne dla klienta.
 
@@ -37,8 +37,8 @@ Proces zarządzania kontami użytkowników odbywa się centralnie przez panel ad
 
 \subsection{Bezpieczeństwo i zarządzanie sesjami}
 
-Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webowych. Tokeny typu JWT (ang. \mbox{JSON Web Token}) mają ograniczony czas życia, co minimalizuje ryzyko w przypadku ich kompromitacji. System automatycznie czyści tokeny z pamięci przeglądarki po wylogowaniu użytkownika oraz implementuje mechanizmy ochrony przed atakami typu CSRF (ang.~\mbox{Cross-Site Request Forgery}) poprzez odpowiednią konfigurację nagłówków CORS \\ (ang.~\mbox{Cross-Origin Resource Sharing}).
+Implementacja uwzględnia współczesne standardy bezpieczeństwa aplikacji webowych. Tokeny typu JWT (ang. \mbox{JSON Web Token}) mają ograniczony czas życia, co minimalizuje ryzyko w przypadku ich kompromitacji. System automatycznie czyści tokeny z pamięci przeglądarki po wylogowaniu użytkownika oraz implementuje mechanizmy ochrony przed atakami typu CSRF (ang.~\mbox{Cross-Site Request Forgery}) \cite{owasp_csrf} poprzez odpowiednią konfigurację nagłówków CORS \\ (ang.~\mbox{Cross-Origin Resource Sharing}) \cite{mdn_cors}.
 
-Aplikacja FrontService implementuje dodatkowe mechanizmy bezpieczeństwa, w tym ograniczenie liczby prób logowania z określonego adresu IP za pomocą cache-a biblioteki Caffeine. Konfiguracja ta chroni system przed atakami typu brute force poprzez czasowe blokowanie adresów IP po przekroczeniu limitu nieudanych prób uwierzytelnienia.
+Aplikacja FrontService implementuje dodatkowe mechanizmy bezpieczeństwa, w tym ograniczenie liczby prób logowania z określonego adresu IP za pomocą cache-a biblioteki Caffeine \cite{caffeine_cache}. Konfiguracja ta chroni system przed atakami typu brute force poprzez czasowe blokowanie adresów IP po przekroczeniu limitu nieudanych prób uwierzytelnienia.
 
 Zarządzanie błędami autoryzacji jest zunifikowane, zapewniając spójne komunikaty błędów oraz odpowiednie kody odpowiedzi HTTP niezależnie od źródła błędu uwierzytelnienia czy autoryzacji.
